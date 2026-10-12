@@ -761,4 +761,60 @@ export const DECISIONS: Decision[] = [
     givesUp: ["Either nationwide uniformity or political breadth."],
     sourceIds: ["sanders-m4a"],
   },
+  {
+    id: "provider-ownership",
+    title: "For-profit providers",
+    question:
+      "Can investor-owned hospitals, nursing homes, and practices participate, and can UHP payments fund their profits?",
+    choice:
+      "For-profit providers may participate and earn margins within UHP rates and budgets. Ownership must be disclosed, private-equity acquisitions of participating providers need regional review, and capital for new facilities comes only from the regional capital budget, not from operating payments.",
+    rationale:
+      "About a quarter of U.S. hospitals and roughly 70% of nursing homes are for-profit. Excluding them at once would remove capacity the plan needs. Disclosure, capital controls, and fixed rates remove most of the strategies (out-of-network billing, commercial price leverage, upcoding) that made investor ownership profitable.",
+    alternatives: [
+      {
+        name: "Allow with disclosure & capital controls (chosen)",
+        description: "As described.",
+        pros: [
+          { point: "Keeps all existing capacity" },
+          { point: "Fixed rates and capital rules remove the main profit strategies" },
+        ],
+        cons: [
+          {
+            point:
+              "Profit motive persists inside a public budget, for example through cutting nursing-home staffing",
+          },
+          { point: "Requires ongoing oversight of ownership and quality" },
+        ],
+      },
+      {
+        name: "Bar payments from funding profit (Medicare for All Act §614)",
+        description:
+          "Payments may not fund profit, marketing, or utilization bonuses; investor-owned providers are effectively pushed to convert or exit.",
+        pros: [
+          { point: "Every dollar goes to care" },
+          { point: "Removes incentives to cut quality for margin" },
+        ],
+        cons: [
+          {
+            point:
+              "Mass conversions or closures of for-profit hospitals and nursing homes during a capacity crunch",
+          },
+          { point: "Takings and compensation litigation over forced conversions" },
+        ],
+        precedent:
+          "Canada's hospitals are almost all nonprofit or public; many long-term-care homes are for-profit, and COVID-19 deaths were higher in for-profit homes in Ontario.",
+      },
+      {
+        name: "Allow without restriction",
+        description: "Same rules as any provider.",
+        pros: [{ point: "Simplest; attracts private capital" }],
+        cons: [{ point: "Private-equity roll-ups and staffing cuts continue unchecked" }],
+      },
+    ],
+    givesUp: [
+      "A system fully free of profit-driven provider behavior.",
+      "Unrestricted private capital investment in health facilities.",
+    ],
+    sourceIds: ["jayapal-m4a"],
+  },
 ]

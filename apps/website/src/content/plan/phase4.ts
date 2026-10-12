@@ -160,7 +160,7 @@ export const PHASE_4: Phase = {
         },
         {
           action:
-            "Keep a residual Medicaid for non-medical supports (housing assistance pilots, non-emergency transportation if not in UHP) at state option with federal match.",
+            "Keep a residual Medicaid for non-medical supports (housing assistance pilots) at state option with federal match.",
           owner: "States / CMS",
           when: "Year 4",
         },

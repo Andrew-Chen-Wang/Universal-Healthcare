@@ -276,6 +276,7 @@ export const STEP_EXTRAS: Record<string, StepExtras> = {
     ],
   },
   "provider-enrollment": {
+    decisionIds: ["provider-ownership"],
     riskIds: ["physician-exit", "two-tier"],
     tradeoffIds: ["choice"],
     international: [
@@ -459,7 +460,7 @@ export const STEP_EXTRAS: Record<string, StepExtras> = {
   },
   "tax-legislation": {
     decisionIds: ["financing"],
-    tradeoffIds: ["taxes"],
+    tradeoffIds: ["taxes", "macroeconomy"],
     riskIds: ["cost-overrun"],
     international: [
       {

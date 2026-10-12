@@ -452,4 +452,49 @@ export const TRADEOFFS: TradeoffDimension[] = [
     residualRisk: "Slightly lower labor-force participation among 55–64-year-olds.",
     confidence: "medium",
   },
+  {
+    id: "macroeconomy",
+    title: "Effects on the wider economy",
+    category: "labor",
+    summary:
+      "Moving most health spending from premiums to taxes changes incentives across the economy: work and hiring (higher marginal tax rates vs. no job lock), business formation, wages, and federal borrowing during the transition. CBO lists these economy-wide effects as a core consideration.",
+    today:
+      "Premiums act as a fixed per-worker cost that discourages hiring low-wage workers and full-time positions (the ACA's 30-hour rule), and job-based coverage locks people into jobs.",
+    underPlan:
+      "Health costs become proportional to payroll and income. Marginal tax rates rise, especially at the top; per-worker fixed costs disappear; coverage no longer depends on work.",
+    winners: [
+      "Low-wage and part-time workers (no per-head premium cost to the employer)",
+      "Entrepreneurs and people changing jobs",
+      "Labor-intensive businesses that offered coverage",
+    ],
+    losers: [
+      "High earners facing higher marginal rates",
+      "Capital owners facing the capital-gains change",
+      "Businesses that never offered coverage",
+    ],
+    magnitude:
+      "Not modeled in the ledger. Higher marginal rates reduce labor supply somewhat; ending job lock and per-worker premiums raise mobility and part-time-to-full-time conversion. Studies of Medicare for All find small net GDP effects whose sign depends heavily on financing.",
+    evidence: [
+      {
+        place: "CBO (2019)",
+        finding:
+          "Lists effects on labor supply, the economy, and federal borrowing among the key considerations for a single-payer system.",
+        sourceIds: ["cbo-single-payer-2019"],
+      },
+      {
+        place: "Europe",
+        finding:
+          "Countries with payroll-financed universal systems (Germany, France) have high labor-force participation among prime-age adults, so payroll financing is compatible with strong employment.",
+        sourceIds: ["oecd-health-2025"],
+      },
+    ],
+    mitigations: [
+      "Payroll exemption for small employers",
+      "Phased tax increases",
+      "No cap on the employer tax base, keeping rates lower",
+    ],
+    residualRisk:
+      "Labor-supply responses to the top-end taxes could be larger than assumed, lowering revenue and growth.",
+    confidence: "low",
+  },
 ]

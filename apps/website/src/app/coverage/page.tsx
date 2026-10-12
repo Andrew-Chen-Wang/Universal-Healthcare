@@ -1,6 +1,7 @@
-import { Page, PageHeader, Pill, Section, Table } from "@website/components/site/ui"
+import { Page, PageHeader, Pill, Section, Sources, Table } from "@website/components/site/ui"
 import { COST_BY_ID } from "@website/content/calculations"
 import { CHANGES } from "@website/content/changes"
+import { BENCHMARKS } from "@website/content/benchmarks"
 import { CHECKS, COVERAGE, type Ref } from "@website/content/coverage"
 import { DECISIONS } from "@website/content/decisions"
 import { costHref, stepHref } from "@website/content/navigation"
@@ -104,6 +105,58 @@ export default function CoveragePage() {
             : `${failing.length} checks have gaps.`}
         </p>
       </Section>
+
+      {BENCHMARKS.map((b) => (
+        <Section
+          key={b.id}
+          id={b.id}
+          title={`Independent benchmark: ${b.title} (${b.items.length})`}
+          intro={
+            <>
+              Checked against an outside document: {b.source}. Where this plan deliberately differs,
+              the difference is stated.
+            </>
+          }
+        >
+          <Table>
+            <thead>
+              <tr>
+                <th className="w-1/3">Item in the outside document</th>
+                <th>Where this plan covers it</th>
+              </tr>
+            </thead>
+            <tbody>
+              {b.items.map((item) => (
+                <tr key={item.id} id={`${b.id}-${item.id}`}>
+                  <td className="font-medium">{item.label}</td>
+                  <td className="text-sm">
+                    <ul className="space-y-0.5">
+                      {item.refs.map((r) => {
+                        const l = refLink(r)
+                        return (
+                          <li key={`${r.kind}-${r.id}`}>
+                            <span className="text-xs text-muted-foreground">{l.kind}: </span>
+                            <Link
+                              className="underline decoration-rule underline-offset-2 hover:decoration-primary"
+                              href={l.href}
+                            >
+                              {l.label}
+                            </Link>
+                          </li>
+                        )
+                      })}
+                    </ul>
+                    {item.difference && (
+                      <div className="mt-1 text-xs text-caution">Differs: {item.difference}</div>
+                    )}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </Table>
+          <Sources ids={[b.sourceId]} />
+        </Section>
+      ))}
 
       {COVERAGE.map((g) => (
         <Section key={g.id} id={g.id} title={`${g.title} (${g.items.length})`} intro={g.basis}>

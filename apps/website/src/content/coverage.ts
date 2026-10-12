@@ -8,6 +8,7 @@
  * Each item lists where the site covers it. Automatic checks below verify
  * that every step, task, change, and money flow carries its trade-off.
  */
+import { BENCHMARKS } from "./benchmarks"
 import { MODEL } from "./model"
 import { COST_BY_ID, COST_ITEMS } from "./calculations"
 import { CHANGES } from "./changes"
@@ -504,7 +505,7 @@ export function refExists(r: Ref) {
   }
 }
 
-for (const g of COVERAGE) {
+for (const g of [...COVERAGE, ...BENCHMARKS]) {
   for (const item of g.items) {
     for (const r of item.refs) {
       if (!refExists(r))
@@ -602,6 +603,11 @@ export const CHECKS = [
       (r) => !Object.values(STEP_EXTRAS).some((e) => e.riskIds?.includes(r.id)),
     ).map((r) => r.id),
   },
+  ...BENCHMARKS.map((b) => ({
+    label: `Independent benchmark: ${b.title} (${b.source}): every item mapped to the plan`,
+    total: b.items.length,
+    failures: b.items.filter((i) => i.refs.length === 0).map((i) => i.id),
+  })),
   {
     label: "Every coverage checklist item links to at least one place on the site",
     total: COVERAGE.reduce((s, g) => s + g.items.length, 0),

@@ -160,7 +160,7 @@ const CORE_CHANGES: SystemChange[] = [
     area: "Federal programs",
     item: "Medicaid non-medical supports",
     today:
-      "Some states use Medicaid for housing supports, non-emergency transport, and social-needs pilots (e.g., 1115 waivers).",
+      "Some states use Medicaid for housing supports and social-needs pilots (e.g., 1115 waivers).",
     change: "A residual, optional Medicaid continues for non-medical supports with federal match.",
     disposition: "amended",
     when: "Year 4",
@@ -1654,6 +1654,176 @@ const MORE_CHANGES: SystemChange[] = [
     stepId: "hospital-transition-fund",
     costIds: ["onetime-hospitalFund"],
     tradeoff: "Predictable and conditional; may not prevent every closure.",
+  },
+  {
+    id: "fertility",
+    area: "Patients",
+    item: "Fertility treatment (IVF and assisted reproduction)",
+    today:
+      "Covered by some employer plans and state mandates (about 15 states require IVF coverage); otherwise paid out of pocket at roughly $15,000–25,000 a cycle.",
+    change:
+      "UHP covers infertility diagnosis and up to three IVF cycles for people with a medical infertility diagnosis, with evidence-based limits set by the HTA Institute.",
+    disposition: "expanded",
+    when: "Year 1",
+    stepId: "define-benefits",
+    tradeoff:
+      "Ends income-based access to fertility care; adds cost, and cycle limits will disappoint some patients. The Medicare for All Act covers assisted reproduction without stated limits.",
+  },
+  {
+    id: "ambulance",
+    area: "Patients",
+    item: "Ground and air ambulance services",
+    today:
+      "Ground ambulances are excluded from the No Surprises Act, so surprise bills are common; many services are municipal.",
+    change:
+      "Covered with no cost sharing at UHP rates; municipal services bill UHP; air ambulance paid at a national rate.",
+    disposition: "expanded",
+    when: "Year 1",
+    stepId: "define-benefits",
+    tradeoff:
+      "Ends surprise ambulance bills; private-equity-owned air ambulance firms lose high out-of-network charges.",
+  },
+  {
+    id: "epsdt",
+    area: "Patients",
+    item: "Medicaid EPSDT standard for children",
+    today:
+      "Medicaid must cover any medically necessary service for children under 21, a broader standard than most private plans.",
+    change: "Kept as the UHP standard for everyone under 21.",
+    disposition: "expanded",
+    when: "Year 1",
+    stepId: "wave-one-enrollment",
+    tradeoff:
+      "Children keep the strongest coverage standard in U.S. law; broad medical-necessity rules raise costs.",
+  },
+  {
+    id: "nemt",
+    area: "Patients",
+    item: "Non-emergency medical transportation",
+    today:
+      "A Medicaid benefit, often poorly run by brokers; absent from Medicare and most private plans.",
+    change:
+      "UHP covers rides to care for people with disabilities, older people with functional limits, and low-income people (as the Medicare for All Act does).",
+    disposition: "expanded",
+    when: "Year 1",
+    stepId: "define-benefits",
+    tradeoff:
+      "Reduces missed appointments; a fraud-prone benefit that needs tight program-integrity controls.",
+  },
+  {
+    id: "counselors",
+    area: "Provider payment & regulation",
+    item: "Licensed mental health counselors and marriage & family therapists",
+    today: "Medicare began paying them only in 2024; Medicaid and private coverage vary.",
+    change: "Full UHP providers, paid from the fee schedule.",
+    disposition: "expanded",
+    when: "Year 1",
+    stepId: "provider-enrollment",
+    tradeoff:
+      "Adds behavioral-health capacity quickly; varying state licensure standards affect quality.",
+  },
+  {
+    id: "health-equity-office",
+    area: "Federal programs",
+    item: "Office of Health Equity (new)",
+    today: "Disparities monitoring is scattered across agencies.",
+    change:
+      "A UHA office that publishes access, wait-time, and outcome data by race, ethnicity, language, disability, geography, and income, and directs capital funds to underserved areas.",
+    disposition: "new",
+    when: "Year 1",
+    stepId: "create-uha",
+    tradeoff:
+      "Makes inequities visible and fundable; adds data-collection burden and can become politically contested.",
+  },
+  {
+    id: "primary-care-office",
+    area: "Federal programs",
+    item: "Office of Primary Care (new)",
+    today: "No federal entity is responsible for primary-care capacity.",
+    change:
+      "A UHA office that sets primary-care spending targets, runs the primary-care capitation option, and monitors primary-care access.",
+    disposition: "new",
+    when: "Year 1",
+    stepId: "fee-schedule",
+    tradeoff:
+      "Protects the most under-invested part of the system; shifting money to primary care takes it from specialists and hospitals.",
+  },
+  {
+    id: "mips-vbp",
+    area: "Provider payment & regulation",
+    item: "Medicare pay-for-performance programs (MIPS, Hospital Value-Based Purchasing, readmission penalties)",
+    today: "Small bonuses and penalties with heavy reporting burden and mixed evidence of benefit.",
+    change:
+      "MIPS ends. Hospital programs are replaced by a single 2% quality withhold in global budgets. (The Medicare for All Act ends pay-for-performance entirely; this plan keeps one simple version.)",
+    disposition: "replaced",
+    when: "Year 1",
+    stepId: "hospital-global-budgets",
+    tradeoff:
+      "Far less reporting; a quality incentive remains but can penalize hospitals serving sicker, poorer patients.",
+  },
+  {
+    id: "ssdi-waiting-period",
+    area: "Federal programs",
+    item: "24-month Medicare waiting period for people on disability (SSDI)",
+    today: "People approved for SSDI wait two years for Medicare.",
+    change:
+      "Ends in Year 1: SSDI recipients of any age enroll in UHP immediately, ahead of their age wave.",
+    disposition: "ends",
+    when: "Year 1",
+    stepId: "wave-one-enrollment",
+    tradeoff:
+      "Covers some of the sickest people right away; adds cost in Year 1 before the matching revenue arrives.",
+  },
+  {
+    id: "transition-buy-in",
+    area: "Patients",
+    item: "Transition buy-in for people not yet eligible",
+    today: "—",
+    change:
+      "People in later waves may buy into UHP early at a community-rated premium, with Marketplace-style subsidies (as the Medicare for All Act's transition buy-in does).",
+    disposition: "new",
+    when: "Years 1–3",
+    stepId: "waves-two-three-enrollment",
+    tradeoff:
+      "Fills gaps during the phase-in; sicker people will buy in first (adverse selection), raising the buy-in's cost.",
+  },
+  {
+    id: "continuity-of-care",
+    area: "Patients",
+    item: "Continuity of ongoing treatment at switchover",
+    today: "—",
+    change:
+      "Hospital stays, courses of treatment, and prescriptions under way on switchover day continue under prior terms for up to 90 days (inpatient stays until discharge); existing prior authorizations are honored.",
+    disposition: "new",
+    when: "Each wave",
+    stepId: "medicare-upgrade",
+    tradeoff: "Prevents disrupted treatment; complicates payment during the first months.",
+  },
+  {
+    id: "nondiscrimination",
+    area: "Federal insurance & health law",
+    item: "Non-discrimination by participating providers",
+    today:
+      "ACA Section 1557 and civil rights law apply unevenly; providers can refuse patients by insurance type.",
+    change:
+      "Participating providers may not refuse patients on the basis of coverage source, income, health status, disability, or immigration status, and capacity limits must apply equally to all.",
+    disposition: "expanded",
+    when: "Year 1",
+    stepId: "provider-enrollment",
+    tradeoff:
+      "Ends insurance-based patient selection; providers lose discretion over their patient mix.",
+  },
+  {
+    id: "stakeholder-consultation",
+    area: "Federal programs",
+    item: "Formal consultation with patients, providers, states, and tribes",
+    today: "Rulemaking comment periods and advisory committees.",
+    change:
+      "Standing advisory councils for patients, clinicians, states, labor, and tribal nations, with published responses to their recommendations.",
+    disposition: "new",
+    when: "Year 0",
+    stepId: "create-uha",
+    tradeoff: "More legitimacy and earlier warning of problems; slower decisions.",
   },
 ]
 
