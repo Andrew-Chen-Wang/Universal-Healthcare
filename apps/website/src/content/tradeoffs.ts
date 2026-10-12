@@ -33,13 +33,12 @@ export const TRADEOFFS: TradeoffDimension[] = [
     evidence: [
       {
         place: "U.S. Medicaid",
-        finding:
-          "Only about 74% of physicians accept new Medicaid patients versus 96% for private insurance; secret-shopper studies find Medicaid callers get appointments much less often. Availability rose when Medicaid fees rose, so the gap is about price, not public coverage itself.",
+        finding: `Only about ${show("acceptMedicaid")} of physicians accept new Medicaid patients versus ${show("acceptPrivate")} for private insurance; secret-shopper studies find Medicaid callers get appointments much less often. Availability rose when Medicaid fees rose, so the gap is about price, not public coverage itself.`,
         sourceIds: ["holgash-heberlein", "secret-shopper"],
       },
       {
         place: "U.S. Medicare",
-        finding: `About 88% of physicians accept new Medicare patients, close to private insurance. Medicare is public, pays roughly Medicare rates by definition, and its access is broadly comparable to commercial. UHP pays 112–${show("hospitalRate", "pct")} of Medicare.`,
+        finding: `About ${show("acceptMedicare")} of physicians accept new Medicare patients, close to private insurance. Medicare is public, pays roughly Medicare rates by definition, and its access is broadly comparable to commercial. UHP pays 112–${show("hospitalRate", "pct")} of Medicare.`,
         sourceIds: ["holgash-heberlein"],
       },
       {
@@ -49,8 +48,7 @@ export const TRADEOFFS: TradeoffDimension[] = [
       },
       {
         place: "United Kingdom",
-        finding:
-          "About 7.4 million cases on NHS England's waiting list in 2025; about 59% treated within 18 weeks against a 92% standard. Long-term underinvestment and post-COVID backlog.",
+        finding: `About ${show("nhsWaitlist")} million cases on NHS England's waiting list in 2025; about ${show("nhsWithin18")} treated within 18 weeks against a 92% standard. Long-term underinvestment and post-COVID backlog.`,
         sourceIds: ["nhs-rtt"],
       },
       {
@@ -83,8 +81,7 @@ export const TRADEOFFS: TradeoffDimension[] = [
     category: "access",
     summary:
       "The largest gain. 28 million uninsured people get coverage, and 84 million Medicaid enrollees go from a payer many physicians refuse to one every participating physician accepts.",
-    today:
-      "About 26% of physicians don't accept new Medicaid patients, and only about 35% of psychiatrists do. The uninsured delay care and often get it through emergency rooms.",
+    today: `About 26% of physicians don't accept new Medicaid patients, and only about ${show("acceptMedicaidPsych")} of psychiatrists do. The uninsured delay care and often get it through emergency rooms.`,
     underPlan: "Same card, same rate, same access as everyone else.",
     winners: [
       "About 112 million people on Medicaid or uninsured",

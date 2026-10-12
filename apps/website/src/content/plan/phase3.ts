@@ -207,8 +207,7 @@ export const PHASE_3: Phase = {
       ],
       cons: [
         {
-          point:
-            "Shareholders lose: a rough estimate of insurance-segment equity value at risk is $400–700B, though diversified firms (UnitedHealth's Optum, CVS) keep other businesses.",
+          point: `Shareholders lose: a rough estimate of insurance-segment equity value at risk is ${F.insurerEquityRange}, though diversified firms (UnitedHealth's Optum, CVS) keep other businesses.`,
         },
         { point: "Some workers lose pensions if insurers fail rather than wind down." },
       ],

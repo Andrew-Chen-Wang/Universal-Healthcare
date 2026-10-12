@@ -27,6 +27,7 @@ export const F = {
   netCostAfter: fmt(use("netCostOfInsurance").after),
   uhpAdmin: fmt(MODEL.headline.uhpAdmin),
   insurerProfit: fmt(v("insurerProfit")),
+  insurerEquityRange: `${fmt(v("insurerProfit") * v("insurerEquityMultipleLow"))}–${fmt(v("insurerProfit") * v("insurerEquityMultipleHigh"))}`,
   utilization: fmt(MODEL.headline.utilizationEffect),
   utilizationCostly: fmt(MODEL_COSTLY.headline.utilizationEffect),
   priceEffect: fmt(-MODEL.headline.priceEffect),

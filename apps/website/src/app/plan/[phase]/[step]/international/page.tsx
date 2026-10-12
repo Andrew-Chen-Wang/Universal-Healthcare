@@ -1,4 +1,4 @@
-import { Sources } from "@website/components/site/ui"
+import { Sources, Table } from "@website/components/site/ui"
 import { STEP_EXTRAS } from "@website/content/step-extras"
 import { type StepParams, loadStep, stepStaticParams } from "@website/lib/plan/step"
 import type { Metadata } from "next"
@@ -19,6 +19,37 @@ export default async function InternationalPage({ params }: { params: StepParams
         How other countries handled this same piece of implementation, what happened, and what it
         means for this plan.
       </p>
+      {comps.length > 1 && (
+        <div className="mb-8">
+          <h2 className="mb-3 text-lg font-semibold">Side by side</h2>
+          <Table>
+            <thead>
+              <tr>
+                <th>Country</th>
+                <th>Approach</th>
+                <th>Result</th>
+                <th>Lesson for this plan</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr className="bg-accent/40">
+                <td className="font-medium">This plan (U.S.)</td>
+                <td className="text-sm" colSpan={3}>
+                  {step.summary}
+                </td>
+              </tr>
+              {comps.map((c) => (
+                <tr key={c.country + c.approach}>
+                  <td className="font-medium">{c.country}</td>
+                  <td className="text-sm">{c.approach}</td>
+                  <td className="text-sm">{c.result}</td>
+                  <td className="text-sm">{c.lesson}</td>
+                </tr>
+              ))}
+            </tbody>
+          </Table>
+        </div>
+      )}
       <div className="space-y-4">
         {comps.map((c) => (
           <div key={c.country + c.approach} className="rounded-md border border-rule bg-card p-5">

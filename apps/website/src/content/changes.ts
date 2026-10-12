@@ -800,7 +800,7 @@ const CORE_CHANGES: SystemChange[] = [
     disposition: "ends",
     when: "Years 1–5",
     stepId: "insurer-runoff",
-    tradeoff: `Largest administrative saving; ~${F.insurerJobs} jobs and $400–700B of shareholder value at risk.`,
+    tradeoff: `Largest administrative saving; ~${F.insurerJobs} jobs and ${F.insurerEquityRange} of shareholder value at risk.`,
   },
   {
     id: "employers",

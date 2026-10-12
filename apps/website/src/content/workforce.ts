@@ -20,19 +20,19 @@ export const DISPLACED_GROUPS: JobGroup[] = [
   {
     id: "insurers",
     label: "Health & medical insurance carriers (incl. Medicare Advantage & Medicaid plans)",
-    employed: 430_000,
+    employed: v("blsHealthCarriers"),
     displacedShare: 0.85,
-    avgWage: 88_270,
+    avgWage: v("blsHealthCarriersWage"),
     why: "Underwriting, sales, network contracting, utilization management, and claims adjudication for UHP-covered services end. About 15% of roles (claims processing, nurse care managers, data analysts) map onto UHP and integrated-care-organization jobs.",
     confidence: "medium",
-    sourceIds: ["bls-oews-524114"],
+    sourceIds: ["bls-oews-2025"],
     geography:
       "Concentrated in Hartford & Bloomfield CT (Aetna, Cigna), Minnetonka & Eden Prairie MN (UnitedHealth), Louisville KY (Humana), Indianapolis IN (Elevance), St. Louis MO (Centene), Long Beach CA (Molina), plus regional Blues plans in every state.",
   },
   {
     id: "tpa",
     label: "Third-party administrators & claims adjusting (health share)",
-    employed: 125_000,
+    employed: Math.round(v("blsOtherInsuranceRelated") * v("tpaHealthShare")),
     displacedShare: 0.8,
     avgWage: 64_000,
     why: "TPAs administer self-insured employer plans, and those plans end.",
@@ -42,7 +42,7 @@ export const DISPLACED_GROUPS: JobGroup[] = [
   {
     id: "brokers",
     label: "Health insurance brokers, agents & benefits consultants",
-    employed: 80_000,
+    employed: Math.round(v("blsAgenciesBrokerages") * v("brokerHealthShare")),
     displacedShare: 0.9,
     avgWage: 72_000,
     why: "There is nothing left to sell except supplementary coverage.",
@@ -62,12 +62,25 @@ export const DISPLACED_GROUPS: JobGroup[] = [
   {
     id: "providerBilling",
     label: "Provider billing, coding, prior-authorization & patient-collections staff",
-    employed: 540_000,
+    employed:
+      v("blsBillingClerksAmbulatory") +
+      v("blsBillingClerksHospitals") +
+      v("blsMedicalRecords") +
+      v("insuranceFrontOffice"),
     displacedShare: 0.45,
-    avgWage: 48_000,
+    avgWage: Math.round(
+      ((v("blsBillingClerksAmbulatory") + v("blsBillingClerksHospitals")) *
+        v("blsBillingClerkWage") +
+        v("blsMedicalRecords") * v("blsMedicalRecordsWage") +
+        v("insuranceFrontOffice") * 45_000) /
+        (v("blsBillingClerksAmbulatory") +
+          v("blsBillingClerksHospitals") +
+          v("blsMedicalRecords") +
+          v("insuranceFrontOffice")),
+    ),
     why: "Coding remains for the fee schedule and quality data, but eligibility checks, prior authorization, denial appeals, patient collections, and payer-specific billing disappear. Hospitals under global budgets need far fewer per-claim staff.",
-    confidence: "low",
-    sourceIds: ["jiwani-2014"],
+    confidence: "medium",
+    sourceIds: ["bls-oews-2025", "jiwani-2014"],
   },
   {
     id: "employerBenefits",

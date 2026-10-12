@@ -1,3 +1,5 @@
+import { show } from "./constants"
+
 /**
  * Connects each implementation step to the design choices, trade-offs, risks,
  * and job impacts that belong to it, and records how other countries handled
@@ -656,7 +658,7 @@ export const STEP_EXTRAS: Record<string, StepExtras> = {
       {
         country: "England",
         approach: "18-week referral-to-treatment standard with a 92% target.",
-        result: "Met only about 59% of the time in 2025.",
+        result: `Met only about ${show("nhsWithin18")} of the time in 2025.`,
         lesson: "Targets without capacity investment and enforcement fail.",
         sourceIds: ["nhs-rtt"],
       },
@@ -994,4 +996,3 @@ export const STEP_EXTRAS: Record<string, StepExtras> = {
     ],
   },
 }
-import { show } from "./constants"

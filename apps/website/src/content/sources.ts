@@ -274,6 +274,22 @@ export const SOURCES: Source[] = [
     note: "About 430,000 employees; mean annual wage about $88,000.",
   },
   {
+    id: "bls-oews-2025",
+    title: "Occupational Employment and Wage Statistics, May 2025 (via BLS Public Data API)",
+    org: "Bureau of Labor Statistics",
+    year: 2026,
+    url: "https://www.bls.gov/oes/",
+    note: "Industry and occupation employment and mean wages used for displaced-job estimates.",
+  },
+  {
+    id: "kff-insurer-margins",
+    title: "Health Insurer Financial Performance in 2024",
+    org: "KFF",
+    year: 2025,
+    url: "https://www.kff.org/medicare/health-insurer-financial-performance/",
+    note: "Gross margins per enrollee were highest in Medicare Advantage ($1,655) and lowest in Medicaid managed care ($608).",
+  },
+  {
     id: "census-susb",
     title: "Statistics of U.S. Businesses",
     org: "U.S. Census Bureau",
@@ -362,6 +378,7 @@ export const SOURCES: Source[] = [
     org: "NAIC",
     year: 2024,
     url: "https://content.naic.org/sites/default/files/2024-annual-health-industry-commentary.pdf",
+    note: "Net earnings fell from about $25B (2.2% margin) in 2023 to about $9B (0.8%) in 2024; combined ratio 100.1%.",
   },
   {
     id: "tpc-surtax",
