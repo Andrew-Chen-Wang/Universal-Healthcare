@@ -160,7 +160,18 @@ export const PHASE_5: Phase = {
       ],
       cons: [{ point: "Scheduled votes are opportunities for repeal." }],
       tradeoffs: ["Accountability vs. stability."],
-      risks: [],
+      risks: [
+        {
+          risk: "Evaluation is politicized or delayed, so the Year-10 vote happens on anecdotes.",
+          mitigation:
+            "Statutory independence (National Academies + GAO), fixed publication dates, and public microdata in the research enclave.",
+        },
+        {
+          risk: "Outcomes that take decades (mortality, innovation) can't be measured by Year 10.",
+          mitigation:
+            "Pre-registered interim indicators and comparison with the CBO baseline projections.",
+        },
+      ],
       precedent: ["Oregon Health Insurance Experiment-style evaluation; Canada's CIHI reporting."],
       dependsOn: ["wait-time-guarantee"],
       sourceIds: ["commonwealth-2024"],
@@ -207,7 +218,18 @@ export const PHASE_5: Phase = {
         { point: "Constitutional right-to-jury issues in some states." },
       ],
       tradeoffs: ["Access to compensation for many vs. large awards for a few."],
-      risks: [],
+      risks: [
+        {
+          risk: "State constitutional right-to-jury challenges strike down the pilot.",
+          mitigation:
+            "Opt-in pilots only in states whose courts have upheld administrative compensation; patients may elect court within 60 days.",
+        },
+        {
+          risk: "Claim volume rises sharply once compensation is easier, raising costs.",
+          mitigation:
+            "Avoidable-injury standard with schedule-based awards and an annual budget cap per pilot.",
+        },
+      ],
       precedent: [
         "New Zealand ACC (1974); Sweden's Patient Insurance; Denmark's Patient Compensation Association.",
       ],

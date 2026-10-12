@@ -732,6 +732,13 @@ export const STEP_EXTRAS: Record<string, StepExtras> = {
   "waves-two-three-enrollment": {
     international: [
       {
+        country: "Thailand",
+        approach:
+          "The Universal Coverage Scheme (‘30 baht’) was piloted in 6 provinces in April 2001 and extended province by province to the whole country by April 2002.",
+        result: "Coverage of the previously uninsured rose to about 95% within roughly a year.",
+        lesson: "Fast phased rollouts work when enrollment runs through existing local offices.",
+      },
+      {
         country: "South Korea",
         approach:
           "Covered the urban self-employed last (1989), the hardest group to assess for contributions.",
@@ -790,6 +797,13 @@ export const STEP_EXTRAS: Record<string, StepExtras> = {
   "rate-convergence": {
     international: [
       {
+        country: "France",
+        approach:
+          "Activity-based hospital payment (T2A) phased in from 10% of public hospitals’ funding in 2004 to 100% by 2008.",
+        result: "Gradual redistribution between hospitals without abrupt closures.",
+        lesson: "A multi-year blend of old and new payment eases the shock.",
+      },
+      {
         country: "Germany",
         approach:
           "DRG introduction phased in hospital base rates over 2003–2009 (convergence phase).",
@@ -800,6 +814,13 @@ export const STEP_EXTRAS: Record<string, StepExtras> = {
   },
   "marketplace-closure": {
     international: [
+      {
+        country: "Taiwan",
+        approach:
+          "The health components of labor, government-employee, and farmer insurance ended on NHI launch day (March 1995).",
+        result: "No gap: members were enrolled in NHI the same day.",
+        lesson: "Close the old program on the same day the new one starts.",
+      },
       {
         country: "Netherlands",
         approach:
@@ -829,6 +850,13 @@ export const STEP_EXTRAS: Record<string, StepExtras> = {
   },
   "final-wave": {
     international: [
+      {
+        country: "Thailand",
+        approach:
+          "The last provinces joined the Universal Coverage Scheme in April 2002, with registration through local health offices.",
+        result: "About 95% coverage within a year of launch.",
+        lesson: "Local, in-person registration reaches people without tax or employment records.",
+      },
       {
         country: "Taiwan",
         approach:
@@ -863,6 +891,14 @@ export const STEP_EXTRAS: Record<string, StepExtras> = {
     jobGroupIds: ["medicaidEligibility", "navigators"],
     international: [
       {
+        country: "Netherlands",
+        approach:
+          "Abolished the public sickness-fund scheme (ZFW) in 2006; low-income help moved to the tax authority as an income-related health allowance (zorgtoeslag).",
+        result: "One scheme for everyone; subsidies administered through taxes.",
+        lesson:
+          "Means-tested programs can be folded into a universal one, with low-income help moved to the tax system.",
+      },
+      {
         country: "South Korea",
         approach:
           "Merged 300+ insurance societies into one National Health Insurance Service in 2000.",
@@ -893,6 +929,13 @@ export const STEP_EXTRAS: Record<string, StepExtras> = {
   "full-tax-rates": {
     riskIds: ["recession"],
     international: [
+      {
+        country: "Netherlands",
+        approach:
+          "Government sets the income-related employer contribution rate each year (about 6.5–7% of wages up to a ceiling).",
+        result: "Revenue tracks spending through annual adjustment.",
+        lesson: "An annual, formula-based rate setting avoids crisis-driven tax votes.",
+      },
       {
         country: "Germany",
         approach:

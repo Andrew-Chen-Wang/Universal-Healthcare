@@ -1471,6 +1471,190 @@ const MORE_CHANGES: SystemChange[] = [
     tradeoff:
       "Hospitals stop absorbing these losses; the community-benefit justification for tax exemption weakens.",
   },
+  {
+    id: "cms-agency",
+    area: "Federal programs",
+    item: "Centers for Medicare & Medicaid Services (CMS)",
+    today: "Runs Medicare, oversees state Medicaid and CHIP programs and the federal Marketplace.",
+    change:
+      "The Center for Medicare and its contractors become the core of the Universal Health Administration; Medicaid and Marketplace oversight shrinks to the residual Medicaid program.",
+    disposition: "replaced",
+    when: "Year 0",
+    stepId: "create-uha",
+    costIds: ["use-administration", "onetime-agency"],
+    tradeoff:
+      "Builds on proven operations; carries over CMS's institutional culture and legacy systems.",
+  },
+  {
+    id: "ahrq-pcori",
+    area: "Federal programs",
+    item: "AHRQ & PCORI (comparative-effectiveness research)",
+    today:
+      "Fund comparative-effectiveness research; PCORI is barred from using cost-per-QALY thresholds for coverage.",
+    change:
+      "Merged into the Health Technology Assessment Institute, whose findings inform coverage directly.",
+    disposition: "absorbed",
+    when: "Year 0–1",
+    stepId: "hta-institute",
+    tradeoff:
+      "Research gains direct influence on coverage; research independence may suffer when findings carry coverage stakes.",
+  },
+  {
+    id: "medicare-trustees",
+    area: "Federal programs",
+    item: "Medicare Board of Trustees & trust-fund insolvency projections",
+    today: "Annual reports project the HI trust fund's depletion date.",
+    change:
+      "Become the UHP Trust Fund trustees with a contingency reserve and an automatic adjustment rule.",
+    disposition: "replaced",
+    when: "Year 1",
+    stepId: "trust-fund",
+    tradeoff: "Clear early warnings; recurring 'insolvency' headlines continue to shape politics.",
+  },
+  {
+    id: "nih",
+    area: "Federal programs",
+    item: "National Institutes of Health",
+    today: "The largest public funder of biomedical research.",
+    change:
+      "Continues unchanged in the ledger. Optional increase to offset lower pharmaceutical R&D incentives (not costed).",
+    disposition: "continues",
+    when: "—",
+    stepId: "trust-fund",
+    costIds: ["use-research"],
+    tradeoff:
+      "Holding NIH flat isolates the coverage change; raising it would partly offset lost private R&D at a public cost.",
+  },
+  {
+    id: "cdc-public-health",
+    area: "Federal programs",
+    item: "CDC and state & local public health departments",
+    today: "Disease surveillance, vaccination programs, outbreak response.",
+    change:
+      "Continue; a single national claims dataset gives near-real-time surveillance of diagnoses and prescriptions.",
+    disposition: "continues",
+    when: "—",
+    stepId: "trust-fund",
+    costIds: ["use-publicHealth"],
+    tradeoff:
+      "Better surveillance data; health-data privacy concerns grow with public-health access.",
+  },
+  {
+    id: "fda",
+    area: "Drugs & devices",
+    item: "FDA drug and device approval",
+    today:
+      "Approval is based on safety and efficacy; price and comparative value are not considered.",
+    change:
+      "Unchanged. Approval stays separate from coverage and price, which the Formulary Board and HTA Institute set afterward.",
+    disposition: "continues",
+    when: "—",
+    stepId: "national-formulary",
+    tradeoff:
+      "Keeps approval science-based; a drug can be approved but priced or covered narrowly, delaying patient access.",
+  },
+  {
+    id: "hrsa",
+    area: "Workforce & training",
+    item: "HRSA (health centers, workforce programs, Ryan White)",
+    today:
+      "Funds health centers, the National Health Service Corps, nursing programs, and Ryan White.",
+    change:
+      "Expanded as the agency for workforce and capacity investment; health center grants shift from uncompensated care to capacity.",
+    disposition: "expanded",
+    when: "Year 1+",
+    stepId: "capacity-expansion",
+    costIds: ["use-workforce", "onetime-capacity"],
+    tradeoff:
+      "A central workforce agency can target shortages; it competes for funds with direct care in every budget cycle.",
+  },
+  {
+    id: "dol-ebsa",
+    area: "Federal programs",
+    item: "DOL Employee Benefits Security Administration (health plan oversight)",
+    today: "Oversees about 2.5 million employer health plans under ERISA.",
+    change:
+      "Health-plan oversight shrinks to supplementary plans; EBSA enforces maintenance of compensation.",
+    disposition: "amended",
+    when: "Years 1–4",
+    stepId: "employer-coordination",
+    tradeoff: "A smaller oversight load; new enforcement duty with complex wage calculations.",
+  },
+  {
+    id: "irs-health",
+    area: "Federal tax code",
+    item: "IRS health-coverage reporting (Forms 1095-A/B/C)",
+    today: "Insurers and employers report coverage for ACA subsidies and the employer mandate.",
+    change: "Ends; replaced by payroll-tax and household-premium reporting.",
+    disposition: "replaced",
+    when: "Year 4",
+    stepId: "tax-legislation",
+    tradeoff: "Less paperwork; new household-premium withholding must be administered.",
+  },
+  {
+    id: "hospital-cost-reports",
+    area: "Provider payment & regulation",
+    item: "Medicare hospital cost reports",
+    today: "Annual cost reports, used mainly for Medicare policy, are often unreliable.",
+    change:
+      "Audited, standardized cost reports become the basis of every hospital's global budget.",
+    disposition: "expanded",
+    when: "Year 0",
+    stepId: "hospital-global-budgets",
+    tradeoff: "Better data for fair budgets; heavier audit burden for hospitals.",
+  },
+  {
+    id: "provider-revenue-cycle",
+    area: "Provider payment & regulation",
+    item: "Hospital and practice billing departments",
+    today:
+      "Departments for coding, claims, denials, prior authorization, and patient collections across many payers.",
+    change:
+      "Shrink by about half: one claim format, no patient bills for covered care, global-budget encounter reporting.",
+    disposition: "amended",
+    when: "Years 1–4",
+    stepId: "rate-convergence",
+    costIds: ["saving-hospital-billing", "saving-physician-billing", "jobs-providerBilling"],
+    tradeoff: "Providers save money; billing staff lose jobs.",
+  },
+  {
+    id: "employer-plan-pools",
+    area: "Private sector",
+    item: "Mid-transition employer plan pools",
+    today: "Employer plans cover workers of all ages.",
+    change:
+      "Pools shrink each wave as older workers leave; premiums are re-rated for the younger remaining workers.",
+    disposition: "amended",
+    when: "Years 1–3",
+    stepId: "waves-two-three-enrollment",
+    tradeoff: "Remaining premiums fall; small employers' pools become volatile.",
+  },
+  {
+    id: "outreach-hard-to-reach",
+    area: "Patients",
+    item: "Coverage of people experiencing homelessness, migrant farmworkers, and others without records",
+    today:
+      "Often uninsured or covered by fragmented programs (Health Care for the Homeless, Migrant Health Centers).",
+    change:
+      "Enrolled through presumptive eligibility and community outreach; specialized health centers continue as UHP providers.",
+    disposition: "expanded",
+    when: "Year 4",
+    stepId: "final-wave",
+    tradeoff: "Universal reach; outreach costs much more per person enrolled.",
+  },
+  {
+    id: "hospital-finance-support",
+    area: "Provider payment & regulation",
+    item: "Distressed-hospital support (state bailouts, HHS Provider Relief-style funds)",
+    today: "Ad hoc rescue funds for distressed hospitals.",
+    change:
+      "Replaced by a rules-based Hospital Transition Fund with taper and restructuring conditions.",
+    disposition: "replaced",
+    when: "Years 1–5",
+    stepId: "hospital-transition-fund",
+    costIds: ["onetime-hospitalFund"],
+    tradeoff: "Predictable and conditional; may not prevent every closure.",
+  },
 ]
 
 export const CHANGES: SystemChange[] = [...CORE_CHANGES, ...MORE_CHANGES]

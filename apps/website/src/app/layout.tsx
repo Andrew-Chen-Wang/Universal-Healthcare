@@ -49,6 +49,9 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                 <Link className="hover:text-foreground" href="/inputs">
                   Every input number
                 </Link>
+                <Link className="hover:text-foreground" href="/coverage">
+                  Coverage check
+                </Link>
                 <Link className="hover:text-foreground" href="/method">
                   Method
                 </Link>
