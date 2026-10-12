@@ -57,7 +57,7 @@ export type HouseholdResult = HouseholdInput & {
   longRunNet: number
 }
 
-function compute(h: HouseholdInput): HouseholdResult {
+export function computeHousehold(h: HouseholdInput): HouseholdResult {
   const r = MODEL.rates
   const employerTax = h.wages * h.employerTaxableShare * r.employerTaxRate
   const employerSavings = h.employerPremium - employerTax
@@ -332,7 +332,7 @@ const HOUSEHOLD_INPUTS: HouseholdInput[] = [
   },
 ]
 
-export const HOUSEHOLDS: HouseholdResult[] = HOUSEHOLD_INPUTS.map(compute)
+export const HOUSEHOLDS: HouseholdResult[] = HOUSEHOLD_INPUTS.map(computeHousehold)
 
 export type EmployerExample = {
   id: string
@@ -408,3 +408,55 @@ export const EMPLOYERS: EmployerExample[] = [
     "Also sheds retiree-health (OPEB) liabilities and pays its Medicaid MOE instead of its Medicaid share.",
   ),
 ]
+
+/** Federal marginal rate for a married couple filing jointly at a given wage (2025 brackets, rough). */
+function mfjRate(wage: number) {
+  if (wage < 50_000) return 0.1
+  if (wage < 130_000) return 0.12
+  if (wage < 240_000) return 0.22
+  if (wage < 420_000) return 0.24
+  if (wage < 530_000) return 0.32
+  return 0.35
+}
+
+/** A family of four with typical employer family coverage at a given wage. */
+export function esiFamilyAt(wage: number) {
+  return computeHousehold({
+    id: `grid-${wage}`,
+    name: `Family of four, ${wage}`,
+    description: "",
+    size: 4,
+    agi: wage,
+    wages: wage,
+    employerPremium: DERIVED.employerFamilyPremium,
+    employerTaxableShare: 1,
+    employeePremiumPreTax: v("workerFamilyContribution"),
+    otherPremiums: 0,
+    otherPremiumsDeductibleShare: 0,
+    coveredOutOfPocket: 3_000,
+    selfEmploymentIncome: 0,
+    federalRate: mfjRate(wage),
+    stateRate: 0.04,
+    capitalGainsAboveMillion: 0,
+    notes: [],
+  })
+}
+
+export const INCOME_GRID = [
+  30_000, 50_000, 75_000, 100_000, 150_000, 200_000, 250_000, 300_000, 400_000, 600_000,
+].map((w) => {
+  const r = esiFamilyAt(w)
+  return { wage: w, shortRun: r.shortRunNet, longRun: r.longRunNet }
+})
+
+/** Wage at which a typical employer-covered family of four breaks even in the long run (bisection). */
+export const ESI_BREAK_EVEN = (() => {
+  let lo = 50_000
+  let hi = 1_000_000
+  for (let i = 0; i < 60; i++) {
+    const mid = (lo + hi) / 2
+    if (esiFamilyAt(mid).longRunNet > 0) lo = mid
+    else hi = mid
+  }
+  return (lo + hi) / 2
+})()

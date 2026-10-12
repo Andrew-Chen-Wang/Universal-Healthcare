@@ -17,7 +17,7 @@ import {
   WINDOW,
   WINDOW_FACTOR,
 } from "./fiscal"
-import { EMPLOYERS, HOUSEHOLDS } from "./households"
+import { EMPLOYERS, ESI_BREAK_EVEN, HOUSEHOLDS, INCOME_GRID } from "./households"
 import { MODEL, MODEL_COSTLY, MODEL_LEAN, type ModelResult } from "./model"
 import {
   ONE_TIME_COSTS,
@@ -1110,6 +1110,76 @@ for (const e of EMPLOYERS) {
     ],
     tradeoff: e.notes,
     sourceIds: ["kff-ehbs-2025"],
+  })
+}
+
+add({
+  id: "household-income-grid",
+  title: "Who gains and who pays more, by income (family of four with employer coverage)",
+  stepId: "tax-legislation",
+  kind: "household",
+  summary:
+    "The same typical employer-covered family of four at different wages: premium, tax, wage, and out-of-pocket changes combined. It shows where the plan shifts from a net gain to a net cost.",
+  amount: ESI_BREAK_EVEN,
+  amountUnit: "$",
+  calc: [
+    ...INCOME_GRID.flatMap((g) => [
+      { label: `Wage ${fUsd(g.wage)}: net change, Year 1`, value: g.shortRun, unit: "$" as const },
+      {
+        label: `Wage ${fUsd(g.wage)}: net change, long run`,
+        value: g.longRun,
+        unit: "$" as const,
+        result: true,
+      },
+    ]),
+    {
+      label: "Break-even wage (long run), found by bisection",
+      value: ESI_BREAK_EVEN,
+      unit: "$",
+      result: true,
+    },
+  ],
+  tradeoff:
+    "Replacing a flat per-family premium with income-based taxes is a transfer from high earners to everyone else. Families below roughly the break-even wage gain; those above pay more.",
+  sourceIds: ["kff-ehbs-2025", "baicker-chandra"],
+})
+
+{
+  const physicianUtil = MODEL.serviceResults.find((x) => x.id === "physicianClinical")!.assumption
+    .utilization
+  const rows: CalcStep[] = []
+  for (const start of [0.75, 0.85, 0.9]) {
+    for (const growth of [0, 0.03, 0.06, 0.1]) {
+      const after = (start * physicianUtil) / (1 + growth)
+      const mult =
+        after >= 1 ? Number.POSITIVE_INFINITY : after / (1 - after) / (start / (1 - start))
+      rows.push({
+        label: `Practices ${fPct(start)} busy, capacity +${fPct(growth)} → ${after >= 1 ? "over 100% busy (queue grows without limit)" : `${fPct(after)} busy`}`,
+        formula:
+          after >= 1
+            ? undefined
+            : `[${n2(after)} ÷ (1 − ${n2(after)})] ÷ [${n2(start)} ÷ (1 − ${n2(start)})]`,
+        value: Number.isFinite(mult) ? mult : 999,
+        unit: "x",
+        result: Number.isFinite(mult) && mult > 2,
+      })
+    }
+  }
+  add({
+    id: "wait-queue-model",
+    title: "How much waits grow if demand outpaces capacity (queueing model)",
+    stepId: "capacity-expansion",
+    kind: "budget",
+    summary: `Physician visit demand rises by ${fPct(physicianUtil - 1)} under the plan. In a simple queue (M/M/1), the expected wait scales with utilization ÷ (1 − utilization), so waits explode as practices approach full capacity. This is illustrative, not a forecast: real practices triage, add hours, and use telehealth. A value of 999 means the queue grows without limit.`,
+    amount: 0,
+    amountUnit: "B",
+    calc: [
+      { label: "Demand multiplier (physician visits)", value: physicianUtil, unit: "x" },
+      ...rows,
+    ],
+    tradeoff:
+      "Covering everyone with no cost sharing is only compatible with short waits if capacity grows with demand. Every percentage point of capacity added before demand peaks cuts waits sharply; every point missed lengthens them sharply.",
+    sourceIds: ["aamc-shortage", "fraser-2025", "nhs-rtt"],
   })
 }
 
