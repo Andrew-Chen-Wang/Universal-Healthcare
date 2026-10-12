@@ -1,4 +1,5 @@
 import type { Decision } from "./types"
+import { F } from "./figures"
 import { show } from "./constants"
 
 /**
@@ -24,8 +25,7 @@ export const DECISIONS: Decision[] = [
         pros: [
           {
             point: "Largest administrative savings",
-            detail:
-              "In the central estimate, insurer overhead falls from $306B to $26B, offset by $97B of UHP administration.",
+            detail: `In the central estimate, insurer overhead falls from ${F.netCostBefore} to ${F.netCostAfter}, offset by ${F.uhpAdmin} of UHP administration.`,
           },
           {
             point: "One price list for every patient",
@@ -41,8 +41,7 @@ export const DECISIONS: Decision[] = [
         cons: [
           {
             point: "Every private insurer's core business ends",
-            detail:
-              "About 365,000 insurer jobs are displaced and roughly $42B a year of profit disappears.",
+            detail: `About ${F.insurerJobs} insurer jobs are displaced and roughly ${F.insurerProfit} a year of profit disappears.`,
           },
           {
             point: "A single point of failure",
@@ -204,8 +203,7 @@ export const DECISIONS: Decision[] = [
     question: "Should patients pay deductibles, copays, or coinsurance?",
     choice:
       "No deductibles, copays, or coinsurance for covered services. A $0 / $5 / $15 prescription copay schedule (generic / preferred brand / non-preferred brand), capped at $200 a year per person and waived below 200% of the poverty line, is kept as a standby option Congress can switch on if utilization exceeds the costly-case projection. It is off in the central estimate.",
-    rationale:
-      "Cost sharing reduces both low-value and high-value care (RAND Health Insurance Experiment). Its administrative cost (eligibility checks, collection, bad debt) offsets much of its saving under a single payer. Every dollar of induced demand is counted in the utilization effect, $350B in the central case.",
+    rationale: `Cost sharing reduces both low-value and high-value care (RAND Health Insurance Experiment). Its administrative cost (eligibility checks, collection, bad debt) offsets much of its saving under a single payer. Every dollar of induced demand is counted in the utilization effect, ${F.utilization} in the central case.`,
     alternatives: [
       {
         name: "Zero cost sharing (chosen)",
@@ -221,8 +219,7 @@ export const DECISIONS: Decision[] = [
         cons: [
           {
             point: "Highest induced demand",
-            detail:
-              "The utilization effect is $350B a year in the central estimate and $564B in the costly case.",
+            detail: `The utilization effect is ${F.utilization} a year in the central estimate and ${F.utilizationCostly} in the costly case.`,
           },
           {
             point:
@@ -278,14 +275,13 @@ export const DECISIONS: Decision[] = [
         name: "Comprehensive incl. home-based LTC (chosen)",
         description: "As described.",
         pros: [
-          { point: "Out-of-pocket spending falls from $556.6B to about $197B" },
+          { point: `Out-of-pocket spending falls from ${F.oopBefore} to about ${F.oopAfter}` },
           { point: "Ends Medicaid's asset spend-down for home care" },
         ],
         cons: [
           {
             point: "The most expensive option",
-            detail:
-              "Dental, home health, and HCBS together add about $121B in utilization in the central case.",
+            detail: `Dental, home health, and HCBS together add about ${F.newBenefitsUtilization} in utilization in the central case.`,
           },
           {
             point:
@@ -375,16 +371,15 @@ export const DECISIONS: Decision[] = [
     id: "rate-level",
     title: "Payment rate levels",
     question: "How much does UHP pay relative to today?",
-    choice: `Hospitals: ${show("hospitalRate", "pct")} of Medicare on average. Physicians: ${show("physicianRate", "pct")} of Medicare on average (primary care ${show("primaryCareRate", "pct")}, procedural specialties ${show("proceduralRate", "pct")}). Rates phase in over four years from each provider's current blended rate. A temporary Hospital Transition Fund ($40B in total) cushions systems that depend on commercial revenue.`,
-    rationale: `Paying Medicare rates (100%) would cut hospital revenue by roughly $220B a year, and MedPAC already finds Medicare margins negative, so closures would follow. Paying today's blended commercial rates would forfeit most of the savings. ${show("hospitalRate", "pct")}/${show("physicianRate", "pct")} is roughly neutral for hospitals overall once billing costs fall, and it raises rates for Medicaid-heavy and rural providers.`,
+    choice: `Hospitals: ${show("hospitalRate", "pct")} of Medicare on average. Physicians: ${show("physicianRate", "pct")} of Medicare on average (primary care ${show("primaryCareRate", "pct")}, procedural specialties ${show("proceduralRate", "pct")}). Rates phase in over four years from each provider's current blended rate. A temporary Hospital Transition Fund (${F.hospitalFund} in total) cushions systems that depend on commercial revenue.`,
+    rationale: `Paying Medicare rates (100%) would cut hospital revenue by roughly ${F.hospitalAboveMedicare} a year, and MedPAC already finds Medicare margins negative, so closures would follow. Paying today's blended commercial rates would forfeit most of the savings. ${show("hospitalRate", "pct")}/${show("physicianRate", "pct")} is roughly neutral for hospitals overall once billing costs fall, and it raises rates for Medicaid-heavy and rural providers.`,
     alternatives: [
       {
         name: "Medicare rates (100%)",
         description: "As in early Medicare for All scoring.",
         pros: [
           {
-            point:
-              "About $220B a year more savings on hospitals and $115B on physicians than the plan (the lean case shows a partial version)",
+            point: `About ${F.hospitalAboveMedicare} a year more savings on hospitals and ${F.physicianAboveMedicare} on physicians than the plan (the lean case shows a partial version)`,
           },
         ],
         cons: [
@@ -404,7 +399,7 @@ export const DECISIONS: Decision[] = [
             point: "Large redistribution among hospitals",
             detail: "Hospitals heavily reliant on commercial insurance lose 15–30% of revenue.",
           },
-          { point: "Smaller price savings ($208B overall)" },
+          { point: `Smaller price savings (${F.priceEffect} overall)` },
         ],
       },
       {
@@ -419,7 +414,7 @@ export const DECISIONS: Decision[] = [
     ],
     givesUp: [
       "The higher incomes of providers that are commercially dominant today.",
-      "About $335B a year of additional savings that Medicare-level rates would capture.",
+      `About ${F.bothAboveMedicare} a year of additional savings that Medicare-level rates would capture.`,
     ],
     sourceIds: ["rand-hospital-2024", "medpac-2025", "cbo-single-payer-2020"],
   },
@@ -436,7 +431,7 @@ export const DECISIONS: Decision[] = [
         name: "Negotiation + value assessment + §1498 backstop (chosen)",
         description: "As described.",
         pros: [
-          { point: "Retail drug spending falls from $467B to about $380B" },
+          { point: `Retail drug spending falls from ${F.drugsBefore} to about ${F.drugsAfter}` },
           { point: "Patients pay $0 for formulary drugs" },
         ],
         cons: [
@@ -469,7 +464,7 @@ export const DECISIONS: Decision[] = [
         name: "Keep market pricing, cap patient costs",
         description: "UHP pays list-minus-rebate like today.",
         pros: [{ point: "Maximum innovation incentive" }],
-        cons: [{ point: "Forgoes about $113B a year in price savings" }],
+        cons: [{ point: `Forgoes about ${F.drugPriceSaving} a year in price savings` }],
       },
     ],
     givesUp: [
@@ -526,14 +521,15 @@ export const DECISIONS: Decision[] = [
       "What happens to the private plans that run Medicare Advantage (54% of Medicare) and Medicaid managed care (~75% of Medicaid)?",
     choice:
       "They end. Provider-led integrated delivery systems (e.g., Kaiser Permanente's medical groups, Geisinger, Intermountain) can elect a capitated global budget as Integrated Care Organizations. Patients may choose them, but they bear no insurance risk beyond their enrolled population and cannot market extra benefits.",
-    rationale:
-      "MedPAC estimates Medicare Advantage costs about 20% more than traditional Medicare for similar enrollees ($84B in 2025), largely from coding intensity and favorable selection. Medicaid MCO overhead is $45.5B. Integrated providers keep their care-coordination advantages without an insurance layer.",
+    rationale: `MedPAC estimates Medicare Advantage costs about 20% more than traditional Medicare for similar enrollees ($84B in 2025), largely from coding intensity and favorable selection. Medicaid MCO overhead is ${F.mcoOverhead}. Integrated providers keep their care-coordination advantages without an insurance layer.`,
     alternatives: [
       {
         name: "End plans; allow provider ICOs (chosen)",
         description: "As described.",
         pros: [
-          { point: "Removes $103B of plan overhead ($57.6B MA/Part D + $45.5B Medicaid MCO)" },
+          {
+            point: `Removes ${F.planOverhead} of plan overhead (${F.maOverhead} MA/Part D + ${F.mcoOverhead} Medicaid MCO)`,
+          },
           { point: "Ends coding-intensity overpayments" },
         ],
         cons: [
@@ -565,7 +561,7 @@ export const DECISIONS: Decision[] = [
     id: "financing",
     title: "How it is financed",
     question: "Which taxes replace premiums and out-of-pocket costs?",
-    choice: `Five sources: (1) existing public funds redirected (Medicare, Medicaid, Marketplace subsidies); (2) a ${show("employerTaxRate")} employer health payroll tax, with the first ${show("payrollExemption")} of each employer's payroll exempt; (3) a 4% income-based household premium above a size-adjusted exemption (${show("exemptionFour")} for a family of four); (4) top-end measures: a 7% surtax on income above $1M, taxing capital gains as ordinary income above $1M, and a 0.1% financial transactions tax; (5) whatever remains, $97B in the central case, from general revenue. State governments pay a maintenance-of-effort contribution equal to their former Medicaid share.`,
+    choice: `Five sources: (1) existing public funds redirected (Medicare, Medicaid, Marketplace subsidies); (2) a ${show("employerTaxRate")} employer health payroll tax, with the first ${show("payrollExemption")} of each employer's payroll exempt; (3) a 4% income-based household premium above a size-adjusted exemption (${show("exemptionFour")} for a family of four); (4) top-end measures: a 7% surtax on income above $1M, taxing capital gains as ordinary income above $1M, and a 0.1% financial transactions tax; (5) whatever remains, ${F.gap} in the central case, from general revenue. State governments pay a maintenance-of-effort contribution equal to their former Medicaid share.`,
     rationale: `Payroll and income taxes replace premiums, which already function as a payroll tax: employers pay them from compensation. The employer tax is set below what offering employers paid in premiums (${show("employerTaxRate")} of payroll versus roughly 9–10% today), so most offering employers save and must pass the savings to wages. The household premium is visible and dedicated, so people see what the program costs. The top-end taxes make the overall financing progressive.`,
     alternatives: [
       {
@@ -720,7 +716,9 @@ export const DECISIONS: Decision[] = [
         name: "Keep as delivery systems (chosen)",
         description: "As described.",
         pros: [{ point: "No disruption to veterans' care; honors tribal sovereignty" }],
-        cons: [{ point: "Keeps $306.8B of separate federal programs and some duplication" }],
+        cons: [
+          { point: `Keeps ${F.fedPrograms} of separate federal programs and some duplication` },
+        ],
       },
       {
         name: "Fold into UHP",

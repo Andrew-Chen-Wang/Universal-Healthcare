@@ -77,8 +77,7 @@ export const RISKS: Risk[] = [
     category: "fiscal",
     likelihood: "medium",
     impact: "high",
-    description:
-      "Provider lobbying raises rates, induced demand is higher, and drug savings are smaller. The ledger's costly case adds about $840B a year in required general revenue.",
+    description: `Provider lobbying raises rates, induced demand is higher, and drug savings are smaller. The ledger's costly case adds about ${F.gapCostly} a year in required general revenue.`,
     earlyWarning: [
       "First-year actual vs. ledger by line",
       "Rates Board recommendations overridden",
@@ -179,8 +178,7 @@ export const RISKS: Risk[] = [
     category: "operational",
     likelihood: "medium",
     impact: "medium",
-    description:
-      "Medicare FFS's 7.7% improper payment rate applied to UHP benefits would be about $300B.",
+    description: `Medicare FFS's 7.7% improper payment rate applied to UHP benefits would be about ${F.improperAtUhpScale}.`,
     earlyWarning: ["Improper payment rate", "Billing anomalies"],
     mitigation: [
       `${show("uhpAdminRate")} admin budget with integrity funding`,
@@ -204,3 +202,4 @@ export const RISKS: Risk[] = [
   },
 ]
 import { show } from "./constants"
+import { F } from "./figures"

@@ -181,7 +181,7 @@ export const CHANGES: SystemChange[] = [
     item: "ACA Marketplaces (HealthCare.gov and state exchanges)",
     today:
       "21.1M enrollees (2024) with premium tax credits; annual open enrollment; narrow networks.",
-    change: "Close at end of Year 3; premium tax credits ($116.6B) redirected.",
+    change: `Close at end of Year 3; premium tax credits (${F.marketplace}) redirected.`,
     disposition: "ends",
     when: "End of Year 3",
     stepId: "marketplace-closure",
@@ -328,7 +328,7 @@ export const CHANGES: SystemChange[] = [
     id: "irc-36b",
     area: "Federal tax code",
     item: "IRC §36B premium tax credits",
-    today: "$116.6B in 2024 for Marketplace coverage.",
+    today: `${F.marketplace} in 2024 for Marketplace coverage.`,
     change: "Repealed after Year 3; money redirected to UHP.",
     disposition: "ends",
     when: "Year 4",
@@ -709,8 +709,7 @@ export const CHANGES: SystemChange[] = [
     area: "States & localities",
     item: "State insurance departments & mandated benefits",
     today: "Regulate fully insured plans; impose benefit mandates and premium taxes.",
-    change:
-      "Regulate supplementary insurance only; benefit mandates moot; premium tax base shrinks (~$18B lost).",
+    change: `Regulate supplementary insurance only; benefit mandates moot; premium tax base shrinks (~${F.premiumTax} lost).`,
     disposition: "amended",
     when: "Year 4",
     stepId: "erisa-and-insurance-law",
@@ -792,15 +791,13 @@ export const CHANGES: SystemChange[] = [
     id: "insurers",
     area: "Private sector",
     item: "Private health insurers (commercial, MA, Medicaid MCO)",
-    today:
-      "$1.64T in private premiums; ~$280B in non-medical spending across private, MA/Part D, and Medicaid plans.",
+    today: `${F.privatePremiums} in private premiums; ~${F.insurerNonMedical} in non-medical spending across private, MA/Part D, and Medicaid plans.`,
     change:
       "Core business ends; run-off rules; Blues assets to charitable foundations; may sell supplementary coverage or contract with UHA.",
     disposition: "ends",
     when: "Years 1–5",
     stepId: "insurer-runoff",
-    tradeoff:
-      "Largest administrative saving; ~365k jobs and $400–700B of shareholder value at risk.",
+    tradeoff: `Largest administrative saving; ~${F.insurerJobs} jobs and $400–700B of shareholder value at risk.`,
   },
   {
     id: "employers",
@@ -958,11 +955,11 @@ export const CHANGES: SystemChange[] = [
     area: "Workforce & training",
     item: "Displaced-worker transition program (new)",
     today: "—",
-    change: "Wage replacement, wage insurance, training, and bridge pensions for ~955k workers.",
+    change: `Wage replacement, wage insurance, training, and bridge pensions for ~${F.displaced} workers.`,
     disposition: "new",
     when: "Years 1–6",
     stepId: "worker-transition",
-    tradeoff: "Costs ~$99B; reduces hardship and opposition.",
+    tradeoff: `Costs ~${F.workerProgram}; reduces hardship and opposition.`,
   },
 
   // ---------------------------------------------------------------- Data
@@ -1014,3 +1011,4 @@ export const CHANGE_AREAS: ChangeArea[] = [
   "Data & technology",
 ]
 import { show } from "./constants"
+import { F } from "./figures"

@@ -1,4 +1,5 @@
 import type { Phase } from "../types"
+import { F } from "../figures"
 import { MODEL, fmt, service, sourceLine, useLine } from "./helpers"
 
 const hcbs = service("otherResidential")
@@ -198,7 +199,7 @@ export const PHASE_3: Phase = {
       ],
       cost: {
         recurring: netCost.after - netCost.before,
-        ledgerNote: `Insurers' economic losses: about ${fmt(MODEL.useLines.find((l) => l.id === "netCostOfInsurance")!.before - MODEL.useLines.find((l) => l.id === "netCostOfInsurance")!.after)} a year in overhead and profit that no longer exists, of which about $42B is profit. These are private losses, not a government cost. No compensation is paid.`,
+        ledgerNote: `Insurers' economic losses: about ${fmt(MODEL.useLines.find((l) => l.id === "netCostOfInsurance")!.before - MODEL.useLines.find((l) => l.id === "netCostOfInsurance")!.after)} a year in overhead and profit that no longer exists, of which about ${F.insurerProfit} is profit. These are private losses, not a government cost. No compensation is paid.`,
       },
       pros: [
         { point: "Orderly run-off protects patients' pending claims." },

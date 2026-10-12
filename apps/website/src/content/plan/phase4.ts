@@ -1,4 +1,5 @@
 import type { Phase } from "../types"
+import { F } from "../figures"
 import { MODEL, fmt, oneTime, sourceLine } from "./helpers"
 
 export const PHASE_4: Phase = {
@@ -196,7 +197,9 @@ export const PHASE_4: Phase = {
             "Ends Medicaid's lower payment rates, the main reason 26% of physicians don't accept new Medicaid patients.",
         },
         { point: "Ends redeterminations and churn." },
-        { point: "Removes $45.5B of managed-care overhead and $40.1B of Medicaid administration." },
+        {
+          point: `Removes ${F.mcoOverhead} of managed-care overhead and ${F.medicaidAdmin} of Medicaid administration.`,
+        },
       ],
       cons: [
         {

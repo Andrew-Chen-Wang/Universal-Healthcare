@@ -1,4 +1,5 @@
 import { MODEL, fmt } from "./model"
+import { F } from "./figures"
 import { show } from "./constants"
 import type { TradeoffDimension } from "./types"
 import { DISPLACED_TOTAL } from "./workforce"
@@ -68,7 +69,7 @@ export const TRADEOFFS: TradeoffDimension[] = [
     mitigations: [
       `Pay rates above Medicare (${show("hospitalRate", "pct")} hospitals, ${show("physicianRate", "pct")} physicians) so participation matches Medicare's.`,
       "Legally binding wait-time guarantee with vouchers to any provider.",
-      `${fmt(MODEL.useLines.find((l) => l.id === "workforce")!.after)} a year in workforce investment and $50B in capacity capital.`,
+      `${fmt(MODEL.useLines.find((l) => l.id === "workforce")!.after)} a year in workforce investment and ${F.capacityCapital} in capacity capital.`,
       "Keep U.S. capital spending at today's level: the U.S. has far more MRI/CT units per capita than Canada and the UK.",
       "Expand nurse practitioner and PA scope; telehealth.",
     ],

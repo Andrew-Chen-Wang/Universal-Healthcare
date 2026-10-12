@@ -1,4 +1,5 @@
 import type { Phase } from "../types"
+import { F } from "../figures"
 import { show } from "../constants"
 import { MODEL, fmt } from "./helpers"
 
@@ -292,8 +293,7 @@ export const PHASE_0: Phase = {
       ],
       cost: {
         oneTime: 40,
-        ledgerNote:
-          "The hospital transition fund ($40B) is costed in the transition table. Other concessions are built into the rates in the ledger.",
+        ledgerNote: `The hospital transition fund (${F.hospitalFund}) is costed in the transition table. Other concessions are built into the rates in the ledger.`,
       },
       pros: [
         {
@@ -307,7 +307,7 @@ export const PHASE_0: Phase = {
       cons: [
         {
           point: "Each concession costs money or savings",
-          detail: `Hospital rates of ${show("hospitalRate", "pct")} instead of 100% of Medicare cost about $220B a year.`,
+          detail: `Hospital rates of ${show("hospitalRate", "pct")} instead of 100% of Medicare cost about ${F.hospitalAboveMedicare} a year.`,
         },
         { point: "Deals entrench incumbent providers' positions." },
       ],
@@ -330,8 +330,7 @@ export const PHASE_0: Phase = {
     {
       id: "state-moe-design",
       title: "Design the state contribution so it survives the Supreme Court",
-      summary:
-        "States currently pay $335B for Medicaid. The plan needs that money, but NFIB v. Sebelius (2012) bars Congress from coercing states by threatening existing federal funds. The maintenance-of-effort (MOE) payment therefore has to be a voluntary deal that most states find attractive.",
+      summary: `States currently pay ${F.stateMedicaid} for Medicaid. The plan needs that money, but NFIB v. Sebelius (2012) bars Congress from coercing states by threatening existing federal funds. The maintenance-of-effort (MOE) payment therefore has to be a voluntary deal that most states find attractive.`,
       legalVehicle:
         "Spending Clause conditions on new federal funds; interstate compacts optional.",
       owner: "HHS / Treasury / states",
@@ -375,7 +374,7 @@ export const PHASE_0: Phase = {
           point:
             "States with low Medicaid spending per person (often Southern, non-expansion states) have the smallest MOE and gain the most federal money; high-spending states pay in more. This is an interstate transfer.",
         },
-        { point: "If some states refuse, the federal gap grows by up to $345.7B." },
+        { point: `If some states refuse, the federal gap grows by up to ${F.stateMoe}.` },
       ],
       tradeoffs: [
         "Freezing state contributions at 2024 levels locks in historical inequities between states, but redesigning the formula would set off 50 state-by-state fights.",

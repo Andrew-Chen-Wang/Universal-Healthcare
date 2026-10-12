@@ -1,4 +1,5 @@
 import type { Phase } from "../types"
+import { F } from "../figures"
 import { show } from "../constants"
 import { MODEL, fmt } from "./helpers"
 
@@ -113,7 +114,7 @@ export const PHASE_5: Phase = {
       tradeoffs: ["Integrity vs. administrative burden on providers."],
       risks: [
         {
-          risk: "Medicare FFS's improper payment rate was about 7.7% in FY2024. Applied to UHP benefits, that would be about $300B a year.",
+          risk: `Medicare FFS's improper payment rate was about 7.7% in FY2024. Applied to UHP benefits, that would be about ${F.improperAtUhpScale} a year.`,
           mitigation:
             "Most improper payments are documentation errors, not fraud; budget enough for review.",
         },

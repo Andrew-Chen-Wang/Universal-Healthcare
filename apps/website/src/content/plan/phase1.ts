@@ -1,4 +1,5 @@
 import type { Phase } from "../types"
+import { F } from "../figures"
 import { show } from "../constants"
 import { MODEL, fmt, oneTime, service, sourceLine, useLine } from "./helpers"
 
@@ -138,8 +139,7 @@ export const PHASE_1: Phase = {
           when: "Month 6–12",
         },
         {
-          action:
-            "Establish a contingency reserve equal to 2 months of benefits (about $650B at steady state), built over 5 years.",
+          action: `Establish a contingency reserve equal to 2 months of benefits (about ${F.reserve} at steady state), built over 5 years.`,
           owner: "Treasury",
           when: "Years 1–5",
         },
@@ -812,8 +812,7 @@ export const PHASE_1: Phase = {
       ],
       cons: [
         {
-          point:
-            "Pharmaceutical revenue falls (about $113B a year at retail alone), which reduces R&D investment.",
+          point: `Pharmaceutical revenue falls (about ${F.drugPriceSaving} a year at retail alone), which reduces R&D investment.`,
           detail:
             "CBO estimated a narrower policy (H.R. 3) would mean about 8 fewer new drugs in its first decade and about 30 fewer in the next; this plan is broader.",
         },
@@ -1053,7 +1052,7 @@ export const PHASE_1: Phase = {
       ],
       risks: [
         {
-          risk: "Top-end taxes raise less than estimated (costly case: $250B instead of $330B).",
+          risk: `Top-end taxes raise less than estimated (costly case: ${F.topEndCostly} instead of ${F.topEnd}).`,
           mitigation:
             "An automatic trigger raises the household premium rate by 0.25 points if the trust-fund reserve falls below 1 month.",
         },
@@ -1068,8 +1067,7 @@ export const PHASE_1: Phase = {
     {
       id: "worker-transition",
       title: "Launch the displaced-worker program",
-      summary:
-        "About 955,000 workers in insurance, billing, brokerage, PBMs, and related jobs will lose them over four years. The program pays wage replacement, wage insurance, training, and bridge pensions, and gives hiring preference at UHA and in health care.",
+      summary: `About ${F.displaced} workers in insurance, billing, brokerage, PBMs, and related jobs will lose them over four years. The program pays wage replacement, wage insurance, training, and bridge pensions, and gives hiring preference at UHA and in health care.`,
       legalVehicle:
         "Universal Health Act, Title VIII; administered by DOL through state workforce agencies.",
       owner: "Department of Labor; state workforce boards",
