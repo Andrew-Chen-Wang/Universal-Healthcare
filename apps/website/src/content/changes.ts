@@ -1,3 +1,6 @@
+import { show } from "./constants"
+import { F } from "./figures"
+
 /**
  * Every existing piece of the U.S. health system and what happens to it.
  * Each row links to the plan step that makes the change, where one exists.
@@ -37,7 +40,7 @@ export type SystemChange = {
   tradeoff: string
 }
 
-export const CHANGES: SystemChange[] = [
+const CORE_CHANGES: SystemChange[] = [
   // ---------------------------------------------------------------- Federal programs
   {
     id: "medicare-a",
@@ -998,6 +1001,480 @@ export const CHANGES: SystemChange[] = [
   },
 ]
 
+const MORE_CHANGES: SystemChange[] = [
+  {
+    id: "cah",
+    area: "Provider payment & regulation",
+    item: "Critical Access Hospitals (cost-based reimbursement)",
+    today:
+      "About 1,370 small rural hospitals are paid 101% of reasonable cost by Medicare instead of prospective rates.",
+    change:
+      "Become a protected category in global budgets: budgets set from audited costs plus a margin, with a floor so isolated hospitals cannot be squeezed out.",
+    disposition: "replaced",
+    when: "Years 1–4",
+    stepId: "hospital-global-budgets",
+    tradeoff:
+      "Protects rural access; cost-based budgets reward high costs and weaken efficiency incentives.",
+  },
+  {
+    id: "rhc-fqhc-pps",
+    area: "Provider payment & regulation",
+    item: "FQHC and Rural Health Clinic prospective payment (encounter rates)",
+    today:
+      "Health centers get a per-visit rate from Medicare and Medicaid, plus Section 330 grants for uninsured care.",
+    change:
+      "UHP keeps an all-inclusive encounter rate for health centers at no less than today's Medicaid PPS rate; Section 330 grants shift from uninsured care to capacity and enabling services (translation, transport).",
+    disposition: "amended",
+    when: "Year 1",
+    stepId: "fee-schedule",
+    tradeoff:
+      "Health centers keep stable funding but lose their unique role as the uninsured safety net, since every provider now accepts everyone.",
+  },
+  {
+    id: "esrd",
+    area: "Federal programs",
+    item: "Medicare End-Stage Renal Disease program",
+    today:
+      "Since 1972, Medicare covers dialysis and transplants for nearly everyone with kidney failure; private insurers pay first for 30 months and pay dialysis firms several times Medicare rates.",
+    change:
+      "Folded into UHP; the 30-month private coordination period ends; dialysis paid at the UHP bundled rate.",
+    disposition: "absorbed",
+    when: "Year 1",
+    stepId: "medicare-upgrade",
+    tradeoff:
+      "Ends the commercial-rate premium that dialysis chains (DaVita, Fresenius) depend on for profit; their margins fall sharply.",
+  },
+  {
+    id: "hospice",
+    area: "Federal programs",
+    item: "Medicare hospice benefit",
+    today:
+      "Per-diem payment for terminally ill patients who forgo curative treatment; rapid growth of for-profit hospices with documented fraud.",
+    change:
+      "Continues under UHP with concurrent care allowed (patients need not give up curative treatment) and enhanced program-integrity review.",
+    disposition: "amended",
+    when: "Year 1",
+    stepId: "program-integrity",
+    tradeoff:
+      "Concurrent care improves end-of-life choice but raises spending; stricter review burdens legitimate hospices.",
+  },
+  {
+    id: "pace",
+    area: "Federal programs",
+    item: "PACE (Programs of All-Inclusive Care for the Elderly)",
+    today:
+      "Capitated programs for frail elders eligible for nursing-home care, mostly dual eligibles.",
+    change: "Convert to integrated care organizations paid a risk-adjusted capitated budget.",
+    disposition: "replaced",
+    when: "Year 2",
+    stepId: "integrated-care-orgs",
+    tradeoff:
+      "Preserves a successful integrated model; small programs bear more administrative work to meet ICO rules.",
+  },
+  {
+    id: "dsnp",
+    area: "Federal programs",
+    item: "Dual Eligible Special Needs Plans (D-SNPs)",
+    today: "Medicare Advantage plans for people with both Medicare and Medicaid.",
+    change:
+      "End with Medicare Advantage; duals get all care through UHP, ending Medicare–Medicaid coordination problems.",
+    disposition: "ends",
+    when: "End of Year 1",
+    stepId: "medicare-upgrade",
+    tradeoff:
+      "Ends a long-standing coordination failure; care-coordination staff of D-SNPs must move to providers.",
+  },
+  {
+    id: "ryan-white",
+    area: "Federal programs",
+    item: "Ryan White HIV/AIDS Program",
+    today:
+      "Payer of last resort for HIV care, drugs (ADAP), and support services for low-income and uninsured people.",
+    change:
+      "Medical care and drugs move to UHP; Ryan White funds refocus on case management, housing, and support services.",
+    disposition: "amended",
+    when: "Year 4",
+    stepId: "define-benefits",
+    tradeoff:
+      "More stable coverage of HIV medications; HIV service organizations lose some of their funding role.",
+  },
+  {
+    id: "title-x",
+    area: "Federal programs",
+    item: "Title X family planning program",
+    today: "Grants for family-planning services for low-income and uninsured people.",
+    change:
+      "Clinical services move to UHP; Title X refocuses on outreach, education, and confidential services for minors.",
+    disposition: "amended",
+    when: "Year 4",
+    stepId: "define-benefits",
+    tradeoff:
+      "Universal coverage of contraception; Title X's future scope becomes a political fight.",
+  },
+  {
+    id: "samhsa-block",
+    area: "Federal programs",
+    item: "SAMHSA mental health & substance use block grants",
+    today: "Fund services for uninsured people and services insurers do not cover.",
+    change:
+      "Treatment moves to UHP; block grants refocus on crisis systems (988), prevention, and recovery support.",
+    disposition: "amended",
+    when: "Year 4",
+    stepId: "define-benefits",
+    tradeoff:
+      "Treatment is covered for all; state behavioral-health agencies must redefine their role.",
+  },
+  {
+    id: "ccbhc",
+    area: "Provider payment & regulation",
+    item: "Certified Community Behavioral Health Clinics",
+    today: "Clinics paid a cost-based daily or monthly rate under Medicaid demonstrations.",
+    change: "Become a UHP provider type with a prospective all-inclusive rate.",
+    disposition: "amended",
+    when: "Year 2",
+    stepId: "fee-schedule",
+    tradeoff:
+      "Stable funding for behavioral health; cost-based rates weaken efficiency incentives.",
+  },
+  {
+    id: "csr",
+    area: "Federal programs",
+    item: "ACA cost-sharing reductions & silver loading",
+    today:
+      "Lower deductibles for low-income Marketplace enrollees; insurers load the cost into silver premiums.",
+    change: "End with the Marketplaces; no cost sharing exists to reduce.",
+    disposition: "ends",
+    when: "End of Year 3",
+    stepId: "marketplace-closure",
+    tradeoff: "Ends a convoluted subsidy mechanism.",
+  },
+  {
+    id: "risk-adjustment",
+    area: "Federal insurance & health law",
+    item: "ACA and Medicare Advantage risk adjustment",
+    today: "Transfers between insurers based on enrollee health; drives coding intensity.",
+    change:
+      "Ends for insurers; retained only for integrated care organization budgets, with audits.",
+    disposition: "amended",
+    when: "Year 4",
+    stepId: "integrated-care-orgs",
+    tradeoff:
+      "Removes most of the upcoding industry; risk-adjustment gaming can still occur for ICOs.",
+  },
+  {
+    id: "waivers",
+    area: "States & localities",
+    item: "Section 1332 (ACA) and Section 1115 (Medicaid) waivers",
+    today:
+      "States run reinsurance programs, Medicaid work requirements, managed-care designs, and pilots under waivers.",
+    change:
+      "1332 reinsurance waivers end with the individual market; 1115 waivers limited to residual non-medical Medicaid. A new state-administered UHP option replaces them as the route for state innovation.",
+    disposition: "replaced",
+    when: "Year 4",
+    stepId: "state-moe-design",
+    tradeoff:
+      "Ends coverage restrictions like work requirements; states lose broad waiver flexibility.",
+  },
+  {
+    id: "stldi",
+    area: "Federal insurance & health law",
+    item: "Short-term limited-duration plans, fixed indemnity plans & health care sharing ministries",
+    today:
+      "Cheaper, underwritten coverage outside ACA rules; sharing ministries are not insurance.",
+    change:
+      "Banned as duplicative coverage for UHP-covered services; indemnity products allowed only as supplementary income protection.",
+    disposition: "ends",
+    when: "Year 4",
+    stepId: "erisa-and-insurance-law",
+    tradeoff:
+      "Removes products that left people underinsured; members of sharing ministries lose a faith-based arrangement they chose.",
+  },
+  {
+    id: "dpc",
+    area: "Private sector",
+    item: "Direct primary care & concierge medicine",
+    today: "Monthly membership practices, often outside insurance.",
+    change:
+      "Permitted only for opted-out physicians; memberships cannot be bought with insurance. Participating practices may offer UHP primary-care capitation instead.",
+    disposition: "amended",
+    when: "Year 1",
+    stepId: "provider-enrollment",
+    tradeoff:
+      "Keeps one queue; preserves a cash option that creates a de facto tier for those who can pay.",
+  },
+  {
+    id: "hospital-antitrust",
+    area: "Provider payment & regulation",
+    item: "Antitrust enforcement for hospital and physician mergers",
+    today: "FTC challenges some mergers because consolidation raises commercial prices.",
+    change:
+      "Price effects disappear under one fee schedule; merger review refocuses on access, quality, and capacity in each region.",
+    disposition: "amended",
+    when: "Year 4",
+    stepId: "ongoing-capacity-planning",
+    tradeoff:
+      "Consolidation no longer raises prices, so more mergers may be allowed; that can still reduce patient choice and quality competition.",
+  },
+  {
+    id: "site-neutral",
+    area: "Provider payment & regulation",
+    item: "Site-of-service payment differences (hospital outpatient vs. physician office)",
+    today:
+      "The same service pays more when billed by a hospital outpatient department, which encourages hospitals to buy practices.",
+    change:
+      "One price per service regardless of setting (site-neutral), except where added costs are documented.",
+    disposition: "replaced",
+    when: "Year 2",
+    stepId: "fee-schedule",
+    tradeoff: "Removes the incentive to acquire practices; hospital outpatient revenue falls.",
+  },
+  {
+    id: "poh-ban",
+    area: "Provider payment & regulation",
+    item: "ACA ban on new physician-owned hospitals",
+    today: "Section 6001 bars new physician-owned hospitals from Medicare.",
+    change: "Retained under UHP to limit self-referral, subject to review by the Rates Board.",
+    disposition: "continues",
+    when: "—",
+    stepId: "provider-enrollment",
+    tradeoff: "Limits self-referral; blocks a potential source of new surgical capacity.",
+  },
+  {
+    id: "telehealth",
+    area: "Provider payment & regulation",
+    item: "Telehealth coverage rules",
+    today:
+      "Medicare telehealth flexibilities repeatedly extended on short-term deadlines; private coverage varies.",
+    change:
+      "Permanent UHP telehealth coverage at parity for clinically appropriate services, including audio-only for behavioral health.",
+    disposition: "expanded",
+    when: "Year 1",
+    stepId: "define-benefits",
+    tradeoff:
+      "Expands capacity and rural access; higher fraud risk and possible extra visits that add to rather than replace in-person care.",
+  },
+  {
+    id: "licensure-compacts",
+    area: "Workforce & training",
+    item: "State licensure (interstate compacts for physicians, nurses, psychologists)",
+    today:
+      "Clinicians need a license in each state where the patient is located; compacts cover some states.",
+    change:
+      "Federal grants encourage all states to join compacts so clinicians can serve UHP patients across state lines.",
+    disposition: "amended",
+    when: "Years 1–3",
+    stepId: "capacity-expansion",
+    tradeoff:
+      "More capacity, especially for telehealth; states cede some control over discipline and standards.",
+  },
+  {
+    id: "transplant",
+    area: "Provider payment & regulation",
+    item: "Organ transplant financing (organ acquisition cost centers)",
+    today:
+      "Medicare reimburses transplant hospitals for organ acquisition costs through cost reports; patients need insurance to be listed.",
+    change:
+      "UHP covers transplants and lifetime immunosuppressive drugs for all; insurance status no longer affects listing.",
+    disposition: "expanded",
+    when: "Year 1",
+    stepId: "define-benefits",
+    tradeoff:
+      "Ends insurance-based barriers to transplant listing; more demand for a fixed supply of organs.",
+  },
+  {
+    id: "clinical-trials",
+    area: "Federal insurance & health law",
+    item: "Coverage of routine costs in clinical trials",
+    today:
+      "Required for Medicare and ACA plans, but patients still face network and prior-authorization barriers.",
+    change: "UHP covers routine care costs in all approved trials nationwide.",
+    disposition: "expanded",
+    when: "Year 1",
+    stepId: "define-benefits",
+    tradeoff: "Easier trial enrollment; small added cost.",
+  },
+  {
+    id: "maternity",
+    area: "Patients",
+    item: "Pregnancy coverage (Medicaid covers about 41% of births)",
+    today:
+      "Many pregnant people move into Medicaid during pregnancy and lose coverage after 12 months postpartum (where states extended it).",
+    change:
+      "Continuous UHP coverage before, during, and after pregnancy; doulas and midwives covered.",
+    disposition: "replaced",
+    when: "Year 1",
+    stepId: "define-benefits",
+    tradeoff:
+      "Ends postpartum coverage cliffs; obstetric units in low-volume rural hospitals still need budget protection to stay open.",
+  },
+  {
+    id: "school-health",
+    area: "States & localities",
+    item: "School-based health services billed to Medicaid",
+    today: "Schools bill Medicaid for services to eligible students (therapy, nursing).",
+    change: "Schools bill UHP for every student, which removes eligibility checks.",
+    disposition: "replaced",
+    when: "Year 1",
+    stepId: "wave-one-enrollment",
+    tradeoff: "More funding for school health services; schools must meet UHP billing standards.",
+  },
+  {
+    id: "corrections",
+    area: "States & localities",
+    item: "Health care in jails and prisons (Medicaid inmate exclusion)",
+    today:
+      "Medicaid cannot pay for care of incarcerated people except inpatient stays; recent 1115 waivers allow pre-release services.",
+    change:
+      "UHP covers incarcerated residents in the 90 days before release and immediately at release, so there is no gap.",
+    disposition: "amended",
+    when: "Year 4",
+    stepId: "auto-enrollment",
+    tradeoff:
+      "Reduces overdose deaths and readmissions after release; corrections systems still fund in-custody care.",
+  },
+  {
+    id: "employer-wellness",
+    area: "Private sector",
+    item: "Employer wellness programs and on-site clinics",
+    today: "Tied to health plans (premium discounts for participation).",
+    change:
+      "Premium-based incentives end; on-site clinics may bill UHP as participating providers.",
+    disposition: "amended",
+    when: "Year 4",
+    stepId: "end-esi",
+    tradeoff:
+      "Ends incentive schemes that penalized less healthy workers; employers lose a tool they used to manage costs.",
+  },
+  {
+    id: "medical-tourism",
+    area: "Patients",
+    item: "Medical travel abroad and across borders",
+    today:
+      "Some uninsured or underinsured Americans travel to Mexico, Canada, or elsewhere for cheaper care and drugs.",
+    change:
+      "Demand falls; UHP pays for care abroad only for emergencies or when the wait-time guarantee is missed and a foreign provider is approved.",
+    disposition: "amended",
+    when: "Year 4",
+    stepId: "wait-time-guarantee",
+    tradeoff: "Less need to travel; border-region clinics lose U.S. patients.",
+  },
+  {
+    id: "life-insurance-disability",
+    area: "Private sector",
+    item: "Disability, long-term-care, and life insurers",
+    today: "Separate products, often bundled with employer benefits.",
+    change: "Continue; private long-term-care insurance shrinks to room-and-board coverage.",
+    disposition: "amended",
+    when: "Year 2",
+    stepId: "ltss-entitlement",
+    tradeoff: "The private LTC insurance market, already small, mostly disappears.",
+  },
+  {
+    id: "provider-taxes",
+    area: "States & localities",
+    item: "State provider taxes and intergovernmental transfers funding Medicaid",
+    today: "States tax hospitals and nursing homes to draw federal Medicaid match.",
+    change:
+      "End for acute care because there is no match to draw; the revenue is counted in state MOE calculations.",
+    disposition: "ends",
+    when: "Year 4",
+    stepId: "state-moe-design",
+    tradeoff:
+      "Ends a financing gimmick; states that relied on it must replace the revenue within their MOE.",
+  },
+  {
+    id: "gpo",
+    area: "Drugs & devices",
+    item: "Group purchasing organizations & drug wholesalers",
+    today:
+      "GPOs negotiate hospital supply prices and collect administrative fees from suppliers; three wholesalers distribute most drugs.",
+    change:
+      "Continue for logistics; national reference prices for drugs and high-cost devices reduce their negotiating role.",
+    disposition: "amended",
+    when: "Years 2–4",
+    stepId: "national-formulary",
+    tradeoff:
+      "Less opaque fee income in the supply chain; less room for hospitals to negotiate below reference prices.",
+  },
+  {
+    id: "biosimilars",
+    area: "Drugs & devices",
+    item: "Biosimilar and generic substitution",
+    today: "Slow biosimilar uptake because rebates favor brand biologics.",
+    change:
+      "The national formulary prefers biosimilars and generics, with automatic pharmacy substitution.",
+    disposition: "amended",
+    when: "Year 1",
+    stepId: "national-formulary",
+    tradeoff:
+      "Large savings; some patients must switch products, and brand makers lose market share faster.",
+  },
+  {
+    id: "vaccines",
+    area: "Federal programs",
+    item: "Vaccines for Children & adult vaccine coverage",
+    today: "VFC buys vaccines for Medicaid and uninsured children; adult coverage varies by payer.",
+    change: "UHP covers all recommended vaccines for everyone; VFC folds into the formulary.",
+    disposition: "absorbed",
+    when: "Year 1",
+    stepId: "national-formulary",
+    tradeoff:
+      "Universal vaccine coverage; politicization of vaccine recommendations directly affects coverage.",
+  },
+  {
+    id: "residency-cap",
+    area: "Workforce & training",
+    item: "1997 Medicare cap on funded residency positions",
+    today: "Hospitals' Medicare-funded residency slots largely frozen at 1996 levels.",
+    change: `Lifted for shortage specialties; ${show("residencySlots")} new positions funded.`,
+    disposition: "expanded",
+    when: "Years 0–5",
+    stepId: "capacity-expansion",
+    tradeoff:
+      "More physicians long term; teaching hospitals gain influence over workforce composition.",
+  },
+  {
+    id: "insurer-reserves",
+    area: "Private sector",
+    item: "Insurer statutory reserves and guaranty associations",
+    today:
+      "States require insurers to hold reserves; guaranty funds protect policyholders if insurers fail.",
+    change:
+      "Reserves are released only after run-off claims are certified paid; guaranty associations backstop any failure during wind-down.",
+    disposition: "amended",
+    when: "Years 1–5",
+    stepId: "insurer-runoff",
+    tradeoff: "Protects pending claims; delays shareholders' access to released capital.",
+  },
+  {
+    id: "provider-contracts",
+    area: "Private sector",
+    item: "Provider–insurer contracts and value-based agreements",
+    today: "Each provider holds dozens of payer contracts with different rates and rules.",
+    change: "Terminated by statute at each wave; one UHP participation agreement replaces them.",
+    disposition: "replaced",
+    when: "By wave",
+    stepId: "provider-enrollment",
+    tradeoff: "Ends contracting overhead; ends negotiated deals some providers valued.",
+  },
+  {
+    id: "uncompensated",
+    area: "Provider payment & regulation",
+    item: "Hospital uncompensated care and charity care policies",
+    today:
+      "Hospitals provide tens of billions of dollars a year in charity care and absorb bad debt.",
+    change:
+      "Charity care and bad debt for covered services disappear; hospital financial-assistance policies apply only to non-covered items.",
+    disposition: "ends",
+    when: "Year 4",
+    stepId: "hospital-global-budgets",
+    tradeoff:
+      "Hospitals stop absorbing these losses; the community-benefit justification for tax exemption weakens.",
+  },
+]
+
+export const CHANGES: SystemChange[] = [...CORE_CHANGES, ...MORE_CHANGES]
+
 export const CHANGE_AREAS: ChangeArea[] = [
   "Federal programs",
   "Federal tax code",
@@ -1010,5 +1487,3 @@ export const CHANGE_AREAS: ChangeArea[] = [
   "Workforce & training",
   "Data & technology",
 ]
-import { show } from "./constants"
-import { F } from "./figures"

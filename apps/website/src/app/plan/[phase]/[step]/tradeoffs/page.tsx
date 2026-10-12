@@ -158,7 +158,7 @@ export default async function TradeoffsPage({ params }: { params: StepParams }) 
             {changes.map((c) => (
               <li key={c.id} className="rounded-md border border-rule bg-card p-3">
                 <Link
-                  href={`${stepHref(step.id, "changes")}#${c.id}`}
+                  href={`${stepHref(step.id, "changes")}/${c.id}`}
                   className="font-medium underline decoration-rule underline-offset-2"
                 >
                   {c.item}

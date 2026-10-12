@@ -26,8 +26,18 @@ export default async function StepLayout({
           · Step {number}
         </div>
         <h1 className="text-3xl leading-tight font-semibold sm:text-4xl">{step.title}</h1>
-        <div className="mt-2 text-sm text-muted-foreground">
-          {step.timeline} · {step.owner}
+        <div className="mt-2 flex flex-wrap items-baseline justify-between gap-2 text-sm text-muted-foreground">
+          <span>
+            {step.timeline} · {step.owner}
+          </span>
+          <a
+            className="text-primary underline"
+            href={`https://github.com/Andrew-Chen-Wang/Universal-Healthcare/issues/new?title=${encodeURIComponent(`Step ${number}: ${step.title}`)}`}
+            target="_blank"
+            rel="noreferrer"
+          >
+            Discuss this step
+          </a>
         </div>
       </header>
       <SectionTabs tabs={tabs} />

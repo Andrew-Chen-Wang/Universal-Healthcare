@@ -1,4 +1,7 @@
 import { Table } from "@website/components/site/ui"
+import { taskHref } from "@website/content/navigation"
+import { TASK_TRADEOFFS } from "@website/content/task-tradeoffs"
+import Link from "next/link"
 import { type StepParams, loadStep, stepStaticParams } from "@website/lib/plan/step"
 import type { Metadata } from "next"
 
@@ -24,6 +27,7 @@ export default async function TasksPage({ params }: { params: StepParams }) {
             <th>Action</th>
             <th className="w-44">Owner</th>
             <th className="w-36">When</th>
+            <th>Trade-off</th>
           </tr>
         </thead>
         <tbody>
@@ -32,9 +36,17 @@ export default async function TasksPage({ params }: { params: StepParams }) {
               <td className="num text-muted-foreground">
                 {number}.{i + 1}
               </td>
-              <td>{t.action}</td>
+              <td>
+                <Link
+                  href={taskHref(step.id, i + 1)}
+                  className="underline decoration-rule underline-offset-2 hover:decoration-primary"
+                >
+                  {t.action}
+                </Link>
+              </td>
               <td className="text-foreground/75">{t.owner}</td>
               <td className="text-foreground/75">{t.when}</td>
+              <td className="text-sm text-foreground/80">{TASK_TRADEOFFS[step.id][i]}</td>
             </tr>
           ))}
         </tbody>

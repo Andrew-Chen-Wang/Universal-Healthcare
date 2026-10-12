@@ -1,7 +1,7 @@
 import { B, Pill, Table } from "@website/components/site/ui"
 import { COST_BY_ID } from "@website/content/calculations"
 import { CHANGES, type Disposition } from "@website/content/changes"
-import { costHref } from "@website/content/navigation"
+import { costHref, stepHref } from "@website/content/navigation"
 import Link from "next/link"
 import { type StepParams, loadStep, stepStaticParams } from "@website/lib/plan/step"
 import type { Metadata } from "next"
@@ -45,7 +45,12 @@ export default async function ChangesPage({ params }: { params: StepParams }) {
           {changes.map((c) => (
             <tr key={c.id} id={c.id}>
               <td className="min-w-48">
-                <div className="font-medium">{c.item}</div>
+                <Link
+                  href={`${stepHref(step.id, "changes")}/${c.id}`}
+                  className="font-medium underline decoration-rule underline-offset-2 hover:decoration-primary"
+                >
+                  {c.item}
+                </Link>
                 <div className="mt-1 flex flex-wrap gap-1">
                   <Pill tone={TONE[c.disposition]}>{c.disposition}</Pill>
                   <Pill>{c.when}</Pill>

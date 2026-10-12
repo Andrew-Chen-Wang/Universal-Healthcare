@@ -2,6 +2,7 @@ import { costsForStep } from "./calculations"
 import { CHANGES } from "./changes"
 import { PHASES, STEP_BY_ID } from "./plan"
 import { STEP_EXTRAS } from "./step-extras"
+import { TASK_TRADEOFFS } from "./task-tradeoffs"
 
 export type SectionId =
   | ""
@@ -86,3 +87,18 @@ export const NAV: NavPhase[] = PHASES.map((p) => ({
 export const STEP_NUMBER = Object.fromEntries(
   NAV.flatMap((p) => p.steps.map((s) => [s.id, s.number])),
 )
+
+for (const p of PHASES) {
+  for (const s of p.steps) {
+    const t = TASK_TRADEOFFS[s.id]
+    if (!t || t.length !== s.tasks.length) {
+      throw new Error(
+        `Task trade-offs for ${s.id}: ${t?.length ?? 0} entries, ${s.tasks.length} tasks`,
+      )
+    }
+  }
+}
+
+export function taskHref(stepId: string, n: number) {
+  return `${stepHref(stepId, "tasks")}/${n}`
+}
