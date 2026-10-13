@@ -513,7 +513,12 @@ export const SUPPLY_PATHS = [
     title: "Fund more residency slots",
     summary:
       "Fund more residency positions, prioritizing primary care, psychiatry, and rural sites.",
-    precedents: [{ place: "U.S. 2021 & 2023 laws", note: "Added about 1,200 slots." }],
+    precedents: [
+      {
+        place: "U.S. 2021 & 2023 laws",
+        note: "Added 1,000 Medicare-funded slots (2021, phased in at up to 200 a year) plus 200 more, half for psychiatry (2023).",
+      },
+    ],
     pros: ["Directly increases supply", "Residents stay near where they train"],
     cons: ["Takes 7+ years to show results", "Costly per slot"],
     whoGains: ["Graduates, patients"],
