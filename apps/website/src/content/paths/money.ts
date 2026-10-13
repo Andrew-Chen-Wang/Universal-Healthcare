@@ -115,7 +115,7 @@ export const MONEY_PATHS = [
     precedents: [
       {
         place: "Germany",
-        note: "About 14.6% of wages plus an extra contribution, split between employers and employees.",
+        note: "14.6% of wages split between employers and employees, plus a fund-specific extra contribution averaging about 3% in 2026 (roughly 17.5% in total).",
         sourceIds: ["germany-gkv"],
       },
     ],
