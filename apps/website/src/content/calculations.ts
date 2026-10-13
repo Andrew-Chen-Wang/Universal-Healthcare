@@ -782,7 +782,12 @@ function sourceCalc(id: string): CalcStep[] {
             unit: "B",
           })
       }
-      steps.push({ label: "Out-of-pocket under the plan", value: l.after, unit: "B", result: true })
+      steps.push({
+        label: "Out-of-pocket under the plan",
+        value: l.after,
+        unit: "B",
+        result: true,
+      })
       steps.push({
         label: "Out-of-pocket eliminated",
         value: l.after - l.before,

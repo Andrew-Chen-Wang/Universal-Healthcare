@@ -1,0 +1,208 @@
+import { PathLink, ProblemChip, real, StatusPill } from "@website/components/site/paths"
+import { B, Page, PageHeader, ProsCons, Sources, Usd } from "@website/components/site/ui"
+import { INVENTORY_BY_ID } from "@website/content/cost-inventory"
+import {
+  complementsOf,
+  conflictsOf,
+  PATH_BY_ID,
+  PATHS,
+  pathsFor,
+  requiredBy,
+} from "@website/content/paths"
+import { PROBLEM_BY_ID } from "@website/content/problems"
+import type { Metadata } from "next"
+import Link from "next/link"
+import { notFound } from "next/navigation"
+
+type Params = Promise<{ id: string }>
+
+export function generateStaticParams() {
+  return PATHS.map((p) => ({ id: p.id }))
+}
+
+export async function generateMetadata({ params }: { params: Params }): Promise<Metadata> {
+  const { id } = await params
+  return { title: PATH_BY_ID[id]?.title ?? "Solution path" }
+}
+
+function People({ title, items, tone }: { title: string; items: string[]; tone: string }) {
+  const list = real(items)
+  return (
+    <div className={`rounded-md border p-4 ${tone}`}>
+      <div className="mb-2 text-xs font-semibold tracking-wide uppercase">{title}</div>
+      {list.length ? (
+        <ul className="list-disc space-y-1 pl-5 text-sm">
+          {list.map((i) => (
+            <li key={i}>{i}</li>
+          ))}
+        </ul>
+      ) : (
+        <p className="text-sm text-muted-foreground">None identified.</p>
+      )}
+    </div>
+  )
+}
+
+function Column({ title, children }: { title: string; children: React.ReactNode }) {
+  return (
+    <div className="min-w-0 space-y-2">
+      <div className="text-xs font-semibold tracking-wide text-muted-foreground uppercase">
+        {title}
+      </div>
+      {children}
+    </div>
+  )
+}
+
+export default async function PathPage({ params }: { params: Params }) {
+  const { id } = await params
+  const p = PATH_BY_ID[id]
+  if (!p) notFound()
+  const problem = PROBLEM_BY_ID[p.problemId]
+  const siblings = pathsFor(p.problemId).filter((s) => s.id !== p.id)
+  const requires = (p.requires ?? []).map((r) => PATH_BY_ID[r])
+  const needed = requiredBy(p.id)
+  const conflicts = conflictsOf(p.id)
+  const complements = complementsOf(p.id)
+  const created = [...(p.spawns ?? []), ...(p.worsens ?? [])]
+
+  return (
+    <Page>
+      <PageHeader
+        eyebrow={
+          <Link href={`/problems/${problem.id}`} className="hover:underline">
+            Solution path · {problem.title}
+          </Link>
+        }
+        title={p.title}
+        lede={p.summary}
+      />
+      <div className="mb-8 flex items-center gap-2 text-sm">
+        Status: <StatusPill status={p.status} />
+        <span className="text-muted-foreground">
+          Nothing is chosen until the plan's owner decides.
+        </span>
+      </div>
+
+      <section className="mb-10">
+        <h2 className="mb-3 text-xl font-semibold">How this path connects</h2>
+        <div className="grid gap-6 rounded-md border border-rule bg-secondary/40 p-4 md:grid-cols-3">
+          <Column title="Addresses">
+            <ProblemChip id={p.problemId} tone="gain" />
+            {p.solves?.map((s) => (
+              <div key={s}>
+                <ProblemChip id={s} tone="gain" />
+              </div>
+            ))}
+          </Column>
+          <Column title="This path">
+            <div className="rounded-md border border-primary bg-card px-3 py-2 text-sm font-medium">
+              {p.title}
+            </div>
+            {requires.length > 0 && <div className="text-xs text-muted-foreground">Requires:</div>}
+            {requires.map((r) => (
+              <PathLink key={r.id} path={r} />
+            ))}
+          </Column>
+          <Column title="Creates or worsens">
+            {created.length === 0 && (
+              <p className="text-sm text-muted-foreground">No new problems identified.</p>
+            )}
+            {created.map((c) => (
+              <div key={c} className="space-y-1">
+                <ProblemChip id={c} tone="loss" />
+                <ul className="ml-3 border-l border-rule pl-2 text-xs">
+                  {pathsFor(c).map((sp) => (
+                    <li key={sp.id}>
+                      <Link
+                        href={`/paths/${sp.id}`}
+                        className="text-foreground/70 hover:text-primary hover:underline"
+                      >
+                        ↳ {sp.title}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </Column>
+        </div>
+      </section>
+
+      <section className="mb-10">
+        <h2 className="mb-3 text-xl font-semibold">Pros and drawbacks</h2>
+        <ProsCons
+          pros={p.pros.map((point) => ({ point }))}
+          cons={p.cons.map((point) => ({ point }))}
+          consLabel="Drawbacks"
+        />
+      </section>
+
+      <section className="mb-10 grid gap-4 md:grid-cols-3">
+        <People title="Who gains" items={p.whoGains} tone="border-gain/25 bg-gain-soft/40" />
+        <People title="Who loses" items={p.whoLoses} tone="border-loss/25 bg-loss-soft/40" />
+        <People title="How to mend the losers" items={p.mend} tone="border-rule bg-card" />
+      </section>
+
+      <section className="mb-10">
+        <h2 className="mb-3 text-xl font-semibold">Where it has been tried</h2>
+        <ul className="space-y-3">
+          {p.precedents.map((pr) => (
+            <li key={pr.place + pr.note} className="border-l-2 border-rule pl-4 text-sm">
+              <span className="font-medium">{pr.place}:</span> {pr.note}
+              {pr.sourceIds && <Sources ids={pr.sourceIds} />}
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      {(p.costIds?.length ?? 0) > 0 && (
+        <section className="mb-10">
+          <h2 className="mb-3 text-xl font-semibold">Costs this path changes</h2>
+          <ul className="divide-y divide-rule rounded-md border border-rule bg-card">
+            {p.costIds?.map((cid) => {
+              const c = INVENTORY_BY_ID[cid]
+              return (
+                <li key={cid}>
+                  <Link
+                    href={`/costs/${cid}`}
+                    className="flex justify-between gap-4 px-4 py-2 hover:bg-secondary"
+                  >
+                    <span>{c.label}</span>
+                    <span className="shrink-0 text-sm">
+                      {c.unit === "usdB" ? (
+                        <B v={c.amount} />
+                      ) : c.unit === "usd" ? (
+                        <Usd v={c.amount} />
+                      ) : (
+                        c.amount.toLocaleString()
+                      )}
+                    </span>
+                  </Link>
+                </li>
+              )
+            })}
+          </ul>
+        </section>
+      )}
+
+      {[
+        ["Conflicts with (choose one or the other)", conflicts],
+        ["Works well with", complements],
+        ["Other paths that depend on this one", needed],
+        [`Other paths for “${problem.title}”`, siblings],
+      ].map(([title, list]) =>
+        (list as typeof siblings).length ? (
+          <section key={title as string} className="mb-8">
+            <h2 className="mb-3 text-lg font-semibold">{title as string}</h2>
+            <div className="grid gap-2 sm:grid-cols-2">
+              {(list as typeof siblings).map((s) => (
+                <PathLink key={s.id} path={s} />
+              ))}
+            </div>
+          </section>
+        ) : null,
+      )}
+    </Page>
+  )
+}

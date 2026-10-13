@@ -59,4 +59,11 @@ into the website and are not deployed.
   trade-offs, risks, jobs, and international comparisons; `changes.ts` lists every
   system change with its step.
 - Routes: `/plan/[phase]/[step]` plus subpages (tasks, design, costs, costs/[cost],
-  tradeoffs, risks, changes, international). The sidebar lists steps only.
+  tradeoffs, risks, changes, international).
+- Problems live in `content/problems.ts` (including problems created by solution
+  paths, ids `x-*`). Solution paths live in `content/paths/`, one `path({...})` per
+  option with pros, cons, who gains/loses, mend, precedents, and links (`solves`,
+  `worsens`, `spawns`, `requires`, `conflicts`, `complements`). `paths/index.ts`
+  validates every link at build time. Status stays `"open"` until the owner decides;
+  only chosen paths get folded into Part 2. Routes: `/problems/[id]`, `/paths`
+  (decision tree), `/paths/[id]`.

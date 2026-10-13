@@ -1,6 +1,7 @@
 import { costsForStep } from "./calculations"
 import { COST_CATEGORIES, INVENTORY } from "./cost-inventory"
 import { PROBLEM_CATEGORIES, PROBLEMS } from "./problems"
+import { pathsFor } from "./paths"
 import { CHANGES } from "./changes"
 import { PHASES, STEP_BY_ID } from "./plan"
 import { STEP_EXTRAS } from "./step-extras"
@@ -135,8 +136,15 @@ export const SIDEBAR: SidePart[] = [
         id: p.id,
         label: p.title,
         href: `/problems/${p.id}`,
+        children: pathsFor(p.id).map((x) => ({ id: x.id, label: x.title, href: `/paths/${x.id}` })),
       })),
     })),
+  },
+  {
+    id: "paths",
+    title: "Part 1 · Decide solution paths",
+    href: "/paths",
+    groups: [],
   },
   {
     id: "costs",

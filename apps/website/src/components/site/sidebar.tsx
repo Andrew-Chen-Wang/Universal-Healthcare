@@ -1,6 +1,6 @@
 "use client"
 
-import type { SideGroup, SidePart } from "@website/content/navigation"
+import type { SideGroup, SideItem, SidePart } from "@website/content/navigation"
 import { cn } from "@website/lib/utils"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
@@ -8,6 +8,10 @@ import { useEffect, useState } from "react"
 
 const isIn = (pathname: string, href: string) =>
   pathname === href || pathname.startsWith(`${href}/`)
+
+/** An item is active on its own page or any of its children's pages. */
+const itemActive = (pathname: string, item: SideItem) =>
+  isIn(pathname, item.href) || (item.children?.some((c) => isIn(pathname, c.href)) ?? false)
 
 function Group({
   group,
@@ -19,7 +23,7 @@ function Group({
   onNavigate?: () => void
 }) {
   const active =
-    group.items.some((i) => isIn(pathname, i.href)) ||
+    group.items.some((i) => itemActive(pathname, i)) ||
     (group.href ? pathname === group.href : false)
   const [open, setOpen] = useState(active)
   useEffect(() => {
@@ -54,7 +58,7 @@ function Group({
       {open && (
         <ul className="mt-0.5 mb-1 ml-3 space-y-0.5 border-l border-rule pl-2">
           {group.items.map((item) => {
-            const here = isIn(pathname, item.href)
+            const here = itemActive(pathname, item)
             return (
               <li key={item.id}>
                 <Link

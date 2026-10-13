@@ -1,6 +1,8 @@
+import { PathCard, PathLink } from "@website/components/site/paths"
 import { B, Page, PageHeader, Sources, Usd } from "@website/components/site/ui"
 import { INVENTORY } from "@website/content/cost-inventory"
 import { slug } from "@website/content/navigation"
+import { alsoSolvedBy, createdBy, pathsFor, worsenedBy } from "@website/content/paths"
 import { PROBLEM_BY_ID, PROBLEMS } from "@website/content/problems"
 import type { Metadata } from "next"
 import Link from "next/link"
@@ -48,6 +50,9 @@ export default async function ProblemPage({ params }: { params: Params }) {
   const p = PROBLEM_BY_ID[id]
   if (!p) notFound()
   const costs = INVENTORY.filter((i) => i.problemIds?.includes(p.id))
+  const paths = pathsFor(p.id)
+  const also = alsoSolvedBy(p.id)
+  const causes = [...createdBy(p.id), ...worsenedBy(p.id)]
   const idx = PROBLEMS.findIndex((x) => x.id === id)
   const prev = PROBLEMS[idx - 1]
   const next = PROBLEMS[idx + 1]
@@ -111,16 +116,54 @@ export default async function ProblemPage({ params }: { params: Params }) {
       )}
 
       <section className="mb-10 rounded-md border border-primary/30 bg-accent/50 p-5">
-        <h2 className="mb-2 text-xl font-semibold">Open questions (solution paths to decide)</h2>
+        <h2 className="mb-2 text-xl font-semibold">Open questions</h2>
         <ul className="list-disc space-y-1 pl-5">
           {p.openQuestions.map((q) => (
             <li key={q}>{q}</li>
           ))}
         </ul>
-        <p className="mt-3 text-sm text-muted-foreground">
-          Each answer becomes a solution path with its own trade-offs, recorded in Part 2.
-        </p>
       </section>
+
+      {causes.length > 0 && (
+        <section className="mb-10">
+          <h2 className="mb-1 text-xl font-semibold">Caused or worsened by these paths</h2>
+          <p className="mb-3 text-sm text-muted-foreground">
+            This problem only matters if one of these paths is chosen.
+          </p>
+          <div className="grid gap-2 sm:grid-cols-2">
+            {causes.map((c) => (
+              <PathLink key={c.id} path={c} />
+            ))}
+          </div>
+        </section>
+      )}
+
+      <section className="mb-10">
+        <h2 className="mb-1 text-xl font-semibold">Solution paths ({paths.length})</h2>
+        <p className="mb-3 text-sm text-muted-foreground">
+          None is chosen yet. Open a path for who gains, who loses, how to mend the losers,
+          precedents, and how it connects to other paths.{" "}
+          <Link href="/paths" className="underline">
+            See all paths as a decision tree.
+          </Link>
+        </p>
+        <div className="space-y-3">
+          {paths.map((x) => (
+            <PathCard key={x.id} path={x} />
+          ))}
+        </div>
+      </section>
+
+      {also.length > 0 && (
+        <section className="mb-10">
+          <h2 className="mb-3 text-xl font-semibold">Also addressed by paths for other problems</h2>
+          <div className="grid gap-2 sm:grid-cols-2">
+            {also.map((x) => (
+              <PathLink key={x.id} path={x} />
+            ))}
+          </div>
+        </section>
+      )}
 
       <nav className="mt-12 grid gap-3 border-t border-rule pt-6 sm:grid-cols-2">
         {prev ? (

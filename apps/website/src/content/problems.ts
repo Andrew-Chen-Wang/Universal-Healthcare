@@ -25,6 +25,7 @@ export const PROBLEM_CATEGORIES = [
   "Public health & prevention",
   "Data, technology & privacy",
   "Risks a universal system can create",
+  "Problems created by solution paths",
 ] as const
 
 export type ProblemCategory = (typeof PROBLEM_CATEGORIES)[number]
@@ -1330,5 +1331,250 @@ export const PROBLEMS: Problem[] = [
     openQuestions: ["How should one payer verify claims without burdening honest providers?"],
   },
 ]
+
+const X = "Problems created by solution paths" as const
+
+/**
+ * Problems that exist only because a solution path was chosen. Each is linked
+ * from the paths that create it and has its own paths (subpaths).
+ */
+const DERIVED: Problem[] = [
+  {
+    id: "x-plan-choice",
+    category: X,
+    title: "Losing the choice of health plan and insurer competition",
+    summary:
+      "With one public payer, people can't switch plans if they dislike how their coverage is run, and insurers no longer compete on service, care management, or extra benefits.",
+    evidence: [
+      {
+        text: "Medicare Advantage enrollees report high satisfaction with plans that offer extra benefits.",
+        sourceIds: ["medpac-2025"],
+      },
+    ],
+    whoIsHurt: ["People who value choosing among plans", "Medicare Advantage enrollees"],
+    whoProfits: ["N/A"],
+    rootCauses: ["A single payer has no competitors"],
+    openQuestions: ["How can a single payer be held to good service without competition?"],
+  },
+  {
+    id: "x-new-taxes",
+    category: X,
+    title: "Replacing premiums with taxes",
+    summary:
+      "Public financing replaces premiums and out-of-pocket costs with taxes. Total spending may fall, but taxes become larger and more visible, change incentives to work and invest, and fall on different people than premiums did.",
+    evidence: [],
+    whoIsHurt: ["High earners", "Businesses that never offered coverage"],
+    whoProfits: ["Low- and middle-income households who paid flat premiums"],
+    rootCauses: ["Shifting payment from private premiums to public revenue"],
+    openQuestions: [
+      "Which taxes should fund health care: payroll, income, consumption (VAT), wealth, or a mix?",
+    ],
+  },
+  {
+    id: "x-wage-incidence",
+    category: X,
+    title: "Employer health taxes can lower wages at firms that never offered coverage",
+    summary:
+      "When employers pay a payroll tax instead of premiums, firms that used to offer coverage save money, but firms that didn't (often low-wage, small, or gig) face a new cost that tends to come out of wages over time.",
+    evidence: [
+      {
+        text: "Employer health costs are largely passed on to workers as lower wages.",
+        sourceIds: ["baicker-chandra"],
+      },
+    ],
+    whoIsHurt: ["Low-wage workers at non-offering employers", "Small businesses"],
+    whoProfits: ["Workers at firms that offered expensive coverage (wages rise)"],
+    rootCauses: ["Uniform payroll tax replacing uneven premium spending"],
+    openQuestions: [
+      "Should employers pay anything toward health care? If so, how should small and low-wage employers be treated?",
+    ],
+  },
+  {
+    id: "x-copay-billing",
+    category: X,
+    title: "Copays keep billing systems alive and still deter poorer patients",
+    summary:
+      "Any point-of-care charge requires billing, collections, exemptions, and caps, and even small charges deter low-income patients more than others.",
+    evidence: [
+      {
+        text: "The RAND Health Insurance Experiment found cost sharing reduced both needed and unneeded care.",
+        sourceIds: ["rand-hie"],
+      },
+    ],
+    whoIsHurt: ["Low-income and chronically ill patients", "Providers who must collect"],
+    whoProfits: ["Billing vendors"],
+    rootCauses: ["Charging at the point of care"],
+    openQuestions: ["If charges exist, who is exempt, what is the cap, and how is it collected?"],
+  },
+  {
+    id: "x-central-rationing",
+    category: X,
+    title: "Central coverage decisions can feel like rationing",
+    summary:
+      "When one public body decides which treatments are covered or worth their price, every 'no' becomes a national controversy, and patients have no other insurer to turn to.",
+    evidence: [
+      {
+        text: "NICE in the UK applies cost-per-QALY thresholds and has faced public disputes over declined drugs.",
+        sourceIds: [],
+      },
+    ],
+    whoIsHurt: [
+      "Patients needing declined or delayed treatments",
+      "Manufacturers of declined products",
+    ],
+    whoProfits: ["Budgets"],
+    rootCauses: ["Finite budget with one decision-maker"],
+    openQuestions: ["How should coverage decisions be made, appealed, and balanced against cost?"],
+  },
+  {
+    id: "x-budget-rationing",
+    category: X,
+    title: "Fixed budgets can ration care",
+    summary:
+      "Global budgets cap spending, but if demand exceeds what the budget pays for, hospitals may limit operating-room time or slow elective work near the end of the budget year.",
+    evidence: [
+      {
+        text: "Canadian hospitals on global budgets have long elective-surgery queues.",
+        sourceIds: ["fraser-2025"],
+      },
+    ],
+    whoIsHurt: ["Patients needing elective procedures"],
+    whoProfits: ["Budget holders"],
+    rootCauses: ["Payment not tied to volume"],
+    openQuestions: ["How should budgets adjust when demand rises?"],
+  },
+  {
+    id: "x-undertreatment",
+    category: X,
+    title: "Paying a fixed amount per patient rewards doing less",
+    summary:
+      "Capitation and bundled payments remove the incentive to over-treat, but create an incentive to under-treat, avoid sick patients, or refer costly cases elsewhere.",
+    evidence: [
+      {
+        text: "Medicare Advantage plans deny some prior-authorization requests that would be approved under traditional Medicare.",
+        sourceIds: ["medpac-2025"],
+      },
+    ],
+    whoIsHurt: ["Sicker, costlier patients"],
+    whoProfits: ["Providers or plans that keep the difference"],
+    rootCauses: ["Fixed payment regardless of care delivered"],
+    openQuestions: ["How should quality and access be monitored under fixed payments?"],
+  },
+  {
+    id: "x-price-control-exit",
+    category: X,
+    title: "Price limits can cause shortages, launch delays, or exits",
+    summary:
+      "If a single buyer sets prices too low, manufacturers may not launch products, generic makers may stop producing, and providers may leave or limit services.",
+    evidence: [
+      {
+        text: "Low generic prices contribute to sterile-injectable shortages.",
+        sourceIds: ["ashp-shortages-2024"],
+      },
+    ],
+    whoIsHurt: ["Patients who need the affected products or services"],
+    whoProfits: ["Short-term budgets"],
+    rootCauses: ["Prices below what sustains supply"],
+    openQuestions: ["How should prices be set to sustain supply and innovation?"],
+  },
+  {
+    id: "x-public-rd-priorities",
+    category: X,
+    title: "Government chooses which research gets funded",
+    summary:
+      "Publicly funded R&D or prizes put research priorities in government hands, which may underfund risky ideas or be swayed by politics.",
+    evidence: [],
+    whoIsHurt: ["Researchers in unfunded areas", "Patients with rare conditions"],
+    whoProfits: ["Well-connected research institutions"],
+    rootCauses: ["Centralized funding decisions"],
+    openQuestions: ["Who should set research priorities, and how much should remain private?"],
+  },
+  {
+    id: "x-scope-quality",
+    category: X,
+    title: "Quality concerns when non-physicians practice independently",
+    summary:
+      "Expanding what nurse practitioners, physician assistants, pharmacists, and dental therapists can do adds capacity, but some studies and physician groups raise concerns about over-prescribing, more referrals, and missed diagnoses.",
+    evidence: [],
+    whoIsHurt: ["Patients if quality falls"],
+    whoProfits: ["N/A"],
+    rootCauses: ["Shorter training for some roles"],
+    openQuestions: ["How should quality be measured and assured as roles expand?"],
+  },
+  {
+    id: "x-staffing-mandate-cost",
+    category: X,
+    title: "Staffing mandates raise costs and may close facilities",
+    summary:
+      "Minimum nurse or aide staffing levels improve safety, but cost money and, during shortages, may force facilities to close beds or shut down.",
+    evidence: [],
+    whoIsHurt: ["Facilities that can't hire", "Patients in areas where beds close"],
+    whoProfits: ["Staffing agencies"],
+    rootCauses: ["Mandates without workforce supply"],
+    openQuestions: ["Should staffing rules phase in with workforce growth?"],
+  },
+  {
+    id: "x-woodwork",
+    category: X,
+    title: "Covering long-term care can pull unpaid family care into the paid system",
+    summary:
+      "If home care becomes covered, families who now provide care for free may switch to paid aides, raising costs far above today's spending (the 'woodwork effect').",
+    evidence: [
+      {
+        text: "Japan's long-term care insurance saw demand grow faster than expected after launch in 2000.",
+        sourceIds: [],
+      },
+    ],
+    whoIsHurt: ["Taxpayers"],
+    whoProfits: ["Families relieved of caregiving", "Home-care agencies"],
+    rootCauses: ["Large hidden demand met today by unpaid family care"],
+    openQuestions: ["How should eligibility for long-term care be assessed and capped?"],
+  },
+  {
+    id: "x-migration-concern",
+    category: X,
+    title: "Covering all residents raises cost and migration concerns",
+    summary:
+      "Covering undocumented immigrants adds cost and, critics argue, could attract migration; leaving them out keeps emergency-room care and public-health gaps.",
+    evidence: [],
+    whoIsHurt: ["Taxpayers (cost)", "Immigrants (if excluded)"],
+    whoProfits: ["N/A"],
+    rootCauses: ["Residence-based vs. status-based eligibility"],
+    openQuestions: ["What proof of residence is required, and is there a waiting period?"],
+  },
+  {
+    id: "x-metric-gaming",
+    category: X,
+    title: "Targets and quality metrics invite gaming",
+    summary:
+      "Wait-time guarantees, quality bonuses, and spending targets can be gamed: re-labeling referral dates, avoiding sick patients, or upcoding.",
+    evidence: [
+      {
+        text: "NHS England's waiting-list targets have been associated with documented gaming.",
+        sourceIds: ["nhs-rtt"],
+      },
+    ],
+    whoIsHurt: ["Patients the metrics are meant to protect"],
+    whoProfits: ["Providers that game measures"],
+    rootCauses: ["Rewards tied to measurable proxies"],
+    openQuestions: ["How should metrics be audited and designed to resist gaming?"],
+  },
+  {
+    id: "x-state-control",
+    category: X,
+    title: "States lose control and budgets shift between levels of government",
+    summary:
+      "A national program takes over Medicaid from states, which changes who pays and who decides, and creates winners and losers between states.",
+    evidence: [
+      { text: `State share of Medicaid was $335.0B in 2024.`, sourceIds: ["cms-nhe-2024"] },
+    ],
+    whoIsHurt: ["States that designed their own programs", "High-spending states"],
+    whoProfits: ["Low-spending states"],
+    rootCauses: ["Centralizing a state-run program"],
+    openQuestions: ["How much should states run, pay for, and decide?"],
+  },
+]
+
+PROBLEMS.push(...DERIVED)
 
 export const PROBLEM_BY_ID = Object.fromEntries(PROBLEMS.map((p) => [p.id, p]))
