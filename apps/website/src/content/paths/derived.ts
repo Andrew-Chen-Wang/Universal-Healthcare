@@ -368,7 +368,7 @@ export const DERIVED_PATHS = [
     summary:
       "A per-patient payment covers basic care and a fee per service rewards doing more for patients who need it.",
     precedents: [
-      { place: "Denmark GPs", note: "About one-third capitation, two-thirds fees." },
+      { place: "Denmark GPs", note: "Roughly 20–30% capitation, the rest fee-for-service." },
       { place: "Ontario family health teams", note: "Blended capitation models." },
     ],
     pros: ["Balances incentives", "Proven abroad"],

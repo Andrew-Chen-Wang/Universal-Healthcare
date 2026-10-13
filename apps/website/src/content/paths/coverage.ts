@@ -16,7 +16,7 @@ export const COVERAGE_PATHS = [
     precedents: [
       {
         place: "Taiwan",
-        note: "National Health Insurance (1995) covers 99%+ of residents with one payer and a smart card; admin cost is about 1–2% of spending.",
+        note: "National Health Insurance (1995) covers 99%+ of residents with one payer and a smart card; administrative cost is about 1% of spending (1.07% in 2014, per Brookings).",
         sourceIds: ["taiwan-nhi"],
       },
       {
