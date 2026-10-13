@@ -493,7 +493,10 @@ export const DERIVED_PATHS = [
     title: "Supervised transition period before independence",
     summary: "Require a set number of supervised hours before independent practice.",
     precedents: [
-      { place: "Several U.S. states", note: "Require 2–3 years of collaborative practice first." },
+      {
+        place: "Several U.S. states",
+        note: "Require 1,000 hours to several years of collaborative practice first; about half of full-practice states require none.",
+      },
     ],
     pros: ["Builds experience", "Addresses quality concerns"],
     cons: ["Slows supply", "Supervision bottleneck"],
@@ -510,7 +513,12 @@ export const DERIVED_PATHS = [
     title: "Phase mandates in with workforce growth, funded in rates",
     summary:
       "Ratios tighten in steps as training pipelines grow, and rates are raised to pay for them.",
-    precedents: [{ place: "California", note: "Ratios phased in 2004–2008." }],
+    precedents: [
+      {
+        place: "California",
+        note: "Ratios phased in from 2004 (medical-surgical 1:6, tightened to 1:5 in 2005) and completed in 2008.",
+      },
+    ],
     pros: ["Avoids closures", "Aligns with supply"],
     cons: ["Slower benefits", "Delayed safety gains"],
     whoGains: ["Facilities"],
@@ -576,7 +584,10 @@ export const DERIVED_PATHS = [
     summary:
       "Require proof of residence for a period (e.g., 3–12 months) before full coverage; emergency care always covered.",
     precedents: [
-      { place: "Canadian provinces", note: "Up to 3-month waiting period for new residents." },
+      {
+        place: "Canadian provinces",
+        note: "Some provinces (e.g., British Columbia, Quebec) make new residents wait up to 3 months; others, such as New Brunswick, have dropped the wait.",
+      },
     ],
     pros: ["Reduces migration concerns", "Lower cost"],
     cons: ["Gaps for new arrivals", "Verification paperwork"],

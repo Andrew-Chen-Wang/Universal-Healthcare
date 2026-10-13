@@ -132,7 +132,7 @@ export const COVERAGE_PATHS = [
     precedents: [
       {
         place: "Washington State",
-        note: "Cascade Select (2021) public option; limited uptake because premiums weren't much lower.",
+        note: "Cascade Select launched in 2021; about 1% of marketplace enrollees chose it in year one, as its premiums averaged about 11% above the cheapest silver plan.",
       },
       {
         place: "Australia",

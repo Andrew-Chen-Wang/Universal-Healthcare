@@ -423,7 +423,7 @@ export const MONEY_PATHS = [
     precedents: [
       {
         place: "Traditional Medicare",
-        note: "Admin costs around 2% (excluding provider-side costs).",
+        note: "Administrative costs are about 1.4% of spending per the Trustees, excluding provider-side costs and work done by Social Security and the IRS.",
       },
     ],
     pros: [
