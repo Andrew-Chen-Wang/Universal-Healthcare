@@ -84,7 +84,7 @@ export const RISK_PATHS = [
     precedents: [
       {
         place: "Canada (most provinces)",
-        note: "Limits on private payment; Chaoulli (2005) struck down Quebec's ban.",
+        note: "Limits on private payment; in Chaoulli (2005) the Supreme Court ruled 4–3 that Quebec's ban on private insurance violated the Quebec Charter, given long waits.",
       },
     ],
     pros: ["Equal care for everyone", "Keeps clinicians in the public system"],
