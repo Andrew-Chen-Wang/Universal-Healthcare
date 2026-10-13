@@ -67,6 +67,16 @@ export const COVERAGE_PATHS = [
     conflicts: ["regulated-multipayer", "public-option", "mandate-subsidies"],
     complements: ["all-payer-rates", "global-budgets"],
     costIds: ["nhe-netCostOfInsurance", "admin-total", "ind-524114"],
+    changes: [
+      "Create a national health program (or expand Medicare) covering every resident, with automatic enrollment from tax, Social Security, and immigration records",
+      "Prohibit private insurance from selling coverage that duplicates the public benefit",
+      "Fold Medicare, Medicaid, CHIP, ACA marketplace subsidies, FEHB, and TRICARE civilian coverage into the program; decide whether the VA and IHS stay separate",
+      "Replace employer premiums, employee premiums, and state Medicaid spending with dedicated taxes and maintenance-of-effort payments",
+      "Build one national enrollment, eligibility, and claims-payment system with a member card",
+      "Set one national fee schedule and/or hospital budgets, with regional adjustments",
+      "Amend ERISA so employer self-insured health plans end for covered services",
+      "Fund a worker transition program for insurer, broker, and billing staff",
+    ],
   }),
   path({
     id: "regulated-multipayer",
@@ -103,6 +113,15 @@ export const COVERAGE_PATHS = [
     conflicts: ["single-payer"],
     complements: ["all-payer-rates", "auto-enrollment"],
     requires: ["auto-enrollment"],
+    changes: [
+      "Require every resident to hold a standard plan, with automatic default enrollment for non-choosers",
+      "Require all plans to accept every applicant (guaranteed issue), charge community-rated or income-based premiums, and cover one standard benefit package",
+      "Create a central risk-adjustment fund that redistributes money between plans by enrollee health",
+      "Convert insurers to non-profit or capped-profit status for the standard benefit",
+      "Standardize claims, codes, and prior-authorization rules across all plans",
+      "Set uniform provider rates (all-payer) or require collective negotiation",
+      "Fund income-based premium subsidies",
+    ],
   }),
   path({
     id: "public-option",
@@ -137,6 +156,12 @@ export const COVERAGE_PATHS = [
     spawns: ["two-tier"],
     conflicts: ["single-payer"],
     complements: ["auto-enrollment", "medicare-age-down"],
+    changes: [
+      "Create a public plan sold on every ACA marketplace and open to employers",
+      "Set its provider rates (e.g., Medicare plus a percentage) and require Medicare-participating providers to accept it",
+      "Fund start-up reserves and risk adjustment with private plans",
+      "Auto-enroll the uninsured into the zero-premium version",
+    ],
   }),
   path({
     id: "medicare-age-down",
@@ -168,6 +193,13 @@ export const COVERAGE_PATHS = [
     mend: ["Phase hospital rate changes with each age step"],
     complements: ["public-option", "single-payer"],
     spawns: ["x-new-taxes"],
+    changes: [
+      "Amend Medicare eligibility to cover all children from birth",
+      "Lower the Medicare age in published steps (e.g., to 60, then 55, 50 ...) with a fixed schedule",
+      "Add an out-of-pocket cap and missing benefits (dental, vision, hearing) to Medicare first",
+      "Adjust the Medicare payroll tax and premiums at each step",
+      "Coordinate employer plans as secondary payers until the final step",
+    ],
   }),
   path({
     id: "auto-enrollment",
@@ -200,6 +232,12 @@ export const COVERAGE_PATHS = [
     mend: ["N/A"],
     complements: ["regulated-multipayer", "public-option"],
     worsens: ["underinsurance"],
+    changes: [
+      "Allow IRS, SSA, and state agencies to share data to identify uninsured residents",
+      "Enroll uninsured people automatically in Medicaid or a zero-premium marketplace plan",
+      "Fully fund zero-premium plans for everyone below a set income",
+      "Allow retroactive coverage for anyone who arrives at a hospital uninsured",
+    ],
   }),
   path({
     id: "mandate-subsidies",
@@ -223,6 +261,11 @@ export const COVERAGE_PATHS = [
     whoLoses: ["People who pay penalties"],
     mend: ["Exempt low-income people from penalties"],
     conflicts: ["single-payer"],
+    changes: [
+      "Restore an individual mandate penalty collected on tax returns",
+      "Raise ACA premium subsidies permanently and extend them to all incomes with a cap as a percentage of income",
+      "Exempt low-income households from penalties",
+    ],
   }),
 
   // ---- churn ----
@@ -247,6 +290,10 @@ export const COVERAGE_PATHS = [
     whoLoses: ["Budgets (slightly more enrollees)"],
     mend: ["N/A"],
     complements: ["auto-enrollment"],
+    changes: [
+      "Require 12-month continuous eligibility for adults in Medicaid and multi-year eligibility for children up to age 6",
+      "Use automated renewals with tax and benefit data (ex parte renewals)",
+    ],
   }),
   path({
     id: "churn-portable",
@@ -273,6 +320,10 @@ export const COVERAGE_PATHS = [
     whoLoses: ["Eligibility vendors and enrollment brokers"],
     mend: ["Retrain eligibility caseworkers for residence verification and navigation"],
     requires: ["single-payer"],
+    changes: [
+      "Base eligibility only on residence",
+      "Remove income and employment checks from enrollment",
+    ],
   }),
 
   // ---- job lock ----
@@ -292,6 +343,10 @@ export const COVERAGE_PATHS = [
     mend: ["Require employers to pass premium savings into wages"],
     requires: ["single-payer"],
     spawns: ["x-wage-incidence"],
+    changes: [
+      "End the tax exclusion for employer health premiums (or make it irrelevant by ending employer plans for covered services)",
+      "Require employers to report premium savings and pass them into wages for a transition period",
+    ],
   }),
   path({
     id: "joblock-portable-esi",
@@ -316,6 +371,10 @@ export const COVERAGE_PATHS = [
       "Strong individual-market rules (community rating, risk adjustment) so the pool stays healthy",
     ],
     complements: ["regulated-multipayer"],
+    changes: [
+      "Expand ICHRA so any employer can fund individual coverage tax-free",
+      "Strengthen individual-market rules (risk adjustment, reinsurance)",
+    ],
   }),
 
   // ---- underinsurance ----
@@ -339,6 +398,11 @@ export const COVERAGE_PATHS = [
     worsens: ["wait-times"],
     spawns: ["x-new-taxes"],
     conflicts: ["underins-income-cap"],
+    changes: [
+      "Set cost sharing to zero for all covered services by law",
+      "Remove deductibles and coinsurance from claims systems",
+      "Ban balance billing by participating providers",
+    ],
   }),
   path({
     id: "underins-income-cap",
@@ -360,6 +424,11 @@ export const COVERAGE_PATHS = [
     mend: ["Automatic exemptions using tax data"],
     spawns: ["x-copay-billing"],
     conflicts: ["underins-zero"],
+    changes: [
+      "Set copay schedule by service",
+      "Set annual out-of-pocket cap as a percentage of income using tax data",
+      "Automatic exemptions for low-income people, children, and chronic illness",
+    ],
   }),
   path({
     id: "underins-value-based",
@@ -387,6 +456,10 @@ export const COVERAGE_PATHS = [
     mend: ["Publish the evidence for each tier and allow appeals"],
     complements: ["lowvalue-coverage-list"],
     spawns: ["x-copay-billing"],
+    changes: [
+      "Create and publish a list of high-value services exempt from cost sharing",
+      "Assign an agency to update the list annually",
+    ],
   }),
 
   // ---- networks ----
@@ -415,6 +488,10 @@ export const COVERAGE_PATHS = [
     whoLoses: ["Insurers relying on narrow networks"],
     mend: ["N/A"],
     complements: ["all-payer-rates"],
+    changes: [
+      "Require the payer to pay any licensed, enrolled provider at the standard rate",
+      "Create one national provider enrollment and credentialing system",
+    ],
   }),
   path({
     id: "networks-adequacy",
@@ -440,6 +517,11 @@ export const COVERAGE_PATHS = [
     whoGains: ["Patients in plans with narrow networks"],
     whoLoses: ["Insurers (compliance costs)"],
     mend: ["N/A"],
+    changes: [
+      "Set national time-and-distance and wait-time standards for networks",
+      "Require monthly directory audits with fines for ghost listings",
+      "Pay out-of-network care at in-network cost sharing when standards are missed",
+    ],
   }),
 
   // ---- immigrants ----
@@ -469,6 +551,11 @@ export const COVERAGE_PATHS = [
     mend: ["N/A"],
     spawns: ["x-migration-concern"],
     conflicts: ["immigrants-lawful-only"],
+    changes: [
+      "Define eligibility by residence, with proof via lease, utility, school, or employment documents",
+      "Separate health enrollment data from immigration enforcement by law",
+      "Fund outreach in multiple languages",
+    ],
   }),
   path({
     id: "immigrants-lawful-only",
@@ -491,5 +578,10 @@ export const COVERAGE_PATHS = [
     whoLoses: ["Undocumented immigrants", "Safety-net hospitals"],
     mend: ["Fund community health centers to serve everyone"],
     conflicts: ["immigrants-all-residents"],
+    changes: [
+      "Define eligibility by citizenship or lawful presence",
+      "Keep emergency Medicaid for others",
+      "Fund community health centers to serve all residents",
+    ],
   }),
 ]

@@ -28,6 +28,11 @@ export const MONEY_PATHS = [
     mend: ["N/A"],
     costIds: ["med-debt"],
     complements: ["underins-zero", "debt-credit-rules"],
+    changes: [
+      "Appropriate funds to buy medical debt from debt buyers and hospitals",
+      "Contract with nonprofits to buy and forgive debt",
+      "Notify forgiven patients and credit bureaus",
+    ],
   }),
   path({
     id: "debt-credit-rules",
@@ -46,6 +51,12 @@ export const MONEY_PATHS = [
     whoGains: ["Patients"],
     whoLoses: ["Collection agencies", "Hospitals' collections revenue"],
     mend: ["N/A"],
+    changes: [
+      "Ban medical debt on credit reports nationally",
+      "Cap interest on medical debt at 0–3%",
+      "Ban lawsuits, liens, and wage garnishment for medical debt",
+      "Require charity-care screening before collections",
+    ],
   }),
   path({
     id: "debt-end-billing",
@@ -66,6 +77,10 @@ export const MONEY_PATHS = [
     whoLoses: ["Collections industry"],
     mend: ["Transition program for collections workers"],
     requires: ["underins-zero"],
+    changes: [
+      "Eliminate point-of-care charges for covered services",
+      "Wind down hospital patient-collections departments",
+    ],
   }),
 
   // ---- premium burden ----
@@ -85,6 +100,11 @@ export const MONEY_PATHS = [
     mend: ["Phase in rates and publish household calculators"],
     spawns: ["x-new-taxes", "x-wage-incidence"],
     requires: ["single-payer"],
+    changes: [
+      "End employer and employee premiums for covered services",
+      "Enact replacement taxes (payroll, income, or both) at published rates",
+      "Publish household calculators showing net change",
+    ],
   }),
   path({
     id: "premium-income-based",
@@ -106,6 +126,11 @@ export const MONEY_PATHS = [
     mend: ["N/A"],
     requires: ["regulated-multipayer"],
     spawns: ["x-wage-incidence"],
+    changes: [
+      "Set premiums as a percentage of wages, split between employer and employee",
+      "Create rules for self-employed and gig workers",
+      "Collect through payroll withholding",
+    ],
   }),
 
   // ---- price opacity ----
@@ -131,6 +156,10 @@ export const MONEY_PATHS = [
     whoLoses: ["Providers with high negotiated rates"],
     mend: ["Regional adjustments"],
     requires: ["all-payer-rates"],
+    changes: [
+      "Publish one national fee schedule and all hospital budgets",
+      "Ban confidential negotiated rates for covered services",
+    ],
   }),
   path({
     id: "opacity-disclosure",
@@ -149,6 +178,10 @@ export const MONEY_PATHS = [
     whoGains: ["Employers, researchers"],
     whoLoses: ["Hospitals with high prices"],
     mend: ["N/A"],
+    changes: [
+      "Raise penalties for transparency non-compliance",
+      "Standardize file formats and require patient-facing price estimates",
+    ],
   }),
 
   // ---- surprise bills ----
@@ -177,6 +210,11 @@ export const MONEY_PATHS = [
     whoLoses: ["Private equity staffing firms"],
     mend: ["N/A"],
     costIds: ["ins-idr"],
+    changes: [
+      "Set out-of-network payment at a fixed percentage of Medicare",
+      "End the independent dispute resolution process",
+      "Include ground ambulances",
+    ],
   }),
   path({
     id: "surprise-single-payer",
@@ -199,6 +237,10 @@ export const MONEY_PATHS = [
     ],
     mend: ["N/A (arbitration firms are small)"],
     requires: ["networks-any-provider"],
+    changes: [
+      "Eliminate network status for covered services",
+      "Ban balance billing by any provider that bills the program",
+    ],
   }),
 
   // ---- denials ----
@@ -226,6 +268,11 @@ export const MONEY_PATHS = [
     whoGains: ["Patients"],
     whoLoses: ["Insurers"],
     mend: ["N/A"],
+    changes: [
+      "Require insurers to publish denial rates by service and reason",
+      "Penalize insurers for denials overturned on appeal",
+      "Create fast external appeals (72 hours for urgent care)",
+    ],
   }),
   path({
     id: "denials-coverage-rules",
@@ -249,6 +296,10 @@ export const MONEY_PATHS = [
     mend: ["Transition program"],
     requires: ["single-payer"],
     spawns: ["x-central-rationing"],
+    changes: [
+      "Publish one national coverage rulebook",
+      "Create an independent appeals board with clinician reviewers",
+    ],
   }),
 
   // ---- prior auth ----
@@ -270,6 +321,11 @@ export const MONEY_PATHS = [
     whoLoses: ["Insurers"],
     mend: ["N/A"],
     costIds: ["admin-total"],
+    changes: [
+      "Exempt clinicians with high approval rates from prior authorization",
+      "Require electronic real-time decisions",
+      "Ban prior authorization for routine and chronic care",
+    ],
   }),
   path({
     id: "pa-eliminate",
@@ -294,6 +350,7 @@ export const MONEY_PATHS = [
     mend: ["N/A"],
     worsens: ["low-value-care"],
     complements: ["lowvalue-coverage-list"],
+    changes: ["Limit prior authorization to a published short list", "Fund post-payment audits"],
   }),
 
   // ---- MA upcoding ----
@@ -319,6 +376,11 @@ export const MONEY_PATHS = [
     requires: ["single-payer"],
     spawns: ["x-plan-choice"],
     costIds: ["ins-ma-partd"],
+    changes: [
+      "Stop new Medicare Advantage enrollment",
+      "Move enrollees into the public plan on a fixed date",
+      "Add dental, vision, hearing to the public plan",
+    ],
   }),
   path({
     id: "ma-reform",
@@ -342,6 +404,11 @@ export const MONEY_PATHS = [
     whoLoses: ["MA insurers"],
     mend: ["N/A"],
     spawns: ["x-metric-gaming"],
+    changes: [
+      "Use two years of diagnosis data for risk scores",
+      "Exclude diagnoses from home visits and chart reviews",
+      "Expand RADV audits with extrapolated recoveries",
+    ],
   }),
 
   // ---- insurer overhead ----
@@ -371,6 +438,10 @@ export const MONEY_PATHS = [
     requires: ["single-payer"],
     worsens: ["fraud-concentration"],
     costIds: ["ins-private-net", "ins-carrier-payroll"],
+    changes: [
+      "Create a public administering agency with a published admin-cost target",
+      "Fund customer service and integrity staff",
+    ],
   }),
   path({
     id: "overhead-mlr",
@@ -389,6 +460,11 @@ export const MONEY_PATHS = [
     mend: ["N/A"],
     requires: ["regulated-multipayer"],
     costIds: ["ins-earnings"],
+    changes: [
+      "Raise the medical-loss ratio to 90%+",
+      "Require non-profit status for standard plans",
+      "Count vertically integrated provider profits toward the MLR",
+    ],
   }),
 
   // ---- PBM ----
@@ -417,6 +493,11 @@ export const MONEY_PATHS = [
     mend: ["Transition program"],
     costIds: ["pbm-markups"],
     complements: ["drugs-negotiate"],
+    changes: [
+      "Create a national drug formulary and negotiating agency",
+      "Pay pharmacies a published dispensing fee plus acquisition cost",
+      "End PBM contracts for covered drugs",
+    ],
   }),
   path({
     id: "pbm-regulate",
@@ -436,6 +517,12 @@ export const MONEY_PATHS = [
     whoGains: ["Independent pharmacies, patients"],
     whoLoses: ["PBMs"],
     mend: ["N/A"],
+    changes: [
+      "Delink PBM pay from drug prices (flat fees)",
+      "Ban spread pricing",
+      "Require 100% rebate pass-through",
+      "Ban PBM ownership of pharmacies they steer patients to",
+    ],
   }),
 
   // ---- high prices ----
@@ -461,6 +548,12 @@ export const MONEY_PATHS = [
     solves: ["price-opacity", "consolidation", "facility-fees"],
     spawns: ["x-price-control-exit"],
     complements: ["global-budgets", "single-payer", "regulated-multipayer"],
+    changes: [
+      "Create a rate-setting commission",
+      "Require every payer to pay commission rates",
+      "Ban billing above commission rates",
+      "Publish rates and methodology",
+    ],
   }),
   path({
     id: "prices-cap",
@@ -483,6 +576,10 @@ export const MONEY_PATHS = [
     whoLoses: ["High-price hospitals"],
     mend: ["Phase in; transition funds for hospitals with low margins"],
     spawns: ["x-price-control-exit"],
+    changes: [
+      "Cap commercial payments at a set multiple of Medicare",
+      "Phase the cap in over several years",
+    ],
   }),
   path({
     id: "prices-competition",
@@ -505,6 +602,10 @@ export const MONEY_PATHS = [
     whoLoses: ["Dominant systems"],
     mend: ["N/A"],
     complements: ["consolidation-antitrust"],
+    changes: [
+      "Increase FTC funding and lower merger-review thresholds",
+      "Ban anti-tiering and all-or-nothing contract terms",
+    ],
   }),
 
   // ---- consolidation ----
@@ -525,6 +626,11 @@ export const MONEY_PATHS = [
     whoGains: ["Payers"],
     whoLoses: ["Large health systems"],
     mend: ["Exemptions for genuinely failing rural hospitals"],
+    changes: [
+      "Fund FTC and DOJ health-care enforcement",
+      "Review small physician-practice acquisitions",
+      "Allow retrospective challenges to completed mergers",
+    ],
   }),
   path({
     id: "consolidation-rates",
@@ -547,6 +653,7 @@ export const MONEY_PATHS = [
     whoLoses: ["Systems using market power"],
     mend: ["N/A"],
     requires: ["all-payer-rates"],
+    changes: ["Apply uniform rates regardless of system size"],
   }),
 
   // ---- private equity ----
@@ -567,6 +674,12 @@ export const MONEY_PATHS = [
     whoGains: ["Patients, staff"],
     whoLoses: ["PE firms"],
     mend: ["N/A"],
+    changes: [
+      "Require ownership disclosure for all providers",
+      "Ban corporate control of medical decisions",
+      "Limit sale-leasebacks",
+      "Make owners liable for stripped assets",
+    ],
   }),
   path({
     id: "pe-rates",
@@ -592,6 +705,7 @@ export const MONEY_PATHS = [
     whoLoses: ["PE firms"],
     mend: ["N/A"],
     requires: ["all-payer-rates"],
+    changes: ["Apply uniform rates and end out-of-network billing"],
   }),
 
   // ---- facility fees ----
@@ -620,6 +734,10 @@ export const MONEY_PATHS = [
     whoGains: ["Patients, payers"],
     whoLoses: ["Hospitals"],
     mend: ["Separate standby-capacity payments"],
+    changes: [
+      "Pay hospital outpatient departments the same as physician offices for the same services",
+      "Fund standby capacity separately",
+    ],
   }),
   path({
     id: "facility-ban",
@@ -634,6 +752,7 @@ export const MONEY_PATHS = [
     whoGains: ["Patients"],
     whoLoses: ["Hospital systems"],
     mend: ["N/A"],
+    changes: ["Ban facility fees for off-campus clinics"],
   }),
 
   // ---- executive pay ----
@@ -655,6 +774,10 @@ export const MONEY_PATHS = [
     whoLoses: ["Executives"],
     mend: ["N/A"],
     costIds: ["ceo-pay"],
+    changes: [
+      "Set minimum community-benefit spending for nonprofit hospitals",
+      "Tie executive pay to community benefit",
+    ],
   }),
   path({
     id: "exec-budget-review",
@@ -680,5 +803,9 @@ export const MONEY_PATHS = [
     whoLoses: ["Executives"],
     mend: ["N/A"],
     requires: ["global-budgets"],
+    changes: [
+      "Include admin and executive costs in hospital budget review",
+      "Publish executive pay",
+    ],
   }),
 ]

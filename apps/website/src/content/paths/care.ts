@@ -28,6 +28,12 @@ export const CARE_PATHS = [
     solves: ["admin-cost", "billing-jobs", "rural-hospitals"],
     spawns: ["x-budget-rationing", "x-undertreatment"],
     complements: ["all-payer-rates", "single-payer"],
+    changes: [
+      "Negotiate annual operating budgets with each hospital",
+      "Fund capital separately",
+      "Adjust budgets for population, age, and service mix",
+      "Remove per-claim billing for inpatient and outpatient hospital care",
+    ],
   }),
   path({
     id: "fee-for-service-fixed",
@@ -48,6 +54,11 @@ export const CARE_PATHS = [
     mend: ["N/A"],
     worsens: ["low-value-care"],
     requires: ["all-payer-rates"],
+    changes: [
+      "Set one national fee schedule",
+      "Revise fees every two years",
+      "Add volume controls by specialty",
+    ],
   }),
   path({
     id: "capitation",
@@ -65,6 +76,11 @@ export const CARE_PATHS = [
     whoLoses: ["Sick patients if practices avoid them"],
     mend: ["Risk-adjusted payments; quality bonuses"],
     spawns: ["x-undertreatment", "x-metric-gaming"],
+    changes: [
+      "Pay primary care practices per enrolled patient",
+      "Risk-adjust payments",
+      "Set quality and access requirements",
+    ],
   }),
 
   // ---- outcomes ----
@@ -86,6 +102,10 @@ export const CARE_PATHS = [
     whoLoses: ["Specialists, hospitals"],
     mend: ["Phase in"],
     complements: ["phys-pay-primary"],
+    changes: [
+      "Set a target share of spending for primary care",
+      "Report primary care spending annually",
+    ],
   }),
   path({
     id: "outcomes-public-health",
@@ -104,6 +124,7 @@ export const CARE_PATHS = [
     whoLoses: ["Taxpayers (unless funded from health savings)"],
     mend: ["N/A"],
     complements: ["social-needs-fund"],
+    changes: ["Fund housing, nutrition, and public-health programs from health savings"],
   }),
 
   // ---- maternal mortality ----
@@ -126,6 +147,7 @@ export const CARE_PATHS = [
     whoGains: ["New mothers and infants"],
     whoLoses: ["Taxpayers (small cost)"],
     mend: ["N/A"],
+    changes: ["Guarantee 12-month postpartum coverage", "Fund nurse home visits"],
   }),
   path({
     id: "maternal-safety-bundles",
@@ -146,6 +168,10 @@ export const CARE_PATHS = [
     whoGains: ["Mothers"],
     whoLoses: ["Hospitals (staff time for protocols)"],
     mend: ["Fund rural hospitals to adopt bundles"],
+    changes: [
+      "Require hemorrhage and hypertension protocols in all hospitals",
+      "Fund maternal mortality review committees",
+    ],
   }),
 
   // ---- safety ----
@@ -162,6 +188,10 @@ export const CARE_PATHS = [
     whoLoses: ["Clinicians (reporting time)"],
     mend: ["Legal protection for reports so clinicians are not sued based on them"],
     complements: ["malpractice-no-fault"],
+    changes: [
+      "Create a national no-blame adverse-event reporting system",
+      "Create an independent patient-safety investigation agency",
+    ],
   }),
   path({
     id: "safety-primary-home",
@@ -180,6 +210,10 @@ export const CARE_PATHS = [
     whoLoses: ["People wanting direct specialist visits"],
     mend: ["Allow self-referral for some specialties"],
     spawns: ["x-central-rationing"],
+    changes: [
+      "Register every resident with a primary care practice",
+      "Require referrals for most specialist care",
+    ],
   }),
 
   // ---- disparities ----
@@ -194,6 +228,7 @@ export const CARE_PATHS = [
     whoGains: ["Safety-net providers"],
     whoLoses: ["Providers in wealthy areas"],
     mend: ["N/A"],
+    changes: ["Add deprivation-index payments to provider rates"],
   }),
   path({
     id: "disparities-uniform",
@@ -211,6 +246,7 @@ export const CARE_PATHS = [
     whoLoses: ["Providers that relied on commercial revenue to cover Medicaid losses"],
     mend: ["N/A"],
     requires: ["all-payer-rates"],
+    changes: ["Pay one rate for every patient regardless of former coverage"],
   }),
 
   // ---- malpractice ----
@@ -227,6 +263,11 @@ export const CARE_PATHS = [
     whoLoses: ["Malpractice lawyers and insurers"],
     mend: ["N/A"],
     costIds: ["liability-total", "liability-defensive"],
+    changes: [
+      "Create a no-fault injury compensation fund",
+      "Replace most malpractice lawsuits",
+      "Separate discipline from compensation",
+    ],
   }),
   path({
     id: "malpractice-safe-harbor",
@@ -239,6 +280,7 @@ export const CARE_PATHS = [
     whoGains: ["Clinicians"],
     whoLoses: ["Patients harmed by guideline care"],
     mend: ["Pair with a no-fault fund"],
+    changes: ["Protect clinicians who follow recognized guidelines from liability"],
   }),
 
   // ---- admin cost ----
@@ -260,6 +302,7 @@ export const CARE_PATHS = [
     mend: ["Retrain clearinghouse staff"],
     requires: ["single-payer"],
     costIds: ["admin-total", "admin-hospital-collection"],
+    changes: ["Build one national claims system with standard codes", "Pay claims in real time"],
   }),
   path({
     id: "admin-standardize",
@@ -274,6 +317,7 @@ export const CARE_PATHS = [
     whoLoses: ["Clearinghouses"],
     mend: ["N/A"],
     complements: ["regulated-multipayer"],
+    changes: ["Require identical forms, codes, prior-auth rules, and credentialing across payers"],
   }),
 
   // ---- billing jobs ----
@@ -294,6 +338,7 @@ export const CARE_PATHS = [
     whoGains: ["Displaced workers"],
     whoLoses: ["Taxpayers"],
     mend: ["N/A"],
+    changes: ["Fund wage replacement, retraining, and placement for displaced workers"],
   }),
   path({
     id: "billing-redeploy",
@@ -306,6 +351,7 @@ export const CARE_PATHS = [
     whoGains: ["Displaced billing staff"],
     whoLoses: ["N/A"],
     mend: ["N/A"],
+    changes: ["Hire displaced billing staff into navigation and scheduling roles"],
   }),
 
   // ---- low-value care ----
@@ -322,6 +368,7 @@ export const CARE_PATHS = [
     mend: ["N/A"],
     spawns: ["x-central-rationing"],
     costIds: ["waste-lowvalue"],
+    changes: ["Create an evidence-review agency", "Stop covering services proven ineffective"],
   }),
   path({
     id: "lowvalue-nudges",
@@ -334,6 +381,7 @@ export const CARE_PATHS = [
     whoGains: ["Patients"],
     whoLoses: ["Clinicians (alert fatigue)"],
     mend: ["N/A"],
+    changes: ["Report low-value care rates to clinicians", "Add EHR alerts"],
   }),
 
   // ---- fraud ----
@@ -349,6 +397,7 @@ export const CARE_PATHS = [
     whoLoses: ["Fraudsters"],
     mend: ["Fast appeals for flagged claims"],
     costIds: ["fraud-low", "fraud-high", "improper-medicare"],
+    changes: ["Run real-time fraud analytics on all claims", "Fund audits and prosecution"],
   }),
   path({
     id: "fraud-enrollment",
@@ -362,6 +411,10 @@ export const CARE_PATHS = [
     whoGains: ["Taxpayers"],
     whoLoses: ["New providers"],
     mend: ["N/A"],
+    changes: [
+      "Require background checks and site visits for new providers",
+      "Use moratoria in high-fraud categories",
+    ],
   }),
 
   // ---- mental health ----
@@ -376,6 +429,7 @@ export const CARE_PATHS = [
     whoGains: ["Patients", "Therapists and psychiatrists"],
     whoLoses: ["Taxpayers"],
     mend: ["N/A"],
+    changes: ["Raise mental health rates to parity with medical care"],
   }),
   path({
     id: "mh-stepped",
@@ -390,6 +444,11 @@ export const CARE_PATHS = [
     whoLoses: ["Therapists in private practice (competition)"],
     mend: ["N/A"],
     spawns: ["x-metric-gaming"],
+    changes: [
+      "Allow self-referral to talking therapies",
+      "Fund collaborative care in primary care",
+      "Fund crisis lines",
+    ],
   }),
 
   // ---- addiction ----
@@ -407,6 +466,10 @@ export const CARE_PATHS = [
     whoGains: ["People with addiction", "Families"],
     whoLoses: ["Residential programs that don't offer medication"],
     mend: ["N/A"],
+    changes: [
+      "Allow any clinician to prescribe buprenorphine",
+      "Allow methadone in pharmacies and primary care",
+    ],
   }),
   path({
     id: "addiction-harm-reduction",
@@ -419,6 +482,7 @@ export const CARE_PATHS = [
     whoGains: ["People who use drugs"],
     whoLoses: ["Neighborhoods hosting sites (perceived disorder)"],
     mend: ["Site selection with community input"],
+    changes: ["Fund naloxone, drug checking, and supervised consumption sites"],
   }),
 
   // ---- LTC ----
@@ -441,6 +505,11 @@ export const CARE_PATHS = [
     mend: ["N/A"],
     spawns: ["x-woodwork", "x-new-taxes"],
     costIds: ["nhe-nursing", "nhe-homeHealth"],
+    changes: [
+      "Create universal long-term care insurance",
+      "Fund through a dedicated contribution",
+      "Create need-based assessments",
+    ],
   }),
   path({
     id: "ltc-medicaid-expand",
@@ -459,6 +528,7 @@ export const CARE_PATHS = [
     whoGains: ["Low-income older adults"],
     whoLoses: ["Taxpayers"],
     mend: ["N/A"],
+    changes: ["End HCBS waitlists", "Raise Medicaid asset limits"],
   }),
   path({
     id: "ltc-catastrophic",
@@ -474,6 +544,7 @@ export const CARE_PATHS = [
     whoGains: ["People with long care needs"],
     whoLoses: ["Taxpayers"],
     mend: ["N/A"],
+    changes: ["Create public LTC coverage after a waiting period"],
   }),
 
   // ---- nursing home quality ----
@@ -493,6 +564,11 @@ export const CARE_PATHS = [
     mend: ["Fund through rates"],
     spawns: ["x-staffing-mandate-cost"],
     costIds: ["nursing-home-payroll", "aides-payroll"],
+    changes: [
+      "Set minimum staffing",
+      "Require disclosure of related-party payments",
+      "Set minimum spending on care",
+    ],
   }),
   path({
     id: "nh-small-homes",
@@ -505,6 +581,7 @@ export const CARE_PATHS = [
     whoGains: ["Residents"],
     whoLoses: ["Large operators"],
     mend: ["N/A"],
+    changes: ["Fund small-house models and home care"],
   }),
 
   // ---- hospice ----
@@ -527,6 +604,11 @@ export const CARE_PATHS = [
     whoLoses: ["Fraudulent operators"],
     mend: ["N/A"],
     costIds: ["hospice-medicare"],
+    changes: [
+      "Use enrollment moratoria in high-fraud areas",
+      "Audit long stays",
+      "Require ownership disclosure",
+    ],
   }),
   path({
     id: "hospice-nonprofit",
@@ -539,6 +621,7 @@ export const CARE_PATHS = [
     whoGains: ["Patients"],
     whoLoses: ["For-profit operators"],
     mend: ["Buyout or conversion"],
+    changes: ["Require non-profit or public hospice providers"],
   }),
 
   // ---- dental ----
@@ -557,6 +640,7 @@ export const CARE_PATHS = [
     mend: ["N/A"],
     costIds: ["nhe-dental"],
     worsens: ["wait-times"],
+    changes: ["Add dental, vision, and hearing to the standard benefit"],
   }),
   path({
     id: "dental-basic",
@@ -573,6 +657,7 @@ export const CARE_PATHS = [
     whoLoses: ["People needing major dental work"],
     mend: ["N/A"],
     spawns: ["x-copay-billing"],
+    changes: ["Cover preventive and basic dental", "Cover hearing aids and glasses with limits"],
   }),
 
   // ---- prevention ----
@@ -588,6 +673,7 @@ export const CARE_PATHS = [
     whoLoses: ["Treatment budgets (competition)"],
     mend: ["N/A"],
     costIds: ["nhe-publicHealth"],
+    changes: ["Set a fixed share of health spending for public health"],
   }),
   path({
     id: "prevention-free",
@@ -600,6 +686,7 @@ export const CARE_PATHS = [
     whoGains: ["Everyone"],
     whoLoses: ["Taxpayers"],
     mend: ["N/A"],
+    changes: ["Cover preventive services without cost sharing"],
   }),
 
   // ---- social needs ----
@@ -620,6 +707,7 @@ export const CARE_PATHS = [
     whoGains: ["Low-income patients"],
     whoLoses: ["Health budgets"],
     mend: ["N/A"],
+    changes: ["Allow health budgets to pay for housing support, meals, and rides"],
   }),
   path({
     id: "social-needs-separate",
@@ -640,6 +728,7 @@ export const CARE_PATHS = [
     whoGains: ["Health budgets"],
     whoLoses: ["Patients whose social needs fall through the cracks"],
     mend: ["Fund social workers in clinics to connect patients with outside programs"],
+    changes: ["Fund housing and food programs directly"],
   }),
 
   // ---- interoperability ----
@@ -655,6 +744,7 @@ export const CARE_PATHS = [
     whoLoses: ["EHR vendors"],
     mend: ["Retrain staff; keep vendors as contractors"],
     worsens: ["privacy", "cybersecurity"],
+    changes: ["Create a national health record and patient ID"],
   }),
   path({
     id: "interop-standards",
@@ -667,6 +757,7 @@ export const CARE_PATHS = [
     whoGains: ["Patients", "App developers"],
     whoLoses: ["EHR vendors that profit from lock-in"],
     mend: ["N/A"],
+    changes: ["Enforce FHIR APIs", "Ban information blocking"],
   }),
 
   // ---- cybersecurity ----
@@ -683,6 +774,7 @@ export const CARE_PATHS = [
     whoGains: ["Providers", "Patients"],
     whoLoses: ["Small providers (compliance cost)"],
     mend: ["Grants for small and rural providers"],
+    changes: ["Set minimum security standards", "Create backup payment systems"],
   }),
   path({
     id: "cyber-redundant",
@@ -700,6 +792,7 @@ export const CARE_PATHS = [
     whoGains: ["Everyone"],
     whoLoses: ["Taxpayers (cost)"],
     mend: ["N/A"],
+    changes: ["Run claims on redundant public infrastructure with offline fallback"],
   }),
 
   // ---- privacy ----
@@ -714,6 +807,7 @@ export const CARE_PATHS = [
     whoGains: ["Patients"],
     whoLoses: ["Data brokers"],
     mend: ["Research exemptions with safeguards"],
+    changes: ["Extend privacy protections to apps and data brokers"],
   }),
   path({
     id: "privacy-opt-out",
@@ -726,5 +820,6 @@ export const CARE_PATHS = [
     whoGains: ["Privacy-conscious patients"],
     whoLoses: ["Researchers"],
     mend: ["N/A"],
+    changes: ["Create an opt-out of national record sharing"],
   }),
 ]

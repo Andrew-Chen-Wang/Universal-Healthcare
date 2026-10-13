@@ -24,6 +24,7 @@ export const DERIVED_PATHS = [
     whoLoses: ["N/A"],
     mend: ["N/A"],
     spawns: ["x-metric-gaming"],
+    changes: ["Publish service metrics", "Create an ombudsman with enforcement power"],
   }),
   path({
     id: "choice-supplemental",
@@ -41,6 +42,7 @@ export const DERIVED_PATHS = [
     mend: ["N/A"],
     spawns: ["x-copay-billing"],
     complements: ["twotier-supplemental"],
+    changes: ["Allow supplemental plans for extras"],
   }),
   path({
     id: "choice-regional-plans",
@@ -60,6 +62,7 @@ export const DERIVED_PATHS = [
     whoLoses: ["N/A"],
     mend: ["N/A"],
     requires: ["capitation"],
+    changes: ["Let people choose among public care organizations paid by capitation"],
   }),
 
   // ---- new taxes ----
@@ -76,6 +79,7 @@ export const DERIVED_PATHS = [
     whoLoses: ["Firms that did not"],
     mend: ["Phase in for small businesses"],
     spawns: ["x-wage-incidence"],
+    changes: ["Enact a health payroll tax split between employer and employee"],
   }),
   path({
     id: "tax-income",
@@ -88,6 +92,7 @@ export const DERIVED_PATHS = [
     whoGains: ["Low- and middle-income households"],
     whoLoses: ["High earners"],
     mend: ["N/A"],
+    changes: ["Enact a progressive health income tax including capital income"],
   }),
   path({
     id: "tax-vat",
@@ -102,6 +107,7 @@ export const DERIVED_PATHS = [
     whoGains: ["N/A"],
     whoLoses: ["Low-income consumers (without rebates)"],
     mend: ["Per-person rebate"],
+    changes: ["Enact a VAT dedicated to health with per-person rebates"],
   }),
   path({
     id: "tax-mix",
@@ -115,6 +121,9 @@ export const DERIVED_PATHS = [
     whoGains: ["N/A"],
     whoLoses: ["N/A"],
     mend: ["N/A"],
+    changes: [
+      "Combine redirected spending, employer contributions, and income-based contributions",
+    ],
   }),
 
   // ---- wage incidence ----
@@ -129,6 +138,7 @@ export const DERIVED_PATHS = [
     whoGains: ["Low-wage workers"],
     whoLoses: ["Taxpayers (less revenue)"],
     mend: ["N/A"],
+    changes: ["Phase in employer taxes for small and low-wage firms"],
   }),
   path({
     id: "wage-no-employer",
@@ -142,6 +152,10 @@ export const DERIVED_PATHS = [
     whoLoses: ["Households"],
     mend: ["N/A"],
     requires: ["tax-income"],
+    changes: [
+      "Fund health from households only",
+      "Require wage pass-through for a transition period",
+    ],
   }),
 
   // ---- copay billing ----
@@ -170,6 +184,7 @@ export const DERIVED_PATHS = [
     whoLoses: ["Billing and collections vendors"],
     mend: ["Transition program for collections staff"],
     complements: ["underins-income-cap"],
+    changes: ["Create a charge ledger", "Cap charges by income", "Settle annually on tax returns"],
   }),
   path({
     id: "copay-none",
@@ -186,6 +201,7 @@ export const DERIVED_PATHS = [
     mend: ["N/A"],
     requires: ["underins-zero"],
     worsens: ["wait-times"],
+    changes: ["Remove all point-of-care charges"],
   }),
   path({
     id: "copay-flat-small",
@@ -204,6 +220,7 @@ export const DERIVED_PATHS = [
     whoGains: ["Taxpayers"],
     whoLoses: ["Near-poor patients"],
     mend: ["Prepayment certificates that cap annual charges"],
+    changes: ["Set a few flat fees with exemptions"],
   }),
 
   // ---- central rationing ----
@@ -225,6 +242,7 @@ export const DERIVED_PATHS = [
     whoGains: ["Patients overall (consistent rules)"],
     whoLoses: ["Makers of low-value products"],
     mend: ["Exceptional-case route for individual patients"],
+    changes: ["Create an independent coverage agency with public meetings and appeals"],
   }),
   path({
     id: "rationing-no-qaly",
@@ -245,6 +263,7 @@ export const DERIVED_PATHS = [
     mend: ["N/A"],
     worsens: ["underfunding"],
     conflicts: ["rationing-transparent-hta"],
+    changes: ["Ban cost-per-QALY thresholds"],
   }),
   path({
     id: "rationing-clinician-exceptions",
@@ -261,6 +280,7 @@ export const DERIVED_PATHS = [
     whoLoses: ["N/A"],
     mend: ["N/A"],
     complements: ["rationing-transparent-hta"],
+    changes: ["Create a fast clinician exception process"],
   }),
 
   // ---- budget rationing ----
@@ -282,6 +302,7 @@ export const DERIVED_PATHS = [
     whoGains: ["Patients, hospitals in growing areas"],
     whoLoses: ["Budget holders"],
     mend: ["N/A"],
+    changes: ["Adjust budgets for population, age, and volume"],
   }),
   path({
     id: "budget-mixed",
@@ -301,6 +322,7 @@ export const DERIVED_PATHS = [
     whoLoses: ["N/A"],
     mend: ["N/A"],
     requires: ["waits-activity-pay"],
+    changes: ["Pay base budgets plus activity payments"],
   }),
   path({
     id: "budget-guarantee",
@@ -315,6 +337,7 @@ export const DERIVED_PATHS = [
     whoLoses: ["Slow hospitals"],
     mend: ["N/A"],
     requires: ["waits-guarantee"],
+    changes: ["Charge late hospitals for care elsewhere"],
   }),
 
   // ---- undertreatment ----
@@ -336,6 +359,7 @@ export const DERIVED_PATHS = [
     whoLoses: ["N/A"],
     mend: ["N/A"],
     spawns: ["x-metric-gaming"],
+    changes: ["Risk-adjust capitated payments", "Monitor access and outcomes"],
   }),
   path({
     id: "under-blend",
@@ -352,6 +376,7 @@ export const DERIVED_PATHS = [
     whoGains: ["Patients with complex needs"],
     whoLoses: ["N/A"],
     mend: ["N/A"],
+    changes: ["Blend capitation with fees"],
   }),
   path({
     id: "under-salary",
@@ -367,6 +392,7 @@ export const DERIVED_PATHS = [
     whoGains: ["Clinicians wanting stability"],
     whoLoses: ["High-volume clinicians"],
     mend: ["Productivity bonuses"],
+    changes: ["Pay clinicians salaries in public or nonprofit groups"],
   }),
 
   // ---- price limits causing exit ----
@@ -383,6 +409,7 @@ export const DERIVED_PATHS = [
     whoLoses: ["Budgets"],
     mend: ["N/A"],
     complements: ["shortages-pay-reliability"],
+    changes: ["Set price floors and long-term contracts for essential products"],
   }),
   path({
     id: "exit-monitoring",
@@ -398,6 +425,7 @@ export const DERIVED_PATHS = [
     whoGains: ["Patients"],
     whoLoses: ["N/A"],
     mend: ["N/A"],
+    changes: ["Track launches and discontinuations", "Raise prices when supply falls"],
   }),
   path({
     id: "exit-launch-rules",
@@ -410,6 +438,7 @@ export const DERIVED_PATHS = [
     whoGains: ["Patients"],
     whoLoses: ["Manufacturers"],
     mend: ["N/A"],
+    changes: ["Tie favorable pricing to prompt U.S. launch"],
   }),
 
   // ---- public R&D priorities ----
@@ -425,6 +454,7 @@ export const DERIVED_PATHS = [
     whoGains: ["Researchers"],
     whoLoses: ["N/A"],
     mend: ["N/A"],
+    changes: ["Keep peer review", "Set aside funds for high-risk research"],
   }),
   path({
     id: "rdpri-mixed",
@@ -437,6 +467,7 @@ export const DERIVED_PATHS = [
     whoGains: ["N/A"],
     whoLoses: ["N/A"],
     mend: ["N/A"],
+    changes: ["Fund only neglected areas publicly"],
   }),
 
   // ---- scope quality ----
@@ -454,6 +485,7 @@ export const DERIVED_PATHS = [
     whoGains: ["Patients"],
     whoLoses: ["N/A"],
     mend: ["N/A"],
+    changes: ["Publish outcomes by clinician type"],
   }),
   path({
     id: "scopeq-transition-period",
@@ -468,6 +500,7 @@ export const DERIVED_PATHS = [
     whoGains: ["Patients"],
     whoLoses: ["New NPs"],
     mend: ["N/A"],
+    changes: ["Require supervised hours before independence"],
   }),
 
   // ---- staffing mandates ----
@@ -484,6 +517,7 @@ export const DERIVED_PATHS = [
     whoLoses: ["N/A"],
     mend: ["N/A"],
     complements: ["nurse-pipeline"],
+    changes: ["Phase staffing rules with workforce growth"],
   }),
   path({
     id: "staffing-waivers",
@@ -496,6 +530,7 @@ export const DERIVED_PATHS = [
     whoGains: ["Rural facilities"],
     whoLoses: ["Residents of waived facilities"],
     mend: ["N/A"],
+    changes: ["Allow time-limited hardship waivers"],
   }),
 
   // ---- woodwork ----
@@ -512,6 +547,7 @@ export const DERIVED_PATHS = [
     whoGains: ["Taxpayers"],
     whoLoses: ["People just below thresholds"],
     mend: ["N/A"],
+    changes: ["Create independent needs assessment with tiered benefits"],
   }),
   path({
     id: "woodwork-cash",
@@ -529,6 +565,7 @@ export const DERIVED_PATHS = [
     whoGains: ["Family caregivers"],
     whoLoses: ["N/A"],
     mend: ["N/A"],
+    changes: ["Offer a cash benefit for family caregivers"],
   }),
 
   // ---- migration ----
@@ -546,6 +583,10 @@ export const DERIVED_PATHS = [
     whoGains: ["Taxpayers"],
     whoLoses: ["New arrivals"],
     mend: ["Cover children and pregnancy immediately"],
+    changes: [
+      "Require a residence period before full coverage",
+      "Cover emergencies, children, and pregnancy immediately",
+    ],
   }),
   path({
     id: "migration-no-wait",
@@ -563,6 +604,7 @@ export const DERIVED_PATHS = [
     whoGains: ["Immigrants"],
     whoLoses: ["Taxpayers"],
     mend: ["N/A"],
+    changes: ["Cover all residents from day one"],
   }),
 
   // ---- metric gaming ----
@@ -578,6 +620,7 @@ export const DERIVED_PATHS = [
     whoGains: ["Patients"],
     whoLoses: ["N/A"],
     mend: ["N/A"],
+    changes: ["Audit a short list of measures"],
   }),
   path({
     id: "gaming-no-pay",
@@ -597,6 +640,7 @@ export const DERIVED_PATHS = [
     whoGains: ["N/A"],
     whoLoses: ["N/A"],
     mend: ["N/A"],
+    changes: ["Publish measures without tying pay"],
   }),
 
   // ---- state control ----
@@ -612,6 +656,7 @@ export const DERIVED_PATHS = [
     whoGains: ["States"],
     whoLoses: ["N/A"],
     mend: ["N/A"],
+    changes: ["Let states administer under national rules"],
   }),
   path({
     id: "state-moe",
@@ -629,5 +674,6 @@ export const DERIVED_PATHS = [
     whoGains: ["Federal budget"],
     whoLoses: ["States"],
     mend: ["N/A"],
+    changes: ["Require state maintenance-of-effort payments"],
   }),
 ]

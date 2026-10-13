@@ -130,6 +130,18 @@ export default async function PathPage({ params }: { params: Params }) {
       </section>
 
       <section className="mb-10">
+        <h2 className="mb-1 text-xl font-semibold">Concrete changes if chosen</h2>
+        <p className="mb-3 text-sm text-muted-foreground">
+          What would actually have to change in law, agencies, payment rules, or systems.
+        </p>
+        <ol className="list-decimal space-y-1.5 rounded-md border border-rule bg-card py-3 pr-4 pl-9 text-sm">
+          {p.changes?.map((c) => (
+            <li key={c}>{c}</li>
+          ))}
+        </ol>
+      </section>
+
+      <section className="mb-10">
         <h2 className="mb-3 text-xl font-semibold">Pros and drawbacks</h2>
         <ProsCons
           pros={p.pros.map((point) => ({ point }))}

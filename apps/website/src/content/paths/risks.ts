@@ -24,6 +24,10 @@ export const RISK_PATHS = [
     whoLoses: ["Slow providers"],
     mend: ["N/A"],
     spawns: ["x-metric-gaming"],
+    changes: [
+      "Set legal maximum waits by service",
+      "Let patients go elsewhere at payer cost when exceeded",
+    ],
   }),
   path({
     id: "waits-capacity",
@@ -37,6 +41,7 @@ export const RISK_PATHS = [
     whoLoses: ["Taxpayers"],
     mend: ["N/A"],
     complements: ["phys-residency", "nurse-pipeline", "scope-expand"],
+    changes: ["Expand workforce and facilities before coverage starts"],
   }),
   path({
     id: "waits-activity-pay",
@@ -50,6 +55,7 @@ export const RISK_PATHS = [
     whoLoses: ["Budgets"],
     mend: ["N/A"],
     complements: ["global-budgets"],
+    changes: ["Pay extra for procedures beyond baseline volume"],
   }),
 
   // ---- two-tier ----
@@ -65,6 +71,10 @@ export const RISK_PATHS = [
     whoLoses: ["Public patients if clinicians move"],
     mend: ["Require minimum public hours"],
     conflicts: ["twotier-ban"],
+    changes: [
+      "Allow private insurance for covered services",
+      "Require minimum public hours for clinicians",
+    ],
   }),
   path({
     id: "twotier-ban",
@@ -83,6 +93,7 @@ export const RISK_PATHS = [
     whoLoses: ["People wanting faster care"],
     mend: ["Strong wait-time guarantees"],
     conflicts: ["twotier-allow"],
+    changes: ["Ban duplicate private insurance for covered services"],
   }),
   path({
     id: "twotier-supplemental",
@@ -95,6 +106,7 @@ export const RISK_PATHS = [
     whoGains: ["People who want extras"],
     whoLoses: ["N/A"],
     mend: ["N/A"],
+    changes: ["Allow private insurance only for non-covered items"],
   }),
 
   // ---- underfunding ----
@@ -126,6 +138,10 @@ export const RISK_PATHS = [
     mend: ["Pair with a spending-growth target that triggers review"],
     spawns: ["x-new-taxes"],
     conflicts: ["underfunding-annual"],
+    changes: [
+      "Create a health trust fund with dedicated revenue",
+      "Index funding to costs and demographics",
+    ],
   }),
   path({
     id: "underfunding-annual",
@@ -151,6 +167,7 @@ export const RISK_PATHS = [
     mend: ["A legal floor (e.g., per-capita spending cannot fall in real terms)"],
     spawns: ["x-budget-rationing"],
     conflicts: ["underfunding-trust-fund"],
+    changes: ["Fund health through annual appropriations", "Set a real per-capita spending floor"],
   }),
   path({
     id: "underfunding-target",
@@ -173,6 +190,10 @@ export const RISK_PATHS = [
     mend: ["N/A"],
     complements: ["underfunding-trust-fund", "global-budgets"],
     spawns: ["x-metric-gaming"],
+    changes: [
+      "Create an independent board with a spending-growth target",
+      "Require public justification for departures",
+    ],
   }),
 
   // ---- capital ----
@@ -198,6 +219,7 @@ export const RISK_PATHS = [
     costIds: ["cap-structures", "nhe-structures"],
     complements: ["global-budgets"],
     spawns: ["x-budget-rationing"],
+    changes: ["Create a separate capital budget allocated by regional need"],
   }),
   path({
     id: "capital-in-rates",
@@ -217,6 +239,7 @@ export const RISK_PATHS = [
     whoLoses: ["Poorer hospitals"],
     mend: ["N/A"],
     complements: ["fee-for-service-fixed"],
+    changes: ["Add a capital component to provider rates"],
   }),
 
   // ---- innovation ----
@@ -239,6 +262,10 @@ export const RISK_PATHS = [
     whoLoses: ["Budgets"],
     mend: ["Rebate the difference if the reassessed price is lower"],
     complements: ["drugs-negotiate", "rd-value-pricing"],
+    changes: [
+      "Cover new drugs at launch with provisional prices",
+      "Reset prices after evidence review",
+    ],
   }),
   path({
     id: "innovation-public-rd",
@@ -260,6 +287,7 @@ export const RISK_PATHS = [
     mend: ["N/A"],
     requires: ["rd-public-fund"],
     spawns: ["x-public-rd-priorities"],
+    changes: ["Dedicate a share of drug savings to research"],
   }),
   path({
     id: "innovation-accept",
@@ -279,6 +307,7 @@ export const RISK_PATHS = [
     whoLoses: ["Patients needing the newest drugs", "Manufacturers"],
     mend: ["Exceptional-access route for individual patients"],
     spawns: ["x-central-rationing"],
+    changes: ["Require assessment before coverage", "Create an exceptional-access route"],
   }),
 
   // ---- provider exit ----
@@ -301,6 +330,7 @@ export const RISK_PATHS = [
     whoLoses: ["Taxpayers (savings delayed)"],
     mend: ["N/A"],
     complements: ["all-payer-rates", "prices-cap"],
+    changes: ["Phase rate changes over several years"],
   }),
   path({
     id: "exit-opt-out-rules",
@@ -318,6 +348,7 @@ export const RISK_PATHS = [
     whoLoses: ["Clinicians wanting both public and private patients"],
     mend: ["N/A"],
     complements: ["twotier-ban"],
+    changes: ["Require opted-out clinicians to stay out for a set period"],
   }),
   path({
     id: "exit-workforce-buffer",
@@ -333,6 +364,7 @@ export const RISK_PATHS = [
     mend: ["N/A"],
     requires: ["admin-one-claims"],
     complements: ["malpractice-no-fault", "debt-free-school"],
+    changes: ["Reduce billing overhead, malpractice costs, and debt for clinicians"],
   }),
 
   // ---- transition disruption ----
@@ -355,6 +387,7 @@ export const RISK_PATHS = [
     mend: ["N/A"],
     conflicts: ["transition-big-bang"],
     complements: ["medicare-age-down"],
+    changes: ["Move groups in waves over 4+ years"],
   }),
   path({
     id: "transition-big-bang",
@@ -375,6 +408,7 @@ export const RISK_PATHS = [
     mend: ["Large up-front worker transition program"],
     conflicts: ["transition-phased"],
     complements: ["billing-transition"],
+    changes: ["Switch everyone in one or two years after preparation"],
   }),
   path({
     id: "transition-pilot-states",
@@ -392,6 +426,7 @@ export const RISK_PATHS = [
     whoLoses: ["N/A"],
     mend: ["N/A"],
     spawns: ["x-state-control"],
+    changes: ["Fund volunteer state pilots", "Evaluate before national roll-out"],
   }),
 
   // ---- fraud concentration ----
@@ -414,6 +449,7 @@ export const RISK_PATHS = [
     whoLoses: ["Fraudsters"],
     mend: ["N/A"],
     complements: ["fraud-analytics", "fraud-enrollment"],
+    changes: ["Reserve a share of admin spending for program integrity"],
   }),
   path({
     id: "fraudconc-regional",
@@ -432,5 +468,6 @@ export const RISK_PATHS = [
     mend: ["N/A"],
     complements: ["cyber-redundant"],
     spawns: ["x-metric-gaming"],
+    changes: ["Split claims processing among regional administrators"],
   }),
 ]

@@ -28,6 +28,11 @@ export const SUPPLY_PATHS = [
     spawns: ["x-price-control-exit", "x-central-rationing"],
     worsens: ["innovation-slowdown"],
     costIds: ["nhe-prescriptionDrugs"],
+    changes: [
+      "Extend national negotiation to all drugs for all payers",
+      "Use international prices and added-benefit assessments as benchmarks",
+      "Apply an excise tax or exclusion if manufacturers refuse to negotiate",
+    ],
   }),
   path({
     id: "drugs-reference",
@@ -44,6 +49,10 @@ export const SUPPLY_PATHS = [
     whoLoses: ["Manufacturers"],
     mend: ["N/A"],
     spawns: ["x-price-control-exit"],
+    changes: [
+      "Cap prices at the median of a basket of peer countries",
+      "Require manufacturers to report foreign prices",
+    ],
   }),
   path({
     id: "drugs-public-manufacture",
@@ -64,6 +73,10 @@ export const SUPPLY_PATHS = [
     mend: ["N/A"],
     solves: ["shortages"],
     costIds: ["insulin-cost"],
+    changes: [
+      "Fund a public or nonprofit manufacturer for off-patent drugs with high prices or shortages",
+      "Guarantee volume purchases",
+    ],
   }),
 
   // ---- patents ----
@@ -88,6 +101,11 @@ export const SUPPLY_PATHS = [
     whoGains: ["Patients, generic makers"],
     whoLoses: ["Brand manufacturers"],
     mend: ["N/A"],
+    changes: [
+      "Limit the number of patents asserted per drug",
+      "End exclusivity extensions for minor changes",
+      "Ban pay-for-delay settlements",
+    ],
   }),
   path({
     id: "patents-march-in",
@@ -102,6 +120,11 @@ export const SUPPLY_PATHS = [
     whoLoses: ["Patent holders"],
     mend: ["Pay reasonable royalties"],
     worsens: ["innovation-slowdown"],
+    changes: [
+      "Define march-in triggers for price and access",
+      "Use 28 U.S.C. 1498 for government-use licenses",
+      "Set royalty formulas",
+    ],
   }),
   path({
     id: "patents-keep",
@@ -120,6 +143,7 @@ export const SUPPLY_PATHS = [
     whoLoses: ["Patients"],
     mend: ["N/A"],
     complements: ["drugs-negotiate"],
+    changes: ["No patent-law changes; rely on negotiation"],
   }),
 
   // ---- R&D ----
@@ -142,6 +166,10 @@ export const SUPPLY_PATHS = [
     mend: ["N/A"],
     spawns: ["x-public-rd-priorities"],
     costIds: ["pharma-rd", "nhe-research"],
+    changes: [
+      "Increase NIH and late-stage trial funding",
+      "Create a public clinical-trial network",
+    ],
   }),
   path({
     id: "rd-prizes",
@@ -165,6 +193,10 @@ export const SUPPLY_PATHS = [
     whoLoses: ["Taxpayers (prize funding)"],
     mend: ["N/A"],
     spawns: ["x-public-rd-priorities"],
+    changes: [
+      "Create a prize fund for set goals",
+      "Set advance market commitments for antibiotics",
+    ],
   }),
   path({
     id: "rd-value-pricing",
@@ -182,6 +214,10 @@ export const SUPPLY_PATHS = [
     mend: ["N/A"],
     spawns: ["x-central-rationing"],
     complements: ["drugs-negotiate"],
+    changes: [
+      "Create a health-technology-assessment agency",
+      "Tie negotiated prices to added-benefit ratings",
+    ],
   }),
 
   // ---- shortages ----
@@ -203,6 +239,10 @@ export const SUPPLY_PATHS = [
     whoLoses: ["Payers (higher costs)"],
     mend: ["N/A"],
     costIds: ["hosp-drugs"],
+    changes: [
+      "Pay premiums for redundant, quality-rated supply chains",
+      "Use long-term contracts with minimum volumes",
+    ],
   }),
   path({
     id: "shortages-stockpile",
@@ -224,6 +264,10 @@ export const SUPPLY_PATHS = [
     whoLoses: ["Taxpayers"],
     mend: ["N/A"],
     complements: ["drugs-public-manufacture"],
+    changes: [
+      "Maintain buffer stocks of essential drugs",
+      "Fund domestic production of active ingredients",
+    ],
   }),
 
   // ---- pharmacy deserts ----
@@ -244,6 +288,7 @@ export const SUPPLY_PATHS = [
     mend: ["N/A"],
     costIds: ["pharmacy-payroll"],
     complements: ["pbm-public", "pbm-regulate"],
+    changes: ["Set a transparent dispensing fee covering costs", "Add rural pharmacy payments"],
   }),
   path({
     id: "pharmacy-mail-telehealth",
@@ -261,6 +306,7 @@ export const SUPPLY_PATHS = [
     whoGains: ["Rural patients"],
     whoLoses: ["Local pharmacies"],
     mend: ["N/A"],
+    changes: ["Allow remote pharmacist supervision in all states", "Cover mail delivery"],
   }),
 
   // ---- rural hospitals ----
@@ -290,6 +336,7 @@ export const SUPPLY_PATHS = [
     mend: ["N/A"],
     requires: ["global-budgets"],
     spawns: ["x-budget-rationing"],
+    changes: ["Give rural hospitals fixed annual budgets", "Adjust for service changes"],
   }),
   path({
     id: "rural-convert",
@@ -313,6 +360,10 @@ export const SUPPLY_PATHS = [
     mend: ["Fund transport"],
     worsens: ["maternity-deserts"],
     complements: ["transport-fund"],
+    changes: [
+      "Expand Rural Emergency Hospital eligibility",
+      "Fund transfer agreements and transport",
+    ],
   }),
 
   // ---- maternity deserts ----
@@ -329,6 +380,7 @@ export const SUPPLY_PATHS = [
     whoGains: ["Rural mothers and families"],
     whoLoses: ["Taxpayers (standby cost)"],
     mend: ["Link standby funding to quality requirements and transfer agreements"],
+    changes: ["Pay rural labor units a fixed readiness payment"],
   }),
   path({
     id: "maternity-midwives",
@@ -346,6 +398,11 @@ export const SUPPLY_PATHS = [
     whoLoses: ["Obstetricians (some competition)"],
     mend: ["Require collaboration agreements and fast transfer to hospital care"],
     spawns: ["x-scope-quality"],
+    changes: [
+      "License certified midwives in all states",
+      "Cover birth centers",
+      "Require transfer agreements",
+    ],
   }),
 
   // ---- shortage areas ----
@@ -370,6 +427,10 @@ export const SUPPLY_PATHS = [
     whoLoses: ["Taxpayers"],
     mend: ["N/A"],
     costIds: ["resident-salary"],
+    changes: [
+      "Expand National Health Service Corps",
+      "Offer free training for service commitments",
+    ],
   }),
   path({
     id: "shortage-pay",
@@ -385,6 +446,7 @@ export const SUPPLY_PATHS = [
     whoGains: ["Clinicians in shortage areas"],
     whoLoses: ["Taxpayers"],
     mend: ["N/A"],
+    changes: ["Raise the shortage-area fee bonus"],
   }),
   path({
     id: "shortage-telehealth",
@@ -404,6 +466,7 @@ export const SUPPLY_PATHS = [
     whoLoses: ["Local practices facing remote competition"],
     mend: ["Fund broadband and local telehealth access points"],
     solves: ["mental-health-access"],
+    changes: ["Cover telehealth at parity permanently", "Create interstate telehealth licensing"],
   }),
 
   // ---- transport ----
@@ -423,6 +486,7 @@ export const SUPPLY_PATHS = [
     whoGains: ["Patients without cars", "Rural patients"],
     whoLoses: ["Taxpayers"],
     mend: ["N/A"],
+    changes: ["Cover ground ambulance and non-emergency rides for everyone"],
   }),
   path({
     id: "transport-public-ems",
@@ -436,6 +500,10 @@ export const SUPPLY_PATHS = [
     whoLoses: ["Private ambulance companies"],
     mend: ["Buy out or contract with private ambulance companies"],
     requires: ["global-budgets"],
+    changes: [
+      "Fund EMS by budget like fire departments",
+      "Ban ambulance bills for covered services",
+    ],
   }),
 
   // ---- physician shortage ----
@@ -452,6 +520,7 @@ export const SUPPLY_PATHS = [
     whoLoses: ["Taxpayers"],
     mend: ["N/A"],
     costIds: ["residency-slot-cost"],
+    changes: ["Fund more residency slots, prioritizing primary care and rural sites"],
   }),
   path({
     id: "phys-pay-primary",
@@ -467,6 +536,10 @@ export const SUPPLY_PATHS = [
     whoLoses: ["Specialists"],
     mend: ["Phase in"],
     costIds: ["physician-pay-gap"],
+    changes: [
+      "Shift fee-schedule dollars from procedures to primary care",
+      "Change the fee-update committee to include more primary care",
+    ],
   }),
   path({
     id: "phys-foreign",
@@ -485,6 +558,7 @@ export const SUPPLY_PATHS = [
     whoGains: ["Patients"],
     whoLoses: ["Countries losing physicians"],
     mend: ["N/A"],
+    changes: ["Create supervised licensing pathways for experienced foreign physicians"],
   }),
 
   // ---- training debt ----
@@ -505,6 +579,7 @@ export const SUPPLY_PATHS = [
     whoLoses: ["Taxpayers"],
     mend: ["Tie free tuition to service obligations"],
     complements: ["shortage-service"],
+    changes: ["Fund tuition for medical and nursing school", "Tie to service obligations"],
   }),
   path({
     id: "debt-shorter-training",
@@ -517,6 +592,7 @@ export const SUPPLY_PATHS = [
     whoGains: ["Students"],
     whoLoses: ["Undergraduate institutions"],
     mend: ["N/A"],
+    changes: ["Accredit six-year combined programs"],
   }),
 
   // ---- nursing shortage ----
@@ -537,6 +613,7 @@ export const SUPPLY_PATHS = [
     whoLoses: ["Hospital budgets"],
     mend: ["Fund staffing in rates; phase in"],
     spawns: ["x-staffing-mandate-cost"],
+    changes: ["Set nurse-to-patient ratios by unit", "Fund ratios through rates"],
   }),
   path({
     id: "nurse-pipeline",
@@ -556,6 +633,7 @@ export const SUPPLY_PATHS = [
     whoGains: ["Nursing students", "Hospitals"],
     whoLoses: ["Taxpayers"],
     mend: ["N/A"],
+    changes: ["Fund nursing faculty salaries", "Fund clinical placements"],
   }),
 
   // ---- burnout ----
@@ -571,6 +649,7 @@ export const SUPPLY_PATHS = [
     whoLoses: ["EHR and coding vendors"],
     mend: ["N/A"],
     requires: ["single-payer"],
+    changes: ["Simplify billing codes and documentation rules", "Cut quality-reporting programs"],
   }),
   path({
     id: "burnout-scribes",
@@ -589,6 +668,7 @@ export const SUPPLY_PATHS = [
     whoGains: ["Clinicians"],
     whoLoses: ["Medical transcriptionists"],
     mend: ["N/A"],
+    changes: ["Pay for scribes or AI documentation tools"],
   }),
 
   // ---- scope of practice ----
@@ -610,6 +690,9 @@ export const SUPPLY_PATHS = [
     mend: ["N/A"],
     spawns: ["x-scope-quality"],
     solves: ["physician-shortage", "shortage-areas"],
+    changes: [
+      "Grant full practice authority to NPs, PAs, pharmacists, dental therapists nationally",
+    ],
   }),
   path({
     id: "scope-team",
@@ -622,5 +705,6 @@ export const SUPPLY_PATHS = [
     whoGains: ["Patients", "Team members with expanded roles"],
     whoLoses: ["Rural areas without supervising physicians"],
     mend: ["Remote supervision"],
+    changes: ["Expand roles within physician-supervised teams", "Allow remote supervision"],
   }),
 ]

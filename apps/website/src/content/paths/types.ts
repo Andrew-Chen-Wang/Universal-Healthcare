@@ -33,6 +33,8 @@ export type SolutionPath = {
   /** Paths that work well together with this one. */
   complements?: string[]
   /** Cost items (Part 1 costs) most affected. */
+  /** Concrete system changes this path requires if chosen (laws, agencies, payment rules, IT). */
+  changes?: string[]
   costIds?: string[]
   status: PathStatus
 }
