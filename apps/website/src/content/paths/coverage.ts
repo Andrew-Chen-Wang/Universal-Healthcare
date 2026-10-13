@@ -373,7 +373,10 @@ export const COVERAGE_PATHS = [
         note: "Some employers waive copays for chronic-disease drugs.",
       },
     ],
-    pros: ["Encourages needed care while discouraging waste"],
+    pros: [
+      "Encourages needed care while discouraging waste",
+      "Free chronic-disease drugs improve adherence and can lower hospital use",
+    ],
     cons: [
       "Lists of 'high-value' and 'low-value' services are complex to define and keep updated",
       "Still needs claim-level billing and cost-sharing tracking",
@@ -399,8 +402,15 @@ export const COVERAGE_PATHS = [
         note: "Nearly all physicians accept the public payer.",
       },
     ],
-    pros: ["Ends network surprises", "Free choice of doctor"],
-    cons: ["Removes a tool insurers use to steer patients to cheaper or higher-quality providers"],
+    pros: [
+      "Ends network surprises and directory errors",
+      "Free choice of doctor and hospital",
+      "No credentialing with dozens of payers",
+    ],
+    cons: [
+      "Removes a tool insurers use to steer patients to cheaper or higher-quality providers",
+      "Weak providers keep patients they might lose under selective contracting",
+    ],
     whoGains: ["Patients"],
     whoLoses: ["Insurers relying on narrow networks"],
     mend: ["N/A"],
@@ -419,8 +429,14 @@ export const COVERAGE_PATHS = [
         sourceIds: ["secret-shopper"],
       },
     ],
-    pros: ["Little disruption"],
-    cons: ["Hard to enforce", "Keeps network complexity"],
+    pros: [
+      "Little disruption",
+      "Keeps the savings narrow networks produce (premiums often 10–20% lower)",
+    ],
+    cons: [
+      "Hard to enforce; regulators rely on insurer-reported data",
+      "Keeps network complexity and out-of-network risk",
+    ],
     whoGains: ["Patients in plans with narrow networks"],
     whoLoses: ["Insurers (compliance costs)"],
     mend: ["N/A"],
