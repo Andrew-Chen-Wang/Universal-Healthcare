@@ -22,101 +22,7 @@ export type StepExtras = {
 }
 
 export const STEP_EXTRAS: Record<string, StepExtras> = {
-  "draft-legislation": {
-    decisionIds: ["payer-structure", "transition-speed"],
-    international: [
-      {
-        country: "Taiwan",
-        approach:
-          "National Health Insurance Act passed July 1994; program launched March 1995, merging 13 existing insurance schemes.",
-        result: "Coverage went from about 57% to over 90% within a year.",
-        lesson: "A single statute can move a whole country quickly if administration is ready.",
-        sourceIds: ["taiwan-nhi"],
-      },
-      {
-        country: "Canada",
-        approach:
-          "Federal Medical Care Act (1966) offered 50/50 cost sharing to provinces meeting five criteria; provinces wrote their own laws (1968–72).",
-        result:
-          "All provinces joined within 6 years; Canada Health Act (1984) consolidated the criteria.",
-        lesson:
-          "A federal framework with conditions lets subnational governments build their own systems.",
-      },
-      {
-        country: "Germany",
-        approach:
-          "Incremental: Bismarck's 1883 law covered some workers; coverage expanded over a century, with a universal mandate in 2009.",
-        result: "Universal, but it took 126 years.",
-        lesson: "Incrementalism is durable but slow.",
-      },
-      {
-        country: "United States (Vermont)",
-        approach: "Act 48 (2011) created a path to state single payer (Green Mountain Care).",
-        result:
-          "Abandoned in 2014 when the governor concluded the required 11.5% payroll and up to 9.5% income taxes were unaffordable for one state.",
-        lesson:
-          "Financing must be settled in the law itself; a single state lacks federal Medicare and ERISA flexibility.",
-      },
-    ],
-  },
-  "independent-scoring": {
-    international: [
-      {
-        country: "United Kingdom",
-        approach:
-          "The Office for Budget Responsibility publishes independent long-term NHS spending projections.",
-        result: "Independent projections anchor debates about NHS funding levels.",
-        lesson: "Independent scorekeepers make trade-offs explicit.",
-      },
-      {
-        country: "Canada",
-        approach:
-          "The Parliamentary Budget Officer costs federal health transfers and pharmacare proposals.",
-        result: "PBO pharmacare estimates shaped the scope of the 2024 Pharmacare Act.",
-        lesson: "Credible costing narrows the scope of plans to what can be funded.",
-      },
-    ],
-  },
-  "legislative-path": {
-    riskIds: ["filibuster", "repeal"],
-    international: [
-      {
-        country: "United Kingdom",
-        approach:
-          "The National Health Service Act 1946 passed with a large parliamentary majority, with no supermajority requirement.",
-        result: "Launched in 1948 despite doctors' initial opposition.",
-        lesson:
-          "Parliamentary systems can enact sweeping reform with simple majorities; the U.S. Senate is the binding constraint.",
-      },
-      {
-        country: "Switzerland",
-        approach: "LAMal health insurance law approved by national referendum in 1994.",
-        result: "Popular vote gave durable legitimacy.",
-        lesson: "Durability comes from broad buy-in, not just passage.",
-      },
-    ],
-  },
-  "stakeholder-deals": {
-    international: [
-      {
-        country: "United Kingdom",
-        approach:
-          "Aneurin Bevan let consultants keep private practice and pay beds in NHS hospitals: 'stuffed their mouths with gold'.",
-        result: "Won specialists' acceptance, but private practice inside the NHS persists.",
-        lesson: "Concessions to physicians buy passage and create long-term two-tier pockets.",
-      },
-      {
-        country: "Canada (Saskatchewan)",
-        approach:
-          "Doctors struck for 23 days in 1962 against provincial medicare; settled by the Saskatoon Agreement preserving fee-for-service and opt-out rights.",
-        result: "Medicare survived and spread nationwide.",
-        lesson:
-          "Physician resistance is likely; preserving clinical autonomy and fee-for-service can resolve it.",
-      },
-    ],
-  },
   "state-moe-design": {
-    riskIds: ["state-holdouts"],
     international: [
       {
         country: "Canada",
@@ -136,7 +42,7 @@ export const STEP_EXTRAS: Record<string, StepExtras> = {
     ],
   },
   "create-uha": {
-    decisionIds: ["administration"],
+    decisionIds: ["payer-structure", "administration"],
     riskIds: ["capture"],
     tradeoffIds: ["government-risk"],
     jobGroupIds: [],
@@ -526,25 +432,6 @@ export const STEP_EXTRAS: Record<string, StepExtras> = {
       },
     ],
   },
-  "legal-defense": {
-    riskIds: ["takings-litigation"],
-    international: [
-      {
-        country: "Canada",
-        approach:
-          "Chaoulli v. Quebec (2005) and Cambie Surgeries v. B.C. (decided 2020, appeal dismissed 2022, leave to Supreme Court denied 2024) tested the private-insurance ban.",
-        result: "Bans survive when waits are reasonable.",
-        lesson:
-          "Litigation will target the private-insurance ban; evidence on waits is the defense.",
-      },
-      {
-        country: "Netherlands / Germany",
-        approach: "Insurers challenged risk-equalization schemes under EU competition law.",
-        result: "Courts upheld social insurance as non-economic activity.",
-        lesson: "Social insurance designs can be defended against market-based legal challenges.",
-      },
-    ],
-  },
   "data-privacy": {
     international: [
       {
@@ -582,6 +469,7 @@ export const STEP_EXTRAS: Record<string, StepExtras> = {
     ],
   },
   "wave-one-enrollment": {
+    decisionIds: ["transition-speed"],
     tradeoffIds: ["equity"],
     international: [
       {

@@ -241,7 +241,7 @@ export const COVERAGE: CoverageGroup[] = [
       {
         id: "governance",
         label: "Government capacity, capture, and political risk",
-        refs: [tradeoff("government-risk"), risk("capture"), risk("repeal")],
+        refs: [tradeoff("government-risk"), risk("capture")],
       },
       {
         id: "federalism",
@@ -251,7 +251,7 @@ export const COVERAGE: CoverageGroup[] = [
       {
         id: "liberty",
         label: "Individual liberty (banning duplicative coverage, mandatory taxes)",
-        refs: [decision("duplicative-insurance"), step("legal-defense")],
+        refs: [decision("duplicative-insurance")],
       },
       {
         id: "privacy",
@@ -292,16 +292,6 @@ export const COVERAGE: CoverageGroup[] = [
         id: "research",
         label: "Public research funding",
         refs: [change("nih"), cost("use-research")],
-      },
-      {
-        id: "legal",
-        label: "Legal and constitutional risk",
-        refs: [step("legal-defense"), risk("takings-litigation"), risk("state-holdouts")],
-      },
-      {
-        id: "politics",
-        label: "Passage and political durability",
-        refs: [step("legislative-path"), risk("filibuster"), step("stakeholder-deals")],
       },
       {
         id: "contested",

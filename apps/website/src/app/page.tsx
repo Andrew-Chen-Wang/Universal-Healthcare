@@ -7,7 +7,7 @@ import {
 } from "@website/content/baseline"
 import { COST_BY_ID } from "@website/content/calculations"
 import { MODEL, MODEL_COSTLY, MODEL_LEAN, fmt } from "@website/content/model"
-import { NAV, costHref } from "@website/content/navigation"
+import { costHref } from "@website/content/navigation"
 import { ALL_STEPS } from "@website/content/plan"
 import {
   ONE_TIME_COSTS,
@@ -15,6 +15,8 @@ import {
   TRANSITION_BORROWING_TOTAL,
 } from "@website/content/transition"
 import { DISPLACED_TOTAL } from "@website/content/workforce"
+import { COST_CATEGORIES, INVENTORY } from "@website/content/cost-inventory"
+import { PROBLEM_CATEGORIES, PROBLEMS } from "@website/content/problems"
 import Link from "next/link"
 
 const h = MODEL.headline
@@ -85,18 +87,43 @@ export default function Home() {
           Universal health care for the United States, step by step and dollar by dollar.
         </h1>
         <p className="mt-6 max-w-3xl text-lg leading-relaxed text-foreground/80">
-          One concrete plan to cover every U.S. resident through a single public payer, broken into{" "}
-          {ALL_STEPS.length} implementation steps and {taskCount} tasks. Each step in the sidebar
-          has its own pages: tasks, design choices and alternatives, costs with full calculations,
-          trade-offs, risks, the existing laws and programs it changes, and how other countries did
-          the same thing. Every dollar below links to the page that calculates it.
+          The site has two parts. Part 1 lists every problem in the U.S. health system (and every
+          problem universal systems elsewhere have run into) and every cost that makes up national
+          health spending, down to the wages of each occupation. Part 2 lists every change needed,
+          by phase, each with its trade-offs. Solutions are being decided problem by problem.
         </p>
-        <Link
-          href={NAV[0].steps[0].href}
-          className="mt-6 inline-block rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground"
-        >
-          Start with step 0.1 →
-        </Link>
+        <div className="mt-8 grid gap-3 sm:grid-cols-3">
+          <Link
+            href="/problems"
+            className="rounded-md border border-rule bg-card p-4 hover:border-primary"
+          >
+            <div className="text-xs text-muted-foreground uppercase">Part 1</div>
+            <div className="font-serif text-xl font-semibold">Problems</div>
+            <div className="text-sm text-muted-foreground">
+              {PROBLEMS.length} problems in {PROBLEM_CATEGORIES.length} categories
+            </div>
+          </Link>
+          <Link
+            href="/costs"
+            className="rounded-md border border-rule bg-card p-4 hover:border-primary"
+          >
+            <div className="text-xs text-muted-foreground uppercase">Part 1</div>
+            <div className="font-serif text-xl font-semibold">Costs</div>
+            <div className="text-sm text-muted-foreground">
+              {INVENTORY.length} cost items in {COST_CATEGORIES.length} categories
+            </div>
+          </Link>
+          <Link
+            href="/plan"
+            className="rounded-md border border-rule bg-card p-4 hover:border-primary"
+          >
+            <div className="text-xs text-muted-foreground uppercase">Part 2 · draft</div>
+            <div className="font-serif text-xl font-semibold">Changes by phase</div>
+            <div className="text-sm text-muted-foreground">
+              {ALL_STEPS.length} changes, {taskCount} tasks
+            </div>
+          </Link>
+        </div>
       </header>
 
       <Section title="Ground rules">
@@ -118,6 +145,14 @@ export default function Home() {
               "Every change has a trade-off, and every trade-off is listed.",
               "Each step and each cost item states its own.",
             ],
+            [
+              "Apolitical.",
+              "Legislative feasibility, filibusters, and court challenges are set aside; the question is what works.",
+            ],
+            [
+              "Experiments and transitions are fine.",
+              "Changes can be piloted, phased, or run side by side before scaling up.",
+            ],
           ].map(([t, d], i) => (
             <li key={t} className="rounded-md border border-rule bg-card p-4">
               <div className="num mb-1 text-xs text-muted-foreground">0{i + 1}</div>
@@ -129,8 +164,8 @@ export default function Home() {
       </Section>
 
       <Section
-        title="The result"
-        intro="Central estimate: 2024 with the plan fully in place. The costly and lean cases bracket the uncertainty."
+        title="Draft model of the changes"
+        intro="What 2024 would have looked like with the draft changes in Part 2 fully in place (central estimate; the costly and lean cases bracket the uncertainty). These numbers will change as solutions are decided."
       >
         <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
           <Stat

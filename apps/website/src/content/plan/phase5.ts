@@ -158,7 +158,12 @@ export const PHASE_5: Phase = {
       pros: [
         { point: "Turns contested predictions (waits, innovation, quality) into measured facts." },
       ],
-      cons: [{ point: "Scheduled votes are opportunities for repeal." }],
+      cons: [
+        {
+          point:
+            "Scheduled reviews add uncertainty for providers and investors planning long-term.",
+        },
+      ],
       tradeoffs: ["Accountability vs. stability."],
       risks: [
         {

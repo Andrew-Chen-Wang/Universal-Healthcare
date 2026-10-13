@@ -143,11 +143,6 @@ export const GLOSSARY: { term: string; definition: string }[] = [
       "Medicare Administrative Contractor: a private company that processes Medicare claims for a region.",
   },
   {
-    term: "Byrd rule",
-    definition:
-      "Senate rule that strikes provisions without a direct budgetary effect from reconciliation bills.",
-  },
-  {
     term: "Integrated care organization (ICO)",
     definition:
       "Under this plan: a provider-run system (like Kaiser) paid a single per-person budget for patients who choose it.",

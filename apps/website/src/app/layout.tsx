@@ -1,6 +1,6 @@
 import "./globals.css"
 import { MobileNav, Sidebar } from "@website/components/site/sidebar"
-import { NAV } from "@website/content/navigation"
+import { SIDEBAR } from "@website/content/navigation"
 import type { Metadata } from "next"
 import Link from "next/link"
 import { IBM_Plex_Mono, IBM_Plex_Sans, Source_Serif_4 } from "next/font/google"
@@ -36,9 +36,9 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={`${serif.variable} ${sans.variable} ${mono.variable}`}>
       <body>
-        <MobileNav nav={NAV} />
+        <MobileNav parts={SIDEBAR} />
         <div className="flex min-h-dvh">
-          <Sidebar nav={NAV} />
+          <Sidebar parts={SIDEBAR} />
           <main className="min-w-0 flex-1">
             {children}
             <footer className="mx-auto max-w-5xl border-t border-rule px-4 pt-6 pb-10 text-xs leading-relaxed text-muted-foreground sm:px-8">

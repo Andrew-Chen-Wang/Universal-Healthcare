@@ -35,7 +35,7 @@ export const BENCHMARKS: Benchmark[] = [
       {
         id: "s101",
         label: "Sec. 101 Establishment of the program",
-        refs: [step("create-uha"), step("draft-legislation")],
+        refs: [step("create-uha")],
       },
       {
         id: "s102",
@@ -236,8 +236,8 @@ export const BENCHMARKS: Benchmark[] = [
         refs: [change("ssdi-waiting-period")],
       },
       { id: "s1012", label: "Sec. 1012 Continuity of care", refs: [change("continuity-of-care")] },
-      { id: "s1101", label: "Sec. 1101 Definitions", refs: [step("draft-legislation")] },
-      { id: "s1102", label: "Sec. 1102 Rules of construction", refs: [step("legal-defense")] },
+      { id: "s1101", label: "Sec. 1101 Definitions", refs: [step("create-uha")] },
+      { id: "s1102", label: "Sec. 1102 Rules of construction", refs: [step("create-uha")] },
       {
         id: "s1103",
         label: "Sec. 1103 No use of resources for immigration enforcement",

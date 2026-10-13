@@ -298,19 +298,6 @@ export const ONE_TIME_COSTS: OneTimeCost[] = [
     [3, 4, 4, 4, 3, 2, 0],
     "Registry first, then annual surveys and evaluations.",
   ),
-  item(
-    "legal",
-    "Litigation & regulatory defense",
-    "legal-defense",
-    "DOJ and HHS defense of expected challenges (ERISA, Takings Clause, §1498, state MOE, duplicative-coverage ban).",
-    [
-      qty("Government attorneys", "lgAttorneys", "lgAttorneyCost", "lgYears"),
-      lump("Outside experts & expert witnesses", "lgExperts"),
-      lump("§1498 proceedings in the Court of Federal Claims", "lgClaimsCourt"),
-    ],
-    [3, 3, 2, 1, 1, 0, 0],
-    "Most suits come immediately after enactment.",
-  ),
 ]
 
 export const ONE_TIME_TOTAL = ONE_TIME_COSTS.reduce(

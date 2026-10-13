@@ -32,46 +32,6 @@ export const RISKS: Risk[] = [
     ],
   },
   {
-    id: "repeal",
-    title: "Repeal or defunding before steady state",
-    category: "political",
-    likelihood: "medium",
-    impact: "severe",
-    description:
-      "The 4-year phase-in spans two federal elections. A future Congress can halt waves, cut rates, or underfund administration.",
-    earlyWarning: ["Polling on UHP satisfaction among Wave 1 enrollees", "Appropriations riders"],
-    mitigation: [
-      "Front-load visible benefits (seniors' premiums end on Day 1)",
-      "Trust fund with permanent appropriation",
-      "Fast enrollment of children (popular)",
-    ],
-  },
-  {
-    id: "filibuster",
-    title: "Cannot pass the Senate intact",
-    category: "political",
-    likelihood: "high",
-    impact: "high",
-    description:
-      "Regulatory titles (duplicative-coverage ban, ERISA changes) fail the Byrd rule and can't pass through reconciliation.",
-    earlyWarning: ["Parliamentarian rulings"],
-    mitigation: ["60-vote coalition, filibuster change, or a contingent split strategy"],
-  },
-  {
-    id: "state-holdouts",
-    title: "States refuse the maintenance-of-effort deal",
-    category: "legal",
-    likelihood: "medium",
-    impact: "high",
-    description:
-      "NFIB v. Sebelius prevents forcing states to pay. Each holdout state widens the federal gap by its Medicaid share.",
-    earlyWarning: ["Governors' public positions", "MOE signatures by Month −6"],
-    mitigation: [
-      "Strong positive incentives (LTC coverage, savings share)",
-      "Show each state's own net gain",
-    ],
-  },
-  {
     id: "cost-overrun",
     title: "Costs come in at the costly case",
     category: "fiscal",
@@ -139,17 +99,6 @@ export const RISKS: Risk[] = [
       "Specialty-specific adjustments",
       "Removal of administrative burden as a non-financial benefit",
     ],
-  },
-  {
-    id: "takings-litigation",
-    title: "Litigation delays",
-    category: "legal",
-    likelihood: "high",
-    impact: "medium",
-    description:
-      "Insurers, providers, and states sue on Takings, due process, Spending Clause, and §1498 grounds.",
-    earlyWarning: ["Injunction filings"],
-    mitigation: ["Severability", "Prepared DOJ defenses", "Phased effective dates"],
   },
   {
     id: "innovation-loss",

@@ -2,45 +2,13 @@
  * The trade-off behind every individual task, aligned by position with each
  * step's `tasks` array. navigation/task pages throw if the counts drift.
  */
-import { show } from "./constants"
-import { F } from "./figures"
 
 export const TASK_TRADEOFFS: Record<string, string[]> = {
-  "draft-legislation": [
-    "A permanent appropriation protects claims payment from shutdowns but removes Congress's annual budget control over most health spending.",
-    "A 90-day residency rule closes gaps quickly but lets short-term arrivals use care they haven't paid taxes toward; a longer rule (Canada's 3 months) leaves newcomers uninsured.",
-    "Statutory benefit categories protect coverage from administrative cuts but make adding or removing whole categories require a new law.",
-    "A balance-billing ban guarantees no surprise bills but removes a revenue source for high-cost-area physicians and may increase opt-outs.",
-    "Writing payment methods into statute gives providers certainty but slows reform when a method proves flawed.",
-    "Giving the Formulary Board §1498 authority strengthens its bargaining position but invites trade disputes and litigation with manufacturers.",
-    "Earmarked financing makes costs visible and durable, but each named tax becomes a separate target for repeal.",
-    "Detailed transition rules reduce uncertainty for employers and insurers but lock in a timetable that may prove too fast or too slow.",
-    "Repealing Medicare Parts C and D in the same bill avoids two parallel systems but turns every Medicare Advantage enrollee into an immediate opponent.",
-    "Public comment surfaces design flaws early but gives opponents months to organize against specific provisions.",
-  ],
-  "independent-scoring": [
-    "Asking CBO for dynamic labor-market analysis gives a fuller picture but may produce a higher headline federal cost.",
-    "A CMS actuary estimate is authoritative on national spending but is produced by the agency that would run the program.",
-    "Outside estimates add credibility and range but can be cherry-picked by both sides.",
-    "A line-by-line crosswalk focuses debate on assumptions but exposes every weak assumption to attack.",
-  ],
-  "legislative-path": [
-    "Early Parliamentarian review avoids late surprises but reveals the bill's vulnerabilities to opponents.",
-    "60 votes produce a more durable law but require concessions that weaken the design; ending the filibuster is faster but changes the Senate for all future legislation.",
-    "A fallback voluntary public plan ensures something passes, but a voluntary plan may never reach universal coverage.",
-  ],
-  "stakeholder-deals": [
-    `Paying hospitals ${show("hospitalRate", "pct")} of Medicare buys neutrality but forgoes ${F.hospitalAboveMedicare} a year in savings that Medicare rates would capture.`,
-    "Ending prior authorization wins physician support but removes a check on low-value care that must be replaced with HTA rules.",
-    "Dollar-for-dollar conversion of union health benefits wins labor support but locks employers into wage increases they may not afford long-term.",
-    "Showing states their own ledgers builds trust but highlights which states are net payers into the system.",
-    "Offering insurers no compensation preserves billions for care but guarantees maximum industry opposition.",
-  ],
   "state-moe-design": [
     "Indexing MOE to national per-capita growth is predictable but ignores states' different demographic trends.",
     "Counting offsetting gains makes the deal attractive but relies on estimates states may dispute.",
-    "Positive incentives survive NFIB v. Sebelius but leave room for holdout states to free-ride.",
-    "Requiring signatures before Year 1 gives certainty but gives holdouts leverage to demand better terms.",
+    "Sharing savings gives states a stake in cost control, but reduces savings available to lower taxes.",
+    "Monthly payments give the trust fund steady cash but strain state cash flow in downturns.",
   ],
   "create-uha": [
     "Transferring Medicare staff gives instant expertise but carries over Medicare's institutional habits and legacy processes.",
@@ -147,13 +115,6 @@ export const TASK_TRADEOFFS: Record<string, string[]> = {
     "12 months' notice protects workers but keeps insurers operating with demoralized staff.",
     "Fast-track retraining fills shortages but not every displaced worker wants clinical work.",
     "Regional grants cushion insurer-headquarters cities but direct money to a few places while other displaced workers are spread nationwide.",
-  ],
-  "legal-defense": [
-    "Defending against takings claims on principle avoids compensation costs but risks an adverse ruling with large liabilities.",
-    "Making MOE voluntary survives court review but weakens the plan's financing guarantee.",
-    "Building an evidentiary record on capacity strengthens the ban's defense but requires waits to stay short in practice.",
-    "Budgeting §1498 compensation from savings is prudent but signals willingness to override patents.",
-    "Severability saves most of the Act from partial rulings but can leave a hybrid system nobody designed.",
   ],
   "data-privacy": [
     "A warrant requirement protects patients' trust but limits law enforcement access to evidence.",
@@ -296,7 +257,7 @@ export const TASK_TRADEOFFS: Record<string, string[]> = {
   ],
   "evaluation-review": [
     "Annual reports inform policy but can be politicized.",
-    "A Year-10 review grounds decisions in evidence but creates a scheduled moment for repeal.",
+    "A Year-10 review grounds decisions in evidence but adds uncertainty for long-term planning.",
     "Mandatory votes ensure revisiting key choices but reopen settled fights.",
   ],
   "malpractice-pilot": [

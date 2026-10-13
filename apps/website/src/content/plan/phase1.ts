@@ -113,7 +113,7 @@ export const PHASE_1: Phase = {
         "Medicare enrolled 19 million seniors within 11 months in 1965–66 using Social Security field offices.",
         "Taiwan's Bureau of National Health Insurance launched with about 2,800 staff for 21 million people.",
       ],
-      dependsOn: ["draft-legislation"],
+      dependsOn: [],
       sourceIds: ["cms-trustees-2025", "taiwan-nhi"],
     },
     {
@@ -478,7 +478,7 @@ export const PHASE_1: Phase = {
         "The UK NHS is free at the point of use except prescription charges in England and dental charges.",
         "Japan charges 30% coinsurance with monthly caps; France uses coinsurance mostly covered by complementary insurance.",
       ],
-      dependsOn: ["draft-legislation"],
+      dependsOn: [],
       sourceIds: ["rand-hie", "oregon-experiment", "sanders-m4a"],
     },
     {
@@ -980,7 +980,7 @@ export const PHASE_1: Phase = {
         },
       ],
       precedent: ["Canada Health Act and provincial bans; Chaoulli v. Quebec (2005)."],
-      dependsOn: ["draft-legislation"],
+      dependsOn: [],
       sourceIds: ["cbo-exclusion"],
     },
     {
@@ -1061,7 +1061,7 @@ export const PHASE_1: Phase = {
         "Germany's statutory health insurance contribution: 14.6% of wages + an average 2.9% supplementary rate (2026), split employer/employee.",
         "France's CSG: a broad income tax earmarked for social security.",
       ],
-      dependsOn: ["draft-legislation"],
+      dependsOn: [],
       sourceIds: ["bea-wages", "irs-soi-2022"],
     },
     {
@@ -1131,70 +1131,8 @@ export const PHASE_1: Phase = {
       precedent: [
         "Trade Adjustment Assistance; PERI (2018) proposed a similar program for Medicare for All.",
       ],
-      dependsOn: ["draft-legislation"],
+      dependsOn: [],
       sourceIds: ["peri-2018", "bls-oews-524114"],
-    },
-    {
-      id: "legal-defense",
-      title: "Prepare for legal challenges",
-      summary:
-        "Insurers, providers, states, and individuals will sue. Each foreseeable challenge needs a prepared defense.",
-      legalVehicle: "DOJ Civil Division; severability clauses in the Act.",
-      owner: "DOJ, HHS Office of General Counsel",
-      timeline: "Month −6 onward",
-      tasks: [
-        {
-          action:
-            "Takings Clause (5th Amendment): insurers claim loss of business. Defense: losing a market to regulation is not a taking; no property is appropriated. Insurers keep their assets and supplementary business.",
-          owner: "DOJ",
-          when: "Pre-enactment",
-        },
-        {
-          action:
-            "Spending Clause / anti-coercion: the state MOE must be voluntary (see state MOE step).",
-          owner: "DOJ",
-          when: "Pre-enactment",
-        },
-        {
-          action:
-            "Due process and liberty claims against the duplicative-coverage ban: build an evidentiary record that the ban protects capacity, and show that waits are bounded by the guarantee.",
-          owner: "DOJ / UHA",
-          when: "Year 1+",
-        },
-        {
-          action:
-            "§1498 compensation suits: expected; budget compensation from the formulary savings.",
-          owner: "DOJ",
-          when: "Year 2+",
-        },
-        {
-          action:
-            "Include severability so that any single provision struck down doesn't void the Act.",
-          owner: "Congress",
-          when: "Drafting",
-        },
-      ],
-      cost: {
-        oneTime: oneTime("legal"),
-        ledgerNote: `${fmt(oneTime("legal"))} in the transition table.`,
-      },
-      pros: [{ point: "Prepared defenses shorten litigation and lower the risk of injunctions." }],
-      cons: [
-        {
-          point:
-            "Litigation can still delay implementation by years (the ACA reached the Supreme Court 3 times).",
-        },
-      ],
-      tradeoffs: ["Writing narrower provisions reduces litigation risk but weakens the design."],
-      risks: [
-        {
-          risk: "A nationwide injunction pauses implementation.",
-          mitigation: "Phased effective dates; fallback provisions.",
-        },
-      ],
-      precedent: ["NFIB v. Sebelius (2012), King v. Burwell (2015), California v. Texas (2021)."],
-      dependsOn: ["draft-legislation"],
-      sourceIds: ["nfib-sebelius"],
     },
     {
       id: "data-privacy",

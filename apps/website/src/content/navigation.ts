@@ -1,4 +1,6 @@
 import { costsForStep } from "./calculations"
+import { COST_CATEGORIES, INVENTORY } from "./cost-inventory"
+import { PROBLEM_CATEGORIES, PROBLEMS } from "./problems"
 import { CHANGES } from "./changes"
 import { PHASES, STEP_BY_ID } from "./plan"
 import { STEP_EXTRAS } from "./step-extras"
@@ -102,3 +104,74 @@ for (const p of PHASES) {
 export function taskHref(stepId: string, n: number) {
   return `${stepHref(stepId, "tasks")}/${n}`
 }
+
+export const slug = (x: string) =>
+  x
+    .toLowerCase()
+    .replace(/&/g, "and")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/(^-|-$)/g, "")
+
+export type SideItem = {
+  id: string
+  label: string
+  href: string
+  number?: string
+  children?: SideItem[]
+}
+export type SideGroup = { id: string; title: string; href?: string; items: SideItem[] }
+export type SidePart = { id: string; title: string; href: string; groups: SideGroup[] }
+
+export const SIDEBAR: SidePart[] = [
+  {
+    id: "problems",
+    title: "Part 1 · Problems",
+    href: "/problems",
+    groups: PROBLEM_CATEGORIES.map((c) => ({
+      id: `p-${slug(c)}`,
+      title: c,
+      href: `/problems#${slug(c)}`,
+      items: PROBLEMS.filter((p) => p.category === c).map((p) => ({
+        id: p.id,
+        label: p.title,
+        href: `/problems/${p.id}`,
+      })),
+    })),
+  },
+  {
+    id: "costs",
+    title: "Part 1 · Costs",
+    href: "/costs",
+    groups: COST_CATEGORIES.map((c) => ({
+      id: `c-${slug(c)}`,
+      title: c,
+      href: `/costs#${slug(c)}`,
+      items: INVENTORY.filter((i) => i.category === c).map((i) => ({
+        id: i.id,
+        label: i.label,
+        href: `/costs/${i.id}`,
+      })),
+    })),
+  },
+  {
+    id: "changes",
+    title: "Part 2 · Changes by phase",
+    href: "/plan",
+    groups: NAV.map((p) => ({
+      id: `ph-${p.id}`,
+      title: `${p.number}. ${p.title}`,
+      href: p.href,
+      items: p.steps.map((s) => ({
+        id: s.id,
+        label: s.title,
+        number: s.number,
+        href: s.href,
+        children: s.sections.map((sec) => ({
+          id: `${s.id}-${sec.id}`,
+          label: sec.label,
+          href: sec.href,
+        })),
+      })),
+    })),
+  },
+]
