@@ -172,7 +172,7 @@ export const COVERAGE_PATHS = [
     precedents: [
       {
         place: "Canada (Saskatchewan → national)",
-        note: "Hospital coverage (1947) came a decade before physician coverage (1962) and spread province by province.",
+        note: "Hospital coverage (1947) came 15 years before physician coverage (1962) and spread province by province.",
       },
     ],
     pros: [
