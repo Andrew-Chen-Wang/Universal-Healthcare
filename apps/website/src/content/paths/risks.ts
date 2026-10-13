@@ -276,7 +276,7 @@ export const RISK_PATHS = [
     precedents: [
       {
         place: "CBO estimate",
-        note: "Lower drug revenue would reduce new drug approvals slightly over 30 years.",
+        note: "CBO (2021) estimated that H.R. 3's price limits would mean about 59 fewer new drugs over 30 years, roughly 0.5% fewer approvals a year.",
         sourceIds: ["cbo-pharma-rd-2021"],
       },
     ],

@@ -578,7 +578,12 @@ export const CARE_PATHS = [
     problemId: "nursing-home-quality",
     title: "Shift to small homes and home care",
     summary: "Fund small-house models and home care instead of large institutions.",
-    precedents: [{ place: "Denmark", note: "Stopped building traditional nursing homes in 1987." }],
+    precedents: [
+      {
+        place: "Denmark",
+        note: "A 1987 law stopped construction of traditional nursing homes from January 1988, shifting to senior housing with separate home care.",
+      },
+    ],
     pros: ["Better quality of life", "Fewer infections"],
     cons: ["Transition cost", "Smaller homes cost more per resident"],
     whoGains: ["Residents"],
