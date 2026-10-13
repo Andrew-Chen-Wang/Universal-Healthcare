@@ -87,7 +87,7 @@ export const COVERAGE_PATHS = [
     precedents: [
       {
         place: "Germany",
-        note: "About 95 statutory sickness funds plus private insurance for some high earners; payroll contributions split between employer and employee.",
+        note: "About 93–94 statutory sickness funds (2025) plus private insurance for some high earners; payroll contributions split between employer and employee.",
         sourceIds: ["germany-gkv"],
       },
       {

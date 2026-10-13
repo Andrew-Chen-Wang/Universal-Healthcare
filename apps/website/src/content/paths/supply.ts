@@ -347,7 +347,7 @@ export const SUPPLY_PATHS = [
     precedents: [
       {
         place: "U.S. Rural Emergency Hospital (2023)",
-        note: "Dozens of hospitals have converted.",
+        note: "About 40–50 hospitals had converted by late 2025.",
       },
     ],
     pros: ["Keeps emergency care open", "Lower cost than full inpatient service"],

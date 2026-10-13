@@ -555,7 +555,10 @@ export const CARE_PATHS = [
     summary:
       "Staffing minimums, disclosure of related-party payments, and minimum spending on care.",
     precedents: [
-      { place: "U.S. 2024 rule (later blocked)", note: "Federal staffing minimum was rescinded." },
+      {
+        place: "U.S. 2024 rule (later blocked)",
+        note: "The 2024 federal staffing minimum was repealed by CMS in December 2025 after Congress barred its enforcement until 2034.",
+      },
     ],
     pros: ["Better care", "Exposes money diverted to related companies"],
     cons: ["Costly; may close facilities", "Hard to hire in shortage areas"],
