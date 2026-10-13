@@ -534,7 +534,7 @@ export const COVERAGE_PATHS = [
     precedents: [
       {
         place: "California",
-        note: "Medi-Cal expanded to all income-eligible adults regardless of status (2024), later scaled back for new enrollees due to budget pressure.",
+        note: "Medi-Cal expanded to all income-eligible adults regardless of status (2024); the 2025–26 budget froze new enrollment of undocumented adults from January 2026 to close a deficit.",
       },
       {
         place: "Spain, Thailand",

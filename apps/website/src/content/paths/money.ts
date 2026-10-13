@@ -310,7 +310,10 @@ export const MONEY_PATHS = [
     summary:
       "Exempt clinicians with high approval rates; require real-time electronic decisions; ban prior authorization for routine and chronic care.",
     precedents: [
-      { place: "Texas (2021)", note: "Gold-card law exempts physicians with 90%+ approval rates." },
+      {
+        place: "Texas (2021)",
+        note: "HB 3459 (2021) exempts physicians with 90%+ approval rates over six months, but only in state-regulated plans (about a fifth of the market).",
+      },
     ],
     pros: ["Less paperwork for high-performing clinicians", "Faster care for their patients"],
     cons: [
