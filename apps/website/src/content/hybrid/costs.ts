@@ -7,9 +7,12 @@ import type { CalcStep, CostItem } from "../calculations"
 import { type ConstantId, DERIVED, show, v } from "../constants"
 import { fmt } from "../model"
 import { HOUSEHOLDS } from "../households"
-import { H, HYBRID_COST, HYBRID_ONE_TIME, hybridLine } from "./figures"
+import { H, HYBRID_COST, HYBRID_LTC, HYBRID_ONE_TIME, hybridLine } from "./figures"
 
 const usd = (x: number) => `$${Math.round(x).toLocaleString("en-US")}`
+const pct = (x: number) => `${(x * 100).toLocaleString("en-US", { maximumFractionDigits: 2 })}%`
+/** The $100k family's wages, for the payroll-tax example. */
+const DOLLARS_100K = HOUSEHOLDS.find((h) => h.id === "family-esi-100k")!.wages
 const items: CostItem[] = []
 const add = (c: CostItem) => items.push(c)
 
@@ -86,6 +89,92 @@ fromLine(
   "Dental, vision, and hearing in Medicare",
   "Closes seniors' biggest coverage gaps at a federal cost paid by top-end taxes.",
 )
+
+fromLine(
+  "privateDvh",
+  "hy-private-dvh",
+  "new-benefits-launch",
+  "spending",
+  "Basic dental, glasses, and hearing aids in private plans",
+  "Adults without dental coverage get it vs. higher premiums for everyone with private insurance.",
+)
+
+const cap = hybridLine("oopCap")
+if (cap.id)
+  add({
+    id: "hy-copay-cap",
+    title: "Income-based cap on cost sharing",
+    stepId: "define-benefits",
+    kind: "household",
+    summary: cap.explanation,
+    amount: cap.privateShift ?? 0,
+    amountUnit: "B",
+    calc: cap.steps ?? [],
+    tradeoff:
+      "No family pays more than a set share of income vs. slightly higher premiums for all.",
+    sourceIds: cap.sourceIds,
+  })
+
+// Long-term care, priced for the decision step but not in the draft's totals.
+const ltcFull = HYBRID_LTC.full
+const ltcCatastrophic = HYBRID_LTC.catastrophic
+add({
+  id: "hy-ltc-options",
+  title: "Long-term care: what each option costs",
+  stepId: "ltc-decision",
+  kind: "spending",
+  summary: `Not in the draft's totals. Catastrophic insurance (the WISH Act design: ${usd(v("wishMonthlyBenefit"))} a month after a waiting period of one to five years) needs a ${pct(v("wishPayrollRate"))} payroll tax, about ${fmt(ltcCatastrophic)} a year, ${usd((v("wishPayrollRate") / 2) * DOLLARS_100K)} for a worker earning ${usd(DOLLARS_100K)}. Full public long-term care, priced as the single-payer model prices it, would cost the federal government ${fmt(ltcFull.federal)} a year. The draft's ${H.surplus} reserve covers neither, so either option needs new money: a payroll tax reaches households below the ${show("breakEvenFloor")} line; a higher top-end tax doesn't.`,
+  amount: ltcCatastrophic,
+  amountUnit: "B",
+  range: {
+    low: HYBRID_LTC.low,
+    high: HYBRID_LTC.high,
+    note: `Milliman's range for the payroll tax, ${pct(v("wishPayrollLow"))} to ${pct(v("wishPayrollHigh"))}.`,
+  },
+  calc: [
+    {
+      label: "Wages and salaries, 2024",
+      value: v("wageBase"),
+      unit: "B",
+      inputs: ["wageBase"],
+      sourceIds: ["bea-wages"],
+    },
+    {
+      label: "Payroll tax for catastrophic insurance (central)",
+      value: v("wishPayrollRate"),
+      unit: "%",
+      inputs: ["wishPayrollRate"],
+      sourceIds: ["milliman-wish-2022"],
+    },
+    {
+      label: "Catastrophic insurance, a year",
+      formula: `${fmt(v("wageBase"))} × ${pct(v("wishPayrollRate"))}`,
+      value: ltcCatastrophic,
+      unit: "B",
+      result: true,
+    },
+    {
+      label: "Full public long-term care: change in national spending",
+      value: ltcFull.delta,
+      unit: "B",
+      sourceIds: ltcFull.sourceIds,
+    },
+    {
+      label: "Full public long-term care: federal cost",
+      value: ltcFull.federal,
+      unit: "B",
+      result: true,
+    },
+    {
+      label: "The draft's reserve after top-end taxes",
+      value: -(HYBRID_COST.fundingGap ?? 0),
+      unit: "B",
+    },
+  ],
+  tradeoff:
+    "Ends spend-down for families vs. a new tax, and the break-even rule if it's a payroll tax.",
+  sourceIds: ["milliman-wish-2022", "bea-wages", ...ltcFull.sourceIds],
+})
 
 // Federal subsidies for the newly covered.
 const cov = hybridLine("coverage")
@@ -230,7 +319,7 @@ add({
   title: "A family with an employer plan",
   stepId: "employer-mandate",
   kind: "household",
-  summary: `Private insurance spending falls ${(-premiumChange * 100).toFixed(1)}% from the price cap, drug prices, and overhead limits, so the average family premium falls by about ${usd(-premiumChange * v("familyPremium"))} a year, shared between employer and worker. No new tax applies below ${show("surtaxThreshold")} of income.`,
+  summary: `Private insurance spending falls ${(-premiumChange * 100).toFixed(1)}% from the price cap, drug prices, and overhead limits, net of the basic dental, glasses, and hearing aids plans now cover and the income cap on copays, so the average family premium falls by about ${usd(-premiumChange * v("familyPremium"))} a year, shared between employer and worker. No new tax applies below ${show("surtaxThreshold")} of income.`,
   amount: -premiumChange * v("familyPremium"),
   amountUnit: "$",
   calc: [
@@ -241,7 +330,7 @@ add({
       sourceIds: ["cms-nhe-2024"],
     },
     {
-      label: "After the hybrid's price, drug, and overhead changes",
+      label: "After the hybrid's price, drug, overhead, and benefit changes",
       value: HYBRID_COST.privateAfter,
       unit: "B",
     },
@@ -318,7 +407,11 @@ add({
       value: HYBRID_COST.privateAfter - HYBRID_COST.privateBefore,
       unit: "B",
     },
-    { label: "Out-of-pocket spending (drug prices)", value: HYBRID_COST.oopChange, unit: "B" },
+    {
+      label: "Out-of-pocket spending (drug prices, dental, and the copay cap)",
+      value: HYBRID_COST.oopChange,
+      unit: "B",
+    },
     {
       label: "Change in national spending (all priced lines)",
       value: HYBRID_COST.delta,
@@ -345,7 +438,7 @@ for (const h of HOUSEHOLDS) {
     title: `Household: ${h.name}`,
     stepId: "tax-legislation",
     kind: "household",
-    summary: `${h.description} Under the hybrid: ${net >= 0 ? "better off" : "worse off"} by ${usd(Math.abs(net))} a year in the long run.`,
+    summary: `${h.description} Under the hybrid: ${net >= 0 ? "better off" : "worse off"} by ${usd(Math.abs(net))} a year in the long run. Premiums now pay for basic dental, glasses, hearing aids, and the copay cap; what the household saves out of pocket from them depends on its care and isn't counted.`,
     amount: net,
     amountUnit: "$",
     calc: [

@@ -336,8 +336,7 @@ export const HY_PHASE_1: HybridPhase = {
       ],
       cost: {
         recurring: 0,
-        ledgerNote:
-          "Basic dental, glasses, and hearing aids are paid through premiums and aren't priced yet; the income cap on cost sharing isn't priced yet either. Adding them to Medicare is priced in the Medicare step.",
+        ledgerNote: `The income cap on cost sharing moves about ${H.oopCap} a year from households to premiums. Basic dental, glasses, and hearing aids are priced at their launch step; adding them to Medicare, in the Medicare step.`,
       },
       pros: [
         { point: "Everyone, whatever their plan, gets the same core coverage." },
