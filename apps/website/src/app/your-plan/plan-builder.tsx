@@ -4,6 +4,8 @@ import { Button } from "@website/components/ui/button"
 import { cn } from "@website/lib/utils"
 import Link from "next/link"
 import { useEffect, useMemo, useState } from "react"
+import { fmt } from "@website/content/model"
+import { costFor, PRICED_PATHS } from "./cost"
 import { coverageFor, type Pop, type Status } from "./coverage"
 
 export type BuilderProblem = { id: string; title: string; category: string; derived: boolean }
@@ -172,6 +174,7 @@ export function PlanBuilder({
       </div>
 
       <CoverageTable picks={picks} pop={pop} />
+      <CostPanel picks={picks} />
 
       <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_320px]">
         <div className="min-w-0 space-y-8">
@@ -445,5 +448,107 @@ function CoverageTable({ picks, pop }: { picks: Set<string>; pop: Pop }) {
         </table>
       </div>
     </section>
+  )
+}
+
+function usdPerPerson(dollars: number) {
+  return `$${Math.round(dollars).toLocaleString("en-US")}`
+}
+
+function CostPanel({ picks }: { picks: Set<string> }) {
+  const cost = useMemo(() => costFor(picks), [picks])
+  const unpriced = [...picks].filter((id) => !PRICED_PATHS.has(id)).length
+  return (
+    <section className="mb-10" aria-labelledby="cost-heading">
+      <h2 id="cost-heading" className="mb-1 text-lg font-semibold">
+        What your plan costs
+      </h2>
+      {!cost ? (
+        <p className="rounded-md border border-rule bg-card p-4 text-sm text-foreground/80">
+          {"The site's cost model prices one design: a single public payer. Pick "}
+          <strong>Single public payer for everyone</strong>
+          {
+            " to see national spending, federal spending, and the funding gap. Other payer structures are compared in each path's precedents but not priced here."
+          }
+        </p>
+      ) : (
+        <>
+          <p className="mb-3 text-sm text-muted-foreground">
+            2024 dollars, steady state, as if your plan had been fully in place in 2024. Same method
+            as the{" "}
+            <Link href="/costs" className="underline">
+              cost ledger
+            </Link>
+            .
+          </p>
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
+            <CostStat
+              label="National health spending"
+              value={fmt(cost.nationalAfter)}
+              sub={`${fmt(cost.delta, { sign: true })} (${(cost.deltaPct * 100).toFixed(1)}%) vs ${fmt(cost.nationalBefore)} today`}
+            />
+            <CostStat
+              label="Per person"
+              value={usdPerPerson(cost.perCapitaAfter)}
+              sub={`vs ${usdPerPerson(cost.perCapitaBefore)} today`}
+            />
+            <CostStat
+              label="Federal health spending"
+              value={fmt(cost.federalAfter)}
+              sub={`vs ${fmt(cost.federalBefore)} today`}
+            />
+            <CostStat
+              label={cost.gap >= 0 ? "Still to fund (general revenue)" : "Surplus over named taxes"}
+              value={fmt(Math.abs(cost.gap))}
+              sub="After the plan's payroll tax, household premium, and redirected spending"
+              tone={cost.gap > 0 ? "loss" : "gain"}
+            />
+          </div>
+          <ul className="mt-4 space-y-1 text-sm">
+            {cost.rules.map((r) => (
+              <li key={r.label} className="flex gap-2">
+                <span className={cn("font-medium", r.central ? "text-gain" : "text-caution")}>
+                  {r.label}:
+                </span>
+                <span className="text-foreground/80">{r.effect}</span>
+              </li>
+            ))}
+          </ul>
+          <p className="mt-3 text-sm text-muted-foreground">
+            {unpriced} of your picks have no cost input in the model (for example antitrust,
+            staffing, or privacy rules); their trade-offs are described, not priced. Coverage scope
+            (immigrants, territories) is not yet reflected in the total.
+          </p>
+        </>
+      )}
+    </section>
+  )
+}
+
+function CostStat({
+  label,
+  value,
+  sub,
+  tone,
+}: {
+  label: string
+  value: string
+  sub: string
+  tone?: "gain" | "loss"
+}) {
+  return (
+    <div className="rounded-md border border-rule bg-card p-4">
+      <div className="text-xs tracking-wide text-muted-foreground uppercase">{label}</div>
+      <div
+        className={cn(
+          "mt-1 font-mono text-2xl",
+          tone === "gain" && "text-gain",
+          tone === "loss" && "text-loss",
+        )}
+      >
+        {value}
+      </div>
+      <div className="mt-1 text-xs text-muted-foreground">{sub}</div>
+    </div>
   )
 }
