@@ -9,9 +9,11 @@ import {
 } from "@website/components/site/ui"
 import { COST_ITEMS } from "@website/content/calculations"
 import { C, type ConstantId } from "@website/content/constants"
-import { costHref } from "@website/content/navigation"
+import { SINGLE_PAYER_PLAN } from "@website/content/plans"
 import type { Metadata } from "next"
 import Link from "next/link"
+
+const { costHref } = SINGLE_PAYER_PLAN
 
 export const metadata: Metadata = { title: "Every input number" }
 

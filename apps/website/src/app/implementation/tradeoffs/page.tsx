@@ -2,9 +2,11 @@ import { Page, PageHeader, Section, ConfidenceTag } from "@website/components/si
 import { TRADEOFFS } from "@website/content/tradeoffs"
 import { ALL_STEPS } from "@website/content/plan"
 import { STEP_EXTRAS } from "@website/content/step-extras"
-import { stepHref, STEP_NUMBER } from "@website/content/navigation"
+import { SINGLE_PAYER_PLAN } from "@website/content/plans"
 import Link from "next/link"
 import type { Metadata } from "next"
+
+const { stepHref, stepNumber: STEP_NUMBER } = SINGLE_PAYER_PLAN
 
 export const metadata: Metadata = { title: "All trade-offs" }
 

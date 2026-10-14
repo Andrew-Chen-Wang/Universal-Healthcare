@@ -1,8 +1,10 @@
 import { Page, PageHeader, Section, Table, Pill } from "@website/components/site/ui"
 import { CHANGES, CHANGE_AREAS } from "@website/content/changes"
-import { stepHref } from "@website/content/navigation"
+import { SINGLE_PAYER_PLAN } from "@website/content/plans"
 import Link from "next/link"
 import type { Metadata } from "next"
+
+const { stepHref } = SINGLE_PAYER_PLAN
 
 export const metadata: Metadata = { title: "All system changes" }
 

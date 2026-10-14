@@ -1,32 +1,39 @@
-import { COST_ITEMS } from "@website/content/calculations"
-import { NAV, STEP_NUMBER } from "@website/content/navigation"
-import { PHASES } from "@website/content/plan"
+import { getPlan } from "@website/content/plans"
+import type { PlanVariant } from "@website/content/plan-bundle"
 import { notFound } from "next/navigation"
 
 export type StepParams = Promise<{ phase: string; step: string }>
 
-export function stepStaticParams() {
-  return PHASES.flatMap((p) => p.steps.map((s) => ({ phase: p.id, step: s.id })))
+export function stepStaticParams(variant: PlanVariant) {
+  return () =>
+    getPlan(variant).phases.flatMap((p) => p.steps.map((s) => ({ phase: p.id, step: s.id })))
 }
 
-export function costStaticParams() {
-  return PHASES.flatMap((p) =>
-    p.steps.flatMap((s) =>
-      COST_ITEMS.filter((c) => c.stepId === s.id).map((c) => ({
-        phase: p.id,
-        step: s.id,
-        cost: c.id,
-      })),
-    ),
-  )
+export function costStaticParams(variant: PlanVariant) {
+  return () => {
+    const plan = getPlan(variant)
+    return plan.phases.flatMap((p) =>
+      p.steps.flatMap((s) =>
+        plan.costsForStep(s.id).map((c) => ({ phase: p.id, step: s.id, cost: c.id })),
+      ),
+    )
+  }
 }
 
-export async function loadStep(params: StepParams) {
+export async function loadStep(variant: PlanVariant, params: StepParams) {
+  const plan = getPlan(variant)
   const { phase: phaseId, step: stepId } = await params
-  const phase = PHASES.find((p) => p.id === phaseId)
+  const phase = plan.phases.find((p) => p.id === phaseId)
   const step = phase?.steps.find((s) => s.id === stepId)
   if (!phase || !step) notFound()
-  const flat = NAV.flatMap((p) => p.steps)
+  const flat = plan.nav.flatMap((p) => p.steps)
   const idx = flat.findIndex((s) => s.id === stepId)
-  return { phase, step, number: STEP_NUMBER[stepId], prev: flat[idx - 1], next: flat[idx + 1] }
+  return {
+    plan,
+    phase,
+    step,
+    number: plan.stepNumber[stepId],
+    prev: flat[idx - 1],
+    next: flat[idx + 1],
+  }
 }
