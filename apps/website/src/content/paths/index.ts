@@ -2,7 +2,7 @@
  * Every solution path, with build-time validation of every cross-link.
  * Nothing here is chosen yet: status stays "open" until the user decides.
  */
-import { PROBLEM_BY_ID, PROBLEMS } from "../problems"
+import { PROBLEM_BY_ID, PROBLEMS, SIDE_EFFECT_CATEGORIES } from "../problems"
 import { INVENTORY_BY_ID } from "../cost-inventory"
 import { SOURCE_BY_ID } from "../sources"
 import { CARE_PATHS } from "./care"
@@ -99,6 +99,7 @@ for (const p of PATHS) {
       errors.push(`${p.id}.spawns: ${id} should be a created or risk problem`)
 }
 for (const pr of PROBLEMS) {
+  if (pr.category === "Common trade-offs") continue
   if (pathsFor(pr.id).length < 2) errors.push(`problem ${pr.id}: needs at least 2 paths`)
   if (pr.category === "Problems created by solution paths" && createdBy(pr.id).length === 0)
     errors.push(`problem ${pr.id}: no path creates it`)
@@ -125,7 +126,7 @@ for (const p of PATHS) {
 }
 for (const pr of PROBLEMS)
   if (
-    pr.category !== "Problems created by solution paths" &&
+    !SIDE_EFFECT_CATEGORIES.includes(pr.category) &&
     !pathsFor(pr.id).some((q) => chosenIds.has(q.id))
   )
     errors.push(`problem ${pr.id}: no chosen path`)

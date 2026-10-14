@@ -2028,6 +2028,56 @@ export const SOURCES: Source[] = [
     url: "https://www.kff.org/affordable-care-act/kff-survey-of-consumer-experiences-with-health-insurance/",
     note: "80% of adults with employer-sponsored insurance rate their insurance excellent or good (Marketplace 73%, Medicaid 83%).",
   },
+  {
+    id: "fairlie-kapur-gates-2009",
+    title: "Is Employer-Based Health Insurance a Barrier to Entrepreneurship?",
+    org: "Fairlie, Kapur & Gates (NBER conference paper)",
+    year: 2009,
+    url: "https://conference.nber.org/confer/2009/ENTf09/Fairlie.pdf",
+    note: "Among male workers, business ownership rises from 24.6% just under age 65 (Medicare eligibility) to 28.0% just over it, a statistically significant jump; no such change appears at other ages. A later version was published in the Journal of Health Economics (2011).",
+  },
+  {
+    id: "kff-esi-101-2026",
+    title: "Employer-Sponsored Health Insurance 101",
+    org: "KFF",
+    year: 2026,
+    url: "https://www.kff.org/health-costs/health-policy-101-employer-sponsored-health-insurance/",
+    note: "In 2025, 51% of firms with 10 to 24 workers offered health benefits, against 97% of firms with at least 200 employees.",
+  },
+  {
+    id: "madrian-1994",
+    title: "Employment-Based Health Insurance and Job Mobility: Is there Evidence of Job-Lock?",
+    org: "Madrian, Quarterly Journal of Economics",
+    year: 1994,
+    url: "https://academic.oup.com/qje/article/109/1/27/1850075",
+    note: "Job lock reduces the voluntary turnover rate of people with employer-provided health insurance by 25 percent, from 16 to 12 percent a year (1987 data).",
+  },
+  {
+    id: "bailey-2017",
+    title:
+      "Health insurance and the supply of entrepreneurs: new evidence from the Affordable Care Act",
+    org: "Bailey, Small Business Economics",
+    year: 2017,
+    url: "https://link.springer.com/article/10.1007/s11187-017-9856-8",
+    note: "The ACA's dependent-coverage mandate did not increase self-employment among young adults overall, but increased it among disabled young adults by 19 to 23%.",
+  },
+  {
+    id: "bailey-chorniy-2016",
+    title:
+      "Employer-Provided Health Insurance and Job Mobility: Did the Affordable Care Act Reduce Job Lock?",
+    org: "Bailey & Chorniy, Contemporary Economic Policy",
+    year: 2016,
+    url: "https://onlinelibrary.wiley.com/doi/abs/10.1111/coep.12119",
+    note: "The ACA's expansion of dependent coverage did not increase job mobility among young adults (2008 to 2013 Current Population Survey).",
+  },
+  {
+    id: "borgschulte-vogler-2020",
+    title: "Did the ACA Medicaid expansion save lives?",
+    org: "Borgschulte & Vogler, Journal of Health Economics",
+    year: 2020,
+    url: "https://pubmed.ncbi.nlm.nih.gov/32592924/",
+    note: "Medicaid expansion reduced all-cause mortality among adults 20 to 64 by 11.36 deaths per 100,000, a 3.6 percent decrease, in its first four years.",
+  },
 ]
 
 export const SOURCE_BY_ID = Object.fromEntries(SOURCES.map((s) => [s.id, s]))

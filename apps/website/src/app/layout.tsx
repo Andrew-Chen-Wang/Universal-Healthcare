@@ -25,8 +25,8 @@ const mono = IBM_Plex_Mono({
 
 export const metadata: Metadata = {
   title: {
-    default: "Universal: a costed plan for U.S. universal health care",
-    template: "%s · Universal",
+    default: "Universal Healthcare: a costed plan for U.S. universal health care",
+    template: "%s · Universal Healthcare",
   },
   description:
     "Every step, every trade-off, and every dollar of moving the United States to universal health care, built on CMS's 2024 National Health Expenditure data.",

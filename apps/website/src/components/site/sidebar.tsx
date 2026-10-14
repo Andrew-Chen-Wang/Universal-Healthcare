@@ -2,6 +2,7 @@
 
 import type { SideGroup, SideItem, SidePart } from "@website/content/navigation"
 import { cn } from "@website/lib/utils"
+import Image from "next/image"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { useEffect, useState } from "react"
@@ -111,10 +112,54 @@ function Group({
   )
 }
 
+/** "By NextBestFit", linking to the publisher. */
+function Byline() {
+  return (
+    <a
+      href="https://nextbestfit.com"
+      className="mt-0.5 inline-flex items-center gap-1.5 text-xs text-muted-foreground hover:text-foreground"
+    >
+      <Image
+        src="/nextbestfit-logo.svg"
+        alt=""
+        width={14}
+        height={14}
+        unoptimized
+        className="rounded-[3px]"
+      />
+      By NextBestFit
+    </a>
+  )
+}
+
+const TOP_LINKS = [
+  { href: "/", label: "Home" },
+  { href: "/why", label: "Why universal health care" },
+]
+
 function Tree({ parts, onNavigate }: { parts: SidePart[]; onNavigate?: () => void }) {
   const pathname = usePathname()
   return (
     <nav className="space-y-6">
+      <ul className="space-y-0.5">
+        {TOP_LINKS.map((l) => (
+          <li key={l.href}>
+            <Link
+              href={l.href}
+              onClick={onNavigate}
+              aria-current={pathname === l.href ? "page" : undefined}
+              className={cn(
+                "block rounded-sm px-2 py-1 text-sm",
+                pathname === l.href
+                  ? "bg-accent font-medium text-accent-foreground"
+                  : "text-foreground/80 hover:text-foreground",
+              )}
+            >
+              {l.label}
+            </Link>
+          </li>
+        ))}
+      </ul>
       {parts.map((part) => (
         <div key={part.id}>
           <Link
@@ -143,12 +188,17 @@ function Tree({ parts, onNavigate }: { parts: SidePart[]; onNavigate?: () => voi
 export function Sidebar({ parts }: { parts: SidePart[] }) {
   return (
     <aside className="sticky top-0 hidden h-dvh w-80 shrink-0 overflow-y-auto border-r border-rule px-3 py-6 lg:block">
-      <Link href="/" className="mb-6 block px-2">
-        <div className="font-serif text-xl leading-tight font-semibold text-ink">Universal</div>
-        <div className="text-xs text-muted-foreground">
+      <div className="mb-6 px-2">
+        <Link href="/" className="block">
+          <div className="font-serif text-xl leading-tight font-semibold text-ink">
+            Universal Healthcare
+          </div>
+        </Link>
+        <Byline />
+        <div className="mt-1 text-xs text-muted-foreground">
           Problems, costs, and changes toward U.S. universal health care
         </div>
-      </Link>
+      </div>
       <Tree parts={parts} />
     </aside>
   )
@@ -170,9 +220,12 @@ export function MobileNav({ parts }: { parts: SidePart[] }) {
   return (
     <>
       <div className="sticky top-0 z-30 flex items-center justify-between border-b border-rule bg-background/95 px-4 py-2 backdrop-blur lg:hidden">
-        <Link href="/" className="font-serif text-lg font-semibold">
-          Universal
-        </Link>
+        <div>
+          <Link href="/" className="block font-serif text-lg leading-tight font-semibold">
+            Universal Healthcare
+          </Link>
+          <Byline />
+        </div>
         <button
           type="button"
           onClick={() => {

@@ -83,6 +83,9 @@ export function impactsOf(p: SolutionPath): { gains: Impact[]; loses: Impact[] }
     const pr = PROBLEM_BY_ID[id]
     for (const l of pr.hurts ?? []) add(dir === "fixes" ? gains : loses, l.group, id, l.how)
     for (const l of pr.profits ?? []) add(dir === "fixes" ? loses : gains, l.group, id, l.how)
+    const h = p.how[id]
+    for (const g of h.helps ?? []) add(gains, g, id, h.note)
+    for (const g of h.hurts ?? []) add(loses, g, id, h.note)
   }
   return { gains: [...gains.values()], loses: [...loses.values()] }
 }
@@ -117,6 +120,8 @@ for (const p of PATHS) {
   for (const [id, h] of Object.entries(p.how)) {
     if (!linked.has(id)) errors.push(`${p.id}.how: ${id} is not a linked problem`)
     checkSources(`${p.id}.how.${id}`, h.sourceIds)
+    for (const g of [...(h.helps ?? []), ...(h.hurts ?? [])])
+      if (!GROUP_BY_ID[g]) errors.push(`${p.id}.how.${id}: unknown group ${g}`)
   }
   if (p.pros || p.cons || p.whoGains || p.whoLoses || p.mend)
     errors.push(`${p.id}: migrated paths must drop the legacy free-text lists`)
@@ -140,7 +145,8 @@ for (const p of PATHS)
   if (p.how)
     for (const [id] of links(p)) {
       const pr = PROBLEM_BY_ID[id]
-      if (!pr.hurts && !pr.profits) errors.push(`${p.id}: linked problem ${id} has no group links`)
+      if (!pr.hurts && !pr.profits && pr.category !== "Common trade-offs")
+        errors.push(`${p.id}: linked problem ${id} has no group links`)
     }
 
 export const GRAPH_ERRORS = errors

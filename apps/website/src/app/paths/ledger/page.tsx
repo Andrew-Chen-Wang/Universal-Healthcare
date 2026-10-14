@@ -96,14 +96,17 @@ export default function LedgerPage() {
       </div>
       <Callout title="How to review">
         <ul className="list-disc space-y-1 pl-5 text-sm">
-          <li>
-            Use the temporary{" "}
-            <Link href="/paths/review" className="underline">
-              review page
-            </Link>{" "}
-            (under <code>pnpm run dev</code>) to choose, reject, re-phase, and note each pick; it
-            saves to a file Claude folds in afterwards.
-          </li>
+          {/* The review page only exists in development; the static site omits it. */}
+          {process.env.NODE_ENV === "development" && (
+            <li>
+              Use the temporary{" "}
+              <Link href="/paths/review" className="underline">
+                review page
+              </Link>{" "}
+              (under <code>pnpm run dev</code>) to choose, reject, re-phase, and note each pick; it
+              saves to a file Claude folds in afterwards.
+            </li>
+          )}
           <li>Open a path, read its trade-offs, and tell Claude to keep, flip, or change it.</li>
           <li>
             Flipping a pick can break others: the build checks that every chosen path's requirements

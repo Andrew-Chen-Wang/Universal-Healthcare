@@ -2,8 +2,13 @@ export type PathStatus = "open" | "chosen" | "rejected"
 
 export type Precedent = { place: string; note: string; sourceIds?: string[] }
 
-/** How this path affects one linked problem: the mechanism, with sources for any figure. */
-export type How = { note: string; sourceIds?: string[] }
+/**
+ * How this path affects one linked problem: the mechanism, with sources for any
+ * figure. `helps` and `hurts` name extra groups (see groups.ts) this path
+ * affects through this link, beyond those the problem itself lists; shared
+ * trade-offs like "reduces income for some" use these to say whose income.
+ */
+export type How = { note: string; sourceIds?: string[]; helps?: string[]; hurts?: string[] }
 
 /**
  * One possible solution to one problem. Paths link to each other and to other

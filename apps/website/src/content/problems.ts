@@ -27,7 +27,14 @@ export const PROBLEM_CATEGORIES = [
   "Data, technology & privacy",
   "Risks a universal system can create",
   "Problems created by solution paths",
+  "Common trade-offs",
 ] as const
+
+/** Categories of side effects rather than problems to solve; the plan builder doesn't ask for answers to them. */
+export const SIDE_EFFECT_CATEGORIES: readonly ProblemCategory[] = [
+  "Problems created by solution paths",
+  "Common trade-offs",
+]
 
 export type ProblemCategory = (typeof PROBLEM_CATEGORIES)[number]
 
@@ -1502,6 +1509,15 @@ export const PROBLEMS: Problem[] = [
 ]
 
 const X = "Problems created by solution paths" as const
+const T = "Common trade-offs" as const
+
+/**
+ * Costs many paths share, such as "raises public spending up front". They are
+ * problems in the graph (with pages, group links, and debates) so each is
+ * described once, but they need no solution paths of their own.
+ */
+const TRADEOFFS: Problem[] = []
+void T
 
 /**
  * Problems that exist only because a solution path was chosen. Each is linked
@@ -1809,6 +1825,6 @@ const DERIVED: Problem[] = [
   },
 ]
 
-PROBLEMS.push(...DERIVED)
+PROBLEMS.push(...DERIVED, ...TRADEOFFS)
 
 export const PROBLEM_BY_ID = Object.fromEntries(PROBLEMS.map((p) => [p.id, p]))

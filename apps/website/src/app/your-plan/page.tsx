@@ -2,7 +2,7 @@ import { Page, PageHeader } from "@website/components/site/ui"
 import { v } from "@website/content/constants"
 import { type Effect, effectsOf, type Impact, impactsOf } from "@website/content/graph"
 import { CHOSEN, conflictsOf, PATHS } from "@website/content/paths"
-import { PROBLEM_CATEGORIES, PROBLEMS } from "@website/content/problems"
+import { PROBLEM_CATEGORIES, PROBLEMS, SIDE_EFFECT_CATEGORIES } from "@website/content/problems"
 import type { Metadata } from "next"
 import type { Pop } from "./coverage"
 import { PlanBuilder, type BuilderPath, type BuilderProblem, type Item } from "./plan-builder"
@@ -21,8 +21,6 @@ export const metadata: Metadata = {
   description:
     "Pick a solution path for each problem and see the combined trade-offs, required changes, and conflicts.",
 }
-
-const DERIVED = "Problems created by solution paths"
 
 const POP_IDS = [
   "residentPop2025",
@@ -49,7 +47,7 @@ export default function YourPlanPage() {
     id: p.id,
     title: p.title,
     category: p.category,
-    derived: p.category === DERIVED,
+    derived: SIDE_EFFECT_CATEGORIES.includes(p.category),
   }))
   const paths: BuilderPath[] = PATHS.map((p) => ({
     id: p.id,
@@ -75,7 +73,7 @@ export default function YourPlanPage() {
       <PlanBuilder
         problems={problems}
         paths={paths}
-        categories={PROBLEM_CATEGORIES.filter((c) => c !== DERIVED)}
+        categories={PROBLEM_CATEGORIES.filter((c) => !SIDE_EFFECT_CATEGORIES.includes(c))}
         draft={CHOSEN.map((p) => p.id)}
         pop={Object.fromEntries(POP_IDS.map((id) => [id, v(id)])) as Pop}
       />
