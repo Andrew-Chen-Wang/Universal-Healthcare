@@ -7,6 +7,7 @@
  *
  * Paths not yet migrated (no `how`) fall back to their legacy free-text lists.
  */
+import { CURRENT_LAW } from "./current-law"
 import { GROUP_BY_ID, GROUPS, type Group } from "./groups"
 import { alsoSolvedBy, createdBy, PATHS, pathsFor, worsenedBy } from "./paths"
 import type { SolutionPath } from "./paths"
@@ -166,6 +167,11 @@ for (const pr of PROBLEMS) {
     for (const id of r.problems ?? [])
       if (!PROBLEM_BY_ID[id]) errors.push(`${pr.id}.debate: unknown problem ${id}`)
   }
+}
+for (const [id, r] of Object.entries(CURRENT_LAW)) {
+  if (!PROBLEM_BY_ID[id]) errors.push(`current-law: unknown problem ${id}`)
+  if (!r.sourceIds?.length) errors.push(`current-law.${id}: needs a source`)
+  checkSources(`current-law.${id}`, r.sourceIds)
 }
 // A migrated path's problems must say whom they affect, or "who gains" would be silently empty.
 for (const p of PATHS)
