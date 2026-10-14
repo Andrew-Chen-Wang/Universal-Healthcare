@@ -5,6 +5,7 @@ import { cn } from "@website/lib/utils"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { Button } from "@website/components/ui/button"
+import Fuse from "fuse.js"
 import { useEffect, useMemo, useState } from "react"
 
 type Status = "chosen" | "rejected"
@@ -27,6 +28,7 @@ export type ReviewRow = {
 }
 
 type Overrides = Record<string, Override>
+type Order = "priority" | "status" | "problem"
 type SaveState = "idle" | "saving" | "saved" | "error"
 
 const CONF_ORDER = { low: 0, medium: 1, high: 2 } as const
@@ -66,7 +68,7 @@ export function ReviewBoard({
   const [edits, setEdits] = useState<Overrides>(initial)
   const [saved, setSaved] = useState<Overrides>(initial)
   const [save, setSave] = useState<SaveState>("idle")
-  const [order, setOrder] = useState<"priority" | "problem">("priority")
+  const [order, setOrder] = useState<Order>("priority")
   const [hideReviewed, setHideReviewed] = useState(true)
   const [flaggedOnly, setFlaggedOnly] = useState(false)
   const [query, setQuery] = useState("")
@@ -130,22 +132,45 @@ export function ReviewBoard({
   const reviewedCount = rows.filter((r) => edits[r.id]?.reviewed).length
   const changedCount = rows.filter((r) => current(r).changed).length
 
+  const fuse = useMemo(
+    () =>
+      new Fuse(
+        rows.map((r) => ({ ...r, note: edits[r.id]?.note ?? "" })),
+        {
+          keys: [
+            { name: "title", weight: 3 },
+            { name: "problemTitle", weight: 2 },
+            "summary",
+            "reason",
+            "review",
+            "note",
+            "id",
+          ],
+          threshold: 0.35,
+          ignoreLocation: true,
+        },
+      ),
+    [rows, edits],
+  )
+
   const visible = useMemo(() => {
-    const q = query.trim().toLowerCase()
+    const q = query.trim()
+    const matches = q ? new Set(fuse.search(q).map((m) => m.item.id)) : null
     const list = rows.filter(
       (r) =>
         (!hideReviewed || !edits[r.id]?.reviewed) &&
         (!flaggedOnly || r.review) &&
-        (!q || `${r.title} ${r.problemTitle} ${r.id}`.toLowerCase().includes(q)),
+        (!matches || matches.has(r.id)),
     )
-    return order === "priority"
-      ? list.toSorted(
-          (a, b) =>
-            CONF_ORDER[a.confidence] - CONF_ORDER[b.confidence] ||
-            Number(!a.review) - Number(!b.review),
-        )
-      : list.toSorted((a, b) => a.problemTitle.localeCompare(b.problemTitle))
-  }, [rows, edits, hideReviewed, flaggedOnly, query, order])
+    const byPriority = (a: ReviewRow, b: ReviewRow) =>
+      CONF_ORDER[a.confidence] - CONF_ORDER[b.confidence] || Number(!a.review) - Number(!b.review)
+    const reviewed = (r: ReviewRow) => Number(edits[r.id]?.reviewed ?? false)
+    if (order === "status")
+      return list.toSorted((a, b) => reviewed(a) - reviewed(b) || byPriority(a, b))
+    if (order === "problem")
+      return list.toSorted((a, b) => a.problemTitle.localeCompare(b.problemTitle))
+    return list.toSorted(byPriority)
+  }, [rows, edits, hideReviewed, flaggedOnly, query, order, fuse])
 
   const errorsFor = (id: string) =>
     errors.filter((e) => e.startsWith(`${id}:`) || e.startsWith(`${id}.`))
@@ -177,9 +202,9 @@ export function ReviewBoard({
             onChange={(e) => {
               setQuery(e.target.value)
             }}
-            placeholder="Search paths or problems"
+            placeholder="Search titles, problems, reasons, notes"
             aria-label="Search paths or problems"
-            className="min-h-10 w-full rounded-md border border-rule bg-card px-3 sm:w-64"
+            className="min-h-10 w-full rounded-md border border-rule bg-card px-3 text-base sm:w-72 sm:text-sm"
           />
           <label className="flex min-h-10 items-center gap-2">
             <input
@@ -208,11 +233,14 @@ export function ReviewBoard({
             <select
               value={order}
               onChange={(e) => {
-                setOrder(e.target.value as "priority" | "problem")
+                const next = e.target.value as Order
+                setOrder(next)
+                if (next === "status") setHideReviewed(false)
               }}
               className="min-h-10 rounded-md border border-rule bg-card px-2"
             >
               <option value="priority">Review priority</option>
+              <option value="status">Review status (unreviewed first)</option>
               <option value="problem">By problem</option>
             </select>
           </label>
@@ -267,6 +295,7 @@ export function ReviewBoard({
                   <Tag className={CONF_STYLE[r.confidence]}>{r.confidence} confidence</Tag>
                   <Tag className="bg-secondary text-foreground/75">Draft: {r.status}</Tag>
                   {c.changed && <Tag className="bg-accent text-accent-foreground">Changed</Tag>}
+                  {c.reviewed && <Tag className="bg-gain-soft text-gain">Reviewed</Tag>}
                 </div>
               </div>
 
