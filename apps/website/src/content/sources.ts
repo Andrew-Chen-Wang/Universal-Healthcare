@@ -1930,6 +1930,41 @@ export const SOURCES: Source[] = [
     note: "Uninsured working-age adults (19\u201364) in 2024: 31.8% of noncitizens vs 8.4% of native-born and 8.6% of naturalized citizens.",
   },
   {
+    id: "census-age-2024",
+    title:
+      "Older Adults Outnumber Children in 11 States and Nearly Half of U.S. Counties (Vintage 2024 estimates)",
+    org: "U.S. Census Bureau",
+    year: 2025,
+    url: "https://www.census.gov/newsroom/press-releases/2025/older-adults-outnumber-children.html",
+    note: "July 1, 2024: 61.2 million people 65 and older, 73.1 million under 18; total resident population 340.1 million.",
+  },
+  {
+    id: "nchs-db336",
+    title:
+      "Regional Variation in Private Dental Coverage and Care Among Dentate Adults Aged 18–64 in the United States, 2014–2017 (NCHS Data Brief No. 336)",
+    org: "National Center for Health Statistics",
+    year: 2019,
+    url: "https://www.cdc.gov/nchs/products/databriefs/db336.htm",
+    note: "50.2% of dentate adults aged 18–64 with private health insurance had dental coverage throughout the past 12 months.",
+  },
+  {
+    id: "riggs-oop-caps-2015",
+    title:
+      "Impact of Out-of-Pocket Spending Caps on Financial Burden of Those with Group Health Insurance",
+    org: "Riggs, Buttorff & Alexander, Journal of General Internal Medicine",
+    year: 2015,
+    url: "https://pmc.ncbi.nlm.nih.gov/articles/PMC4395601/",
+    note: "MEPS 2011–2012, about 147 million people with group insurance. Income-based caps (two-thirds lower below 200% of poverty, one-fifth lower at 200–250%) cut family spending for 2.1% of people by $3,525 on average and shift about $76 per person a year to premiums.",
+  },
+  {
+    id: "milliman-wish-2022",
+    title: "Preparing for the unknown: Public LTC program design (WISH Act)",
+    org: "Milliman",
+    year: 2022,
+    url: "https://www.milliman.com/en/insight/Preparing-for-the-unknown-public-LTC-program-design",
+    note: "Catastrophic federal long-term care insurance: $3,600 monthly cash benefit indexed to wages, unlimited period, one-to-five-year waiting period by lifetime income. Central payroll tax 0.6% (0.3% each), range 0.35% to 1.10%.",
+  },
+  {
     id: "cbo-mandate-repeal-2017",
     title: "Repealing the Individual Health Insurance Mandate: An Updated Estimate",
     org: "Congressional Budget Office",

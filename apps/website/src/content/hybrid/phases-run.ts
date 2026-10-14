@@ -117,8 +117,8 @@ export const HY_PHASE_2: HybridPhase = {
         },
       ],
       cost: {
-        recurring: 0,
-        ledgerNote: "Paid through premiums; not yet priced in the cost model.",
+        recurring: HYBRID_COST.lines.find((l) => l.id === "privateDvh")?.delta ?? 0,
+        ledgerNote: `${H.privateDvh} a year of national spending, as adults without dental coverage use more care; paid through premiums.`,
       },
       pros: [{ point: "Closes the most common gaps in coverage today." }],
       cons: [{ point: "Raises premiums for plans that didn't cover these before." }],
@@ -1000,7 +1000,10 @@ export const HY_PHASE_5: HybridPhase = {
           tradeoff: "A broad contribution covers more but reaches households below the line.",
         },
       ],
-      cost: { recurring: 0, ledgerNote: "Not decided; not priced." },
+      cost: {
+        recurring: 0,
+        ledgerNote: `Not decided, so not in the totals. Catastrophic insurance: about ${H.ltcCatastrophic} a year. Full public long-term care: ${H.ltcFullFederal} a year of federal cost.`,
+      },
       pros: [{ point: "Keeps the first stages affordable within the break-even rule." }],
       cons: [
         { point: "Families keep spending down their savings for care until this is decided." },

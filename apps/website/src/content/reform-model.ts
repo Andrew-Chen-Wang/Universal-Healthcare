@@ -8,7 +8,8 @@
  *   1. Coverage: people newly covered use more care.
  *   2. Provider prices: a cap on commercial prices, or one rate for every payer.
  *   3. Drug prices: negotiated or reference prices for every payer.
- *   4. New benefits: dental, vision, and hearing; long-term care.
+ *   4. New benefits: dental, vision, and hearing; long-term care; basic dental,
+ *      glasses, and hearing aids in private plans; an income cap on cost sharing.
  *   5. Insurer overhead: follows private benefit spending, or falls to a
  *      Swiss-style share under the non-profit requirement.
  *   6. Workforce investment: the same recurring program as the single payer.
@@ -39,6 +40,8 @@ export type ReformLine = {
   sourceIds: string[]
   /** The arithmetic, step by step, for the line's calculation page. */
   steps?: CalcStep[]
+  /** Spending moved from households to private plans, $B a year, when the line only moves it. */
+  privateShift?: number
 }
 
 export type ReformCost = {
@@ -445,6 +448,160 @@ export function reformCost(picks: Set<string>): ReformCost {
       ],
     )
 
+  // 4b. Basic dental, glasses, and hearing aids in every private plan's standard benefit
+  if (has("dental-basic") && !DENTAL.some(has)) {
+    const adults = v("pop2024Census") - v("popUnder18_2024") - v("pop65plus2024")
+    const privateAdults = adults * v("privateShare19to64")
+    const gaining = privateAdults * (1 - v("privateWithDental"))
+    const perPerson = (row("dental").total * 1000) / POPULATION_2024_MILLIONS
+    const today = (gaining * perPerson) / 1000
+    const { utilization: u, retainedOutOfPocketShare: r } = assumption("dental")
+    const vh =
+      (v("cboMedicareVision10yr") + v("cboMedicareHearing10yr")) / v("cboMedicareDental10yr")
+    const national = today * (u - 1) * (1 + vh)
+    const plans = today * u * (1 - r) * (1 + vh)
+    const households = national - plans
+    privateChange += plans
+    oopChange += households
+    lines.push({
+      id: "privateDvh",
+      label: "Basic dental, glasses, and hearing aids in private plans",
+      delta: national,
+      federal: 0,
+      explanation: `About ${gaining.toFixed(1)} million working-age adults with private insurance have no dental coverage. Covered, they use ${pct(u - 1)} more dental care (the single-payer model's dental assumption), and plans pay ${pct(1 - r)} of it, through premiums. Glasses and hearing aids add ${pct(vh)} on top, CBO's ratio for Medicare; working-age adults need fewer hearing aids, so this is an upper bound. Households pay ${fmt(-households)} less out of pocket and ${fmt(plans)} more in premiums. Federal subsidies follow premiums for people in subsidized plans; that share isn't counted here.`,
+      sourceIds: [
+        "census-age-2024",
+        "census-p60-288",
+        "nchs-db336",
+        "ada-hpi",
+        "cbo-medicare-dvh-2021",
+      ],
+      steps: [
+        {
+          label: "Adults 18 to 64, 2024",
+          formula: `${v("pop2024Census")} − ${v("popUnder18_2024")} − ${v("pop65plus2024")}`,
+          value: adults * 1e6,
+          unit: "count",
+          inputs: ["pop2024Census", "popUnder18_2024", "pop65plus2024"],
+          sourceIds: ["census-age-2024"],
+        },
+        {
+          label: "With private health insurance",
+          formula: `${adults.toFixed(1)} × ${pct(v("privateShare19to64"))}`,
+          value: privateAdults * 1e6,
+          unit: "count",
+          inputs: ["privateShare19to64"],
+          sourceIds: ["census-p60-288"],
+        },
+        {
+          label: "Without dental coverage",
+          formula: `${privateAdults.toFixed(1)} × (1 − ${pct(v("privateWithDental"))})`,
+          value: gaining * 1e6,
+          unit: "count",
+          inputs: ["privateWithDental"],
+          sourceIds: ["nchs-db336"],
+        },
+        {
+          label: "Dental spending per person, 2024",
+          formula: `${fmt(row("dental").total)} ÷ ${POPULATION_2024_MILLIONS}M people`,
+          value: perPerson,
+          unit: "$",
+          sourceIds: ["cms-nhe-2024"],
+        },
+        {
+          label: "Their dental spending today",
+          formula: `${gaining.toFixed(1)}M × ${usd(perPerson)}`,
+          value: today,
+          unit: "B",
+        },
+        {
+          label: "Glasses and hearing aids, as a share of dental (CBO, Medicare)",
+          formula: `(${fmt(v("cboMedicareVision10yr"))} + ${fmt(v("cboMedicareHearing10yr"))}) ÷ ${fmt(v("cboMedicareDental10yr"))}`,
+          value: vh,
+          unit: "%",
+          inputs: ["cboMedicareVision10yr", "cboMedicareHearing10yr", "cboMedicareDental10yr"],
+          sourceIds: ["cbo-medicare-dvh-2021"],
+        },
+        {
+          label: "Paid by plans, through premiums",
+          formula: `${fmt(today)} × ${u.toFixed(2)} × ${pct(1 - r)} × (1 + ${pct(vh)})`,
+          value: plans,
+          unit: "B",
+        },
+        {
+          label: "Change in out-of-pocket spending",
+          formula: `${fmt(national)} − ${fmt(plans)}`,
+          value: households,
+          unit: "B",
+        },
+        {
+          label: "Change in national spending (more care)",
+          formula: `${fmt(today)} × (${u.toFixed(2)} − 1) × (1 + ${pct(vh)})`,
+          value: national,
+          unit: "B",
+          result: true,
+        },
+      ],
+    })
+  }
+
+  // 4c. An income-based cap on cost sharing in every private plan
+  if (has("underins-income-cap")) {
+    const people = v("pop2024Census") * v("privateShareAll")
+    const growth = NHE_PER_CAPITA_2024 / v("nhePerCapita2013")
+    const perPerson = v("oopCapShiftPerPerson") * growth
+    const shift = (people * perPerson) / 1000
+    privateChange += shift
+    oopChange -= shift
+    lines.push({
+      id: "oopCap",
+      label: "Income-based cap on cost sharing",
+      delta: 0,
+      federal: 0,
+      privateShift: shift,
+      explanation: `Spending above each family's cap moves from households to plans: about ${usd(perPerson)} a person a year, scaled from a study of income-tiered caps on group plans to 2024 spending, ${fmt(shift)} across ${people.toFixed(1)} million people with private insurance. National spending doesn't change except through extra care people use once they reach the cap, which isn't counted. A tighter cap, such as Germany's ${pct(v("germanyCopayCap"))} of income, would move more. Federal subsidies follow premiums for people in subsidized plans; that share isn't counted here.`,
+      sourceIds: ["riggs-oop-caps-2015", "census-p60-288", "cms-nhe-2024"],
+      steps: [
+        {
+          label: "People with private insurance, 2024",
+          formula: `${v("pop2024Census")} × ${pct(v("privateShareAll"))}`,
+          value: people * 1e6,
+          unit: "count",
+          inputs: ["pop2024Census", "privateShareAll"],
+          sourceIds: ["census-age-2024", "census-p60-288"],
+        },
+        {
+          label: "Spending moved to premiums per person, 2011–2012 (income-tiered caps)",
+          value: v("oopCapShiftPerPerson"),
+          unit: "$",
+          inputs: ["oopCapShiftPerPerson"],
+          sourceIds: ["riggs-oop-caps-2015"],
+        },
+        {
+          label: "Growth in spending per person since 2013, the nearest year the model holds",
+          formula: `${usd(NHE_PER_CAPITA_2024)} ÷ ${usd(v("nhePerCapita2013"))}`,
+          value: growth,
+          unit: "x",
+          inputs: ["nhePerCapita2013"],
+          sourceIds: ["cms-nhe-2024", "cms-nhe-2013"],
+        },
+        {
+          label: "Per person, 2024",
+          formula: `${usd(v("oopCapShiftPerPerson"))} × ${growth.toFixed(2)}`,
+          value: perPerson,
+          unit: "$",
+        },
+        {
+          label: "Moved from out-of-pocket to premiums",
+          formula: `${people.toFixed(1)}M × ${usd(perPerson)}`,
+          value: shift,
+          unit: "B",
+          result: true,
+        },
+      ],
+    })
+  }
+
   // 5. Insurer overhead follows private benefits
   const ratioToday = PRIVATE_OVERHEAD / PRIVATE_BENEFITS
   const capped = OVERHEAD.some(has)
@@ -618,13 +775,6 @@ export function reformCost(picks: Set<string>): ReformCost {
     : undefined
 
   const notPriced: ReformCost["notPriced"] = []
-  if (has("dental-basic") && !DENTAL.some(has))
-    notPriced.push({
-      label: "Basic dental, glasses, and hearing aids in private plans",
-      note: "In every private and regulated plan's standard benefit, paid through premiums; not yet priced. For scale, the single-payer model prices full public dental, vision, and hearing for everyone well above this.",
-    })
-  if (has("underins-income-cap"))
-    notPriced.push({ label: "Income-based caps on cost sharing", note: "Not yet priced." })
 
   return {
     lines,

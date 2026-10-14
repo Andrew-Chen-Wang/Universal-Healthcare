@@ -13,6 +13,18 @@ export const HYBRID_COST = reformCost(new Set(CHOSEN.map((p) => p.id)))
 const zero: ReformLine = { id: "", label: "", delta: 0, federal: 0, explanation: "", sourceIds: [] }
 export const hybridLine = (id: string) => HYBRID_COST.lines.find((l) => l.id === id) ?? zero
 
+/** Long-term care options for the decision step, priced but not in the draft's totals. */
+export const HYBRID_LTC = {
+  /** Catastrophic insurance (the WISH Act design), at the central payroll tax. */
+  catastrophic: v("wishPayrollRate") * v("wageBase"),
+  low: v("wishPayrollLow") * v("wageBase"),
+  high: v("wishPayrollHigh") * v("wageBase"),
+  /** Full public long-term care, as the single-payer model prices it. */
+  full: reformCost(new Set([...CHOSEN.map((p) => p.id), "ltc-social-insurance"])).lines.find(
+    (l) => l.id === "ltc",
+  )!,
+}
+
 export type HybridComponent = {
   label: string
   amount: number
@@ -124,5 +136,9 @@ export const H = {
   workforce: fmt(hybridLine("workforce").delta),
   maFix: fmt(hybridLine("maFix").delta, { sign: true }),
   medicareDvh: fmt(hybridLine("medicareDvh").delta, { sign: true }),
+  privateDvh: fmt(hybridLine("privateDvh").delta, { sign: true }),
+  oopCap: fmt(hybridLine("oopCap").privateShift ?? 0),
+  ltcCatastrophic: fmt(HYBRID_LTC.catastrophic),
+  ltcFullFederal: fmt(HYBRID_LTC.full.federal),
   oneTimeTotal: fmt(HYBRID_ONE_TIME_TOTAL),
 }
