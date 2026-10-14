@@ -105,6 +105,15 @@ export function costFor(picks: Set<string>) {
     })
   }
 
+  if (has("twotier-allow")) {
+    rules.push({
+      label: "Private insurance",
+      effect:
+        "Duplicate private insurance allowed: not priced. What people spend on it, and its insurers' overhead, comes on top of these totals",
+      central: false,
+    })
+  }
+
   if (!has("wage-small-exempt")) {
     assumptions.smallEmployerExemptShare = 0
     rules.push({

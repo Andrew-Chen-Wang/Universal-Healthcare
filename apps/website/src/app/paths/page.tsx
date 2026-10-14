@@ -1,4 +1,4 @@
-import { ProblemChip, StatusPill } from "@website/components/site/paths"
+import { ProblemChip, ScalePill, StatusPill } from "@website/components/site/paths"
 import { Callout, Page, PageHeader, Stat } from "@website/components/site/ui"
 import { slug } from "@website/content/navigation"
 import {
@@ -33,7 +33,8 @@ function PathRow({ p, depth, seen }: { p: SolutionPath; depth: number; seen: Set
         <Link href={`/paths/${p.id}`} className="text-sm hover:text-primary hover:underline">
           {p.title}
         </Link>
-        <StatusPill status={p.status} />
+        <ScalePill scale={p.scale} />
+        {p.role !== "keeps" && <StatusPill status={p.status} />}
         {p.requires?.map((r) => (
           <span key={r} className="text-[11px] text-muted-foreground">
             requires{" "}
@@ -101,7 +102,8 @@ export default function PathsPage() {
   )
   const conflictPairs = PATHS.reduce((n, p) => n + conflictsOf(p.id).length, 0) / 2
   const complementPairs = PATHS.reduce((n, p) => n + complementsOf(p.id).length, 0) / 2
-  const decided = PATHS.filter((p) => p.status !== "open").length
+  const written = PATHS.filter((p) => p.role !== "keeps")
+  const decided = written.filter((p) => p.status !== "open").length
   return (
     <Page>
       <PageHeader
@@ -111,11 +113,21 @@ export default function PathsPage() {
       />
 
       <div className="mb-8 grid grid-cols-2 gap-3 sm:grid-cols-4">
-        <Stat label="Solution paths" value={PATHS.length.toString()} />
+        <Stat label="Solution paths" value={written.length.toString()} />
         <Stat label="Problems" value={PROBLEMS.length.toString()} />
         <Stat label="Problems created by paths" value={created.length.toString()} />
-        <Stat label="Decided" value={`${decided} / ${PATHS.length}`} />
+        <Stat label="Decided" value={`${decided} / ${written.length}`} />
       </div>
+
+      <Callout title="Compare against changing nothing">
+        Every problem in today&apos;s system also has a &ldquo;Keep current law&rdquo; option, and
+        every path is labeled by how much it changes today&apos;s system.{" "}
+        <Link href="/approaches" className="underline">
+          Compare approaches
+        </Link>{" "}
+        puts keeping current law, minor changes, bigger changes that keep today&apos;s insurers, a
+        universal multi-payer system, and the draft single-payer picks side by side.
+      </Callout>
 
       <Callout title="How to read the relationships">
         <ul className="list-disc space-y-1 pl-5 text-sm">

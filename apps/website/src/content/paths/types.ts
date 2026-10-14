@@ -1,3 +1,5 @@
+import type { Scale } from "./scale"
+
 export type PathStatus = "open" | "chosen" | "rejected"
 
 export type Precedent = { place: string; note: string; sourceIds?: string[] }
@@ -23,8 +25,10 @@ export type SolutionPath = {
    * By default a path fixes its main problem. "answers" means it is one answer
    * to that problem's open question (which tax, whether to allow a private
    * tier) rather than a way to shrink it, so no gains or losses flow from it.
+   * "keeps" means it keeps current law (see keep.ts): it fixes nothing, so the
+   * groups the problem hurts stay hurt and those it profits keep profiting.
    */
-  role?: "answers"
+  role?: "answers" | "keeps"
   title: string
   summary: string
   precedents: Precedent[]
@@ -63,9 +67,13 @@ export type SolutionPath = {
   changes?: string[]
   costIds?: string[]
   status: PathStatus
+  /** How much the path changes today's system; filled from scale.ts. */
+  scale: Scale
 }
 
 /** Helper so content files stay compact. */
-export function path(p: Omit<SolutionPath, "status"> & { status?: PathStatus }): SolutionPath {
-  return { status: "open", ...p }
+export function path(
+  p: Omit<SolutionPath, "status" | "scale"> & { status?: PathStatus; scale?: Scale },
+): SolutionPath {
+  return { status: "open", scale: "none", ...p }
 }

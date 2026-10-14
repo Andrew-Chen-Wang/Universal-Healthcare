@@ -4,6 +4,31 @@
  * residence-period paths. Groups come from different surveys and years, so
  * they are shown side by side, not summed into one total.
  */
+import { v } from "@website/content/constants"
+
+const POP_IDS = [
+  "residentPop2025",
+  "usBornCitizens",
+  "naturalizedCitizens",
+  "lawfulPermanentResidents",
+  "nonimmigrantResidents",
+  "unauthorizedHigh",
+  "unauthorizedLow",
+  "newLprArrivals",
+  "visitorArrivals",
+  "uninsuredToday",
+  "mandateRepealUninsured2027",
+  "tricareActiveFamilies",
+  "vaEnrolled",
+  "ihsServed",
+  "incarcerated",
+  "puertoRicoPop",
+  "otherTerritoriesPop",
+] as const
+
+/** Every population count the coverage table needs, read from constants.ts. */
+export const popFromConstants = () => Object.fromEntries(POP_IDS.map((id) => [id, v(id)])) as Pop
+
 export type Pop = {
   residentPop2025: number
   usBornCitizens: number

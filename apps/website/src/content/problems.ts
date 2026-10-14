@@ -52,6 +52,11 @@ export type Problem = {
   hurts?: GroupLink[]
   /** Groups that gain while the problem continues: fixing it costs them. */
   profits?: GroupLink[]
+  /**
+   * What happens to this problem under current law if nothing changes: the
+   * trend, with sources. Shown on its "Keep current law" path (see paths/keep.ts).
+   */
+  currentLaw?: Reading
   /** Whether this really is a problem or cost, argued both ways with sources. */
   debate?: { is: Reading[]; isNot: Reading[] }
   /** Legacy free-text lists, replaced by `hurts` and `profits` as problems join the graph. */
@@ -80,6 +85,10 @@ export const PROBLEMS: Problem[] = [
         sourceIds: ["kff-cost-2025"],
       },
     ],
+    currentLaw: {
+      text: `Under current law the uninsured share grows. CMS's actuaries project direct-purchase enrollment falls by ${show("directPurchaseDrop2026")} million in 2026 as enhanced marketplace subsidies expire, and Medicaid enrollment falls as the 2025 law's work requirements start. The insured share falls from ${show("insuredShare2024")} in 2024 to ${show("insuredShare2028")} in 2028 and is still ${show("insuredShare2034")} in 2034.`,
+      sourceIds: ["cms-nhe-proj-2025"],
+    },
     hurts: [{ group: "uninsured", how: "They delay care, go without, or pay full price." }],
     profits: [
       { group: "employers", how: "Employers that don't offer coverage avoid its cost." },
@@ -605,6 +614,10 @@ export const PROBLEMS: Problem[] = [
         sourceIds: ["shrank-waste-2019"],
       },
     ],
+    currentLaw: {
+      text: `Under current law spending keeps growing faster than the economy. CMS's actuaries project national health spending growing ${show("nheGrowth2025to2034")} a year over 2025–2034 against ${show("gdpGrowth2025to2034")} for GDP, reaching $${v("nhe2034") / 1000} trillion in 2034, or ${show("healthGdpShare2034")} of GDP, up from ${show("healthGdpShare2024")} in 2024.`,
+      sourceIds: ["cms-nhe-proj-2025"],
+    },
     hurts: [
       {
         group: "employer-covered",
@@ -767,6 +780,10 @@ export const PROBLEMS: Problem[] = [
         sourceIds: ["rand-drugs-2024"],
       },
     ],
+    currentLaw: {
+      text: `Under current law, retail prescription drug spending is projected to grow fastest of the major categories: ${show("drugSpendGrowth2025to2034")} a year over 2025–2034. Medicare's existing drug-price negotiation continues for the drugs it covers.`,
+      sourceIds: ["cms-nhe-proj-2025"],
+    },
     hurts: [
       {
         group: "underinsured",

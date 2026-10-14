@@ -3,9 +3,9 @@
 import { Button } from "@website/components/ui/button"
 import { cn } from "@website/lib/utils"
 import Link from "next/link"
-import { useEffect, useMemo, useState } from "react"
+import { useMemo } from "react"
 import { fmt } from "@website/content/model"
-import { loadPicks, storePicks } from "@website/lib/picks"
+import { usePicks } from "@website/lib/picks"
 import { costFor, PRICED_PATHS } from "./cost"
 import { coverageFor, type Pop, type Status } from "./coverage"
 
@@ -25,32 +25,27 @@ export type BuilderPath = {
   requires: string[]
   conflicts: string[]
   spawns: string[]
+  /** 0 = keeps current law … 3 = major change (see paths/scale.ts). */
+  scale: number
+  scaleLabel: string
 }
+/** A whole approach the reader can start from (see content/approaches.ts). */
+export type Preset = { id: string; title: string; picks: string[] }
 
 export function PlanBuilder({
   problems,
   paths,
   categories,
-  draft,
+  presets,
   pop,
 }: {
   problems: BuilderProblem[]
   paths: BuilderPath[]
   categories: string[]
-  draft: string[]
+  presets: Preset[]
   pop: Pop
 }) {
-  const [picks, setPicks] = useState<Set<string>>(new Set())
-  const [loaded, setLoaded] = useState(false)
-
-  useEffect(() => {
-    setPicks(new Set(loadPicks()))
-    setLoaded(true)
-  }, [])
-
-  useEffect(() => {
-    if (loaded) storePicks([...picks])
-  }, [picks, loaded])
+  const { picks, setAll, toggle } = usePicks()
 
   const byId = useMemo(() => Object.fromEntries(paths.map((p) => [p.id, p])), [paths])
   const byProblem = useMemo(() => {
@@ -59,15 +54,6 @@ export function PlanBuilder({
     return m
   }, [paths])
   const problemById = useMemo(() => Object.fromEntries(problems.map((p) => [p.id, p])), [problems])
-
-  const toggle = (id: string) => {
-    setPicks((s) => {
-      const next = new Set(s)
-      if (next.has(id)) next.delete(id)
-      else next.add(id)
-      return next
-    })
-  }
 
   const picked = paths.filter((p) => picks.has(p.id))
   const answered = (problemId: string) => (byProblem[problemId] ?? []).some((p) => picks.has(p.id))
@@ -123,6 +109,21 @@ export function PlanBuilder({
                 >
                   {on && <span aria-hidden="true">✓ </span>}
                   {o.title}
+                  <span
+                    className="ml-2 inline-flex gap-0.5 align-middle"
+                    title={o.scaleLabel}
+                    aria-label={o.scaleLabel}
+                  >
+                    {[1, 2, 3].map((i) => (
+                      <span
+                        key={i}
+                        className={cn(
+                          "h-2 w-1 rounded-[1px]",
+                          i <= o.scale ? "bg-primary/70" : "bg-rule",
+                        )}
+                      />
+                    ))}
+                  </span>
                 </button>
               )
             })}
@@ -134,26 +135,33 @@ export function PlanBuilder({
 
   return (
     <div className="pb-20 lg:pb-0">
-      <div className="mb-6 flex flex-wrap gap-3">
-        <Button
-          variant="outline"
-          className="h-11"
-          onClick={() => {
-            setPicks(new Set(draft))
-          }}
-        >
-          Start from the site&apos;s draft plan
-        </Button>
+      <div className="mb-6 flex flex-wrap items-center gap-2">
+        <span className="text-sm text-muted-foreground">Start from:</span>
+        {presets.map((a) => (
+          <Button
+            key={a.id}
+            variant="outline"
+            className="h-10"
+            onClick={() => {
+              setAll(new Set(a.picks))
+            }}
+          >
+            {a.title}
+          </Button>
+        ))}
         <Button
           variant="ghost"
-          className="h-11"
+          className="h-10"
           disabled={picks.size === 0}
           onClick={() => {
-            setPicks(new Set())
+            setAll(new Set())
           }}
         >
           Clear all picks
         </Button>
+        <Link href="/approaches" className="text-sm underline">
+          Compare these side by side
+        </Link>
       </div>
 
       <CoverageTable picks={picks} pop={pop} />
@@ -243,7 +251,7 @@ export function PlanBuilder({
 
             {picked.length === 0 ? (
               <p className="text-sm text-muted-foreground">
-                Pick paths in the table, or start from the site&apos;s draft plan.
+                Pick paths in the table, or start from one of the approaches above.
               </p>
             ) : (
               <>
@@ -469,7 +477,9 @@ function usdPerPerson(dollars: number) {
 
 function CostPanel({ picks }: { picks: Set<string> }) {
   const cost = useMemo(() => costFor(picks), [picks])
-  const unpriced = [...picks].filter((id) => !PRICED_PATHS.has(id)).length
+  const unpriced = [...picks].filter(
+    (id) => !PRICED_PATHS.has(id) && !id.startsWith("keep-"),
+  ).length
   return (
     <section className="mb-10" aria-labelledby="cost-heading">
       <h2 id="cost-heading" className="mb-1 text-lg font-semibold">

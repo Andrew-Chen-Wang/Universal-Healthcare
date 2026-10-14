@@ -1,4 +1,4 @@
-import { PathLink, ProblemChip, real, StatusPill } from "@website/components/site/paths"
+import { PathLink, ProblemChip, real, ScalePill, StatusPill } from "@website/components/site/paths"
 import { EffectList, ImpactList } from "@website/components/site/effects"
 import { B, Page, PageHeader, Sources, Usd } from "@website/components/site/ui"
 import { INVENTORY_BY_ID } from "@website/content/cost-inventory"
@@ -74,6 +74,7 @@ export default async function PathPage({ params }: { params: Params }) {
   const migrated = isMigrated(p)
   const effects = effectsOf(p)
   const impacts = impactsOf(p)
+  const keeps = p.role === "keeps"
 
   return (
     <Page>
@@ -86,6 +87,12 @@ export default async function PathPage({ params }: { params: Params }) {
         title={p.title}
         lede={p.summary}
       />
+      <div className="-mt-4 mb-8 flex flex-wrap items-center gap-2 text-sm">
+        <ScalePill scale={p.scale} />
+        <Link href="/approaches" className="text-muted-foreground underline">
+          Compare approaches, from no change to the largest
+        </Link>
+      </div>
       {decision && (
         <section className="mb-10 rounded-md border border-rule bg-card p-4 text-sm">
           <div className="flex flex-wrap items-center gap-2">
@@ -116,8 +123,8 @@ export default async function PathPage({ params }: { params: Params }) {
       <section className="mb-10">
         <h2 className="mb-3 text-xl font-semibold">How this path connects</h2>
         <div className="grid gap-6 rounded-md border border-rule bg-secondary/40 p-4 md:grid-cols-3">
-          <Column title="Addresses">
-            <ProblemChip id={p.problemId} tone="gain" />
+          <Column title={keeps ? "Leaves in place" : "Addresses"}>
+            <ProblemChip id={p.problemId} tone={keeps ? "loss" : "gain"} />
             {p.solves?.map((s) => (
               <div key={s}>
                 <ProblemChip id={s} tone="gain" />
@@ -163,11 +170,17 @@ export default async function PathPage({ params }: { params: Params }) {
         <p className="mb-3 text-sm text-muted-foreground">
           What would actually have to change in law, agencies, payment rules, or systems.
         </p>
-        <ol className="list-decimal space-y-1.5 rounded-md border border-rule bg-card py-3 pr-4 pl-9 text-sm">
-          {p.changes?.map((c) => (
-            <li key={c}>{c}</li>
-          ))}
-        </ol>
+        {keeps ? (
+          <p className="rounded-md border border-rule bg-card p-4 text-sm">
+            None. Current law and today&apos;s programs stay as they are.
+          </p>
+        ) : (
+          <ol className="list-decimal space-y-1.5 rounded-md border border-rule bg-card py-3 pr-4 pl-9 text-sm">
+            {p.changes?.map((c) => (
+              <li key={c}>{c}</li>
+            ))}
+          </ol>
+        )}
       </section>
 
       <section className="mb-10">
@@ -177,6 +190,21 @@ export default async function PathPage({ params }: { params: Params }) {
             ? "Each effect has its own page: the evidence, the case that it is or isn't a real cost, and whom it affects."
             : "This path's effects are still free text; it has not yet been linked into the effects graph."}
         </p>
+        {effects.keeps && (
+          <div className="mb-4 rounded-md border border-loss/30 bg-loss-soft/40 p-4 text-sm">
+            <div className="mb-1 text-xs font-semibold tracking-wide uppercase">
+              The problem it leaves in place
+            </div>
+            <Link
+              href={`/problems/${effects.keeps.problemId}`}
+              className="font-medium underline decoration-rule underline-offset-2 hover:text-primary"
+            >
+              {effects.keeps.title}
+            </Link>
+            {effects.keeps.note && <p className="mt-1 text-foreground/80">{effects.keeps.note}</p>}
+            {effects.keeps.sourceIds && <Sources ids={effects.keeps.sourceIds} />}
+          </div>
+        )}
         {effects.answers && (
           <div className="mb-4 rounded-md border border-rule bg-card p-4 text-sm">
             <div className="mb-1 text-xs font-semibold tracking-wide uppercase">
@@ -207,8 +235,16 @@ export default async function PathPage({ params }: { params: Params }) {
       <section className="mb-10">
         <h2 className="mb-3 text-xl font-semibold">Who&apos;s affected</h2>
         <div className={`grid gap-4 ${p.mend?.length ? "md:grid-cols-3" : "md:grid-cols-2"}`}>
-          <ImpactList title="Who gains" impacts={impacts.gains} tone="gain" />
-          <ImpactList title="Who loses" impacts={impacts.loses} tone="loss" />
+          <ImpactList
+            title={keeps ? "Who keeps gaining" : "Who gains"}
+            impacts={impacts.gains}
+            tone="gain"
+          />
+          <ImpactList
+            title={keeps ? "Who stays hurt" : "Who loses"}
+            impacts={impacts.loses}
+            tone="loss"
+          />
           {p.mend?.length && (
             <People
               title="Other ways to soften the losses"
@@ -221,6 +257,16 @@ export default async function PathPage({ params }: { params: Params }) {
 
       <section className="mb-10">
         <h2 className="mb-3 text-xl font-semibold">Where it has been tried</h2>
+        {keeps && (
+          <p className="border-l-2 border-rule pl-4 text-sm">
+            <span className="font-medium">United States:</span> this is how the system works today.
+            The evidence is on the{" "}
+            <Link href={`/problems/${problem.id}`} className="underline">
+              problem page
+            </Link>
+            .
+          </p>
+        )}
         <ul className="space-y-3">
           {p.precedents.map((pr) => (
             <li key={pr.place + pr.note} className="border-l-2 border-rule pl-4 text-sm">

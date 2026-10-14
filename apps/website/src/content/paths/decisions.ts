@@ -71,7 +71,7 @@ const ROWS: Row[] = [
     "build",
     "medium",
     "Only path that ends churn, networks, job lock, and most admin cost at once; matches the site's cost model.",
-    "The biggest call on the site. Weigh against regulated multi-payer (Germany/Switzerland), which keeps plan choice with smaller savings.",
+    "The biggest call on the site. Weigh against regulated multi-payer (Germany/Switzerland), which keeps plan choice with smaller savings. Single payer no longer bans private insurance by itself; that is decided under Two-tier care (draft: supplemental only). Compare at /approaches.",
   ),
   r(
     "regulated-multipayer",
