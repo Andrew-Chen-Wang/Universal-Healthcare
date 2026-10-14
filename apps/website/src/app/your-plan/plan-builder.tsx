@@ -485,64 +485,64 @@ function CostPanel({ picks }: { picks: Set<string> }) {
       <h2 id="cost-heading" className="mb-1 text-lg font-semibold">
         What your plan costs
       </h2>
-      {!cost ? (
-        <p className="rounded-md border border-rule bg-card p-4 text-sm text-foreground/80">
-          {"The site's cost model prices one design: a single public payer. Pick "}
-          <strong>Single public payer for everyone</strong>
-          {
-            " to see national spending, federal spending, and the funding gap. Other payer structures are compared in each path's precedents but not priced here."
-          }
-        </p>
-      ) : (
-        <>
-          <p className="mb-3 text-sm text-muted-foreground">
-            2024 dollars, steady state, as if your plan had been fully in place in 2024. Same method
-            as the{" "}
+      <p className="mb-3 text-sm text-muted-foreground">
+        2024 dollars, steady state, as if your plan had been fully in place in 2024.{" "}
+        {cost.kind === "single-payer" ? (
+          <>
+            Same method as the{" "}
             <Link href="/costs" className="underline">
               cost ledger
             </Link>
             .
-          </p>
-          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
-            <CostStat
-              label="National health spending"
-              value={fmt(cost.nationalAfter)}
-              sub={`${fmt(cost.delta, { sign: true })} (${(cost.deltaPct * 100).toFixed(1)}%) vs ${fmt(cost.nationalBefore)} today`}
-            />
-            <CostStat
-              label="Per person"
-              value={usdPerPerson(cost.perCapitaAfter)}
-              sub={`vs ${usdPerPerson(cost.perCapitaBefore)} today`}
-            />
-            <CostStat
-              label="Federal health spending"
-              value={fmt(cost.federalAfter)}
-              sub={`vs ${fmt(cost.federalBefore)} today`}
-            />
-            <CostStat
-              label={cost.gap >= 0 ? "Still to fund (general revenue)" : "Surplus over named taxes"}
-              value={fmt(Math.abs(cost.gap))}
-              sub="After the plan's payroll tax, household premium, and redirected spending"
-              tone={cost.gap > 0 ? "loss" : "gain"}
-            />
-          </div>
-          <ul className="mt-4 space-y-1 text-sm">
-            {cost.rules.map((r) => (
-              <li key={r.label} className="flex gap-2">
-                <span className={cn("font-medium", r.central ? "text-gain" : "text-caution")}>
-                  {r.label}:
-                </span>
-                <span className="text-foreground/80">{r.effect}</span>
-              </li>
-            ))}
-          </ul>
-          <p className="mt-3 text-sm text-muted-foreground">
-            {unpriced} of your picks have no cost input in the model (for example antitrust,
-            staffing, or privacy rules); their trade-offs are described, not priced. Coverage scope
-            (immigrants, territories) is not yet reflected in the total.
-          </p>
-        </>
-      )}
+          </>
+        ) : (
+          "Without a single payer, each change is priced as a line on top of today's spending, with the same rates and prices the single-payer model uses."
+        )}
+      </p>
+      <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
+        <CostStat
+          label="National health spending"
+          value={fmt(cost.nationalAfter)}
+          sub={`${fmt(cost.delta, { sign: true })} (${(cost.deltaPct * 100).toFixed(1)}%) vs ${fmt(cost.nationalBefore)} today`}
+        />
+        <CostStat
+          label="Per person"
+          value={usdPerPerson(cost.perCapitaAfter)}
+          sub={`vs ${usdPerPerson(cost.perCapitaBefore)} today`}
+        />
+        {cost.federalAfter !== undefined && cost.federalBefore !== undefined && (
+          <CostStat
+            label="Federal health spending"
+            value={fmt(cost.federalAfter)}
+            sub={`vs ${fmt(cost.federalBefore)} today`}
+          />
+        )}
+        {cost.gap !== undefined && (
+          <CostStat
+            label={cost.gap >= 0 ? "Still to fund (general revenue)" : "Surplus over named taxes"}
+            value={fmt(Math.abs(cost.gap))}
+            sub="After the plan's payroll tax, household premium, and redirected spending"
+            tone={cost.gap > 0 ? "loss" : "gain"}
+          />
+        )}
+      </div>
+      <ul className="mt-4 space-y-1 text-sm">
+        {cost.rules.map((r) => (
+          <li key={r.label} className="flex gap-2">
+            <span className={cn("font-medium", r.central ? "text-gain" : "text-caution")}>
+              {r.label}:
+            </span>
+            <span className="text-foreground/80">{r.effect}</span>
+          </li>
+        ))}
+      </ul>
+      <p className="mt-3 text-sm text-muted-foreground">
+        {unpriced} of your picks have no cost input in the model (for example antitrust, staffing,
+        or privacy rules); their trade-offs are described, not priced.{" "}
+        {cost.kind === "single-payer"
+          ? "Coverage scope (immigrants, territories) is not yet reflected in the total."
+          : "Federal spending and taxes aren't split out for plans without a single payer: the total is what the country spends, whoever pays."}
+      </p>
     </section>
   )
 }

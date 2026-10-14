@@ -4,7 +4,8 @@
  * costly and lean cases (SCENARIOS) or an assumption's documented range, so
  * nothing here introduces a new number.
  */
-import { ASSUMPTIONS, runModel, SCENARIOS, type Scenario } from "@website/content/model"
+import { ASSUMPTIONS, fmt, runModel, SCENARIOS, type Scenario } from "@website/content/model"
+import { REFORM_PRICED_PATHS, reformCost } from "@website/content/reform-model"
 
 const COSTLY = SCENARIOS.find((s) => s.id === "costly")!
 const LEAN = SCENARIOS.find((s) => s.id === "lean")!
@@ -23,13 +24,49 @@ export const PRICED_PATHS = new Set([
   ...COST_SHARING,
   ...PUBLIC_ADMIN,
   "wage-small-exempt",
+  ...REFORM_PRICED_PATHS,
 ])
 
 export type Rule = { label: string; effect: string; central: boolean }
 
-export function costFor(picks: Set<string>) {
+export type PlanCost = {
+  /** Which model priced it: the single-payer ledger, or the line-by-line reform model. */
+  kind: "single-payer" | "reform"
+  rules: Rule[]
+  nationalBefore: number
+  nationalAfter: number
+  delta: number
+  deltaPct: number
+  perCapitaBefore: number
+  perCapitaAfter: number
+  /** Single payer only: the reform model doesn't split spending by payer. */
+  federalBefore?: number
+  federalAfter?: number
+  gap?: number
+}
+
+/** Picks without a single payer: priced line by line on top of today's system. */
+function reformCostFor(picks: Set<string>): PlanCost {
+  const r = reformCost(picks)
+  return {
+    kind: "reform",
+    rules: r.lines.map((l) => ({
+      label: `${l.label} (${fmt(l.delta, { sign: true })})`,
+      effect: l.explanation,
+      central: true,
+    })),
+    nationalBefore: r.nationalBefore,
+    nationalAfter: r.nationalAfter,
+    delta: r.delta,
+    deltaPct: r.deltaPct,
+    perCapitaBefore: r.perCapitaBefore,
+    perCapitaAfter: r.perCapitaAfter,
+  }
+}
+
+export function costFor(picks: Set<string>): PlanCost {
   const has = (id: string) => picks.has(id)
-  if (!has("single-payer")) return null
+  if (!has("single-payer")) return reformCostFor(picks)
 
   const scenario: Scenario = { id: "central", label: "Your plan", description: "" }
   const assumptions: Record<string, number> = {}
@@ -126,6 +163,7 @@ export function costFor(picks: Set<string>) {
   scenario.assumptions = assumptions
   const r = runModel(scenario)
   return {
+    kind: "single-payer",
     rules,
     nationalBefore: r.headline.baselineTotal,
     nationalAfter: r.headline.newTotal,

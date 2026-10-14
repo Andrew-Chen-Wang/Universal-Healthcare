@@ -74,6 +74,7 @@ const LG = "One-time: litigation"
 const WP = "Worker transition program"
 const INS = "Insurer overhead breakdown"
 const ACC = "Access & capacity"
+const REFORM = "Pricing reforms that keep today's insurers (see reform-model.ts)"
 
 export const C = {
   // ---------------------------------------------------------------- Population groups (coverage)
@@ -881,6 +882,73 @@ export const C = {
     "share",
     "data",
     { sourceIds: ["mafi-low-value-2021"] },
+  ),
+  // ---------------------------------------------------------------- Reforms that keep insurers
+  uninsuredSpend2013: k(
+    REFORM,
+    "Health spending per person uninsured all year, under 65, 2013",
+    2443,
+    "usd",
+    "data",
+    { sourceIds: ["kff-uncompensated-2013"] },
+  ),
+  insuredSpend2013: k(
+    REFORM,
+    "Health spending per person insured all year, under 65, 2013",
+    4876,
+    "usd",
+    "data",
+    { sourceIds: ["kff-uncompensated-2013"] },
+  ),
+  nhePerCapita2013: k(REFORM, "National health spending per person, 2013", 9255, "usd", "data", {
+    sourceIds: ["cms-nhe-2013"],
+  }),
+  hhUninsuredSpend: k(
+    REFORM,
+    "Simulated spending per uninsured person as they are (Hadley & Holahan)",
+    1383,
+    "usd",
+    "estimate",
+    { sourceIds: ["hadley-holahan-2003"] },
+  ),
+  hhCoveredPublicSpend: k(
+    REFORM,
+    "Simulated spending per uninsured person with average public coverage (Hadley & Holahan)",
+    2121,
+    "usd",
+    "estimate",
+    { confidence: "medium", sourceIds: ["hadley-holahan-2003"] },
+  ),
+  hhCoveredPrivateSpend: k(
+    REFORM,
+    "Simulated spending per uninsured person with average private coverage (Hadley & Holahan)",
+    2676,
+    "usd",
+    "estimate",
+    { confidence: "medium", sourceIds: ["hadley-holahan-2003"] },
+  ),
+  undocumentedUninsuredRate: k(
+    REFORM,
+    "Likely undocumented immigrant adults who are uninsured, 2023",
+    0.5,
+    "share",
+    "data",
+    { confidence: "medium", sourceIds: ["kff-immigrant-coverage-facts"] },
+  ),
+  commercialPriceCap: k(
+    REFORM,
+    "Cap on commercial prices, as a multiple of Medicare (prices-cap path)",
+    2,
+    "ratio",
+    "policy",
+  ),
+  swissAdminShare: k(
+    REFORM,
+    "Swiss basic insurers' administrative costs as a share of premiums, 2023",
+    0.049,
+    "share",
+    "data",
+    { sourceIds: ["overhead-mlr-swiss-federal-council-sw-2024"] },
   ),
   // Urban Institute (2019), Table 3: one study pricing several designs the same way, for 2020, as if fully in place.
   urbanCurrentLawUninsured: k(
