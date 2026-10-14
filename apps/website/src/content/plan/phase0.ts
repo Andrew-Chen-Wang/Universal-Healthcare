@@ -7,8 +7,10 @@ export const PHASE_0: Phase = {
   number: 0,
   title: "Preparation",
   window: "Before coverage starts",
-  goal: "Settle how money that already flows through states keeps flowing, so the new system starts with stable funding.",
+  goal: "Before anyone moves to the new program: fix the worst problems in today's system (automatic enrollment of the uninsured, denials, prior authorization, medical debt, surprise bills, drug middlemen), start the long-lead workforce and data work, and settle how state money keeps flowing.",
   exitCriteria: [
+    "Interim fixes from the chosen paths for this phase are in force (see Changes by phase).",
+    "Workforce expansion (residency slots, nursing faculty, scope of practice) funded and started.",
     "Every state's contribution computed and published.",
     "Payment schedules between states and the national program in place.",
   ],

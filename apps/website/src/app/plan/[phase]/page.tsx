@@ -1,6 +1,7 @@
 import { Page, PageHeader } from "@website/components/site/ui"
 import { costsForStep } from "@website/content/calculations"
 import { NAV } from "@website/content/navigation"
+import { CHOSEN, DECISION_BY_PATH } from "@website/content/paths"
 import { PHASES } from "@website/content/plan"
 import type { Metadata } from "next"
 import Link from "next/link"
@@ -25,6 +26,8 @@ export default async function PhasePage({ params }: { params: Promise<{ phase: s
   const p = PHASES.find((x) => x.id === phase)
   const nav = NAV.find((x) => x.id === phase)
   if (!p || !nav) notFound()
+  const chosen = CHOSEN.filter((x) => DECISION_BY_PATH[x.id]?.phase === p.id)
+  const changeCount = chosen.reduce((n, x) => n + (x.changes?.length ?? 0), 0)
   return (
     <Page>
       <PageHeader eyebrow={`Phase ${p.number} · ${p.window}`} title={p.title} lede={p.goal}>
@@ -39,6 +42,31 @@ export default async function PhasePage({ params }: { params: Promise<{ phase: s
           </ul>
         </div>
       </PageHeader>
+      <section className="mb-8 rounded-md border border-rule bg-card p-4">
+        <h2 className="text-lg font-semibold">
+          Changes from chosen paths in this phase: {changeCount}
+        </h2>
+        <p className="mt-1 text-sm text-muted-foreground">
+          {chosen.length} chosen solution paths (draft picks awaiting review) land in this phase.{" "}
+          <Link href={`/changes#${p.id}`} className="underline">
+            See every change
+          </Link>
+          .
+        </p>
+        <ul className="mt-3 flex flex-wrap gap-1.5">
+          {chosen.map((x) => (
+            <li key={x.id}>
+              <Link
+                href={`/paths/${x.id}`}
+                className="inline-block rounded-sm border border-rule px-2 py-0.5 text-xs hover:border-primary"
+              >
+                {x.title}
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </section>
+      <h2 className="mb-3 text-lg font-semibold">Detailed steps</h2>
       <ol className="space-y-3">
         {p.steps.map((s, i) => (
           <li key={s.id}>
