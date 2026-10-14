@@ -23,8 +23,9 @@ import {
   SERVICES_2024,
   SPONSOR_LINES_2024,
 } from "./baseline"
-import type { Payer, ServiceId } from "./baseline"
-import { DERIVED, v } from "./constants"
+import { PAYER_LABELS, type Payer, type ServiceId } from "./baseline"
+import type { CalcStep } from "./calculations"
+import { type ConstantId, DERIVED, v } from "./constants"
 import { ASSUMPTIONS, computeService, fmt, SERVICE_ASSUMPTIONS } from "./model"
 
 export type ReformLine = {
@@ -36,6 +37,8 @@ export type ReformLine = {
   federal: number
   explanation: string
   sourceIds: string[]
+  /** The arithmetic, step by step, for the line's calculation page. */
+  steps?: CalcStep[]
 }
 
 export type ReformCost = {
@@ -58,6 +61,9 @@ export type ReformCost = {
   noNewTaxBelow?: number
   /** Picks that change spending but aren't priced yet. */
   notPriced: { label: string; note: string }[]
+  /** Private insurance spending (benefits plus overhead), before and after: what premiums follow. */
+  privateBefore: number
+  privateAfter: number
 }
 
 /** Paths whose effect this model prices. */
@@ -148,6 +154,93 @@ export function reformCost(picks: Set<string>): ReformCost {
       label: "Care for the newly covered",
       delta,
       federal: premium,
+      steps: [
+        {
+          label: "Uninsured people today (millions)",
+          value: v("uninsuredToday"),
+          unit: "count",
+          inputs: ["uninsuredToday"],
+          sourceIds: ["census-p60-291"],
+        },
+        ...(has("immigrants-all-residents")
+          ? []
+          : [
+              {
+                label: "Less uninsured undocumented immigrants who stay ineligible (millions)",
+                formula: `(${v("unauthorizedLow")} + ${v("unauthorizedHigh")}) ÷ 2 × ${pct(v("undocumentedUninsuredRate"))}`,
+                value: -cov.undocumented,
+                unit: "count" as const,
+                inputs: [
+                  "unauthorizedLow",
+                  "unauthorizedHigh",
+                  "undocumentedUninsuredRate",
+                ] as ConstantId[],
+                sourceIds: ["kff-immigrant-coverage-facts"],
+              },
+            ]),
+        {
+          label: "Share of the eligible who get covered",
+          value: cov.share,
+          unit: "%",
+          note: cov.automatic
+            ? "Automatic enrollment: everyone eligible."
+            : "Voluntary enrollment: Urban Reform 2's coverage gain.",
+          ...(cov.automatic
+            ? {}
+            : { inputs: ["urbanCurrentLawUninsured", "urbanR2Uninsured"] as ConstantId[] }),
+        },
+        { label: "Newly covered people (millions)", value: cov.count, unit: "count", result: true },
+        {
+          label: "Care used by someone uninsured all year, 2013",
+          value: v("uninsuredSpend2013"),
+          unit: "$",
+          inputs: ["uninsuredSpend2013"],
+          sourceIds: ["kff-uncompensated-2013"],
+        },
+        {
+          label: "Grown to 2024 with national spending per person",
+          formula: `${usd(v("uninsuredSpend2013"))} × ${usd(NHE_PER_CAPITA_2024)} ÷ ${usd(v("nhePerCapita2013"))}`,
+          value: spendToday,
+          unit: "$",
+          inputs: ["nhePerCapita2013"],
+          sourceIds: ["cms-nhe-2013", "cms-nhe-2024"],
+        },
+        {
+          label: "Increase in care once covered by a public-style plan",
+          formula: `${usd(v("hhCoveredPublicSpend"))} ÷ ${usd(v("hhUninsuredSpend"))} − 1`,
+          value: lift,
+          unit: "%",
+          inputs: ["hhCoveredPublicSpend", "hhUninsuredSpend"],
+          sourceIds: ["hadley-holahan-2003"],
+        },
+        {
+          label: "More care",
+          formula: `${cov.count.toFixed(1)}M × ${usd(spendToday)} × ${pct(lift)}`,
+          value: extraCare,
+          unit: "B",
+        },
+        {
+          label: "Plans' overhead rate (private and Medicaid plans today)",
+          formula: `(${fmt(PRIVATE_OVERHEAD)} + ${fmt(MEDICAID_OVERHEAD)}) ÷ (${fmt(PRIVATE_BENEFITS)} + ${fmt(MEDICAID_BENEFITS)})`,
+          value: overheadRate,
+          unit: "%",
+          sourceIds: ["cms-nhe-2024"],
+        },
+        {
+          label: "Change in national spending",
+          formula: `${fmt(extraCare)} × (1 + ${pct(overheadRate)})`,
+          value: delta,
+          unit: "B",
+          result: true,
+        },
+        {
+          label: "Federal cost: the whole premium for the newly covered (upper bound)",
+          formula: `${cov.count.toFixed(1)}M × ${usd(spendToday * (1 + lift))} × (1 + ${pct(overheadRate)})`,
+          value: premium,
+          unit: "B",
+          result: true,
+        },
+      ],
       explanation: `${who}: ${cov.count.toFixed(1)} of ${v("uninsuredToday")} million uninsured people. ${immigrants} Someone uninsured all year used ${usd(v("uninsuredSpend2013"))} of care in 2013, against ${usd(v("insuredSpend2013"))} for someone insured; grown with spending per person to 2024, that is ${usd(spendToday)}. Public-plan coverage raises it by ${pct(lift)} (Hadley & Holahan), ${usd(spendToday * lift)} a person, so ${fmt(extraCare)} more care, plus ${pct(overheadRate)} for the plans' overhead (private and Medicaid managed care today). Federal cost: the whole premium for everyone newly covered, ${fmt(premium)}, an upper bound, since income-based premiums pay part of it.`,
       sourceIds: [
         "census-p60-291",
@@ -200,6 +293,42 @@ export function reformCost(picks: Set<string>): ReformCost {
       label: "Cap on commercial prices",
       delta,
       federal: 0,
+      steps: [
+        {
+          label: "Cap, as a multiple of Medicare",
+          value: cap,
+          unit: "x",
+          inputs: ["commercialPriceCap"],
+        },
+        ...PROVIDER_SERVICES.flatMap((id): CalcStep[] => {
+          const rel = assumption(id).relativePrice.privateInsurance
+          return [
+            {
+              label: `${row(id).label}: private insurers' 2024 spending`,
+              value: paid(id, "privateInsurance"),
+              unit: "B",
+              sourceIds: ["cms-nhe-2024"],
+            },
+            {
+              label: `${row(id).label}: private price as a multiple of Medicare`,
+              value: rel,
+              unit: "x",
+              note: rel <= cap ? "Below the cap: no change." : undefined,
+            },
+            ...(rel > cap
+              ? [
+                  {
+                    label: `${row(id).label}: change`,
+                    formula: `${fmt(paid(id, "privateInsurance"))} × (${cap} ÷ ${rel} − 1)`,
+                    value: paid(id, "privateInsurance") * (cap / rel - 1),
+                    unit: "B" as const,
+                  },
+                ]
+              : []),
+          ]
+        }),
+        { label: "Change in national spending", value: delta, unit: "B", result: true },
+      ],
       explanation: `Commercial prices capped at ${pct(cap)} of Medicare. Only prices above the cap fall (${parts.join("; ") || "none on average"}). Using the average price understates the savings, since hospitals above the cap lose more than the average suggests.`,
       sourceIds: ["rand-hospital-2024"],
     })
@@ -224,6 +353,43 @@ export function reformCost(picks: Set<string>): ReformCost {
       label: "Negotiated drug prices for every payer",
       delta,
       federal,
+      steps: [
+        {
+          label: "Negotiated price as a share of today's Medicare net price",
+          formula: `${pct(v("brandShareOfRetailRx"))} brand × (1 − ${pct(v("brandPriceCut"))}) + generics at today's price`,
+          value: rate,
+          unit: "%",
+          inputs: ["brandShareOfRetailRx", "brandPriceCut"],
+          sourceIds: ["rand-drugs-2024"],
+        },
+        ...PRICED_PAYERS.flatMap((p): CalcStep[] => {
+          const rel = a.relativePrice[p]
+          const spent = paid("prescriptionDrugs", p)
+          return rel <= rate
+            ? [
+                {
+                  label: `${PAYER_LABELS[p]}: ${fmt(spent)} at ${rel.toFixed(2)}× the reference price, already below the negotiated price`,
+                  value: 0,
+                  unit: "B",
+                },
+              ]
+            : [
+                {
+                  label: `${PAYER_LABELS[p]}: change`,
+                  formula: `${fmt(spent)} × (${rate.toFixed(2)} ÷ ${rel.toFixed(2)} − 1)`,
+                  value: spent * (rate / rel - 1),
+                  unit: "B",
+                },
+              ]
+        }),
+        { label: "Change in national spending", value: delta, unit: "B", result: true },
+        {
+          label: "Federal share (Medicare, and Medicaid's federal share)",
+          value: federal,
+          unit: "B",
+          result: true,
+        },
+      ],
       explanation: `Every payer pays the single-payer model's negotiated price, ${pct(rate)} of today's Medicare net price (brand drugs ${pct(v("brandShareOfRetailRx"))} of spending, cut ${pct(v("brandPriceCut"))}). Medicaid already pays less through its rebates and keeps its price. No change in use, since copays stay.`,
       sourceIds: ["rand-drugs-2024", "cms-negotiation"],
     })
@@ -284,6 +450,55 @@ export function reformCost(picks: Set<string>): ReformCost {
       label: "Private insurer overhead",
       delta: overheadAfter - PRIVATE_OVERHEAD,
       federal: 0,
+      steps: [
+        {
+          label: "Private insurers' overhead, 2024 (net cost of insurance)",
+          value: PRIVATE_OVERHEAD,
+          unit: "B",
+          sourceIds: ["cms-nhe-2024"],
+        },
+        {
+          label: "Private insurers' benefit payments, 2024",
+          value: PRIVATE_BENEFITS,
+          unit: "B",
+          sourceIds: ["cms-nhe-2024"],
+        },
+        {
+          label: "Overhead as a share of benefits today",
+          formula: `${fmt(PRIVATE_OVERHEAD)} ÷ ${fmt(PRIVATE_BENEFITS)}`,
+          value: ratioToday,
+          unit: "%",
+        },
+        {
+          label: "Change in private benefits from the other lines",
+          value: privateChange,
+          unit: "B",
+        },
+        ...(capped
+          ? [
+              {
+                label: "Limit: Swiss administrative share of premiums, as a share of benefits",
+                formula: `${pct(v("swissAdminShare"))} ÷ (1 − ${pct(v("swissAdminShare"))})`,
+                value: ratioAfter,
+                unit: "%" as const,
+                inputs: ["swissAdminShare"] as ConstantId[],
+                sourceIds: ["overhead-mlr-swiss-federal-council-sw-2024"],
+              },
+            ]
+          : []),
+        {
+          label: "Overhead after",
+          formula: `(${fmt(PRIVATE_BENEFITS)} + ${fmt(privateChange)}) × ${pct(ratioAfter)}`,
+          value: overheadAfter,
+          unit: "B",
+        },
+        {
+          label: "Change in national spending",
+          value: overheadAfter - PRIVATE_OVERHEAD,
+          unit: "B",
+          result: true,
+        },
+      ],
       explanation: capped
         ? `Non-profit plans held to Swiss administrative costs, ${pct(v("swissAdminShare"))} of premiums (${pct(ratioAfter)} of benefits), against ${pct(ratioToday)} today, on ${fmt(PRIVATE_BENEFITS + privateChange)} of private benefits.`
         : `Overhead stays ${pct(ratioToday)} of private benefits, which change by ${fmt(privateChange, { sign: true })}.`,
@@ -344,5 +559,7 @@ export function reformCost(picks: Set<string>): ReformCost {
     fundingGap: funding ? federalDelta - funding.revenue : undefined,
     noNewTaxBelow: funding ? v("surtaxThreshold") : undefined,
     notPriced,
+    privateBefore: PRIVATE_BENEFITS + PRIVATE_OVERHEAD,
+    privateAfter: PRIVATE_BENEFITS + privateChange + overheadAfter,
   }
 }

@@ -1,12 +1,15 @@
 import { Page, PageHeader, Section, ConfidenceTag } from "@website/components/site/ui"
-import { TRADEOFFS } from "@website/content/tradeoffs"
-import { ALL_STEPS } from "@website/content/plan"
-import { STEP_EXTRAS } from "@website/content/step-extras"
-import { SINGLE_PAYER_PLAN } from "@website/content/plans"
+import { HYBRID_PLAN } from "@website/content/plans"
 import Link from "next/link"
 import type { Metadata } from "next"
 
-const { stepHref, stepNumber: STEP_NUMBER } = SINGLE_PAYER_PLAN
+const {
+  stepHref,
+  stepNumber: STEP_NUMBER,
+  tradeoffs: TRADEOFFS,
+  allSteps: ALL_STEPS,
+  extras: STEP_EXTRAS,
+} = HYBRID_PLAN
 
 export const metadata: Metadata = { title: "All trade-offs" }
 

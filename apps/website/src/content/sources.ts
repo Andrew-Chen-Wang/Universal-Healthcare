@@ -2140,6 +2140,31 @@ export const SOURCES: Source[] = [
     note: "Applicable large employers, with an average of at least 50 full-time (including full-time-equivalent) employees in the prior year, owe a payment if they don't offer affordable minimum-value coverage to full-time workers and a worker gets a premium tax credit.",
   },
   {
+    id: "cmwf-germany-2026",
+    title: "International Health Care System Profiles: Germany",
+    org: "The Commonwealth Fund",
+    year: 2026,
+    url: "https://www.commonwealthfund.org/sites/default/files/2026-04/2026_Country-Profiles_Germany.pdf",
+    note: "About 99.9% of residents covered; sickness funds are competing nonprofit nongovernmental plans financed by 14.6% of gross wages shared equally by employer and employee, plus an income-dependent supplementary contribution averaging 2.5% in 2025. 766 hospital beds per 100,000 people in 2023 against an EU average of 511, with 72% occupancy in 2024. Waits for ambulatory and inpatient mental-health care can be lengthy.",
+  },
+  {
+    id: "cmwf-netherlands-2026",
+    title: "International Health Care System Profiles: Netherlands",
+    org: "The Commonwealth Fund",
+    year: 2026,
+    url: "https://www.commonwealthfund.org/sites/default/files/2026-04/2026_Country-Profiles_Netherlands.pdf",
+    note: "All residents must buy statutory insurance from private nonprofit insurers that must accept every applicant; each plan's premium is the same for all enrollees (about EUR 1,900 a year in 2025). Employers pay 6.5% of income up to EUR 75,864 into a central fund that pays insurers by enrollees' health risk; lower-income people get a health care allowance.",
+  },
+  {
+    id: "lungen-waits-2008",
+    title:
+      "Waiting times for elective treatments according to insurance status: A randomized empirical study in Germany",
+    org: "International Journal for Equity in Health (Lungen et al.)",
+    year: 2008,
+    url: "https://pmc.ncbi.nlm.nih.gov/articles/PMC2246139/",
+    note: "189 specialist practices called as statutory or private patients: statutory patients waited 3.08 times longer (95% CI 1.88–5.04), e.g. 36.7 vs 11.9 working days for gastroscopy.",
+  },
+  {
     id: "kff-uncompensated-2013",
     title: "Uncompensated Care for the Uninsured in 2013: A Detailed Examination",
     org: "KFF (Coughlin, Holahan, Caswell, McGrath)",

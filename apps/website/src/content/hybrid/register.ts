@@ -1,0 +1,350 @@
+/**
+ * Hybrid plan: the trade-off register (who gains and loses on each dimension)
+ * and the major risks.
+ */
+import { show } from "../constants"
+import type { Risk } from "../risks"
+import type { TradeoffDimension } from "../types"
+import { H } from "./figures"
+
+export const HY_TRADEOFFS: TradeoffDimension[] = [
+  {
+    id: "hy-waits",
+    title: "Specialist waits",
+    category: "access",
+    summary:
+      "People with employer plans keep their place in line; people in the new regulated plans wait longer than they do, as statutory patients do in Germany.",
+    today:
+      "Commercial insurers pay well above Medicare and Medicaid, so commercially insured patients are seen first; the uninsured often aren't seen at all.",
+    underPlan: `Employer plans keep paying more (capped only at ${show("commercialPriceCap", "pct")} of Medicare), so their members' waits barely move. ${H.newlyCovered} newly covered people enter plans paying less, with a wait-time guarantee.`,
+    winners: [
+      "The uninsured, who gain access",
+      "People with employer plans, whose access is protected",
+    ],
+    losers: ["People in the regulated plans, compared with employer-plan members"],
+    magnitude: `In Germany, statutory patients waited ${show("germanyPrivateWaitRatio")} as long as private patients for specialist appointments in one study. The U.S. gap would depend on how much more employer plans pay.`,
+    evidence: [
+      {
+        place: "Germany",
+        finding: `Statutory patients waited ${show("germanyPrivateWaitRatio")} as long as private patients in a randomized calling study.`,
+        sourceIds: ["lungen-waits-2008"],
+      },
+      {
+        place: "Germany",
+        finding: `High capacity: ${show("germanyBedsPer100k")} hospital beds per 100,000 people against an EU average of ${show("euBedsPer100k")}.`,
+        sourceIds: ["cmwf-germany-2026"],
+      },
+    ],
+    mitigations: [
+      "Wait-time guarantee for the regulated plans",
+      "Capacity expansion and workforce pipeline",
+      "Published waits by plan type",
+    ],
+    residualRisk: "A visible two-tier gap that becomes a political issue.",
+    confidence: "medium",
+  },
+  {
+    id: "hy-cost",
+    title: "National spending",
+    category: "money",
+    summary: `The model puts national spending ${H.national} a year, mostly from drug prices and insurer overhead.`,
+    today: "Highest spending per person in the world, with prices the main driver.",
+    underPlan: `Drug negotiation for every payer (${H.drugs}), lower insurer overhead (${H.overhead}), and the commercial price cap (${H.priceCap}) outweigh care for the newly covered (${H.coverage}).`,
+    winners: [
+      "Employers and households with employer plans (lower premiums)",
+      "Taxpayers below the surtax line",
+    ],
+    losers: ["Drug makers", "Insurers", "High-priced hospitals"],
+    magnitude: `${H.national} a year, much more optimistic than the closest published estimate.`,
+    evidence: [
+      {
+        place: "Urban Institute (2019)",
+        finding:
+          "A public option with automatic enrollment and larger subsidies changed national spending only slightly.",
+        sourceIds: ["urban-2019"],
+      },
+    ],
+    mitigations: ["Spending-growth target", "Annual evaluation"],
+    residualRisk: "Savings come in well below the model, especially on overhead and drugs.",
+    confidence: "low",
+  },
+  {
+    id: "hy-taxes",
+    title: "Who pays",
+    category: "money",
+    summary: `Only incomes above ${show("surtaxThreshold")} pay new taxes; no household below ${show("breakEvenFloor")} pays more.`,
+    today:
+      "Premiums and out-of-pocket costs fall on families; federal subsidies come from general revenue.",
+    underPlan: `${H.topEnd} a year from the surtax and capital-gains change against ${H.federal} of new federal cost.`,
+    winners: ["Households below the surtax line", "The uninsured"],
+    losers: [`Households with income above ${show("surtaxThreshold")}`],
+    magnitude: `A ${show("surtaxRate")} surtax on income above ${show("surtaxThreshold")}.`,
+    evidence: [
+      {
+        place: "Tax Policy Center",
+        finding: `Revenue estimates for a surtax on income above ${show("surtaxThreshold")}.`,
+        sourceIds: ["tpc-surtax"],
+      },
+    ],
+    mitigations: ["Reserve from the surplus"],
+    residualRisk: "Top-end revenue is volatile and sensitive to avoidance.",
+    confidence: "medium",
+  },
+  {
+    id: "hy-choice",
+    title: "Choice of plan and doctor",
+    category: "choice",
+    summary: "Plan choice stays; networks stay, held to adequacy rules.",
+    today: "Choice of plan through employers or the Marketplaces; networks limit doctors.",
+    underPlan:
+      "Employer-plan members keep their plans. Everyone else chooses among regulated plans in their region.",
+    winners: ["People who value choosing a plan"],
+    losers: ["People who wanted any-provider access"],
+    magnitude: "Small change for most people.",
+    evidence: [
+      {
+        place: "Netherlands",
+        finding: "Nonprofit insurers compete for members under one set of rules.",
+        sourceIds: ["cmwf-netherlands-2026"],
+      },
+    ],
+    mitigations: ["Network-adequacy rules"],
+    residualRisk: "Narrow networks persist in the regulated plans.",
+    confidence: "high",
+  },
+  {
+    id: "hy-admin",
+    title: "Administrative complexity",
+    category: "governance",
+    summary: "Many plans remain, so billing complexity remains, but standardized.",
+    today: "Thousands of plans, each with its own rules.",
+    underPlan:
+      "One claims format, one eligibility service, and one prior-authorization standard; plans still differ in networks.",
+    winners: ["Providers' billing staff, who face fewer custom rules"],
+    losers: ["Health-admin vendors selling custom rules"],
+    magnitude:
+      "Smaller savings than a single payer; the model doesn't price provider-side billing savings.",
+    evidence: [
+      {
+        place: "Switzerland",
+        finding: `Basic-insurance administrative costs of ${show("swissAdminShare")} of premiums with many insurers.`,
+        sourceIds: ["overhead-mlr-swiss-federal-council-sw-2024"],
+      },
+    ],
+    mitigations: ["Standard claims and eligibility"],
+    residualRisk: "Billing cost stays high on the provider side.",
+    confidence: "medium",
+  },
+  {
+    id: "hy-coverage",
+    title: "Who is covered and for what",
+    category: "access",
+    summary: `${H.newlyCovered} newly covered; basic dental, glasses, and hearing aids added; long-term care unchanged.`,
+    today: `About ${show("uninsuredToday")} million people uninsured all year.`,
+    underPlan: "Everyone enrolled automatically, with the standard benefit in every plan.",
+    winners: ["The uninsured", "People without dental, vision, or hearing coverage"],
+    losers: ["People needing long-term care, who wait for a later decision"],
+    magnitude: `${H.newlyCovered} people newly covered.`,
+    evidence: [
+      {
+        place: "Germany",
+        finding: `About ${show("germanyCovered")} of residents covered under compulsory insurance.`,
+        sourceIds: ["cmwf-germany-2026"],
+      },
+    ],
+    mitigations: ["Enrollment at the point of care", "Long-term care decision step"],
+    residualRisk: "Long-term care remains the largest uncovered risk.",
+    confidence: "high",
+  },
+  {
+    id: "hy-provider-income",
+    title: "Provider income",
+    category: "labor",
+    summary: "Only the highest commercial prices fall; most providers see little change.",
+    today: "Hospitals rely on high commercial prices to cover lower public payments.",
+    underPlan: `The cap trims prices above ${show("commercialPriceCap", "pct")} of Medicare: ${H.priceCap} a year, mostly hospital care.`,
+    winners: ["Employers and workers paying lower premiums"],
+    losers: ["High-priced hospitals and their systems"],
+    magnitude: `${H.priceCap} a year.`,
+    evidence: [
+      {
+        place: "U.S. employer plans",
+        finding: "Employers paid hospitals far above Medicare rates on average.",
+        sourceIds: ["rand-hospital-2024"],
+      },
+    ],
+    mitigations: ["Phase-in", "Rural and safety-net exceptions"],
+    residualRisk: "Some hospitals cut services.",
+    confidence: "medium",
+  },
+  {
+    id: "hy-insurer-jobs",
+    title: "Insurance and brokerage jobs",
+    category: "labor",
+    summary: `Insurer overhead falls by ${H.overhead.replace("−", "")} a year, cutting marketing, broker, and some administrative jobs.`,
+    today: "Insurer administration, profit, and broker commissions on private plans.",
+    underPlan: `Nonprofit plans limited to about ${show("swissAdminShare")} of premiums in administrative costs.`,
+    winners: ["Premium payers"],
+    losers: ["Insurer staff, brokers, and shareholders"],
+    magnitude: `${H.overhead} a year in overhead.`,
+    evidence: [
+      {
+        place: "Switzerland",
+        finding: `Administrative costs of ${show("swissAdminShare")} of basic premiums.`,
+        sourceIds: ["overhead-mlr-swiss-federal-council-sw-2024"],
+      },
+    ],
+    mitigations: ["Phase the limit in over several years"],
+    residualRisk: "Plans cut useful care management along with waste.",
+    confidence: "medium",
+  },
+  {
+    id: "hy-equity",
+    title: "Equity",
+    category: "equity",
+    summary: "Coverage becomes universal, but access differs by plan type.",
+    today: "Coverage and access differ by income, job, and state.",
+    underPlan:
+      "Everyone covered; employer-plan members keep faster access; Medicaid stays with continuous eligibility.",
+    winners: ["Low-income and uninsured people"],
+    losers: ["Equality of access across plans"],
+    magnitude: "Large gain in coverage; access gap by plan type remains.",
+    evidence: [
+      {
+        place: "Germany",
+        finding: "Access differs between statutory and private patients.",
+        sourceIds: ["lungen-waits-2008"],
+      },
+    ],
+    mitigations: ["Wait-time guarantee", "States may buy Medicaid members into regulated plans"],
+    residualRisk: "Medicaid and the regulated plans remain the slower tier.",
+    confidence: "medium",
+  },
+]
+
+export const HY_RISKS: Risk[] = [
+  {
+    id: "hy-legal",
+    title: "Courts block parts of the plan",
+    category: "legal",
+    likelihood: "medium",
+    impact: "high",
+    description: "ERISA preemption, nonprofit conversion, and price caps all invite lawsuits.",
+    earlyWarning: ["Injunctions against the price cap or ERISA amendments"],
+    mitigation: ["Write the rules into statute", "Severability clauses"],
+  },
+  {
+    id: "hy-capture",
+    title: "The regulator is captured",
+    category: "political",
+    likelihood: "medium",
+    impact: "high",
+    description: "Insurers and hospitals shape the rules that limit them.",
+    earlyWarning: ["Administrative limits loosened", "Price cap exceptions multiply"],
+    mitigation: ["Public data and methods", "Patient members on the board"],
+  },
+  {
+    id: "hy-insurer-resistance",
+    title: "Insurers resist conversion or exit",
+    category: "market",
+    likelihood: "high",
+    impact: "medium",
+    description:
+      "Insurers fight nonprofit status and administrative limits, or leave the standard market.",
+    earlyWarning: ["Few plans file to sell in some regions"],
+    mitigation: ["Public fallback plan", "Phase-in", "Nonprofit entrants"],
+  },
+  {
+    id: "hy-selection",
+    title: "Plans avoid sick members",
+    category: "market",
+    likelihood: "medium",
+    impact: "medium",
+    description:
+      "Without good risk adjustment, plans shape networks and service to attract healthy people.",
+    earlyWarning: ["Large differences in members' risk between plans"],
+    mitigation: ["Risk adjustment with audits", "Network-adequacy rules"],
+  },
+  {
+    id: "hy-employer-dropping",
+    title: "Employers drop coverage",
+    category: "fiscal",
+    likelihood: "medium",
+    impact: "medium",
+    description:
+      "Employers pay the penalty instead and send workers to subsidized plans, raising federal cost.",
+    earlyWarning: ["Falling employer offer rates"],
+    mitigation: ["Penalty near the average employer contribution, indexed"],
+  },
+  {
+    id: "hy-it",
+    title: "The eligibility service fails at launch",
+    category: "operational",
+    likelihood: "medium",
+    impact: "high",
+    description: "Providers can't confirm coverage and people are turned away.",
+    earlyWarning: ["Load tests fail", "Plans' data feeds late"],
+    mitigation: ["Full-load testing", "Fallback that treats people as covered"],
+  },
+  {
+    id: "hy-enrollment-gaps",
+    title: "People fall through enrollment",
+    category: "operational",
+    likelihood: "medium",
+    impact: "medium",
+    description: "People outside tax and benefit records aren't enrolled automatically.",
+    earlyWarning: ["Uninsured counts above projections"],
+    mitigation: ["Enrollment at the point of care", "Assisters"],
+  },
+  {
+    id: "hy-drug-launch",
+    title: "Drug makers delay launches",
+    category: "market",
+    likelihood: "low",
+    impact: "medium",
+    description: "Lower prices for every payer lead some manufacturers to delay U.S. launches.",
+    earlyWarning: ["Launch delays relative to Europe"],
+    mitigation: ["Launch rules", "Fast-track coverage"],
+  },
+  {
+    id: "hy-hospital-revenue",
+    title: "High-priced hospitals cut services",
+    category: "capacity",
+    likelihood: "medium",
+    impact: "medium",
+    description: "Hospitals that rely on high commercial prices cut unprofitable services.",
+    earlyWarning: ["Service-line closures in capped hospitals"],
+    mitigation: ["Phase-in", "Exceptions"],
+  },
+  {
+    id: "hy-revenue",
+    title: "Top-end revenue falls short",
+    category: "fiscal",
+    likelihood: "medium",
+    impact: "high",
+    description: "Avoidance and market downturns cut surtax and capital-gains revenue.",
+    earlyWarning: ["Revenue below projections two years running"],
+    mitigation: ["Hold the surplus as a reserve"],
+  },
+  {
+    id: "hy-two-tier-gap",
+    title: "The gap between plan types widens",
+    category: "capacity",
+    likelihood: "high",
+    impact: "medium",
+    description:
+      "Providers prioritize employer-plan patients, and waits in the regulated plans grow.",
+    earlyWarning: ["Registry shows regulated-plan waits above guarantee"],
+    mitigation: ["Wait-time guarantee", "Capacity targeted by the registry"],
+  },
+  {
+    id: "hy-cost-overrun",
+    title: "Savings come in below the model",
+    category: "fiscal",
+    likelihood: "high",
+    impact: "medium",
+    description: `The model's ${H.national} is more optimistic than published estimates; overhead and drug savings may be smaller.`,
+    earlyWarning: ["Overhead and drug savings below projections"],
+    mitigation: ["Spending-growth target", "Reserve from the surplus"],
+  },
+]
