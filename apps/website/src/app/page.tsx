@@ -138,8 +138,8 @@ export default function Home() {
 
       <Callout title="Optimizations that work in any system">
         Some ways to cut cost or improve care don&apos;t depend on who pays: running routine lab
-        tests at high volume, a virtual first step for routine problems, hospital care at home, and
-        care built into senior communities.{" "}
+        tests and planned surgery at high volume, a virtual first step for routine problems,
+        hospital care at home, pharmacist test-and-treat, and more.{" "}
         <Link href="/optimizations" className="underline">
           See the optimizations
         </Link>

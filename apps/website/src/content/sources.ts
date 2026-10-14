@@ -2053,6 +2053,85 @@ export const SOURCES: Source[] = [
     note: "Eight states. PACE capitation roughly equaled what enrollees would have cost Medicare fee-for-service; Medicaid payments were higher than predicted in most states (lower in New York). Mortality was 8–17 percentage points lower than a matched group of nursing-home entrants and waiver enrollees (5–6 points vs waiver enrollees alone), which may partly reflect unobserved differences.",
   },
   {
+    id: "birkmeyer-volume-2002",
+    title: "Hospital volume and surgical mortality in the United States",
+    org: "New England Journal of Medicine (Birkmeyer et al.)",
+    year: 2002,
+    url: "https://pubmed.ncbi.nlm.nih.gov/11948273/",
+    note: "2.5 million Medicare procedures, 1994–99: mortality fell with hospital volume for all 14 procedures. Gaps between very-low- and very-high-volume hospitals ranged from 16.3% vs 3.8% (pancreatic resection) to 1.7% vs 1.5% (carotid endarterectomy); under 2 points for bypass grafting, colectomy, lobectomy, and nephrectomy.",
+  },
+  {
+    id: "pbgh-ecen-2021",
+    title:
+      "Reducing Cost by Increasing the Quality of Employee Care (Employers Centers of Excellence Network)",
+    org: "Pacific Business Group on Health",
+    year: 2021,
+    url: "https://www.pbgh.org/reducing-cost-by-increasing-the-quality-of-employee-care/",
+    note: "Program-reported, not peer reviewed: 50% of network spine patients avoided surgery; three times lower readmissions for joint replacement; no network patients needed a skilled nursing facility after surgery, against 5.2% elsewhere; $19.4 million saved by Walmart, Lowe's, and McKesson in 2017.",
+  },
+  {
+    id: "klepser-strep-2016",
+    title:
+      "Community pharmacist-physician collaborative streptococcal pharyngitis management program",
+    org: "Journal of the American Pharmacists Association (Klepser et al.)",
+    year: 2016,
+    url: "https://pubmed.ncbi.nlm.nih.gov/27067554/",
+    note: "55 pharmacies in Michigan, Minnesota, and Nebraska, 2013–14: 316 screened, 13.6% referred elsewhere; of 273 tested, 17.6% positive and treated under a collaborative agreement. 43.2% had no primary care provider and 43.9% came outside clinic hours.",
+  },
+  {
+    id: "corn-strep-time-2018",
+    title:
+      "Observation of a Pharmacist-Conducted Group A Streptococcal Pharyngitis Point-of-Care Test: A Time and Motion Study",
+    org: "Journal of Pharmacy Practice (Corn et al.)",
+    year: 2018,
+    url: "https://pubmed.ncbi.nlm.nih.gov/28553774/",
+    note: "33 standardized-patient visits to 11 pharmacies: a strep test took 25.3 minutes; pharmacist time was 12.7 minutes alone, or 2.6 minutes with interns doing much of the work.",
+  },
+  {
+    id: "tim-hf2-2018",
+    title:
+      "Efficacy of telemedical interventional management in patients with heart failure (TIM-HF2): a randomised, controlled, parallel-group, unmasked trial",
+    org: "The Lancet (Koehler et al.)",
+    year: 2018,
+    url: "https://pubmed.ncbi.nlm.nih.gov/30153985/",
+    note: "1,538 German patients recently hospitalized for heart failure: days lost to unplanned cardiovascular admissions or death 17.8 vs 24.2 a year; all-cause deaths 7.86 vs 11.34 per 100 person-years (HR 0.70). Daily vital signs to a staffed telemedical center, with education and direct contact with the patient's doctors.",
+  },
+  {
+    id: "beat-hf-2016",
+    title:
+      "Effectiveness of Remote Patient Monitoring After Discharge of Hospitalized Patients With Heart Failure: The BEAT-HF Randomized Clinical Trial",
+    org: "JAMA Internal Medicine (Ong et al.)",
+    year: 2016,
+    url: "https://pubmed.ncbi.nlm.nih.gov/26857383/",
+    note: "1,437 California patients: 180-day readmissions 50.8% with remote monitoring and telephone coaching vs 49.2% with usual care; no difference in 30-day readmission or 180-day mortality; better quality of life.",
+  },
+  {
+    id: "oig-rpm-2024",
+    title: "Additional Oversight of Remote Patient Monitoring in Medicare Is Needed",
+    org: "HHS Office of Inspector General",
+    year: 2024,
+    url: "https://oig.hhs.gov/reports/all/2024/additional-oversight-of-remote-patient-monitoring-in-medicare-is-needed/",
+    note: "Medicare use of remote monitoring rose dramatically from 2019 to 2022; about 43% of enrollees didn't receive all three components; Medicare doesn't know who ordered it or what is monitored.",
+  },
+  {
+    id: "greco-eras-2014",
+    title:
+      "Enhanced recovery program in colorectal surgery: a meta-analysis of randomized controlled trials",
+    org: "World Journal of Surgery (Greco et al.)",
+    year: 2014,
+    url: "https://pubmed.ncbi.nlm.nih.gov/24368573/",
+    note: "16 RCTs, 2,376 patients: overall complications RR 0.60, mostly nonsurgical; hospital stay 2.28 days shorter; no increase in readmissions. A Cochrane review had judged the trials too few and too weak to make it the standard of care.",
+  },
+  {
+    id: "cms-et3-2025",
+    title:
+      "Evaluation of the Emergency Triage, Treat, and Transport (ET3) Model (2021–2023): At a Glance",
+    org: "CMS Innovation Center",
+    year: 2025,
+    url: "https://www.cms.gov/priorities/innovation/data-and-reports/2025/et3-model-final-eval-rpt-aag",
+    note: "Ended early after three years because too few interventions were delivered: 70 of 185 ambulance participants delivered any; under 1% of an active participant's Medicare transports; 3,161 treatments in place and 257 alternative-destination transports. Patients often declined; partners were hard to recruit.",
+  },
+  {
     id: "kff-uncompensated-2013",
     title: "Uncompensated Care for the Uninsured in 2013: A Detailed Examination",
     org: "KFF (Coughlin, Holahan, Caswell, McGrath)",

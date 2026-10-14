@@ -14,6 +14,8 @@ export const OPTIMIZATION_LENSES = [
   "Operations & scale",
   "Access channel",
   "Site of care",
+  "Workforce",
+  "Technology & monitoring",
   "Housing & community",
 ] as const
 export type OptimizationLens = (typeof OPTIMIZATION_LENSES)[number]
@@ -174,6 +176,216 @@ export const OPTIMIZATIONS: Optimization[] = [
     anySystem:
       "Works under any payer that pays for the episode wherever it happens. Today that's Medicare's waiver and some insurers; a single payer or global hospital budgets would let hospitals shift beds to homes without losing revenue.",
     helps: ["high-prices", "safety"],
+  },
+  {
+    id: "high-volume-surgery",
+    title: "Send planned surgery to high-volume centers",
+    summary:
+      "For planned operations where volume matters, such as complex cancer surgery, heart valves, joints, and spine, send patients to centers that do many of them, with a review of whether surgery is needed first.",
+    lens: "Operations & scale",
+    how: [
+      "Publish volumes and outcomes by hospital and surgeon for planned procedures",
+      "Steer patients to high-volume centers with no cost sharing and paid travel",
+      "Require a second review of whether surgery is needed before spine and joint operations",
+      "Pay one bundled price per episode, including follow-up and complications",
+    ],
+    evidenceFor: [
+      {
+        text: `In Medicare claims, death rates fell with hospital volume for every cardiovascular and cancer operation studied: for pancreatic resection, ${show("pancreatectomyMortalityLowVol")} at very-low-volume hospitals against ${show("pancreatectomyMortalityHighVol")} at very-high-volume ones.`,
+        sourceIds: ["birkmeyer-volume-2002"],
+      },
+      {
+        text: `In the employer network Walmart and Lowe's started, ${show("ecenSpineAvoided")} of spine patients avoided surgery after the center's review, joint-replacement readmissions were much less common, and no patients needed a skilled nursing facility after surgery, against ${show("ecenSnfNonCoe")} elsewhere. These figures are program-reported, not peer reviewed.`,
+        sourceIds: ["pbgh-ecen-2021"],
+      },
+    ],
+    evidenceAgainst: [
+      {
+        text: `The volume effect is small for common operations: ${show("carotidMortalityLowVol")} against ${show("carotidMortalityHighVol")} for carotid surgery, and similarly small for bypass grafting, colectomy, and lung or kidney removal. Some of the gap may reflect which patients each hospital treats.`,
+        sourceIds: ["birkmeyer-volume-2002"],
+      },
+    ],
+    precedents: [
+      {
+        place: "U.S. employers (Walmart, Lowe's, McKesson)",
+        note: "A national centers-of-excellence network for joints, spine, bariatric, and some cancer surgery, with care free at the center.",
+        sourceIds: ["pbgh-ecen-2021"],
+      },
+      {
+        place: "U.S. Medicare",
+        note: "The volume–mortality link for cardiovascular and cancer surgery comes from Medicare's own claims.",
+        sourceIds: ["birkmeyer-volume-2002"],
+      },
+    ],
+    tradeoffs: [
+      "Patients travel farther and away from family, which is hardest for rural and low-income patients.",
+      "Low-volume local hospitals lose surgical revenue, which can threaten rural hospitals.",
+      "Concentrating volume gives the chosen centers more pricing power.",
+    ],
+    anySystem:
+      "Employers and insurers do it today through centers-of-excellence networks; Medicare could do it through bundled payments and published volumes; a single payer or regional budgets could plan where each procedure is done.",
+    helps: ["high-prices", "outcomes", "safety", "low-value-care"],
+  },
+  {
+    id: "enhanced-recovery",
+    title: "Standard recovery pathways for planned surgery",
+    summary:
+      "Enhanced recovery after surgery (ERAS): one agreed set of steps before, during, and after an operation, such as less fasting, less opioid use, and getting patients moving and eating early. Hospitals adopt it as a protocol, with no new equipment.",
+    lens: "Operations & scale",
+    how: [
+      "Adopt published protocols for common planned operations",
+      "Track adherence and outcomes, and report them",
+    ],
+    evidenceFor: [
+      {
+        text: `Across randomized trials in colorectal surgery, enhanced recovery shortened hospital stays by ${show("erasStayCut")} days and lowered overall complications (relative risk ${show("erasMorbidityRatio")}), mostly complications that weren't surgical, with no rise in readmissions.`,
+        sourceIds: ["greco-eras-2014"],
+      },
+    ],
+    evidenceAgainst: [
+      {
+        text: "An earlier Cochrane review judged the trials too few and of too low quality to make it the standard of care, and surgical complications themselves didn't fall significantly.",
+        sourceIds: ["greco-eras-2014"],
+      },
+    ],
+    precedents: [
+      {
+        place: "Randomized trials across Europe, Asia, and North America",
+        note: "The pooled trials compared the pathway with conventional care in colorectal surgery.",
+        sourceIds: ["greco-eras-2014"],
+      },
+    ],
+    tradeoffs: [
+      "Gains depend on how fully teams follow the protocol, which takes training and auditing.",
+      "Under per-day payment, shorter stays cut hospital revenue.",
+    ],
+    anySystem:
+      "Any hospital can adopt it today. Payment per admission or bundled episodes rewards it; per-day payment works against it.",
+    helps: ["safety", "high-prices"],
+  },
+  {
+    id: "pharmacist-test-treat",
+    title: "Pharmacist test-and-treat for minor conditions",
+    summary:
+      "Pharmacists test for and treat a short list of minor conditions, such as strep throat and urinary infections, under a protocol agreed with physicians, and refer anyone outside it.",
+    lens: "Workforce",
+    how: [
+      "Let pharmacists test and prescribe for listed conditions under a protocol or collaborative agreement",
+      "Pay pharmacies for the consultation, not only the drug",
+      "Share results with the patient's primary care practice",
+    ],
+    evidenceFor: [
+      {
+        text: `In a three-state program, pharmacists screened ${show("strepScreened")} people for strep throat and treated only those who tested positive (${show("strepPositive")} of those tested). ${show("strepNoPcp")} had no primary care provider and ${show("strepOffHours")} came outside clinic hours.`,
+        sourceIds: ["klepser-strep-2016"],
+      },
+      {
+        text: `A strep test encounter took ${show("strepTestMinutes")} minutes, but only ${show("strepPharmacistMinutes")} minutes of pharmacist time when pharmacy interns did much of the work.`,
+        sourceIds: ["corn-strep-time-2018"],
+      },
+    ],
+    evidenceAgainst: [
+      {
+        text: "These studies show feasibility and access, not savings: none measured whether pharmacy visits replaced doctor visits or added to them, which is the question that decided telehealth's effect on spending.",
+        sourceIds: ["klepser-strep-2016", "ashwood-telehealth-2017"],
+      },
+    ],
+    precedents: [
+      {
+        place: "U.S. (Michigan, Minnesota, Nebraska)",
+        note: "Chain and independent pharmacies tested and treated strep under collaborative practice agreements.",
+        sourceIds: ["klepser-strep-2016"],
+      },
+    ],
+    tradeoffs: [
+      "Primary care loses simple visits and some continuity with its patients.",
+      "Needs safeguards against overprescribing antibiotics.",
+      "Pharmacies are closing in many areas, which limits reach where access is worst.",
+    ],
+    anySystem:
+      "Needs state scope-of-practice law and a way to pay pharmacists for the visit, whoever pays. It works under current law in states that allow it, and under any reform.",
+    helps: ["physician-shortage", "shortage-areas", "scope-of-practice", "wait-times"],
+  },
+  {
+    id: "remote-monitoring",
+    title: "Targeted remote monitoring for heart failure",
+    summary:
+      "Patients recently hospitalized for heart failure send daily weight, blood pressure, and heart readings to a staffed center that acts on them the same day with the patient's own doctors.",
+    lens: "Technology & monitoring",
+    how: [
+      "Limit it to patients with recent heart failure admissions, where trials show a benefit",
+      "Staff a center that reviews readings daily and can change treatment",
+      "Pay for monitoring only when all its parts are delivered",
+    ],
+    evidenceFor: [
+      {
+        text: `In a German randomized trial, patients lost ${show("timhf2DaysLostRpm")} days a year to unplanned cardiovascular admissions or death, against ${show("timhf2DaysLostUsual")} with usual care, and died at ${show("timhf2DeathRpm")} per 100 person-years against ${show("timhf2DeathUsual")}.`,
+        sourceIds: ["tim-hf2-2018"],
+      },
+    ],
+    evidenceAgainst: [
+      {
+        text: `A looser U.S. version didn't work: in a California trial of monitoring plus phone coaching after discharge, 180-day readmissions were ${show("beatHfReadmitRpm")} against ${show("beatHfReadmitUsual")} with usual care.`,
+        sourceIds: ["beat-hf-2016"],
+      },
+      {
+        text: `Medicare's monitoring use has grown fast with weak oversight: ${show("rpmMissingComponents")} of enrollees didn't receive all three parts of the service, and Medicare doesn't know who ordered it or what is monitored.`,
+        sourceIds: ["oig-rpm-2024"],
+      },
+    ],
+    precedents: [
+      {
+        place: "Germany",
+        note: "The TIM-HF2 model: a staffed telemedical center working directly with patients' cardiologists and general practitioners.",
+        sourceIds: ["tim-hf2-2018"],
+      },
+    ],
+    tradeoffs: [
+      "Benefits depend on a staffed center acting on readings; devices alone don't help.",
+      "Open-ended billing invites low-value and fraudulent monitoring.",
+      "Patients need connectivity and daily effort.",
+    ],
+    anySystem:
+      "Any payer can cover it for the patients trials support, with payment tied to delivered monitoring and response. Medicare already pays for remote monitoring but doesn't target it.",
+    helps: ["outcomes", "shortage-areas"],
+  },
+  {
+    id: "ems-treat-in-place",
+    title: "Treat in place or take patients somewhere other than the emergency room",
+    summary:
+      "After a 911 call, paramedics treat the patient at home (often with a telehealth clinician) or take them to urgent care or a clinic instead of an emergency department, when that's safe.",
+    lens: "Site of care",
+    how: [
+      "Pay ambulance services for treatment in place and alternative destinations, not only transport to an emergency room",
+      "Set up telehealth links and partner clinics that take ambulance patients",
+    ],
+    evidenceFor: [
+      {
+        text: `Medicare's test showed it can be done: ${show("et3TreatInPlace")} treatments in place, mostly by telehealth, and ${show("et3AltDestination")} transports to other destinations from 2021 to 2023.`,
+        sourceIds: ["cms-et3-2025"],
+      },
+    ],
+    evidenceAgainst: [
+      {
+        text: `Medicare ended its test early because so little happened: only ${show("et3ActiveParticipants")} of ${show("et3Participants")} ambulance participants delivered any, and it was a tiny share of their transports. Patients often declined, and partners were hard to recruit.`,
+        sourceIds: ["cms-et3-2025"],
+      },
+    ],
+    precedents: [
+      {
+        place: "U.S. Medicare (ET3 model, 2021–23)",
+        note: "Paid ambulance services for treatment in place and alternative destinations; ended early for low use.",
+        sourceIds: ["cms-et3-2025"],
+      },
+    ],
+    tradeoffs: [
+      "A missed serious condition is the main risk.",
+      "Only works if partner clinics are open and willing when the call comes.",
+      "Patients, paramedics, and doctors are used to the emergency room as the default.",
+    ],
+    anySystem:
+      "Needs every payer to pay for it, which a single payer or all-payer rule makes simpler; a Medicare-only test was too small to change practice.",
+    helps: ["transport", "high-prices"],
   },
   {
     id: "senior-communities",
