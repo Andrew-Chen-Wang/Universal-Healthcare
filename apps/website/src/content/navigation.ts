@@ -152,6 +152,7 @@ export const SIDEBAR: SidePart[] = [
         items: [
           { id: "tree", label: "Decision tree", href: "/paths" },
           { id: "your-plan", label: "Build your plan", href: "/your-plan" },
+          { id: "groups", label: "Who's affected", href: "/groups" },
           { id: "ledger", label: "Review ledger (draft picks)", href: "/paths/ledger" },
         ],
       },

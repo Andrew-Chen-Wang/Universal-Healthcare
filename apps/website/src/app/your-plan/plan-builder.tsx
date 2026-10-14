@@ -5,43 +5,26 @@ import { cn } from "@website/lib/utils"
 import Link from "next/link"
 import { useEffect, useMemo, useState } from "react"
 import { fmt } from "@website/content/model"
+import { loadPicks, storePicks } from "@website/lib/picks"
 import { costFor, PRICED_PATHS } from "./cost"
 import { coverageFor, type Pop, type Status } from "./coverage"
 
+/** One effect or group; `href` is set when it has its own page. */
+export type Item = { text: string; href?: string }
 export type BuilderProblem = { id: string; title: string; category: string; derived: boolean }
 export type BuilderPath = {
   id: string
   problemId: string
   title: string
   summary: string
-  pros: string[]
-  cons: string[]
-  whoGains: string[]
-  whoLoses: string[]
+  fixes: Item[]
+  harms: Item[]
+  gains: Item[]
+  loses: Item[]
   changes: string[]
   requires: string[]
   conflicts: string[]
   spawns: string[]
-}
-
-const STORAGE_KEY = "universal.build.picks.v1"
-
-function loadPicks(): string[] {
-  try {
-    const raw = window.localStorage.getItem(STORAGE_KEY)
-    const parsed: unknown = raw ? JSON.parse(raw) : []
-    return Array.isArray(parsed) ? parsed.filter((x): x is string => typeof x === "string") : []
-  } catch {
-    return []
-  }
-}
-
-function storePicks(ids: string[]) {
-  try {
-    window.localStorage.setItem(STORAGE_KEY, JSON.stringify(ids))
-  } catch {
-    // Storage unavailable (private mode); picks last for this visit only.
-  }
 }
 
 export function PlanBuilder({
@@ -101,8 +84,8 @@ export function PlanBuilder({
     p.requires.filter((r) => !picks.has(r)).map((r) => [p, byId[r]] as const),
   )
   const changes = picked.flatMap((p) => p.changes.map((c) => ({ path: p, text: c })))
-  const gains = [...new Set(picked.flatMap((p) => p.whoGains))]
-  const loses = [...new Set(picked.flatMap((p) => p.whoLoses))]
+  const gains = dedupe(picked.flatMap((p) => p.gains))
+  const loses = dedupe(picked.flatMap((p) => p.loses))
   const answeredCount = base.filter((p) => answered(p.id)).length
   const issues = conflicts.length + missing.length + unansweredCreated.length
 
@@ -265,38 +248,35 @@ export function PlanBuilder({
             ) : (
               <>
                 <SummaryList
-                  title={`Pros (${picked.reduce((n, p) => n + p.pros.length, 0)})`}
+                  title={`What it fixes (${picked.reduce((n, p) => n + p.fixes.length, 0)})`}
                   tone="gain"
                 >
                   {picked.map((p) => (
-                    <PathItems key={p.id} path={p} items={p.pros} />
+                    <PathItems key={p.id} path={p} items={p.fixes} />
                   ))}
                 </SummaryList>
                 <SummaryList
-                  title={`Drawbacks (${picked.reduce((n, p) => n + p.cons.length, 0)})`}
+                  title={`What it creates or worsens (${picked.reduce((n, p) => n + p.harms.length, 0)})`}
                   tone="loss"
                 >
                   {picked.map((p) => (
-                    <PathItems key={p.id} path={p} items={p.cons} />
+                    <PathItems key={p.id} path={p} items={p.harms} />
                   ))}
                 </SummaryList>
                 <SummaryList title={`Who gains (${gains.length})`} tone="gain">
-                  <ul className="list-disc space-y-1 pl-5">
-                    {gains.map((g) => (
-                      <li key={g}>{g}</li>
-                    ))}
-                  </ul>
+                  <ItemList items={gains} />
                 </SummaryList>
                 <SummaryList title={`Who loses (${loses.length})`} tone="loss">
-                  <ul className="list-disc space-y-1 pl-5">
-                    {loses.map((g) => (
-                      <li key={g}>{g}</li>
-                    ))}
-                  </ul>
+                  <ItemList items={loses} />
                 </SummaryList>
                 <SummaryList title={`Changes required (${changes.length})`} tone="neutral">
                   {picked.map((p) => (
-                    <PathItems key={p.id} path={p} items={p.changes} ordered />
+                    <PathItems
+                      key={p.id}
+                      path={p}
+                      items={p.changes.map((text) => ({ text }))}
+                      ordered
+                    />
                   ))}
                 </SummaryList>
               </>
@@ -353,7 +333,7 @@ function PathItems({
   ordered,
 }: {
   path: BuilderPath
-  items: string[]
+  items: Item[]
   ordered?: boolean
 }) {
   if (!items.length) return null
@@ -365,11 +345,43 @@ function PathItems({
       </Link>
       <List className={cn("mt-1 space-y-1 pl-5", ordered ? "list-decimal" : "list-disc")}>
         {items.map((i) => (
-          <li key={i}>{i}</li>
+          <li key={i.text}>
+            <ItemText item={i} />
+          </li>
         ))}
       </List>
     </div>
   )
+}
+
+function ItemText({ item }: { item: Item }) {
+  return item.href ? (
+    <Link
+      href={item.href}
+      className="underline decoration-rule underline-offset-2 hover:text-primary"
+    >
+      {item.text}
+    </Link>
+  ) : (
+    <>{item.text}</>
+  )
+}
+
+function ItemList({ items }: { items: Item[] }) {
+  return (
+    <ul className="list-disc space-y-1 pl-5">
+      {items.map((i) => (
+        <li key={i.href ?? i.text}>
+          <ItemText item={i} />
+        </li>
+      ))}
+    </ul>
+  )
+}
+
+/** Same group or effect from several paths counts once. */
+function dedupe(items: Item[]): Item[] {
+  return [...new Map(items.map((i) => [i.href ?? i.text, i])).values()]
 }
 
 const STATUS: Record<Status, { label: string; className: string }> = {

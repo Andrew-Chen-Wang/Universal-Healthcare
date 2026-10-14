@@ -1,6 +1,8 @@
 import { PathLink, ProblemChip, real, StatusPill } from "@website/components/site/paths"
-import { B, Page, PageHeader, ProsCons, Sources, Usd } from "@website/components/site/ui"
+import { EffectList, ImpactList } from "@website/components/site/effects"
+import { B, Page, PageHeader, Sources, Usd } from "@website/components/site/ui"
 import { INVENTORY_BY_ID } from "@website/content/cost-inventory"
+import { effectsOf, impactsOf, isMigrated } from "@website/content/graph"
 import {
   DECISION_BY_PATH,
   complementsOf,
@@ -69,6 +71,9 @@ export default async function PathPage({ params }: { params: Params }) {
   const created = [...(p.spawns ?? []), ...(p.worsens ?? [])]
   const decision = DECISION_BY_PATH[p.id]
   const phase = PHASES.find((ph) => ph.id === decision?.phase)
+  const migrated = isMigrated(p)
+  const effects = effectsOf(p)
+  const impacts = impactsOf(p)
 
   return (
     <Page>
@@ -166,18 +171,36 @@ export default async function PathPage({ params }: { params: Params }) {
       </section>
 
       <section className="mb-10">
-        <h2 className="mb-3 text-xl font-semibold">Pros and drawbacks</h2>
-        <ProsCons
-          pros={p.pros.map((point) => ({ point }))}
-          cons={p.cons.map((point) => ({ point }))}
-          consLabel="Drawbacks"
-        />
+        <h2 className="mb-1 text-xl font-semibold">Effects</h2>
+        <p className="mb-3 text-sm text-muted-foreground">
+          {migrated
+            ? "Each effect has its own page: the evidence, the case that it is or isn't a real cost, and whom it affects."
+            : "This path's effects are still free text; it has not yet been linked into the effects graph."}
+        </p>
+        <div className="grid gap-4 md:grid-cols-2">
+          <EffectList title="What it fixes" effects={effects.fixes} tone="gain" />
+          <EffectList
+            title="What it creates or worsens"
+            effects={effects.harms}
+            tone="loss"
+            showFixes
+          />
+        </div>
       </section>
 
-      <section className="mb-10 grid gap-4 md:grid-cols-3">
-        <People title="Who gains" items={p.whoGains} tone="border-gain/25 bg-gain-soft/40" />
-        <People title="Who loses" items={p.whoLoses} tone="border-loss/25 bg-loss-soft/40" />
-        <People title="How to mend the losers" items={p.mend} tone="border-rule bg-card" />
+      <section className="mb-10">
+        <h2 className="mb-3 text-xl font-semibold">Who&apos;s affected</h2>
+        <div className={`grid gap-4 ${migrated ? "md:grid-cols-2" : "md:grid-cols-3"}`}>
+          <ImpactList title="Who gains" impacts={impacts.gains} tone="gain" />
+          <ImpactList title="Who loses" impacts={impacts.loses} tone="loss" />
+          {!migrated && (
+            <People
+              title="How to mend the losers"
+              items={p.mend ?? []}
+              tone="border-rule bg-card"
+            />
+          )}
+        </div>
       </section>
 
       <section className="mb-10">

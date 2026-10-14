@@ -1996,6 +1996,38 @@ export const SOURCES: Source[] = [
     url: "https://www.cms.gov/oact/tr/2024",
     note: "In calendar year 2023... The payments from States were $15.8 billion... Table III.D1—Statement of Operations of the Part D Account in the SMI Trust Fund during Calendar Year 2023: Payments from States: $15,820,910 [in thousands]... State payments were higher than the 2022 report estimates largely because the actual number of full-benefit dually eligible beneficiaries was higher than projected.",
   },
+  {
+    id: "oecd-hag-2025-canada",
+    title: "Health at a Glance 2025: Canada",
+    org: "OECD",
+    year: 2025,
+    url: "https://www.oecd.org/en/publications/health-at-a-glance-2025_15a55280-en/canada_41ea57c7-en.html",
+    note: "2.7 practising doctors per 1,000 population in Canada (OECD average 3.9); 2.5 hospital beds per 1,000 (OECD average 4.2).",
+  },
+  {
+    id: "oecd-hag-2025-us",
+    title: "Health at a Glance 2025: United States",
+    org: "OECD",
+    year: 2025,
+    url: "https://www.oecd.org/en/publications/health-at-a-glance-2025_15a55280-en/united-states_3517f35e-en.html",
+    note: "2.7 practising doctors per 1,000 population in the United States (OECD average 3.9); 2.8 hospital beds per 1,000 (OECD average 4.2).",
+  },
+  {
+    id: "cmwf-specialist-wait-2016",
+    title: "Waited Two Months or More for Specialist Appointment",
+    org: "Commonwealth Fund",
+    year: 2020,
+    url: "https://www.commonwealthfund.org/international-health-policy-center/system-stats/wait-for-specialist-appointment",
+    note: "From the 2016 International Health Policy Survey, among adults who saw or needed a specialist: Canada 30%, Norway 28%, New Zealand 20%, England 19%, Sweden 19%, Australia 13%, Switzerland 9%, Netherlands 7%, United States 6%, France 4%, Germany 3%.",
+  },
+  {
+    id: "kff-consumer-survey-2023",
+    title: "KFF Survey of Consumer Experiences with Health Insurance",
+    org: "KFF",
+    year: 2023,
+    url: "https://www.kff.org/affordable-care-act/kff-survey-of-consumer-experiences-with-health-insurance/",
+    note: "80% of adults with employer-sponsored insurance rate their insurance excellent or good (Marketplace 73%, Medicaid 83%).",
+  },
 ]
 
 export const SOURCE_BY_ID = Object.fromEntries(SOURCES.map((s) => [s.id, s]))

@@ -644,6 +644,7 @@ export const SUPPLY_PATHS = [
     whoLoses: ["Taxpayers"],
     mend: ["N/A"],
     costIds: ["residency-slot-cost"],
+    solves: ["wait-times"],
     changes: ["Fund more residency slots, prioritizing primary care and rural sites"],
   }),
   path({
@@ -857,7 +858,7 @@ export const SUPPLY_PATHS = [
     whoLoses: ["Physicians (competition)"],
     mend: ["N/A"],
     spawns: ["x-scope-quality"],
-    solves: ["physician-shortage", "shortage-areas"],
+    solves: ["physician-shortage", "shortage-areas", "wait-times"],
     changes: [
       "Grant full practice authority to NPs, PAs, pharmacists, dental therapists nationally",
     ],
@@ -880,6 +881,7 @@ export const SUPPLY_PATHS = [
     whoGains: ["Patients", "Team members with expanded roles"],
     whoLoses: ["Rural areas without supervising physicians"],
     mend: ["Remote supervision"],
+    solves: ["wait-times"],
     changes: ["Expand roles within physician-supervised teams", "Allow remote supervision"],
   }),
 ]

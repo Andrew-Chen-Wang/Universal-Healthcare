@@ -1,5 +1,6 @@
 import { Pill } from "@website/components/site/ui"
 import type { PathStatus, SolutionPath } from "@website/content/paths"
+import { effectsOf, isMigrated } from "@website/content/graph"
 import { PROBLEM_BY_ID } from "@website/content/problems"
 import { cn } from "@website/lib/utils"
 import Link from "next/link"
@@ -52,6 +53,8 @@ export function PathCard({
   path: SolutionPath
   showProblem?: boolean
 }) {
+  const effects = effectsOf(p)
+  const migrated = isMigrated(p)
   return (
     <div className="rounded-md border border-rule bg-card p-4">
       <div className="flex flex-wrap items-start justify-between gap-2">
@@ -68,7 +71,7 @@ export function PathCard({
       <p className="mt-2 text-sm text-foreground/80">{p.summary}</p>
       <div className="mt-3 grid gap-3 text-sm sm:grid-cols-2">
         <ul className="space-y-1">
-          {p.pros.map((x) => (
+          {effects.fixes.map(({ title: x }) => (
             <li key={x} className="flex gap-1.5">
               <span className="text-gain">+</span>
               <span>{x}</span>
@@ -76,7 +79,7 @@ export function PathCard({
           ))}
         </ul>
         <ul className="space-y-1">
-          {p.cons.map((x) => (
+          {effects.harms.map(({ title: x }) => (
             <li key={x} className="flex gap-1.5">
               <span className="text-loss">−</span>
               <span>{x}</span>
@@ -84,7 +87,7 @@ export function PathCard({
           ))}
         </ul>
       </div>
-      {((p.spawns?.length ?? 0) > 0 || (p.worsens?.length ?? 0) > 0) && (
+      {!migrated && ((p.spawns?.length ?? 0) > 0 || (p.worsens?.length ?? 0) > 0) && (
         <div className="mt-3 flex flex-wrap items-center gap-1.5 text-xs">
           <span className="text-muted-foreground">Creates or worsens:</span>
           {[...(p.spawns ?? []), ...(p.worsens ?? [])].map((id) => (
@@ -92,7 +95,7 @@ export function PathCard({
           ))}
         </div>
       )}
-      {(p.solves?.length ?? 0) > 0 && (
+      {!migrated && (p.solves?.length ?? 0) > 0 && (
         <div className="mt-2 flex flex-wrap items-center gap-1.5 text-xs">
           <span className="text-muted-foreground">Also helps:</span>
           {p.solves?.map((id) => (

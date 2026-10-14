@@ -6,7 +6,8 @@
  * here; they are decided problem by problem.
  */
 import { ENROLLMENT_2024, PAYER_TOTALS_2024 } from "./baseline"
-import { show } from "./constants"
+import { show, v } from "./constants"
+import { DISPLACED_TOTAL } from "./workforce"
 
 export const PROBLEM_CATEGORIES = [
   "Coverage & eligibility",
@@ -30,15 +31,26 @@ export const PROBLEM_CATEGORIES = [
 
 export type ProblemCategory = (typeof PROBLEM_CATEGORIES)[number]
 
+export type GroupLink = { group: string; how: string; sourceIds?: string[] }
+/** One argument in a debate; may point to related problems instead of repeating them. */
+export type Reading = { text: string; sourceIds?: string[]; problems?: string[] }
+
 export type Problem = {
   id: string
   category: ProblemCategory
   title: string
   summary: string
   evidence: { text: string; sourceIds: string[] }[]
-  whoIsHurt: string[]
+  /** Groups this problem hurts (see groups.ts): fixing it helps them, worsening it hurts them. */
+  hurts?: GroupLink[]
+  /** Groups that gain while the problem continues: fixing it costs them. */
+  profits?: GroupLink[]
+  /** Whether this really is a problem or cost, argued both ways with sources. */
+  debate?: { is: Reading[]; isNot: Reading[] }
+  /** Legacy free-text lists, replaced by `hurts` and `profits` as problems join the graph. */
+  whoIsHurt?: string[]
   /** Who gains from the problem continuing: the incentive any fix must overcome or compensate. */
-  whoProfits: string[]
+  whoProfits?: string[]
   rootCauses: string[]
   /** Questions to decide; each answer becomes a solution path with trade-offs. */
   openQuestions: string[]
@@ -61,14 +73,10 @@ export const PROBLEMS: Problem[] = [
         sourceIds: ["kff-cost-2025"],
       },
     ],
-    whoIsHurt: [
-      "Low-wage workers without employer coverage",
-      "People in the 10 states that did not expand Medicaid",
-      "Immigrants",
-      "Young adults",
-    ],
-    whoProfits: [
-      "Nobody directly; but employers that don't offer coverage avoid the cost, and taxpayers avoid subsidy costs in the short run",
+    hurts: [{ group: "uninsured", how: "They delay care, go without, or pay full price." }],
+    profits: [
+      { group: "employers", how: "Employers that don't offer coverage avoid its cost." },
+      { group: "taxpayers", how: "Public budgets avoid subsidy costs in the short run." },
     ],
     rootCauses: [
       "Coverage tied to employment",
@@ -93,14 +101,16 @@ export const PROBLEMS: Problem[] = [
         sourceIds: ["cms-nhe-highlights"],
       },
     ],
-    whoIsHurt: [
-      "People with fluctuating income",
-      "Gig and seasonal workers",
-      "People with chronic conditions mid-treatment",
+    hurts: [
+      { group: "changing-lives", how: "They lose coverage when income, job, or address changes." },
+      {
+        group: "heavy-care-users",
+        how: "Treatment is interrupted when coverage lapses mid-course.",
+      },
     ],
-    whoProfits: [
-      "Budgets that save money when eligible people fall off",
-      "Insurers that avoid long-term costs of members who leave",
+    profits: [
+      { group: "insurers", how: "Insurers avoid the long-term costs of members who leave." },
+      { group: "taxpayers", how: "Budgets save money when eligible people fall off." },
     ],
     rootCauses: [
       "Means-tested programs need repeated income checks",
@@ -123,14 +133,18 @@ export const PROBLEMS: Problem[] = [
         sourceIds: ["cms-nhe-2024"],
       },
     ],
-    whoIsHurt: [
-      "Would-be entrepreneurs",
-      "People wanting to retire before 65",
-      "Caregivers who need to reduce hours",
+    hurts: [
+      {
+        group: "changing-lives",
+        how: "Would-be founders, early retirees, and caregivers stay in jobs to keep insurance.",
+      },
     ],
-    whoProfits: [
-      "Employers, who gain retention leverage",
-      "Insurers and brokers selling group coverage",
+    profits: [
+      {
+        group: "employers",
+        how: "Benefits help employers keep workers who would otherwise leave.",
+      },
+      { group: "insurers", how: "Insurers and brokers sell group coverage through employers." },
     ],
     rootCauses: [
       "The WWII-era tax exclusion for employer premiums",
@@ -176,13 +190,15 @@ export const PROBLEMS: Problem[] = [
         sourceIds: ["kff-consumer-2023"],
       },
     ],
-    whoIsHurt: [
-      "Patients needing specialists",
-      "Mental-health patients (many therapists take no insurance)",
+    hurts: [
+      {
+        group: "heavy-care-users",
+        how: "Needed specialists and therapists are often out of network.",
+      },
     ],
-    whoProfits: [
-      "Insurers (narrow networks lower premiums)",
-      "Out-of-network providers who bill high charges",
+    profits: [
+      { group: "insurers", how: "Narrow networks let insurers offer lower premiums." },
+      { group: "high-price-providers", how: "Out-of-network providers can bill high charges." },
     ],
     rootCauses: [
       "Many separate payers each negotiating networks",
@@ -295,8 +311,17 @@ export const PROBLEMS: Problem[] = [
         sourceIds: ["kff-ehbs-2025"],
       },
     ],
-    whoIsHurt: ["Lower- and middle-wage workers", "Small employers"],
-    whoProfits: ["High earners (flat premiums are a smaller share of their pay)", "Insurers"],
+    hurts: [
+      {
+        group: "low-middle-income",
+        how: "A flat premium takes a large share of a modest paycheck.",
+      },
+      { group: "employers", how: "Small employers pay the same premiums on lower payrolls." },
+    ],
+    profits: [
+      { group: "high-earners", how: "A flat premium is a small share of high pay." },
+      { group: "insurers", how: "Premiums are insurers' revenue." },
+    ],
     rootCauses: ["Per-person pricing of coverage", "Tax exclusion that favors richer plans"],
     openQuestions: [
       "Should health care be financed by income-based taxes, payroll taxes, per-person premiums, or a mix?",
@@ -331,10 +356,18 @@ export const PROBLEMS: Problem[] = [
         sourceIds: ["crs-idr-2024"],
       },
     ],
-    whoIsHurt: ["Patients (ground ambulance)", "Premium payers who fund higher awards"],
-    whoProfits: [
-      "Private-equity-backed emergency, anesthesia, and radiology groups",
-      "Arbitration entities",
+    hurts: [
+      {
+        group: "heavy-care-users",
+        how: "Ambulance rides and out-of-network specialists send bills patients didn't choose.",
+      },
+      { group: "employer-covered", how: "Premiums fund the higher arbitration awards." },
+    ],
+    profits: [
+      {
+        group: "high-price-providers",
+        how: "Private-equity-backed emergency, anesthesia, and radiology groups win high awards.",
+      },
     ],
     rootCauses: ["Out-of-network billing", "Separate payers disputing prices"],
     openQuestions: ["Should payment disputes be eliminated by having one payment schedule?"],
@@ -353,8 +386,11 @@ export const PROBLEMS: Problem[] = [
         sourceIds: ["kff-consumer-2023"],
       },
     ],
-    whoIsHurt: ["Patients", "Providers who absorb unpaid claims"],
-    whoProfits: ["Insurers (lower medical spending)", "Denial-management vendors on both sides"],
+    hurts: [
+      { group: "heavy-care-users", how: "Care is delayed or denied, and appeals take time." },
+      { group: "clinicians", how: "Providers absorb unpaid claims and appeal work." },
+    ],
+    profits: [{ group: "insurers", how: "Denials lower insurers' medical spending." }],
     rootCauses: [
       "Insurers' financial incentive to pay less",
       "Complex, plan-specific coverage rules",
@@ -412,8 +448,8 @@ export const PROBLEMS: Problem[] = [
         sourceIds: ["naic-health-results"],
       },
     ],
-    whoIsHurt: ["Premium payers"],
-    whoProfits: ["Insurers, brokers, and their vendors"],
+    hurts: [{ group: "employer-covered", how: "Premiums pay for insurer overhead and profit." }],
+    profits: [{ group: "insurers", how: "Overhead and profit are insurers' income." }],
     rootCauses: [
       "Many payers duplicating the same functions",
       "Competition on marketing and network design rather than cost",
@@ -471,10 +507,16 @@ export const PROBLEMS: Problem[] = [
         sourceIds: ["shrank-waste-2019"],
       },
     ],
-    whoIsHurt: ["Everyone who pays premiums, taxes, or bills"],
-    whoProfits: [
-      "Providers, manufacturers, and intermediaries with pricing power",
-      "Their shareholders and employees",
+    hurts: [
+      {
+        group: "employer-covered",
+        how: "Private plans pay the highest prices, passed on through premiums.",
+      },
+      { group: "taxpayers", how: "Public programs pay more than peer countries too." },
+    ],
+    profits: [
+      { group: "high-price-providers", how: "Providers with pricing power earn more per service." },
+      { group: "drug-device-makers", how: "U.S. prices are well above those in peer countries." },
     ],
     rootCauses: [
       "Fragmented buyers with little leverage",
@@ -973,9 +1015,17 @@ export const PROBLEMS: Problem[] = [
         sourceIds: ["aha-cost-caring"],
       },
     ],
-    whoIsHurt: ["Everyone who pays", "Clinicians"],
-    whoProfits: [
-      "Insurers, billing firms, clearinghouses, consultants, EHR vendors, and the ~975,000 people whose jobs depend on complexity",
+    hurts: [
+      { group: "clinicians", how: "Time goes to billing and insurer rules instead of patients." },
+      { group: "employer-covered", how: "Premiums pay for the administration." },
+      { group: "taxpayers", how: "Public programs pay for it too." },
+    ],
+    profits: [
+      {
+        group: "insurers",
+        how: "Insurers, billing firms, and clearinghouses earn from the complexity.",
+      },
+      { group: "insurance-billing-workers", how: "Their jobs exist because of the complexity." },
     ],
     rootCauses: ["Many payers with different rules", "Fee-for-service billing", "Means testing"],
     openQuestions: ["How many payers and payment rules should there be?"],
@@ -992,9 +1042,11 @@ export const PROBLEMS: Problem[] = [
         sourceIds: ["bls-oews-2025"],
       },
     ],
-    whoIsHurt: ["Workers if simplification happens without a transition"],
-    whoProfits: [
-      "These jobs are the incentive: workers, employers, and communities depend on them",
+    hurts: [
+      {
+        group: "insurance-billing-workers",
+        how: "Workers lose jobs if billing is simplified without a transition plan.",
+      },
     ],
     rootCauses: ["System complexity"],
     openQuestions: [
@@ -1237,8 +1289,7 @@ export const PROBLEMS: Problem[] = [
     id: "wait-times",
     category: "Risks a universal system can create",
     title: "Longer waits if demand grows faster than capacity",
-    summary:
-      "When care becomes free and universal, use rises. If supply doesn't grow, people wait, as in Canada (median 28.6 weeks from referral to treatment) and the UK (7.4M on the waiting list). People with good employer coverage today, who are seen fastest, notice most.",
+    summary: `When care becomes free and universal, use rises. If supply doesn't grow, people wait, as in Canada (median ${show("canadaMedianWeeks")} weeks from referral to treatment) and the UK (${show("nhsWaitlist")} million on the waiting list). People with good employer coverage today, who are seen fastest, notice most.`,
     evidence: [
       {
         text: `Canada median wait ${show("canadaMedianWeeks")} weeks (2025).`,
@@ -1249,8 +1300,44 @@ export const PROBLEMS: Problem[] = [
         sourceIds: ["nhs-rtt"],
       },
     ],
-    whoIsHurt: ["People with fast access today", "Everyone if capacity lags"],
-    whoProfits: ["Private cash clinics (if allowed)"],
+    hurts: [
+      {
+        group: "employer-covered",
+        how: "They are seen fastest today and would share one queue with everyone.",
+      },
+      { group: "heavy-care-users", how: "They need specialists and procedures most often." },
+    ],
+    debate: {
+      is: [
+        {
+          text: `Single-payer and tax-funded systems can have long waits: Canada's median from GP referral to treatment was ${show("canadaMedianWeeks")} weeks in 2025, and England's waiting list was about ${show("nhsWaitlist")} million.`,
+          sourceIds: ["fraser-2025", "nhs-rtt"],
+        },
+        {
+          text: `In a 2016 survey of people who needed a specialist, ${show("specialistWait2moCanada")} in Canada and ${show("specialistWait2moNorway")} in Norway waited two months or more, against ${show("specialistWait2moUs")} in the U.S. and ${show("specialistWait2moGermany")} in Germany.`,
+          sourceIds: ["cmwf-specialist-wait-2016"],
+        },
+        {
+          text: `People with private coverage get in fastest today: ${show("acceptPrivate")} of physicians took new privately insured patients, against ${show("acceptMedicaid")} for Medicaid. One shared queue ends that advantage.`,
+          sourceIds: ["holgash-heberlein"],
+        },
+      ],
+      isNot: [
+        {
+          text: `Waits follow capacity, not only how care is paid for: Canada has ${v("doctorsPer1000Canada")} practising doctors per 1,000 people against an OECD average of ${v("doctorsPer1000Oecd")}, and ${v("bedsPer1000Canada")} hospital beds against ${v("bedsPer1000Oecd")}.`,
+          sourceIds: ["oecd-hag-2025-canada"],
+        },
+        {
+          text: `The U.S. is no better supplied: ${v("doctorsPer1000Us")} doctors and ${v("bedsPer1000Us")} beds per 1,000 people. A U.S. single payer would need capacity to grow with coverage, which is a choice, not a given.`,
+          sourceIds: ["oecd-hag-2025-us"],
+          problems: ["physician-shortage"],
+        },
+        {
+          text: "The U.S. already has waits: new-patient appointments in large metro areas average about a month.",
+          sourceIds: ["amn-wait-2025"],
+        },
+      ],
+    },
     rootCauses: ["Demand rises with coverage; supply grows slowly", "Budget caps on capacity"],
     openQuestions: [
       "How should waits be prevented: more capacity, small copays, wait-time guarantees, a private tier?",
@@ -1344,20 +1431,57 @@ export const PROBLEMS: Problem[] = [
     id: "transition-disruption",
     category: "Risks a universal system can create",
     title: "Transition disruption: jobs, companies, and familiar coverage",
-    summary:
-      "Ending private insurance as primary coverage would displace about 975,000 administrative jobs, end the core business of insurers and PBMs, and change coverage for about 179 million people with employer plans.",
+    summary: `Ending private insurance as primary coverage would displace about ${(Math.round(DISPLACED_TOTAL / 1000) * 1000).toLocaleString("en-US")} administrative jobs (site estimate), end the core business of insurers and PBMs, and change coverage for about ${ENROLLMENT_2024.employerSponsored} million people with employer plans.`,
     evidence: [
       {
-        text: "About 451,820 people work at health insurance carriers.",
+        text: `About ${show("blsHealthCarriers")} people work at health insurance carriers.`,
         sourceIds: ["bls-oews-2025"],
       },
     ],
-    whoIsHurt: [
-      "Insurance and billing workers",
-      "People who like their current plan",
-      "Shareholders",
+    hurts: [
+      {
+        group: "employer-covered",
+        how: "People leave plans most of them rate well, and must re-learn how coverage works.",
+      },
+      {
+        group: "insurance-billing-workers",
+        how: "Jobs selling coverage and processing claims end.",
+      },
+      { group: "insurers", how: "Insurers lose their core business, and shareholders lose value." },
     ],
-    whoProfits: ["N/A: this is the cost of change"],
+    debate: {
+      is: [
+        {
+          text: `Most people with employer coverage like it: ${show("esiRatedGood")} rate their insurance excellent or good. A required switch takes away something many value.`,
+          sourceIds: ["kff-consumer-survey-2023"],
+        },
+        {
+          text: `Hundreds of thousands of insurance and billing jobs end; ${show("blsHealthCarriers")} people work at health insurance carriers alone.`,
+          sourceIds: ["bls-oews-2025"],
+          problems: ["billing-jobs"],
+        },
+        {
+          text: "For many, the real loss is speed: people with employer coverage are seen fastest today, and in one shared system they lose that edge unless capacity grows.",
+          problems: ["wait-times"],
+        },
+      ],
+      isNot: [
+        {
+          text: "The switch is a one-time cost. What lasts is coverage that no longer ends with a job or an income change.",
+          problems: ["job-lock", "churn"],
+        },
+        {
+          text: "The money isn't lost. Workers largely pay for employer premiums through lower wages, so ending premiums can raise pay, but only if wages actually adjust.",
+          sourceIds: ["baicker-chandra"],
+          problems: ["x-new-taxes", "x-wage-incidence"],
+        },
+        {
+          text: `Leaving an employer plan need not mean losing extras: in Australia, ${show("australiaPrivateHospitalCover")} of people also hold private hospital cover on top of the public system.`,
+          sourceIds: ["twotier-allow-australian-prudential-re-2025"],
+          problems: ["x-plan-choice"],
+        },
+      ],
+    },
     rootCauses: ["The size of today's insurance-based system"],
     openQuestions: ["How fast should a transition happen, and who gets compensated or supported?"],
   },
@@ -1392,12 +1516,37 @@ const DERIVED: Problem[] = [
       "With one public payer, people can't switch plans if they dislike how their coverage is run, and insurers no longer compete on service, care management, or extra benefits.",
     evidence: [
       {
-        text: "Medicare Advantage enrollees report high satisfaction with plans that offer extra benefits.",
-        sourceIds: ["medpac-2025"],
+        text: `${show("esiRatedGood")} of adults with employer coverage rate their insurance excellent or good.`,
+        sourceIds: ["kff-consumer-survey-2023"],
       },
     ],
-    whoIsHurt: ["People who value choosing among plans", "Medicare Advantage enrollees"],
-    whoProfits: ["N/A"],
+    hurts: [
+      {
+        group: "employer-covered",
+        how: "They can't keep or pick a plan they like, or switch if service is poor.",
+      },
+    ],
+    debate: {
+      is: [
+        {
+          text: `${show("esiRatedGood")} of adults with employer coverage rate it excellent or good, and they lose the option to keep it.`,
+          sourceIds: ["kff-consumer-survey-2023"],
+        },
+        {
+          text: "With one payer, there is no competitor to move to if service is poor, so service depends on public accountability alone.",
+        },
+      ],
+      isNot: [
+        {
+          text: "Choosing an insurer today largely means choosing a network. With one payer, every provider is covered.",
+          problems: ["networks"],
+        },
+        {
+          text: `Choice can survive in other forms: in Australia, ${show("australiaPrivateHospitalCover")} of people add private hospital cover to the public system.`,
+          sourceIds: ["twotier-allow-australian-prudential-re-2025"],
+        },
+      ],
+    },
     rootCauses: ["A single payer has no competitors"],
     openQuestions: ["How can a single payer be held to good service without competition?"],
   },
@@ -1408,8 +1557,41 @@ const DERIVED: Problem[] = [
     summary:
       "Public financing replaces premiums and out-of-pocket costs with taxes. Total spending may fall, but taxes become larger and more visible, change incentives to work and invest, and fall on different people than premiums did.",
     evidence: [],
-    whoIsHurt: ["High earners", "Businesses that never offered coverage"],
-    whoProfits: ["Low- and middle-income households who paid flat premiums"],
+    hurts: [
+      {
+        group: "high-earners",
+        how: "They pay more under income-based taxes than they did in flat premiums.",
+      },
+      { group: "employers", how: "Businesses that never offered coverage start paying toward it." },
+    ],
+    profits: [
+      {
+        group: "low-middle-income",
+        how: "Income-based taxes replace flat premiums that took a large share of their pay.",
+      },
+    ],
+    debate: {
+      is: [
+        {
+          text: `Federal spending rises sharply: CBO's single-payer options add $${v("cboSinglePayerFederalLow") / 1000} trillion to $${v("cboSinglePayerFederalHigh") / 1000} trillion in federal subsidies in 2030, which taxes must cover.`,
+          sourceIds: ["cbo-single-payer-2020"],
+        },
+        {
+          text: "Taxes fall on different people than premiums did, and change incentives to work, hire, and invest.",
+          problems: ["x-wage-incidence"],
+        },
+      ],
+      isNot: [
+        {
+          text: `Most new taxes replace premiums and out-of-pocket costs instead of adding spending: in the same CBO options, national health spending changes by −$${-v("cboSinglePayerNationalLow") / 1000} trillion to +$${v("cboSinglePayerNationalHigh") / 1000} trillion in 2030.`,
+          sourceIds: ["cbo-single-payer-2020"],
+        },
+        {
+          text: `Premiums already work like a tax on pay: the average employer family premium was ${show("familyPremium")} in 2025, and workers largely pay it through lower wages.`,
+          sourceIds: ["kff-ehbs-2025", "baicker-chandra"],
+        },
+      ],
+    },
     rootCauses: ["Shifting payment from private premiums to public revenue"],
     openQuestions: [
       "Which taxes should fund health care: payroll, income, consumption (VAT), wealth, or a mix?",
@@ -1463,11 +1645,14 @@ const DERIVED: Problem[] = [
         sourceIds: [],
       },
     ],
-    whoIsHurt: [
-      "Patients needing declined or delayed treatments",
-      "Manufacturers of declined products",
+    hurts: [
+      {
+        group: "heavy-care-users",
+        how: "People needing a declined or delayed treatment have no other insurer to turn to.",
+      },
+      { group: "drug-device-makers", how: "A declined product loses the whole national market." },
     ],
-    whoProfits: ["Budgets"],
+    profits: [{ group: "taxpayers", how: "Declining low-value care holds down public spending." }],
     rootCauses: ["Finite budget with one decision-maker"],
     openQuestions: ["How should coverage decisions be made, appealed, and balanced against cost?"],
   },
@@ -1613,8 +1798,12 @@ const DERIVED: Problem[] = [
     evidence: [
       { text: `State share of Medicaid was $335.0B in 2024.`, sourceIds: ["cms-nhe-2024"] },
     ],
-    whoIsHurt: ["States that designed their own programs", "High-spending states"],
-    whoProfits: ["Low-spending states"],
+    hurts: [
+      {
+        group: "states",
+        how: "States that designed their own programs lose control, and budgets shift between levels of government.",
+      },
+    ],
     rootCauses: ["Centralizing a state-run program"],
     openQuestions: ["How much should states run, pay for, and decide?"],
   },

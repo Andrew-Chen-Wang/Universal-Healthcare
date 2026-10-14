@@ -76,7 +76,7 @@ export const complementsOf = (id: string) => symmetric(id, "complements")
 const errors: string[] = []
 for (const p of PATHS) {
   if (!PROBLEM_BY_ID[p.problemId]) errors.push(`${p.id}: unknown problem ${p.problemId}`)
-  if (p.pros.length === 0 || p.cons.length === 0) errors.push(`${p.id}: needs pros and cons`)
+  if (!p.how && (!p.pros?.length || !p.cons?.length)) errors.push(`${p.id}: needs pros and cons`)
   if ((p.changes?.length ?? 0) === 0) errors.push(`${p.id}: needs concrete changes`)
   if (p.precedents.length === 0) errors.push(`${p.id}: needs a precedent`)
   for (const k of ["solves", "worsens", "spawns"] as const)

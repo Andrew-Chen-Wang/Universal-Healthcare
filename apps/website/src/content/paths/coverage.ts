@@ -3,6 +3,8 @@
  * (single payer, regulated multi-payer, public option, ...) live under
  * "uninsured" because every other problem depends on which one is chosen.
  */
+import { ENROLLMENT_2024 } from "../baseline"
+import { show, v } from "../constants"
 import { path } from "./types"
 
 export const COVERAGE_PATHS = [
@@ -25,33 +27,62 @@ export const COVERAGE_PATHS = [
         sourceIds: ["cihi-nhex"],
       },
     ],
-    pros: [
-      "Covers everyone with no enrollment gaps, churn, or networks",
-      "Largest administrative savings: one claims system, one set of rules",
-      "One buyer has the most leverage over prices",
-      "Coverage no longer depends on employment",
-    ],
-    cons: [
-      "Largest disruption: about 150 million people leave employer plans",
-      "Requires the largest tax increase, even if total spending falls",
-      "No alternative insurer if the public plan performs poorly",
-      "Eliminates most insurer, broker, and billing jobs",
-    ],
-    whoGains: [
-      "Uninsured and underinsured people",
-      "Employers that offered coverage",
-      "Providers' billing departments (simpler work)",
-    ],
-    whoLoses: [
-      "Insurers and brokers",
-      "Hospitals with high commercial prices",
-      "High earners (taxes)",
-    ],
-    mend: [
-      "Worker transition program for insurer and billing staff",
-      "Phase commercial rates down over several years so hospitals can adjust",
-      "Allow private supplemental plans for non-covered extras",
-    ],
+    how: {
+      uninsured: {
+        note: "Every resident is enrolled automatically from tax, Social Security, and immigration records, with nothing to sign up for or lose. Taiwan's single payer covers over 99% of residents.",
+        sourceIds: ["taiwan-nhi"],
+      },
+      churn: { note: "Coverage no longer ends when income, job, family, or state changes." },
+      "job-lock": { note: "Coverage no longer depends on having or keeping a job." },
+      networks: {
+        note: "Every provider bills the same payer, so there are no networks to be in or out of.",
+      },
+      "premium-burden": {
+        note: "Premiums end. The money moves into taxes instead (see Replacing premiums with taxes).",
+      },
+      "surprise-bills": {
+        note: "With one payer and one fee schedule, no provider is out of network, so there is no surprise bill.",
+      },
+      "insurer-overhead": {
+        note: "Private insurers stop administering covered care, so their overhead and profit on it end. Taiwan's administrative cost is about 1% of spending.",
+        sourceIds: ["taiwan-nhi"],
+      },
+      "admin-cost": {
+        note: "Providers deal with one claims system and one set of rules instead of hundreds.",
+      },
+      denials: {
+        note: "One public rulebook replaces each insurer's prior-authorization and denial rules. Denials still happen, but under one appeal system.",
+      },
+      "high-prices": {
+        note: `One buyer sets rates for all care. Employer plans paid hospitals ${show("randHospitalMultiple")} what Medicare paid in 2022, and that gap is what one rate schedule closes.`,
+        sourceIds: ["rand-hospital-2024"],
+      },
+      "transition-disruption": {
+        note: `About ${ENROLLMENT_2024.employerSponsored} million people leave employer plans, and insurers lose their core business.`,
+        sourceIds: ["cms-nhe-2024"],
+      },
+      "billing-jobs": {
+        note: `Most insurer, broker, and billing work for covered care ends; ${show("blsHealthCarriers")} people work at health insurance carriers alone.`,
+        sourceIds: ["bls-oews-2025"],
+      },
+      "wait-times": {
+        note: "Care with no premiums or networks gets used more. Unless capacity grows too, waits get longer, and people seen fastest today notice most.",
+        sourceIds: ["rand-hie"],
+      },
+      "x-plan-choice": {
+        note: "There is no other insurer to switch to if the public plan is run poorly.",
+      },
+      "x-new-taxes": {
+        note: `Taxes replace premiums and most out-of-pocket costs. In CBO's single-payer options, federal subsidies rise by $${v("cboSinglePayerFederalLow") / 1000} trillion to $${v("cboSinglePayerFederalHigh") / 1000} trillion in 2030.`,
+        sourceIds: ["cbo-single-payer-2020"],
+      },
+      "x-central-rationing": {
+        note: "One public body decides what is covered for everyone, so each 'no' applies nationwide.",
+      },
+      "x-state-control": {
+        note: "A national program replaces state-run Medicaid and CHIP, along with the state choices built into them.",
+      },
+    },
     solves: [
       "churn",
       "job-lock",
@@ -61,8 +92,9 @@ export const COVERAGE_PATHS = [
       "insurer-overhead",
       "admin-cost",
       "denials",
+      "high-prices",
     ],
-    worsens: ["transition-disruption", "billing-jobs"],
+    worsens: ["transition-disruption", "billing-jobs", "wait-times"],
     spawns: ["x-plan-choice", "x-new-taxes", "x-central-rationing", "x-state-control"],
     conflicts: ["regulated-multipayer", "public-option", "mandate-subsidies"],
     complements: ["all-payer-rates", "global-budgets"],

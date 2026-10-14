@@ -2,6 +2,9 @@ export type PathStatus = "open" | "chosen" | "rejected"
 
 export type Precedent = { place: string; note: string; sourceIds?: string[] }
 
+/** How this path affects one linked problem: the mechanism, with sources for any figure. */
+export type How = { note: string; sourceIds?: string[] }
+
 /**
  * One possible solution to one problem. Paths link to each other and to other
  * problems so the site can show how a choice ripples: what it fixes elsewhere,
@@ -14,12 +17,21 @@ export type SolutionPath = {
   title: string
   summary: string
   precedents: Precedent[]
-  pros: string[]
-  cons: string[]
-  whoGains: string[]
-  whoLoses: string[]
+  /**
+   * How this path affects each problem it links to (problemId, solves, worsens,
+   * spawns), keyed by problem id. When present, the path is part of the effects
+   * graph: what it fixes, what it creates or worsens, and who gains or loses are
+   * all derived from these links (see graph.ts), and the free-text lists below
+   * are not used.
+   */
+  how?: Record<string, How>
+  /** Legacy free-text lists, replaced by `how` as paths are migrated to the graph. */
+  pros?: string[]
+  cons?: string[]
+  whoGains?: string[]
+  whoLoses?: string[]
   /** Ways to make up for or soften the losses to those who lose. */
-  mend: string[]
+  mend?: string[]
   /** Other problems this path also helps. */
   solves?: string[]
   /** Other problems this path makes worse. */

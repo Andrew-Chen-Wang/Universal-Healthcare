@@ -1,11 +1,20 @@
-import { real } from "@website/components/site/paths"
 import { Page, PageHeader } from "@website/components/site/ui"
 import { v } from "@website/content/constants"
+import { type Effect, effectsOf, type Impact, impactsOf } from "@website/content/graph"
 import { CHOSEN, conflictsOf, PATHS } from "@website/content/paths"
 import { PROBLEM_CATEGORIES, PROBLEMS } from "@website/content/problems"
 import type { Metadata } from "next"
 import type { Pop } from "./coverage"
-import { PlanBuilder, type BuilderPath, type BuilderProblem } from "./plan-builder"
+import { PlanBuilder, type BuilderPath, type BuilderProblem, type Item } from "./plan-builder"
+
+const effectItem = (e: Effect): Item => ({
+  text: e.problemId && e.note ? `${e.title}: ${e.note}` : e.title,
+  href: e.problemId && `/problems/${e.problemId}`,
+})
+const impactItem = (i: Impact): Item => ({
+  text: i.label,
+  href: i.group && `/groups/${i.group.id}`,
+})
 
 export const metadata: Metadata = {
   title: "Build your plan",
@@ -47,10 +56,10 @@ export default function YourPlanPage() {
     problemId: p.problemId,
     title: p.title,
     summary: p.summary,
-    pros: real(p.pros),
-    cons: real(p.cons),
-    whoGains: real(p.whoGains),
-    whoLoses: real(p.whoLoses),
+    fixes: effectsOf(p).fixes.map(effectItem),
+    harms: effectsOf(p).harms.map(effectItem),
+    gains: impactsOf(p).gains.map(impactItem),
+    loses: impactsOf(p).loses.map(impactItem),
     changes: p.changes ?? [],
     requires: p.requires ?? [],
     conflicts: conflictsOf(p.id).map((x) => x.id),
@@ -61,7 +70,7 @@ export default function YourPlanPage() {
       <PageHeader
         eyebrow="Part 1 · Decisions"
         title="Build your plan"
-        lede="Pick one or more solution paths for each problem. The summary combines their pros and drawbacks, who gains and who loses, the concrete changes they need, and any conflicts or new problems your picks create. Your picks stay in this browser."
+        lede="Pick one or more solution paths for each problem. The summary combines what they fix, what they create or worsen, who gains and who loses, the concrete changes they need, and any conflicts or new problems your picks create. Your picks stay in this browser."
       />
       <PlanBuilder
         problems={problems}
