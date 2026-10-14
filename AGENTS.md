@@ -79,6 +79,9 @@ into the website and are not deployed.
   `changes.ts`, costs from `reform-model.ts`), and the single-payer plan at
   `/single-payer/plan` (`content/plan/`, `changes.ts`, `calculations.ts`, `step-extras.ts`,
   ...). Page code lives in `lib/plan/views/`; route files pick a version.
+- The coverage checklist (does each plan answer every question?) runs per plan through
+  `content/plan-coverage.ts`: `/coverage` for the hybrid (`content/hybrid/coverage.ts`),
+  `/single-payer/coverage` for the single-payer plan.
 - Optimizations that work in any system (whoever pays: labs, virtual-first, hospital at
   home) live in `content/optimizations.ts`, outside the problem → path tree, with evidence
   for and against. Routes: `/optimizations`, `/optimizations/[id]`.
