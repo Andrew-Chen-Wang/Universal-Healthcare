@@ -1,27 +1,36 @@
 /**
- * Part 2 for the current draft, a Germany-style hybrid. TEMPORARY: reuses the
- * single-payer content until the hybrid content is written.
+ * Part 2 for the current draft, a Germany-style hybrid: employer plans stay,
+ * everyone else is enrolled in regulated nonprofit plans, and new federal
+ * costs are paid only by top-end taxes.
  */
-import { COST_ITEMS } from "../calculations"
-import { CHANGES } from "../changes"
-import { DECISIONS } from "../decisions"
-import { PHASES } from "../plan"
 import type { PlanData } from "../plan-bundle"
-import { RISKS } from "../risks"
-import { STEP_EXTRAS } from "../step-extras"
-import { TASK_TRADEOFFS } from "../task-tradeoffs"
-import { TRADEOFFS } from "../tradeoffs"
+import { HY_CHANGES } from "./changes"
+import { HY_COST_ITEMS } from "./costs"
+import { HY_DESIGN_DECISIONS } from "./design"
+import { splitPhases } from "./helpers"
+import { HY_PHASE_0, HY_PHASE_1 } from "./phases-build"
+import { HY_PHASE_2, HY_PHASE_3, HY_PHASE_4, HY_PHASE_5 } from "./phases-run"
+import { HY_RISKS, HY_TRADEOFFS } from "./register"
+
+const { phases, taskTradeoffs, extras } = splitPhases([
+  HY_PHASE_0,
+  HY_PHASE_1,
+  HY_PHASE_2,
+  HY_PHASE_3,
+  HY_PHASE_4,
+  HY_PHASE_5,
+])
 
 export const HYBRID_PLAN_DATA: PlanData = {
   variant: "hybrid",
   name: "Germany-style hybrid",
   base: "/plan",
-  phases: PHASES,
-  changes: CHANGES,
-  costItems: COST_ITEMS,
-  extras: STEP_EXTRAS,
-  taskTradeoffs: TASK_TRADEOFFS,
-  designDecisions: DECISIONS,
-  risks: RISKS,
-  tradeoffs: TRADEOFFS,
+  phases,
+  changes: HY_CHANGES,
+  costItems: HY_COST_ITEMS,
+  extras,
+  taskTradeoffs,
+  designDecisions: HY_DESIGN_DECISIONS,
+  risks: HY_RISKS,
+  tradeoffs: HY_TRADEOFFS,
 }

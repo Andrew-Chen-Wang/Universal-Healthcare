@@ -8,7 +8,8 @@ import {
 import { COST_BY_ID } from "@website/content/calculations"
 import { MODEL, MODEL_COSTLY, MODEL_LEAN, fmt } from "@website/content/model"
 import { SINGLE_PAYER_PLAN } from "@website/content/plans"
-import { ALL_STEPS } from "@website/content/plan"
+import { H, HYBRID_COST } from "@website/content/hybrid/figures"
+import { HYBRID_PLAN } from "@website/content/plans"
 import {
   ONE_TIME_COSTS,
   ONE_TIME_TOTAL,
@@ -77,7 +78,7 @@ function Row({
 }
 
 export default function Home() {
-  const taskCount = ALL_STEPS.reduce((s, x) => s + x.tasks.length, 0)
+  const taskCount = HYBRID_PLAN.allSteps.reduce((s, x) => s + x.tasks.length, 0)
   const sponsors = Object.keys(SPONSOR_LABELS) as SponsorId[]
   return (
     <Page>
@@ -122,7 +123,7 @@ export default function Home() {
             <div className="text-xs text-muted-foreground uppercase">Part 2 · draft</div>
             <div className="font-serif text-xl font-semibold">Changes by phase</div>
             <div className="text-sm text-muted-foreground">
-              {ALL_STEPS.length} changes, {taskCount} tasks
+              {HYBRID_PLAN.allSteps.length} changes, {taskCount} tasks
             </div>
           </Link>
         </div>
@@ -187,8 +188,42 @@ export default function Home() {
       </Section>
 
       <Section
-        title="Draft model of the changes"
-        intro="What 2024 would have looked like with the draft changes in Part 2 fully in place (central estimate; the costly and lean cases bracket the uncertainty). These numbers will change as solutions are decided."
+        title="The current draft: a Germany-style hybrid"
+        intro="Employer plans stay; everyone else is enrolled in regulated nonprofit plans; new federal costs are paid only by taxes on the highest incomes. Priced line by line on top of 2024 spending."
+      >
+        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+          <Stat
+            label="National health spending"
+            value={H.national}
+            sub="vs 2024, priced lines only"
+          />
+          <Stat
+            label="Federal spending"
+            value={H.federalSigned}
+            sub={`against ${H.topEnd} of top-end taxes`}
+          />
+          <Stat label="Newly covered" value={H.newlyCovered} sub="enrolled automatically" />
+          <Stat
+            label="No new tax below"
+            value={`$${(HYBRID_COST.noNewTaxBelow ?? 0).toLocaleString("en-US")}`}
+            sub="of household income"
+          />
+        </div>
+        <p className="mt-3 text-sm text-muted-foreground">
+          <Link href="/plan" className="underline">
+            See the plan
+          </Link>{" "}
+          or{" "}
+          <Link href="/approaches" className="underline">
+            compare approaches
+          </Link>
+          . One-time set-up costs: {H.oneTimeTotal}.
+        </p>
+      </Section>
+
+      <Section
+        title="The single-payer path, priced in full"
+        intro="The earlier draft, kept as a complete path: what 2024 would have looked like with a single payer fully in place (central estimate; the costly and lean cases bracket the uncertainty). Its detailed plan is at /single-payer/plan."
       >
         <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
           <Stat
@@ -346,7 +381,7 @@ export default function Home() {
 
       <Section
         id="transition"
-        title="One-time transition costs"
+        title="One-time transition costs (single-payer path)"
         intro={
           <>
             Total {fmt(ONE_TIME_TOTAL)}; temporary borrowing over the phase-in, including these,{" "}

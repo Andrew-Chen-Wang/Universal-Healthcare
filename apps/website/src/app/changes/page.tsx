@@ -1,9 +1,11 @@
 import { Callout, Page, PageHeader, Stat } from "@website/components/site/ui"
 import { CHOSEN, DECISION_BY_PATH } from "@website/content/paths"
-import { PHASES } from "@website/content/plan"
+import { HYBRID_PLAN } from "@website/content/plans"
 import { PROBLEM_BY_ID } from "@website/content/problems"
 import type { Metadata } from "next"
 import Link from "next/link"
+
+const PHASES = HYBRID_PLAN.phases
 
 export const metadata: Metadata = { title: "Changes by phase" }
 

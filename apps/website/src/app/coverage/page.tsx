@@ -70,8 +70,8 @@ export default function CoveragePage() {
     <Page>
       <PageHeader
         eyebrow="Reference"
-        title="Coverage check"
-        lede="A checklist of every trade-off dimension, every affected group, and every part of today's system, each linked to where the plan covers it, plus automatic checks that every step, task, change, and money flow states its trade-off. The site will not build if any checklist link points at something missing."
+        title="Coverage check (single-payer plan)"
+        lede="For the earlier single-payer plan: a checklist of every trade-off dimension, every affected group, and every part of today's system, each linked to where the plan covers it, plus automatic checks that every step, task, change, and money flow states its trade-off. The site will not build if any checklist link points at something missing."
       />
 
       <Section title="Automatic checks">

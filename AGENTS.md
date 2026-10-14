@@ -72,8 +72,13 @@ into the website and are not deployed.
   (decision tree), `/paths/[id]`.
 - Draft decisions live in `content/paths/decisions.ts`: `SINGLE_PAYER_ROWS` (the first
   draft, kept as a path to compare via `SINGLE_PAYER_PICKS`) with `HYBRID_ROWS` (the current
-  Germany-style hybrid draft) layered on top. Part 2 (`content/plan/`) still describes the
-  single-payer path until it is rewritten.
+  Germany-style hybrid draft) layered on top.
+- Part 2 has two versions, each a `PlanBundle` (`content/plan-bundle.ts`, `content/plans.ts`):
+  the hybrid (current draft) at `/plan`, written in `content/hybrid/` (steps with their task
+  trade-offs and extras, design decisions, trade-offs, risks, changes as overrides of
+  `changes.ts`, costs from `reform-model.ts`), and the single-payer plan at
+  `/single-payer/plan` (`content/plan/`, `changes.ts`, `calculations.ts`, `step-extras.ts`,
+  ...). Page code lives in `lib/plan/views/`; route files pick a version.
 - Optimizations that work in any system (whoever pays: labs, virtual-first, hospital at
   home) live in `content/optimizations.ts`, outside the problem → path tree, with evidence
   for and against. Routes: `/optimizations`, `/optimizations/[id]`.
