@@ -2,6 +2,7 @@ import { PathCard, PathLink, ProblemChip } from "@website/components/site/paths"
 import { type MiniPath, ProblemScenario } from "@website/components/site/scenario"
 import { B, Page, PageHeader, Sources, Usd } from "@website/components/site/ui"
 import { INVENTORY } from "@website/content/cost-inventory"
+import { CURRENT_LAW } from "@website/content/current-law"
 import { slug } from "@website/content/navigation"
 import { fixersOf, GROUP_BY_ID } from "@website/content/graph"
 import {
@@ -135,6 +136,7 @@ export default async function ProblemPage({ params }: { params: Params }) {
   const idx = PROBLEMS.findIndex((x) => x.id === id)
   const prev = PROBLEMS[idx - 1]
   const next = PROBLEMS[idx + 1]
+  const trend = CURRENT_LAW[p.id]
   return (
     <Page>
       <PageHeader
@@ -158,6 +160,17 @@ export default async function ProblemPage({ params }: { params: Params }) {
               </li>
             ))}
           </ul>
+        </section>
+      )}
+
+      {trend && (
+        <section className="mb-10 rounded-md border border-rule bg-card p-4">
+          <h2 className="mb-1 text-lg font-semibold">If nothing changes</h2>
+          <p className="text-sm text-foreground/85">{trend.text}</p>
+          <Sources ids={trend.sourceIds ?? []} />
+          <Link href="/approaches" className="mt-2 inline-block text-xs underline">
+            Compare approaches, from keeping current law to the largest changes
+          </Link>
         </section>
       )}
 

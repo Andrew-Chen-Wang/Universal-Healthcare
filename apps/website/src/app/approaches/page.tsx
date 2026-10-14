@@ -1,7 +1,7 @@
 import { ScalePill } from "@website/components/site/paths"
 import { B, Callout, Page, PageHeader, Sources } from "@website/components/site/ui"
-import { show, v } from "@website/content/constants"
-import { APPROACHES, summarize, TODAY_PROBLEMS } from "@website/content/approaches"
+import { type ConstantId, show, v } from "@website/content/constants"
+import { APPROACHES, type Estimate, summarize, TODAY_PROBLEMS } from "@website/content/approaches"
 import { NHE_TOTAL_2024 } from "@website/content/baseline"
 import { GROUP_BY_ID } from "@website/content/graph"
 import { PATH_BY_ID, SCALE_LABEL, SCALES } from "@website/content/paths"
@@ -40,13 +40,42 @@ function spending(picks: string[]) {
   if (!c)
     return (
       <span className="text-muted-foreground">
-        Not priced: the site&apos;s cost model only prices a single payer so far.
+        Not priced by the site&apos;s model, which only prices a single payer so far. See the
+        published estimate below.
       </span>
     )
   return (
     <>
       <B v={c.nationalAfter} /> a year, <B v={c.delta} sign /> against today
     </>
+  )
+}
+
+const pct = (x: number) => `${x > 0 ? "+" : x < 0 ? "−" : ""}${Math.abs(x * 100).toFixed(1)}%`
+
+/** A published estimate for the nearest design, with its change from the study's own baseline. */
+function Published({ e }: { e: Estimate }) {
+  const n = (part: "Uninsured" | "National" | "Federal", key: Estimate["key"] = e.key) =>
+    v(`urban${key}${part}` as ConstantId)
+  const base = e.key === "CurrentLaw"
+  const national = n("National") - n("National", "CurrentLaw")
+  const federal = n("Federal") - n("Federal", "CurrentLaw")
+  return (
+    <div className="space-y-1.5">
+      <div className="text-xs font-medium">{e.option}</div>
+      {base ? (
+        <p>
+          National spending <B v={n("National")} />; {n("Uninsured")} million uninsured.
+        </p>
+      ) : (
+        <p>
+          National spending <B v={national} sign /> ({pct(national / n("National", "CurrentLaw"))});
+          federal <B v={federal} sign />; {n("Uninsured")} million uninsured, against{" "}
+          {n("Uninsured", "CurrentLaw")} million.
+        </p>
+      )}
+      <p className="text-xs text-muted-foreground">{e.match}</p>
+    </div>
   )
 }
 
@@ -117,6 +146,13 @@ export default function ApproachesPage() {
         reform creates get the smallest change that answers them. The last column is the site&apos;s
         draft picks, which Claude made for the owner to review. Open any column in the plan builder
         to change it.
+        <span className="mt-2 block">
+          The site&apos;s cost model prices only a single payer. For a common yardstick, the
+          published-estimate row uses one study that priced current law and eight reforms the same
+          way: the Urban Institute&apos;s 2019 comparison, for 2020 in 2020 dollars, as if each were
+          fully in place.
+        </span>
+        <Sources ids={["urban-2019"]} />
       </Callout>
 
       <section className="mt-10 mb-12">
@@ -148,8 +184,14 @@ export default function ApproachesPage() {
                 cells={SUMMARIES.map((s) => coverage(s.approach.picks))}
               />
               <Row
-                label="National spending"
+                label="National spending (site's model)"
                 cells={SUMMARIES.map((s) => spending(s.approach.picks))}
+              />
+              <Row
+                label="Published estimate for a similar design"
+                cells={SUMMARIES.map((s) => (
+                  <Published key={s.approach.id} e={s.approach.estimate} />
+                ))}
               />
               <Row
                 label="Today's problems fixed"

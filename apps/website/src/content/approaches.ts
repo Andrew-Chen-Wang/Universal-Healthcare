@@ -25,6 +25,18 @@ import {
 } from "./paths"
 import { PROBLEM_BY_ID, PROBLEMS } from "./problems"
 
+/**
+ * The nearest design priced by the Urban Institute's 2019 comparison, which
+ * priced current law and eight reforms the same way (Table 3). `key` names
+ * its constants (urban<key>Uninsured, ...National, ...Federal).
+ */
+export type Estimate = {
+  key: "CurrentLaw" | "R2" | "R5" | "R6" | "R8"
+  option: string
+  /** How the priced design differs from this approach. */
+  match: string
+}
+
 export type Approach = {
   id: string
   title: string
@@ -32,6 +44,7 @@ export type Approach = {
   /** How the picks were made. */
   rule: string
   picks: string[]
+  estimate: Estimate
 }
 
 /** Problems in today's system, which every approach must say something about. */
@@ -85,6 +98,12 @@ export const APPROACHES: Approach[] = [
       "Change nothing. Every problem continues on its current course, and today's insurers, programs, and taxes stay as they are.",
     rule: "For every problem, the no-change option.",
     picks: compose("none"),
+    estimate: {
+      key: "CurrentLaw",
+      option: "Current law",
+      match:
+        "The baseline the other estimates are measured against: the law as of 2019, before the enhanced subsidies of 2021–2025 and the 2025 reconciliation law.",
+    },
   },
   {
     id: "minor",
@@ -93,14 +112,26 @@ export const APPROACHES: Approach[] = [
       "Fix what can be fixed with rules, standards, and funding inside today's programs and insurers. Most people keep the coverage they have now.",
     rule: "For every problem, every minor-change path; no change where there is none.",
     picks: compose("minor"),
+    estimate: {
+      key: "R2",
+      option: "Reform 2: enhanced subsidies, reinsurance, and an individual mandate",
+      match:
+        "Close on coverage. It doesn't price this column's other rule changes (surprise billing, price transparency, PBMs, site-neutral payment), which mostly move prices rather than coverage.",
+    },
   },
   {
     id: "moderate",
     title: "Larger changes, same insurers",
     summary:
-      "Add new public programs and payment rules alongside today's insurers: a public option, a lower Medicare age, automatic enrollment, rate setting, and drug negotiation.",
+      "Add new public programs and payment rules alongside today's insurers: a public option, automatic enrollment, caps on commercial prices, and drug negotiation.",
     rule: "For every problem, the moderate-change paths; minor or no change where there are none.",
     picks: compose("moderate"),
+    estimate: {
+      key: "R5",
+      option: "Reform 5: a public option with automatic enrollment",
+      match:
+        "Close: a public option, automatic enrollment, and capped provider rates in the individual market. It doesn't cover undocumented immigrants, and its only drug-price change is larger rebates in the individual market.",
+    },
   },
   {
     id: "multipayer",
@@ -109,6 +140,12 @@ export const APPROACHES: Approach[] = [
       "Everyone must have a plan, and competing non-profit or tightly regulated insurers must take everyone at standard benefits, as in Germany, Switzerland, and the Netherlands. Other problems get the same moderate changes as the previous column.",
     rule: "Regulated multi-payer, then moderate-change paths for everything else.",
     picks: compose("moderate", ["regulated-multipayer"]),
+    estimate: {
+      key: "R6",
+      option: "Reform 6: Reform 5 with larger subsidies",
+      match:
+        "The nearest priced design, not a match: universal coverage through private and public plans, but employer plans, Medicaid, and Medicare stay. We found no published U.S. estimate of a Germany- or Switzerland-style system.",
+    },
   },
   {
     id: "draft",
@@ -117,6 +154,12 @@ export const APPROACHES: Approach[] = [
       "One public payer for everyone, with no cost sharing, financed by payroll and income taxes. Claude made these picks for the owner to review; none is final.",
     rule: "The draft decisions in the review ledger.",
     picks: CHOSEN.map((p) => p.id),
+    estimate: {
+      key: "R8",
+      option: "Reform 8: single payer with broad benefits and no cost sharing",
+      match:
+        "Close: everyone covered, no cost sharing, dental, vision, hearing, and long-term care. It pays hospitals 115% of Medicare rates and other providers Medicare rates. Its result differs sharply from the site's own model; the cost ledger shows the site's assumptions.",
+    },
   },
 ]
 

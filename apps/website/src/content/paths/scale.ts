@@ -4,9 +4,15 @@
  * per path, kept here so every label can be reviewed in one place. These are
  * draft labels by Claude, like the draft picks in decisions.ts.
  *
- * For paths that answer a risk of a universal system (wait times, two-tier
- * care, ...), the scale is measured against how things work today: allowing
- * private insurance to keep selling coverage is "none".
+ * For paths that answer a problem a reform creates (risks of a universal
+ * system, problems created by solution paths), the scale measures what the
+ * path adds on top of that reform, so the answers can be ranked against each
+ * other: every way to finance a single payer is not "major" just because the
+ * single payer is. Allowing private insurance to keep selling coverage, as it
+ * does today, is "none".
+ *
+ * Reviewed 2026-10-14 by an independent Codex pass: 14 of its 31 flags were
+ * accepted; the rest measured reform answers against today (see above).
  */
 export const SCALES = ["none", "minor", "moderate", "major"] as const
 export type Scale = (typeof SCALES)[number]
@@ -35,7 +41,7 @@ export const PATH_SCALE: Record<string, Scale> = {
   "single-payer": "major",
   "regulated-multipayer": "major",
   "public-option": "moderate",
-  "medicare-age-down": "moderate",
+  "medicare-age-down": "major",
   "auto-enrollment": "moderate",
   "mandate-subsidies": "minor",
   "churn-continuous": "minor",
@@ -65,20 +71,20 @@ export const PATH_SCALE: Record<string, Scale> = {
   "denials-rules": "minor",
   "denials-coverage-rules": "moderate",
   "pa-gold-card": "minor",
-  "pa-eliminate": "moderate",
+  "pa-eliminate": "minor",
   "ma-fold": "moderate",
   "ma-reform": "minor",
   "overhead-public": "major",
   "overhead-mlr": "minor",
   "pbm-public": "moderate",
   "pbm-regulate": "minor",
-  "all-payer-rates": "moderate",
+  "all-payer-rates": "major",
   "prices-cap": "moderate",
   "prices-competition": "minor",
   "consolidation-antitrust": "minor",
-  "consolidation-rates": "moderate",
+  "consolidation-rates": "major",
   "pe-limit": "minor",
-  "pe-rates": "moderate",
+  "pe-rates": "major",
   "facility-site-neutral": "minor",
   "facility-ban": "minor",
   "exec-community-benefit": "minor",
@@ -115,20 +121,20 @@ export const PATH_SCALE: Record<string, Scale> = {
   "phys-foreign": "minor",
   "debt-free-school": "moderate",
   "debt-shorter-training": "minor",
-  "nurse-staffing-ratios": "moderate",
+  "nurse-staffing-ratios": "minor",
   "nurse-pipeline": "minor",
   "burnout-simplify": "minor",
   "burnout-scribes": "minor",
   "scope-expand": "minor",
   "scope-team": "minor",
   // Quality, admin, waste
-  "outcomes-primary-care": "moderate",
-  "outcomes-public-health": "moderate",
+  "outcomes-primary-care": "minor",
+  "outcomes-public-health": "minor",
   "maternal-postpartum": "minor",
   "maternal-safety-bundles": "minor",
   "safety-reporting": "minor",
   "safety-primary-home": "moderate",
-  "disparities-equity-funding": "moderate",
+  "disparities-equity-funding": "minor",
   "disparities-uniform": "major",
   "malpractice-no-fault": "moderate",
   "malpractice-safe-harbor": "minor",
@@ -145,7 +151,7 @@ export const PATH_SCALE: Record<string, Scale> = {
   "mh-stepped": "minor",
   "addiction-mat": "minor",
   "addiction-harm-reduction": "minor",
-  "ltc-social-insurance": "major",
+  "ltc-social-insurance": "moderate",
   "ltc-medicaid-expand": "moderate",
   "ltc-catastrophic": "moderate",
   "nh-staffing": "minor",
@@ -158,11 +164,11 @@ export const PATH_SCALE: Record<string, Scale> = {
   "prevention-free": "minor",
   "social-needs-fund": "moderate",
   "social-needs-separate": "none",
-  "interop-national": "major",
+  "interop-national": "moderate",
   "interop-standards": "minor",
   "cyber-standards": "minor",
   "cyber-redundant": "moderate",
-  "privacy-law": "moderate",
+  "privacy-law": "minor",
   "privacy-opt-out": "minor",
   // Risks a universal system can create
   "waits-guarantee": "moderate",
@@ -177,8 +183,8 @@ export const PATH_SCALE: Record<string, Scale> = {
   "capital-separate": "moderate",
   "capital-in-rates": "minor",
   "innovation-fast-track": "minor",
-  "innovation-public-rd": "moderate",
-  "innovation-accept": "none",
+  "innovation-public-rd": "minor",
+  "innovation-accept": "minor",
   "exit-phase-rates": "minor",
   "exit-opt-out-rules": "minor",
   "exit-workforce-buffer": "minor",
