@@ -20,12 +20,32 @@ export const CARE_PATHS = [
       },
       { place: "Canada", note: "Most hospitals funded by global budgets." },
     ],
-    pros: ["Predictable spending", "Very little hospital billing", "No incentive to over-treat"],
-    cons: ["Incentive to do less or delay elective care", "Budgets can become outdated"],
-    whoGains: ["Payers, rural hospitals"],
-    whoLoses: ["Hospital billing staff", "Hospitals growing volume for profit"],
+    how: {
+      "high-prices": {
+        note: "Negotiated annual operating budgets make hospital spending predictable, replace most hospital billing, and remove the incentive to provide extra services simply to earn more.",
+      },
+      "admin-cost": {
+        note: "Annual hospital budgets replace per-service billing and require very little hospital billing.",
+      },
+      "billing-jobs": {
+        note: "Replacing per-service hospital payments with annual budgets removes much of the hospital billing work, displacing the staff who do it.",
+      },
+      "rural-hospitals": {
+        note: "An annual operating budget replaces payment per service, making hospital spending predictable rather than dependent on service billing.",
+      },
+      "x-undertreatment": {
+        note: "An annual operating budget creates an incentive to do less care or delay elective services.",
+      },
+      "low-value-care": {
+        note: "An annual operating budget removes the incentive to provide extra services to earn more revenue.",
+      },
+      "x-budget-rationing": {
+        note: "Annual hospital budgets create an incentive to do less or delay elective care, and the budgets can become outdated.",
+      },
+    },
     mend: ["Add volume adjustments and wait-time guarantees"],
-    solves: ["admin-cost", "billing-jobs", "rural-hospitals"],
+    worsens: ["billing-jobs"],
+    solves: ["admin-cost", "rural-hospitals", "low-value-care"],
     spawns: ["x-budget-rationing", "x-undertreatment"],
     complements: ["all-payer-rates", "single-payer"],
     changes: [
@@ -52,12 +72,20 @@ export const CARE_PATHS = [
         sourceIds: ["fee-for-service-fixed-national-health-insuranc-2024"],
       },
     ],
-    pros: ["Rewards productivity", "Shorter waits"],
-    cons: ["Encourages volume", "Needs billing"],
-    whoGains: ["High-volume providers"],
-    whoLoses: ["Payers if volume grows"],
-    mend: ["N/A"],
-    worsens: ["low-value-care"],
+    how: {
+      "high-prices": {
+        note: "National fee schedules retain payment per service, rewarding productivity and supporting shorter waits while fixing the rates paid.",
+      },
+      "wait-times": {
+        note: "Retaining payment per service rewards productivity and supports shorter waits.",
+      },
+      "low-value-care": {
+        note: "Payment per service continues to encourage greater service volume even with fixed national rates.",
+      },
+      "t-limited-reach": { note: "Payment per service at national rates still requires billing." },
+    },
+    solves: ["wait-times"],
+    worsens: ["low-value-care", "t-limited-reach"],
     requires: ["all-payer-rates"],
     changes: [
       "Set one national fee schedule",
@@ -79,14 +107,27 @@ export const CARE_PATHS = [
         sourceIds: ["capitation-nhs-england-2023"],
       },
     ],
-    pros: ["Rewards prevention", "Flexible care (calls, messaging)"],
-    cons: [
-      "Incentive to avoid sick patients or under-treat",
-      "Small practices bear financial risk",
-    ],
-    whoGains: ["Primary care practices"],
-    whoLoses: ["Sick patients if practices avoid them"],
+    how: {
+      "high-prices": {
+        note: "Paying a fixed amount per enrolled person instead of per service removes the incentive to bill more services, rewarding prevention and allowing care by calls and messaging.",
+        helps: ["clinicians"],
+      },
+      "x-metric-gaming": {
+        note: "Fixed payments per enrollee create an incentive to avoid sick patients rather than provide their costly care.",
+      },
+      "prevention-underfunded": {
+        note: "Fixed payments per enrolled person reward prevention rather than additional services.",
+      },
+      "x-undertreatment": {
+        note: "Fixed payments per enrolled person create incentives to avoid sick patients or under-treat them.",
+      },
+      "t-income-loss": {
+        note: "Fixed payments per enrolled person leave small practices bearing financial risk.",
+      },
+    },
     mend: ["Risk-adjusted payments; quality bonuses"],
+    worsens: ["t-income-loss"],
+    solves: ["prevention-underfunded"],
     spawns: ["x-undertreatment", "x-metric-gaming"],
     changes: [
       "Pay primary care practices per enrolled patient",
@@ -109,17 +150,19 @@ export const CARE_PATHS = [
         sourceIds: ["outcomes-primary-care-rhode-island-office-of-t-2013"],
       },
     ],
-    pros: [
-      "Primary care supply is linked to lower mortality across regions",
-      "Fewer avoidable hospitalizations",
-    ],
-    cons: [
-      "Money must come from specialists or hospitals",
-      "Spending targets can be met by relabeling costs",
-    ],
-    whoGains: ["Primary care"],
-    whoLoses: ["Specialists, hospitals"],
+    how: {
+      outcomes: {
+        note: "Directing a target share of spending to primary care supports care whose supply is linked to lower mortality across regions and fewer avoidable hospitalizations.",
+        helps: ["clinicians"],
+      },
+      "t-income-loss": {
+        note: "A higher primary care spending share requires money to come from specialists or hospitals.",
+        hurts: ["specialists"],
+      },
+      "x-metric-gaming": { note: "Primary care spending targets can be met by relabeling costs." },
+    },
     mend: ["Phase in"],
+    worsens: ["t-income-loss", "x-metric-gaming"],
     complements: ["phys-pay-primary"],
     changes: [
       "Set a target share of spending for primary care",
@@ -139,14 +182,26 @@ export const CARE_PATHS = [
         sourceIds: ["outcomes-public-health-finnish-ministry-of-the--2023"],
       },
     ],
-    pros: [
-      "Addresses root causes of the outcome gap (diet, housing, violence, overdoses)",
-      "Benefits extend beyond health",
-    ],
-    cons: ["Outside the health budget; requires other agencies", "Results take years to show"],
-    whoGains: ["Low-income communities"],
-    whoLoses: ["Taxpayers (unless funded from health savings)"],
-    mend: ["N/A"],
+    how: {
+      outcomes: {
+        note: "Spending on housing, nutrition, and public health addresses diet, housing, violence, and overdoses as root causes of the outcome gap, with benefits extending beyond health.",
+      },
+      "social-needs": {
+        note: "Spending on housing and nutrition addresses social conditions contributing to the outcome gap.",
+      },
+      "prevention-underfunded": {
+        note: "Spending on public health addresses root causes of the outcome gap, with benefits extending beyond health.",
+      },
+      "t-administrative-work": {
+        note: "Spending on housing, nutrition, and public health extends outside the health budget and requires coordination with other agencies.",
+        hurts: ["taxpayers"],
+      },
+      "t-delayed-benefits": {
+        note: "Spending on housing, nutrition, and public health takes years to show results.",
+      },
+    },
+    worsens: ["t-administrative-work", "t-delayed-benefits"],
+    solves: ["social-needs", "prevention-underfunded"],
     complements: ["social-needs-fund"],
     changes: ["Fund housing, nutrition, and public-health programs from health savings"],
   }),
@@ -165,17 +220,16 @@ export const CARE_PATHS = [
         sourceIds: ["maternal-postpartum-commonwealth-fund-2024"],
       },
     ],
-    pros: [
-      "About half of pregnancy-related deaths happen after delivery",
-      "Home visits catch hypertension and depression early",
-    ],
-    cons: [
-      "Coverage alone doesn't fix shortages of postpartum care",
-      "Home-visiting programs need trained nurses",
-    ],
-    whoGains: ["New mothers and infants"],
-    whoLoses: ["Taxpayers (small cost)"],
-    mend: ["N/A"],
+    how: {
+      "maternal-mortality": {
+        note: "Extended coverage after birth addresses the substantial share of pregnancy-related deaths occurring after delivery. Nurse home visits catch hypertension and depression early.",
+      },
+      "nursing-shortage": { note: "Nurse home-visiting programs require trained nurses." },
+      "t-limited-reach": {
+        note: "Postpartum coverage alone does not fix shortages of postpartum care.",
+      },
+    },
+    worsens: ["nursing-shortage", "t-limited-reach"],
     changes: ["Guarantee 12-month postpartum coverage", "Fund nurse home visits"],
   }),
   path({
@@ -194,14 +248,20 @@ export const CARE_PATHS = [
         sourceIds: ["maternal-safety-bundles-american-journal-of-obst-2017"],
       },
     ],
-    pros: ["Proven", "Low cost"],
-    cons: [
-      "Requires hospital participation and data reporting",
-      "Smaller rural hospitals may lack resources",
-    ],
-    whoGains: ["Mothers"],
-    whoLoses: ["Hospitals (staff time for protocols)"],
+    how: {
+      "maternal-mortality": {
+        note: "Required hemorrhage and hypertension protocols and review of every death provide a proven, low-cost approach to maternal safety.",
+      },
+      "t-dependent-reforms": {
+        note: "Maternal safety protocols and death reviews depend on hospital participation and data reporting.",
+        hurts: ["providers"],
+      },
+      "t-imperfect-targeting": {
+        note: "Smaller rural hospitals may lack the resources needed to adopt maternal safety protocols and death reviews.",
+      },
+    },
     mend: ["Fund rural hospitals to adopt bundles"],
+    worsens: ["t-dependent-reforms", "t-imperfect-targeting"],
     changes: [
       "Require hemorrhage and hypertension protocols in all hospitals",
       "Fund maternal mortality review committees",
@@ -223,11 +283,20 @@ export const CARE_PATHS = [
         sourceIds: ["safety-reporting-health-services-safety-i-2026"],
       },
     ],
-    pros: ["Learns from errors system-wide", "No-blame design encourages reporting"],
-    cons: ["Under-reporting persists", "Reports are useful only if someone acts on them"],
-    whoGains: ["Patients"],
-    whoLoses: ["Clinicians (reporting time)"],
+    how: {
+      safety: {
+        note: "National reporting, public reports, and investigation allow learning from errors across the system, while a no-blame approach encourages reporting.",
+      },
+      "t-oversight-limits": {
+        note: "Adverse-event reporting still leaves some events unreported despite its no-blame design.",
+        hurts: ["clinicians"],
+      },
+      "t-dependent-reforms": {
+        note: "Adverse-event reports are useful only when someone acts on them.",
+      },
+    },
     mend: ["Legal protection for reports so clinicians are not sued based on them"],
+    worsens: ["t-oversight-limits", "t-dependent-reforms"],
     complements: ["malpractice-no-fault"],
     changes: [
       "Create a national no-blame adverse-event reporting system",
@@ -247,15 +316,19 @@ export const CARE_PATHS = [
         sourceIds: ["debt-free-school-commonwealth-fund-2020"],
       },
     ],
-    pros: ["Better coordination and fewer duplicate tests", "One clinician sees the whole picture"],
-    cons: [
-      "Gatekeeping limits direct specialist access",
-      "Needs enough primary care clinicians to register everyone",
-    ],
-    whoGains: ["Patients with chronic conditions"],
-    whoLoses: ["People wanting direct specialist visits"],
+    how: {
+      safety: {
+        note: "Registering each resident with a coordinating primary care practice reduces duplicate tests and lets a clinician see the whole picture.",
+      },
+      "t-reduced-flexibility": {
+        note: "Primary care coordination through registration introduces gatekeeping that limits direct specialist access.",
+      },
+      "physician-shortage": {
+        note: "Registering every resident with primary care requires enough primary care clinicians.",
+      },
+    },
     mend: ["Allow self-referral for some specialties"],
-    spawns: ["x-central-rationing"],
+    worsens: ["t-reduced-flexibility", "physician-shortage"],
     changes: [
       "Register every resident with a primary care practice",
       "Require referrals for most specialist care",
@@ -276,11 +349,20 @@ export const CARE_PATHS = [
         sourceIds: ["disparities-equity-funding-nhs-england-2023"],
       },
     ],
-    pros: ["Targets money where needs are greatest", "Supports safety-net providers"],
-    cons: ["Deprivation indices are imperfect", "Providers in wealthier areas get less"],
-    whoGains: ["Safety-net providers"],
-    whoLoses: ["Providers in wealthy areas"],
-    mend: ["N/A"],
+    how: {
+      disparities: {
+        note: "Additional payments based on area deprivation direct money toward the greatest needs and support safety-net providers.",
+        helps: ["providers"],
+      },
+      "t-imperfect-targeting": {
+        note: "Deprivation-based payments rely on imperfect indices to allocate funding.",
+        hurts: ["high-price-providers"],
+      },
+      "t-income-loss": {
+        note: "Deprivation-based payments leave providers in wealthier areas receiving less.",
+      },
+    },
+    worsens: ["t-imperfect-targeting", "t-income-loss"],
     changes: ["Add deprivation-index payments to provider rates"],
   }),
   path({
@@ -296,14 +378,15 @@ export const CARE_PATHS = [
         sourceIds: ["disparities-uniform-statistics-canada-2025"],
       },
     ],
-    pros: ["Ends payer-based discrimination (Medicaid patients being turned away)", "Simple"],
-    cons: [
-      "Doesn't address non-financial barriers (distance, language, trust)",
-      "Disparities shrink but remain in universal systems",
-    ],
-    whoGains: ["Former Medicaid patients"],
-    whoLoses: ["Providers that relied on commercial revenue to cover Medicaid losses"],
-    mend: ["N/A"],
+    worsens: ["t-limited-reach"],
+    how: {
+      disparities: {
+        note: "Universal coverage and uniform payment rates provide a simple way to end payer-based discrimination, including turning away Medicaid patients. Disparities can shrink but still remain under universal coverage.",
+      },
+      "t-limited-reach": {
+        note: "Universal coverage and uniform rates do not address nonfinancial barriers such as distance, language, and trust.",
+      },
+    },
     requires: ["all-payer-rates"],
     changes: ["Pay one rate for every patient regardless of former coverage"],
   }),
@@ -323,11 +406,22 @@ export const CARE_PATHS = [
         sourceIds: ["malpractice-no-fault-accident-compensation-co-2024"],
       },
     ],
-    pros: ["Faster, fairer compensation", "Less defensive medicine"],
-    cons: ["Smaller payouts for severe injury", "Lawyers lose cases"],
-    whoGains: ["Most injured patients", "Clinicians"],
-    whoLoses: ["Malpractice lawyers and insurers"],
-    mend: ["N/A"],
+    how: {
+      malpractice: {
+        note: "Compensating injured patients from a fund without requiring a lawsuit provides faster, fairer compensation and reduces defensive medicine, with discipline handled separately.",
+      },
+      "t-reduced-compensation": {
+        note: "Compensation without lawsuits provides smaller payouts for severe injuries.",
+      },
+      "t-income-loss": {
+        note: "Compensation through a fund instead of lawsuits leaves lawyers with fewer cases.",
+      },
+      "low-value-care": {
+        note: "Compensating injured patients without lawsuits reduces defensive medicine.",
+      },
+    },
+    worsens: ["t-reduced-compensation", "t-income-loss"],
+    solves: ["low-value-care"],
     costIds: ["liability-total", "liability-defensive"],
     changes: [
       "Create a no-fault injury compensation fund",
@@ -348,11 +442,20 @@ export const CARE_PATHS = [
         sourceIds: ["malpractice-safe-harbor-u-s-government-accountab-1993"],
       },
     ],
-    pros: ["Less defensive medicine", "Encourages guideline use"],
-    cons: ["Guidelines may not fit every patient", "Harmed patients lose a route to compensation"],
-    whoGains: ["Clinicians"],
-    whoLoses: ["Patients harmed by guideline care"],
+    how: {
+      malpractice: {
+        note: "Protecting clinicians from liability when they follow recognized guidelines reduces defensive medicine and encourages guideline use.",
+      },
+      "t-reduced-flexibility": {
+        note: "Liability protection relies on following recognized guidelines, which may not fit every patient.",
+        hurts: ["heavy-care-users"],
+      },
+      "t-reduced-compensation": {
+        note: "Protecting clinicians who follow guidelines removes a route to compensation for patients harmed by that care.",
+      },
+    },
     mend: ["Pair with a no-fault fund"],
+    worsens: ["t-reduced-flexibility", "t-reduced-compensation"],
     changes: ["Protect clinicians who follow recognized guidelines from liability"],
   }),
 
@@ -365,14 +468,21 @@ export const CARE_PATHS = [
     precedents: [
       { place: "Taiwan", note: "Single electronic claims system.", sourceIds: ["taiwan-nhi"] },
     ],
-    pros: ["Large savings for providers and payers", "Real-time payment ends accounts receivable"],
-    cons: [
-      "A big IT project with failure risk",
-      "A single system becomes a target (see cyberattacks)",
-    ],
-    whoGains: ["Providers"],
-    whoLoses: ["Clearinghouses"],
+    how: {
+      "admin-cost": {
+        note: "A common claims format, codes, and rules produces substantial savings for providers and payers. Immediate payment ends accounts receivable.",
+        helps: ["providers"],
+      },
+      "t-systems-implementation": {
+        note: "Building a unified claims and payment system is a large information technology project with a risk of failure.",
+        hurts: ["health-admin-vendors"],
+      },
+      cybersecurity: {
+        note: "Concentrating claims in a single system makes that system a target for cyberattacks.",
+      },
+    },
     mend: ["Retrain clearinghouse staff"],
+    worsens: ["t-systems-implementation", "cybersecurity"],
     requires: ["single-payer"],
     costIds: ["admin-total", "admin-hospital-collection"],
     changes: ["Build one national claims system with standard codes", "Pay claims in real time"],
@@ -391,11 +501,23 @@ export const CARE_PATHS = [
         sourceIds: ["debt-free-school-commonwealth-fund-2020"],
       },
     ],
-    pros: ["Keeps multiple payers", "Reduces provider paperwork"],
-    cons: ["Smaller savings than one payer", "Insurers resist losing their own rules"],
-    whoGains: ["Providers"],
-    whoLoses: ["Clearinghouses"],
-    mend: ["N/A"],
+    how: {
+      "admin-cost": {
+        note: "Identical insurer forms, codes, prior authorization rules, and credentialing reduce provider paperwork while retaining multiple payers. Savings are smaller than with a single payer.",
+        helps: ["providers"],
+      },
+      "burnout-admin": {
+        note: "Requiring insurers to use identical forms, codes, prior authorization rules, and credentialing reduces provider paperwork.",
+      },
+      "x-plan-choice": {
+        note: "Standardizing insurer rules retains multiple payers rather than replacing them with a single payer.",
+      },
+      "t-political-resistance": {
+        note: "Insurers may resist requirements to give up their own forms, codes, and rules.",
+      },
+    },
+    worsens: ["t-political-resistance"],
+    solves: ["burnout-admin", "x-plan-choice"],
     complements: ["regulated-multipayer"],
     changes: ["Require identical forms, codes, prior-auth rules, and credentialing across payers"],
   }),
@@ -418,11 +540,19 @@ export const CARE_PATHS = [
         sourceIds: ["billing-transition-u-s-department-of-labor-2024"],
       },
     ],
-    pros: ["Mends the main loser of admin savings", "Uses part of the savings"],
-    cons: ["Costly", "Retraining success varies"],
-    whoGains: ["Displaced workers"],
-    whoLoses: ["Taxpayers"],
-    mend: ["N/A"],
+    how: {
+      "billing-jobs": {
+        note: "Wage replacement, retraining, and job placement support workers displaced by administrative savings. The program uses part of those savings to help workers move into growing health jobs.",
+      },
+      "t-delayed-benefits": {
+        note: "Wage replacement, retraining, and job placement for displaced billing workers are costly.",
+        hurts: ["taxpayers"],
+      },
+      "t-workforce-adjustment": {
+        note: "Retraining displaced billing workers for care coordination, aide, or information technology jobs has variable success.",
+      },
+    },
+    worsens: ["t-delayed-benefits", "t-workforce-adjustment"],
     changes: ["Fund wage replacement, retraining, and placement for displaced workers"],
   }),
   path({
@@ -431,11 +561,15 @@ export const CARE_PATHS = [
     title: "Redeploy billing staff to care coordination",
     summary: "Hire displaced staff into patient navigation and scheduling roles in the new system.",
     precedents: [{ place: "N/A", note: "Proposed; no large precedent." }],
-    pros: ["Keeps experienced staff in health care", "Fills growing patient-navigation needs"],
-    cons: ["Skills differ", "Fewer jobs than are eliminated"],
-    whoGains: ["Displaced billing staff"],
-    whoLoses: ["N/A"],
-    mend: ["N/A"],
+    how: {
+      "billing-jobs": {
+        note: "Hiring displaced billing staff into patient navigation and scheduling keeps experienced staff in health care and fills growing navigation needs. These roles provide fewer jobs than are eliminated.",
+      },
+      "t-workforce-adjustment": {
+        note: "Patient navigation and scheduling require skills that differ from those used in billing.",
+      },
+    },
+    worsens: ["t-workforce-adjustment"],
     changes: ["Hire displaced billing staff into navigation and scheduling roles"],
   }),
 
@@ -453,11 +587,22 @@ export const CARE_PATHS = [
         sourceIds: ["lowvalue-coverage-list-the-bmj-2019"],
       },
     ],
-    pros: ["Saves money and protects patients from harmful care", "Decisions are evidence-based"],
-    cons: ["Controversial decisions", "Evidence is often incomplete"],
-    whoGains: ["Patients, payers"],
-    whoLoses: ["Makers of low-value products"],
-    mend: ["N/A"],
+    how: {
+      "low-value-care": {
+        note: "A public body uses evidence to stop covering services proven not to work, saving money and protecting patients from harmful care.",
+      },
+      safety: {
+        note: "Stopping coverage of services proven not to work protects patients from harmful care.",
+      },
+      "x-central-rationing": {
+        note: "A public body deciding which services to stop covering can generate controversy over coverage decisions.",
+      },
+      "t-uncertain-evidence": {
+        note: "Decisions to stop covering services depend on evidence that is often incomplete.",
+      },
+    },
+    worsens: ["t-uncertain-evidence"],
+    solves: ["safety"],
     spawns: ["x-central-rationing"],
     costIds: ["waste-lowvalue"],
     changes: ["Create an evidence-review agency", "Stop covering services proven ineffective"],
@@ -475,11 +620,18 @@ export const CARE_PATHS = [
         sourceIds: ["lowvalue-nudges-jama-network-open-2021"],
       },
     ],
-    pros: ["Cheap", "Respects clinician judgment"],
-    cons: ["Small effects", "Alert fatigue"],
-    whoGains: ["Patients"],
-    whoLoses: ["Clinicians (alert fatigue)"],
-    mend: ["N/A"],
+    how: {
+      "low-value-care": {
+        note: "Reporting low-value care rates and using electronic record alerts offers an inexpensive way to discourage low-value care while respecting clinician judgment.",
+      },
+      "t-limited-reach": {
+        note: "Feedback on low-value care rates and electronic record alerts have only small effects.",
+      },
+      "burnout-admin": {
+        note: "Electronic record alerts about low-value care can cause alert fatigue for clinicians.",
+      },
+    },
+    worsens: ["t-limited-reach", "burnout-admin"],
     changes: ["Report low-value care rates to clinicians", "Add EHR alerts"],
   }),
 
@@ -497,11 +649,19 @@ export const CARE_PATHS = [
         sourceIds: ["fraud-analytics-health-care-management-s-2008"],
       },
     ],
-    pros: ["One data system sees all billing", "Stops payments before they go out"],
-    cons: ["False positives delay legitimate payments", "Fraudsters adapt"],
-    whoGains: ["Taxpayers"],
-    whoLoses: ["Fraudsters"],
+    how: {
+      fraud: {
+        note: "A unified data system sees all billing and detects suspicious claims before payment. Audits and prosecution complement detection that stops payments before they go out.",
+      },
+      "t-administrative-work": {
+        note: "Pre-payment fraud detection can flag legitimate claims incorrectly and delay their payment.",
+      },
+      "t-enforcement-burden": {
+        note: "Fraudsters adapt to claims analytics, complicating detection, audits, and prosecution.",
+      },
+    },
     mend: ["Fast appeals for flagged claims"],
+    worsens: ["t-administrative-work", "t-enforcement-burden"],
     costIds: ["fraud-low", "fraud-high", "improper-medicare"],
     changes: ["Run real-time fraud analytics on all claims", "Fund audits and prosecution"],
   }),
@@ -519,11 +679,19 @@ export const CARE_PATHS = [
         sourceIds: ["fraud-enrollment-centers-for-medicare-med-2013"],
       },
     ],
-    pros: ["Stops fraud before payment", "Targets high-fraud categories"],
-    cons: ["Slows legitimate new providers", "Moratoria can reduce access"],
-    whoGains: ["Taxpayers"],
-    whoLoses: ["New providers"],
-    mend: ["N/A"],
+    how: {
+      fraud: {
+        note: "Background checks, site visits, and enrollment moratoriums target high-fraud provider categories and stop fraud before payment.",
+      },
+      "t-administrative-work": {
+        note: "Background checks, site visits, and enrollment restrictions slow legitimate new providers.",
+        hurts: ["providers"],
+      },
+      "shortage-areas": {
+        note: "Moratoriums on new providers in high-fraud categories can reduce access to care.",
+      },
+    },
+    worsens: ["t-administrative-work", "shortage-areas"],
     changes: [
       "Require background checks and site visits for new providers",
       "Use moratoria in high-fraud categories",
@@ -544,11 +712,19 @@ export const CARE_PATHS = [
         sourceIds: ["mh-parity-pay-rti-international-2024"],
       },
     ],
-    pros: ["More clinicians accept coverage", "Reduces cash-only practice"],
-    cons: ["Costly", "Doesn't add clinicians quickly"],
-    whoGains: ["Patients", "Therapists and psychiatrists"],
-    whoLoses: ["Taxpayers"],
-    mend: ["N/A"],
+    how: {
+      "mental-health-access": {
+        note: "Raising payment rates encourages therapists and psychiatrists to accept insurance and reduces cash-only practice.",
+        helps: ["clinicians", "heavy-care-users"],
+      },
+      "t-higher-spending": {
+        note: "Raising payment rates for therapists and psychiatrists is costly.",
+      },
+      "t-delayed-benefits": {
+        note: "Higher payment rates do not add mental health clinicians quickly.",
+      },
+    },
+    worsens: ["t-higher-spending", "t-delayed-benefits"],
     changes: ["Raise mental health rates to parity with medical care"],
   }),
   path({
@@ -558,11 +734,17 @@ export const CARE_PATHS = [
     summary:
       "Self-referral to talking therapies, collaborative care in primary care, crisis lines.",
     precedents: [{ place: "NHS Talking Therapies", note: "Self-referral, stepped care model." }],
-    pros: ["Large capacity at low cost", "Self-referral without a doctor visit"],
-    cons: ["Waits for higher-intensity care", "Outcome targets can be gamed"],
-    whoGains: ["Patients with mild to moderate conditions"],
-    whoLoses: ["Therapists in private practice (competition)"],
-    mend: ["N/A"],
+    how: {
+      "mental-health-access": {
+        note: "Self-referral to talking therapies, collaborative primary care, and crisis lines provide substantial capacity at low cost. Patients can refer themselves without a doctor visit.",
+        helps: ["heavy-care-users"],
+      },
+      "wait-times": {
+        note: "Stepped care can leave patients waiting for higher-intensity mental health care.",
+      },
+      "x-metric-gaming": { note: "Outcome targets in stepped mental health care can be gamed." },
+    },
+    worsens: ["wait-times"],
     spawns: ["x-metric-gaming"],
     changes: [
       "Allow self-referral to talking therapies",
@@ -586,11 +768,18 @@ export const CARE_PATHS = [
         sourceIds: ["addiction-mat-the-american-journal-on--2004"],
       },
     ],
-    pros: ["Reduces overdose deaths", "Treatment in normal clinics reduces stigma"],
-    cons: ["Diversion concerns", "Some clinicians are reluctant to prescribe"],
-    whoGains: ["People with addiction", "Families"],
-    whoLoses: ["Residential programs that don't offer medication"],
-    mend: ["N/A"],
+    how: {
+      addiction: {
+        note: "Allowing clinicians to prescribe buprenorphine and offering methadone in pharmacies and primary care reduces overdose deaths. Treatment in ordinary clinics also reduces stigma.",
+      },
+      fraud: {
+        note: "Broader access to buprenorphine and methadone raises concerns about medication diversion.",
+      },
+      "t-political-resistance": {
+        note: "Some clinicians are reluctant to prescribe medication for addiction despite broader prescribing access.",
+      },
+    },
+    worsens: ["fraud", "t-political-resistance"],
     changes: [
       "Allow any clinician to prescribe buprenorphine",
       "Allow methadone in pharmacies and primary care",
@@ -609,11 +798,16 @@ export const CARE_PATHS = [
         sourceIds: ["addiction-harm-reduction-the-lancet-2011"],
       },
     ],
-    pros: ["Fewer deaths", "Connects people to treatment"],
-    cons: ["Community opposition", "Legal uncertainty"],
-    whoGains: ["People who use drugs"],
-    whoLoses: ["Neighborhoods hosting sites (perceived disorder)"],
+    how: {
+      addiction: {
+        note: "Funding naloxone, drug checking, and supervised consumption sites reduces deaths and connects people to treatment.",
+      },
+      "t-political-resistance": {
+        note: "Supervised consumption sites and other harm reduction services face community opposition and legal uncertainty.",
+      },
+    },
     mend: ["Site selection with community input"],
+    worsens: ["t-political-resistance"],
     changes: ["Fund naloxone, drug checking, and supervised consumption sites"],
   }),
 
@@ -635,11 +829,15 @@ export const CARE_PATHS = [
         sourceIds: ["ltc-social-insurance-the-milbank-quarterly-2000"],
       },
     ],
-    pros: ["Ends spend-down", "Covers home care"],
-    cons: ["Expensive; demand grows", "Requires a new tax"],
-    whoGains: ["Older adults and families"],
-    whoLoses: ["Taxpayers"],
-    mend: ["N/A"],
+    how: {
+      "ltc-spend-down": {
+        note: "Public insurance covering home and nursing care based on need rather than income ends spend-down and covers home care.",
+      },
+      "x-woodwork": {
+        note: "Covering home and nursing care through public insurance is expensive, and demand grows.",
+      },
+      "x-new-taxes": { note: "Separate public long-term care insurance requires a new tax." },
+    },
     spawns: ["x-woodwork", "x-new-taxes"],
     costIds: ["nhe-nursing", "nhe-homeHealth"],
     changes: [
@@ -660,11 +858,15 @@ export const CARE_PATHS = [
         sourceIds: ["kff-hcbs-waitlist"],
       },
     ],
-    pros: ["Cheaper than universal LTC", "Ends waitlists"],
-    cons: ["Spend-down remains", "Middle class still unprotected"],
-    whoGains: ["Low-income older adults"],
-    whoLoses: ["Taxpayers"],
-    mend: ["N/A"],
+    how: {
+      "ltc-spend-down": {
+        note: "Raising Medicaid asset limits and expanding home care ends waitlists at lower cost than universal long-term care insurance. Spend-down remains, and the middle class remains unprotected.",
+        helps: ["low-middle-income"],
+        hurts: ["taxpayers"],
+      },
+      "wait-times": { note: "Expanding Medicaid home care ends waitlists for those services." },
+    },
+    solves: ["wait-times"],
     changes: ["End HCBS waitlists", "Raise Medicaid asset limits"],
   }),
   path({
@@ -681,11 +883,16 @@ export const CARE_PATHS = [
         sourceIds: ["ltc-catastrophic-the-king-s-fund-2011"],
       },
     ],
-    pros: ["Protects against ruin at lower cost", "Encourages private insurance for early years"],
-    cons: ["Families still pay early costs", "Private LTC insurance market is weak"],
-    whoGains: ["People with long care needs"],
-    whoLoses: ["Taxpayers"],
-    mend: ["N/A"],
+    how: {
+      "ltc-spend-down": {
+        note: "Public coverage after a waiting period protects against financial ruin at lower cost and encourages private insurance for the early period of care. Families still pay the initial costs.",
+      },
+      "t-limited-reach": {
+        note: "Coverage after a waiting period relies on private insurance or savings for initial care, but the private long-term care insurance market is weak.",
+        hurts: ["taxpayers"],
+      },
+    },
+    worsens: ["t-limited-reach"],
     changes: ["Create public LTC coverage after a waiting period"],
   }),
 
@@ -707,11 +914,19 @@ export const CARE_PATHS = [
         sourceIds: ["nh-staffing-kff-2024"],
       },
     ],
-    pros: ["Better care", "Exposes money diverted to related companies"],
-    cons: ["Costly; may close facilities", "Hard to hire in shortage areas"],
-    whoGains: ["Residents"],
-    whoLoses: ["Operators"],
+    how: {
+      "nursing-home-quality": {
+        note: "Staffing minimums and minimum spending on care improve nursing home care. Disclosure of related-party payments exposes money diverted to related companies.",
+      },
+      "x-staffing-mandate-cost": {
+        note: "Staffing minimums are costly and may cause facilities to close.",
+      },
+      "shortage-areas": {
+        note: "Nursing homes have difficulty hiring to meet staffing minimums in shortage areas.",
+      },
+    },
     mend: ["Fund through rates"],
+    worsens: ["shortage-areas"],
     spawns: ["x-staffing-mandate-cost"],
     costIds: ["nursing-home-payroll", "aides-payroll"],
     changes: [
@@ -732,11 +947,20 @@ export const CARE_PATHS = [
         sourceIds: ["nh-small-homes-the-gerontologist-2001"],
       },
     ],
-    pros: ["Better quality of life", "Fewer infections"],
-    cons: ["Transition cost", "Smaller homes cost more per resident"],
-    whoGains: ["Residents"],
-    whoLoses: ["Large operators"],
-    mend: ["N/A"],
+    how: {
+      "nursing-home-quality": {
+        note: "Funding small-house models and home care instead of large institutions improves quality of life and reduces infections.",
+      },
+      safety: {
+        note: "Shifting care from large institutions to small homes and home care reduces infections.",
+      },
+      "t-delayed-benefits": {
+        note: "Moving from large institutions to small homes and home care brings transition costs.",
+      },
+      "t-higher-spending": { note: "Smaller care homes cost more per resident." },
+    },
+    worsens: ["t-delayed-benefits", "t-higher-spending"],
+    solves: ["safety"],
     changes: ["Fund small-house models and home care"],
   }),
 
@@ -754,11 +978,19 @@ export const CARE_PATHS = [
         sourceIds: ["medpac-hospice-2025"],
       },
     ],
-    pros: ["Targets fraud", "Protects patients"],
-    cons: ["Slows legitimate growth", "Audits are costly"],
-    whoGains: ["Patients"],
-    whoLoses: ["Fraudulent operators"],
-    mend: ["N/A"],
+    how: {
+      "hospice-for-profit": {
+        note: "Enrollment moratoriums in high-fraud areas, audits of long stays, and ownership disclosure target hospice fraud and protect patients.",
+      },
+      fraud: {
+        note: "Moratoriums in high-fraud areas, audits of long hospice stays, and ownership disclosure target hospice fraud.",
+      },
+      "t-administrative-work": {
+        note: "Hospice enrollment restrictions slow legitimate growth, and audits of long stays are costly.",
+      },
+    },
+    worsens: ["t-administrative-work"],
+    solves: ["fraud"],
     costIds: ["hospice-medicare"],
     changes: [
       "Use enrollment moratoria in high-fraud areas",
@@ -778,11 +1010,17 @@ export const CARE_PATHS = [
         sourceIds: ["hospice-nonprofit-medicare-payment-advisor-2024"],
       },
     ],
-    pros: ["Removes profit motive", "Matches peer countries"],
-    cons: ["Capacity loss when for-profits exit", "Buyouts are costly"],
-    whoGains: ["Patients"],
-    whoLoses: ["For-profit operators"],
+    how: {
+      "hospice-for-profit": {
+        note: "Restricting hospice provision to nonprofit or public organizations removes the profit motive and follows the approach of peer countries.",
+      },
+      "provider-exit": {
+        note: "Restricting hospice provision to nonprofit or public organizations can reduce capacity when for-profit providers exit.",
+      },
+      "t-delayed-benefits": { note: "Buying out for-profit hospice providers is costly." },
+    },
     mend: ["Buyout or conversion"],
+    worsens: ["provider-exit", "t-delayed-benefits"],
     changes: ["Require non-profit or public hospice providers"],
   }),
 
@@ -799,13 +1037,17 @@ export const CARE_PATHS = [
         sourceIds: ["dental-full-european-observatory-on--2024"],
       },
     ],
-    pros: ["Ends a major gap", "Oral health affects overall health"],
-    cons: ["Expensive; dentist capacity limited", "Waits for dentists likely"],
-    whoGains: ["Low-income adults, seniors"],
-    whoLoses: ["Dental insurers"],
-    mend: ["N/A"],
+    how: {
+      "dental-gap": {
+        note: "Including dental care in the standard benefit closes a major coverage gap for care that affects overall health.",
+      },
+      "t-higher-spending": { note: "Including dental care in the standard benefit is expensive." },
+      "wait-times": {
+        note: "Dentist capacity is limited, so covering dental care in the standard benefit is likely to create waits for dentists.",
+      },
+    },
     costIds: ["nhe-dental"],
-    worsens: ["wait-times"],
+    worsens: ["wait-times", "t-higher-spending"],
     changes: ["Add dental, vision, and hearing to the standard benefit"],
   }),
   path({
@@ -821,11 +1063,12 @@ export const CARE_PATHS = [
         sourceIds: ["dental-basic-health-canada-2024"],
       },
     ],
-    pros: ["Lower cost", "Covers most needs"],
-    cons: ["Gaps for major dental work", "Needs copays or limits"],
-    whoGains: ["Most people"],
-    whoLoses: ["People needing major dental work"],
-    mend: ["N/A"],
+    how: {
+      "dental-gap": {
+        note: "Covering exams, cleanings, fillings, and extractions meets most dental needs at lower cost. Limited coverage for crowns and implants leaves gaps for major dental work.",
+      },
+      "x-copay-billing": { note: "Limited dental coverage requires copays or coverage limits." },
+    },
     spawns: ["x-copay-billing"],
     changes: ["Cover preventive and basic dental", "Cover hearing aids and glasses with limits"],
   }),
@@ -843,11 +1086,19 @@ export const CARE_PATHS = [
         sourceIds: ["prevention-fund-canadian-institute-for-h-2025"],
       },
     ],
-    pros: ["Stable", "Protects public health from cuts"],
-    cons: ["Competes with treatment", "Results hard to see"],
-    whoGains: ["Everyone"],
-    whoLoses: ["Treatment budgets (competition)"],
-    mend: ["N/A"],
+    how: {
+      "prevention-underfunded": {
+        note: "Reserving a fixed share of health spending for public health provides stable funding and protects it from cuts.",
+      },
+      "t-funding-instability": {
+        note: "Reserving health spending for public health competes with treatment for funding.",
+        hurts: ["taxpayers"],
+      },
+      "t-oversight-limits": {
+        note: "The results of protected public health spending are hard to see.",
+      },
+    },
+    worsens: ["t-funding-instability", "t-oversight-limits"],
     costIds: ["nhe-publicHealth"],
     changes: ["Set a fixed share of health spending for public health"],
   }),
@@ -863,11 +1114,16 @@ export const CARE_PATHS = [
         sourceIds: ["prevention-free-aspe-hhs-2022"],
       },
     ],
-    pros: ["Proven to increase use", "Simple to explain"],
-    cons: ["Some screening is low-value", "Costs rise with use"],
-    whoGains: ["Everyone"],
-    whoLoses: ["Taxpayers"],
-    mend: ["N/A"],
+    how: {
+      "prevention-underfunded": {
+        note: "Removing charges for screening, vaccines, and preventive visits increases use and provides a simple coverage rule to explain.",
+      },
+      "low-value-care": { note: "Free screening can increase use of screening that is low-value." },
+      "t-higher-spending": {
+        note: "Removing charges for preventive services raises costs as use increases.",
+      },
+    },
+    worsens: ["low-value-care", "t-higher-spending"],
     changes: ["Cover preventive services without cost sharing"],
   }),
 
@@ -885,11 +1141,19 @@ export const CARE_PATHS = [
         sourceIds: ["social-needs-fund-north-carolina-departmen-2026"],
       },
     ],
-    pros: ["Targets drivers of illness", "Can pay for itself in some cases"],
-    cons: ["Health budgets stretched", "Health systems aren't housing experts"],
-    whoGains: ["Low-income patients"],
-    whoLoses: ["Health budgets"],
-    mend: ["N/A"],
+    how: {
+      "social-needs": {
+        note: "Health-system payments for housing support, medically tailored meals, and rides target drivers of illness and can pay for themselves in some cases.",
+      },
+      "t-funding-instability": {
+        note: "Paying for housing support, meals, and rides stretches health budgets.",
+        hurts: ["taxpayers"],
+      },
+      "t-workforce-adjustment": {
+        note: "Paying for housing support asks health systems to work in an area where they lack housing expertise.",
+      },
+    },
+    worsens: ["t-funding-instability", "t-workforce-adjustment"],
     changes: ["Allow health budgets to pay for housing support, meals, and rides"],
   }),
   path({
@@ -903,17 +1167,21 @@ export const CARE_PATHS = [
         note: "Strong social programs outside health.",
       },
     ],
-    pros: [
-      "Clear responsibility: housing and food agencies do what they know",
-      "Health budgets aren't stretched by non-medical spending",
-    ],
-    cons: [
-      "Health system can't act directly when a patient's housing is making them sick",
-      "Coordination across agencies is weak in the U.S.",
-    ],
-    whoGains: ["Health budgets"],
-    whoLoses: ["Patients whose social needs fall through the cracks"],
+    how: {
+      "social-needs": {
+        note: "Direct funding gives housing and food agencies clear responsibility for work they know. It avoids stretching health budgets with nonmedical spending.",
+        helps: ["taxpayers"],
+      },
+      "t-limited-reach": {
+        note: "Funding housing and food outside health care leaves the health system unable to act directly when a patient’s housing is making them sick.",
+        hurts: ["homeless-people"],
+      },
+      "t-administrative-work": {
+        note: "Separate housing, food, and health programs depend on coordination across agencies, which is weak in the United States.",
+      },
+    },
     mend: ["Fund social workers in clinics to connect patients with outside programs"],
+    worsens: ["t-limited-reach", "t-administrative-work"],
     changes: ["Fund housing and food programs directly"],
   }),
 
@@ -930,12 +1198,27 @@ export const CARE_PATHS = [
         sourceIds: ["interop-national-e-estonia-2024"],
       },
     ],
-    pros: ["Records follow patients everywhere", "Fewer duplicate tests and medication errors"],
-    cons: ["Privacy and security risks of one large database", "Large IT project"],
-    whoGains: ["Patients, clinicians"],
-    whoLoses: ["EHR vendors"],
+    how: {
+      interoperability: {
+        note: "A national record follows patients everywhere and reduces duplicate tests and medication errors.",
+      },
+      "low-value-care": {
+        note: "A national record that follows patients reduces duplicate tests.",
+      },
+      safety: { note: "A national record that follows patients reduces medication errors." },
+      privacy: {
+        note: "A national patient record concentrates health information in a large database, creating privacy risks.",
+      },
+      cybersecurity: {
+        note: "A national patient record places information in a large database with security risks.",
+      },
+      "t-systems-implementation": {
+        note: "Creating a national patient record is a large information technology project.",
+      },
+    },
     mend: ["Retrain staff; keep vendors as contractors"],
-    worsens: ["privacy", "cybersecurity"],
+    solves: ["low-value-care", "safety"],
+    worsens: ["privacy", "cybersecurity", "t-systems-implementation"],
     changes: ["Create a national health record and patient ID"],
   }),
   path({
@@ -950,11 +1233,19 @@ export const CARE_PATHS = [
         sourceIds: ["interop-standards-office-of-the-national-c-2026"],
       },
     ],
-    pros: ["Keeps market competition", "Builds on existing law"],
-    cons: ["Slow; vendors comply minimally", "Standards keep changing"],
-    whoGains: ["Patients", "App developers"],
-    whoLoses: ["EHR vendors that profit from lock-in"],
-    mend: ["N/A"],
+    how: {
+      interoperability: {
+        note: "Enforcing record-sharing interfaces and banning information blocking builds on existing law while retaining market competition.",
+        helps: ["health-admin-vendors"],
+      },
+      "t-delayed-benefits": {
+        note: "Enforcing record-sharing standards is slow, and vendors may comply only minimally.",
+      },
+      "t-systems-implementation": {
+        note: "Record-sharing standards keep changing, requiring systems to adapt.",
+      },
+    },
+    worsens: ["t-delayed-benefits", "t-systems-implementation"],
     changes: ["Enforce FHIR APIs", "Ban information blocking"],
   }),
 
@@ -971,11 +1262,21 @@ export const CARE_PATHS = [
         sourceIds: ["cyber-standards-centers-for-medicare-med-2024"],
       },
     ],
-    pros: ["Resilience against attacks", "Providers paid during outages"],
-    cons: ["Compliance costs", "Hardest for small providers"],
-    whoGains: ["Providers", "Patients"],
-    whoLoses: ["Small providers (compliance cost)"],
+    how: {
+      cybersecurity: {
+        note: "Minimum security rules improve resilience against attacks, while backup payments keep providers paid during outages.",
+        helps: ["heavy-care-users"],
+      },
+      "t-administrative-work": {
+        note: "Complying with minimum security rules adds costs for providers.",
+        hurts: ["providers"],
+      },
+      "t-imperfect-targeting": {
+        note: "Minimum security requirements are hardest for small providers to meet.",
+      },
+    },
     mend: ["Grants for small and rural providers"],
+    worsens: ["t-administrative-work", "t-imperfect-targeting"],
     changes: ["Set minimum security standards", "Create backup payment systems"],
   }),
   path({
@@ -990,11 +1291,16 @@ export const CARE_PATHS = [
         sourceIds: ["cyber-redundant-american-hospital-associ-2024"],
       },
     ],
-    pros: ["Avoids single point of failure", "Care continues during outages"],
-    cons: ["Costly", "More systems to secure"],
-    whoGains: ["Everyone"],
-    whoLoses: ["Taxpayers (cost)"],
-    mend: ["N/A"],
+    how: {
+      cybersecurity: {
+        note: "Redundant public claims infrastructure and an offline fallback avoid a single point of failure and allow care to continue during outages. Redundancy also leaves more systems to secure.",
+        helps: ["future-care-users"],
+      },
+      "t-higher-spending": {
+        note: "Running redundant public claims infrastructure with an offline fallback is costly.",
+      },
+    },
+    worsens: ["t-higher-spending"],
     changes: ["Run claims on redundant public infrastructure with offline fallback"],
   }),
 
@@ -1011,11 +1317,19 @@ export const CARE_PATHS = [
         sourceIds: ["privacy-law-commission-nationale-de--2026"],
       },
     ],
-    pros: ["Protects patients", "Covers apps and data brokers HIPAA misses"],
-    cons: ["Limits research", "Compliance costs"],
-    whoGains: ["Patients"],
-    whoLoses: ["Data brokers"],
+    how: {
+      privacy: {
+        note: "Extending privacy protections and requiring strict access logs protects patients, including in apps and data brokers that existing health privacy protections miss.",
+      },
+      "t-reduced-data": {
+        note: "Extending privacy restrictions to apps and data brokers limits research.",
+      },
+      "t-administrative-work": {
+        note: "Extended privacy protections and strict access logs bring compliance costs.",
+      },
+    },
     mend: ["Research exemptions with safeguards"],
+    worsens: ["t-reduced-data", "t-administrative-work"],
     changes: ["Extend privacy protections to apps and data brokers"],
   }),
   path({
@@ -1030,11 +1344,16 @@ export const CARE_PATHS = [
         sourceIds: ["privacy-opt-out-bjgp-open-2024"],
       },
     ],
-    pros: ["Choice for patients", "Builds trust"],
-    cons: ["Gaps in data", "Opt-outs can be higher in some groups, biasing research"],
-    whoGains: ["Privacy-conscious patients"],
-    whoLoses: ["Researchers"],
-    mend: ["N/A"],
+    how: {
+      privacy: {
+        note: "Allowing patients to opt out of sharing health information gives them a choice and builds trust.",
+      },
+      "t-reduced-data": {
+        note: "Patient opt-outs leave gaps in shared health data. Higher opt-out rates in some groups can bias research.",
+        hurts: ["researchers"],
+      },
+    },
+    worsens: ["t-reduced-data"],
     changes: ["Create an opt-out of national record sharing"],
   }),
 ]

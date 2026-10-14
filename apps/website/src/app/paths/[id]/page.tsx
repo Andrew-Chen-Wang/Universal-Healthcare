@@ -177,6 +177,22 @@ export default async function PathPage({ params }: { params: Params }) {
             ? "Each effect has its own page: the evidence, the case that it is or isn't a real cost, and whom it affects."
             : "This path's effects are still free text; it has not yet been linked into the effects graph."}
         </p>
+        {effects.answers && (
+          <div className="mb-4 rounded-md border border-rule bg-card p-4 text-sm">
+            <div className="mb-1 text-xs font-semibold tracking-wide uppercase">
+              The question it answers
+            </div>
+            <Link
+              href={`/problems/${effects.answers.problemId}`}
+              className="font-medium underline decoration-rule underline-offset-2 hover:text-primary"
+            >
+              {effects.answers.title}
+            </Link>
+            {effects.answers.note && (
+              <p className="mt-1 text-foreground/80">{effects.answers.note}</p>
+            )}
+          </div>
+        )}
         <div className="grid gap-4 md:grid-cols-2">
           <EffectList title="What it fixes" effects={effects.fixes} tone="gain" />
           <EffectList
@@ -190,13 +206,13 @@ export default async function PathPage({ params }: { params: Params }) {
 
       <section className="mb-10">
         <h2 className="mb-3 text-xl font-semibold">Who&apos;s affected</h2>
-        <div className={`grid gap-4 ${migrated ? "md:grid-cols-2" : "md:grid-cols-3"}`}>
+        <div className={`grid gap-4 ${p.mend?.length ? "md:grid-cols-3" : "md:grid-cols-2"}`}>
           <ImpactList title="Who gains" impacts={impacts.gains} tone="gain" />
           <ImpactList title="Who loses" impacts={impacts.loses} tone="loss" />
-          {!migrated && (
+          {p.mend?.length && (
             <People
-              title="How to mend the losers"
-              items={p.mend ?? []}
+              title="Other ways to soften the losses"
+              items={p.mend}
               tone="border-rule bg-card"
             />
           )}

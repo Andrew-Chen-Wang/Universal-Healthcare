@@ -20,10 +20,21 @@ export const SUPPLY_PATHS = [
         note: "Free launch price for one year, then a negotiated price based on added benefit.",
       },
     ],
-    pros: ["Large savings", "One price everywhere"],
-    cons: ["Lower revenue may reduce some R&D", "Manufacturers may delay launches"],
-    whoGains: ["Patients, payers"],
-    whoLoses: ["Drug manufacturers"],
+    how: {
+      "drug-prices": {
+        note: "National negotiation uses international prices and value assessments to obtain large savings and a uniform drug price across locations.",
+        helps: ["heavy-care-users"],
+      },
+      "x-central-rationing": {
+        note: "A national negotiating body uses value assessments as benchmarks for drug prices, placing those assessments within a national decision process.",
+      },
+      "innovation-slowdown": {
+        note: "National price negotiation lowers manufacturer revenue, which may reduce some research and development.",
+      },
+      "x-price-control-exit": {
+        note: "National price negotiation may lead manufacturers to delay drug launches.",
+      },
+    },
     mend: ["Link prices to added benefit so true innovation is still rewarded"],
     spawns: ["x-price-control-exit", "x-central-rationing"],
     worsens: ["innovation-slowdown"],
@@ -47,14 +58,19 @@ export const SUPPLY_PATHS = [
         sourceIds: ["drugs-reference-patented-medicine-prices-2024"],
       },
     ],
-    pros: ["Simple and automatic", "Uses prices other countries already negotiated"],
-    cons: [
-      "Manufacturers may raise prices abroad or delay launches there",
-      "Exchange rates and confidential rebates make true prices hard to know",
-    ],
-    whoGains: ["U.S. patients"],
-    whoLoses: ["Manufacturers"],
-    mend: ["N/A"],
+    how: {
+      "drug-prices": {
+        note: "An automatic cap based on peer-country prices uses prices those countries have already negotiated to limit domestic drug prices.",
+        helps: ["heavy-care-users"],
+      },
+      "x-price-control-exit": {
+        note: "Linking domestic price caps to foreign prices may lead manufacturers to raise prices abroad or delay launches there.",
+      },
+      "t-uncertain-evidence": {
+        note: "Reference pricing depends on foreign prices that exchange rates and confidential rebates make difficult to establish.",
+      },
+    },
+    worsens: ["t-uncertain-evidence"],
     spawns: ["x-price-control-exit"],
     changes: [
       "Cap prices at the median of a basket of peer countries",
@@ -78,11 +94,21 @@ export const SUPPLY_PATHS = [
         sourceIds: ["drugs-public-manufacture-governor-of-california-2025"],
       },
     ],
-    pros: ["Directly lowers prices on targeted drugs", "Improves supply resilience"],
-    cons: ["Only covers off-patent drugs", "Public manufacturing can be slow and costly"],
-    whoGains: ["Patients"],
-    whoLoses: ["Generic manufacturers on targeted drugs"],
-    mend: ["N/A"],
+    how: {
+      "drug-prices": {
+        note: "Public or nonprofit manufacturing directly lowers prices for targeted off-patent drugs such as insulin.",
+      },
+      shortages: {
+        note: "Public or nonprofit production of drugs affected by shortages improves supply resilience.",
+      },
+      "t-limited-reach": {
+        note: "Public or nonprofit manufacturing covers only off-patent drugs.",
+      },
+      "t-delayed-benefits": {
+        note: "Establishing public drug manufacturing can be slow and costly.",
+      },
+    },
+    worsens: ["t-limited-reach", "t-delayed-benefits"],
     solves: ["shortages"],
     costIds: ["insulin-cost"],
     changes: [
@@ -105,14 +131,18 @@ export const SUPPLY_PATHS = [
         sourceIds: ["imak-humira"],
       },
     ],
-    pros: ["Earlier generics and biosimilars", "Keeps core patents and their innovation incentive"],
-    cons: [
-      "Some incremental innovation (new forms) may be less rewarded",
-      "Patent office and courts need new capacity",
-    ],
-    whoGains: ["Patients, generic makers"],
-    whoLoses: ["Brand manufacturers"],
-    mend: ["N/A"],
+    how: {
+      patents: {
+        note: "Limiting asserted patents, exclusivity extensions for minor changes, and pay-for-delay deals brings generics and biosimilars to market earlier while retaining core patents and their innovation incentive.",
+      },
+      "innovation-slowdown": {
+        note: "Limiting patents and exclusivity extensions may reduce rewards for incremental innovations such as new drug forms.",
+      },
+      "t-administrative-work": {
+        note: "Patent limits and restrictions on exclusivity extensions require new capacity in patent offices and courts.",
+      },
+    },
+    worsens: ["innovation-slowdown", "t-administrative-work"],
     changes: [
       "Limit the number of patents asserted per drug",
       "End exclusivity extensions for minor changes",
@@ -133,12 +163,19 @@ export const SUPPLY_PATHS = [
         sourceIds: ["patents-march-in-mpi-studies-on-intellect-2014"],
       },
     ],
-    pros: ["Targets the worst price cases", "Strong bargaining threat even if rarely used"],
-    cons: ["Weakens patent certainty for investors", "Trade disputes with partners"],
-    whoGains: ["Patients"],
-    whoLoses: ["Patent holders"],
+    how: {
+      patents: {
+        note: "Licensing patents to other manufacturers targets extreme drug prices and publicly funded drugs. The possibility of licensing provides a strong bargaining threat even when rarely used.",
+      },
+      "innovation-slowdown": {
+        note: "Licensing patents to other manufacturers weakens patent certainty for investors.",
+      },
+      "t-political-resistance": {
+        note: "Government licensing of drug patents can lead to trade disputes with partners.",
+      },
+    },
     mend: ["Pay reasonable royalties"],
-    worsens: ["innovation-slowdown"],
+    worsens: ["innovation-slowdown", "t-political-resistance"],
     changes: [
       "Define march-in triggers for price and access",
       "Use 28 U.S.C. 1498 for government-use licenses",
@@ -148,6 +185,7 @@ export const SUPPLY_PATHS = [
   path({
     id: "patents-keep",
     problemId: "patents",
+    role: "answers",
     title: "Keep the current patent system",
     summary: "Leave patents unchanged and control prices through negotiation instead.",
     precedents: [
@@ -158,14 +196,16 @@ export const SUPPLY_PATHS = [
         sourceIds: ["drugs-reference-patented-medicine-prices-2024"],
       },
     ],
-    pros: ["No disruption to innovation incentives", "No trade disputes"],
-    cons: [
-      "Thickets keep delaying generics and biosimilars",
-      "Prices stay high until all patents expire",
-    ],
-    whoGains: ["Brand manufacturers"],
-    whoLoses: ["Patients"],
-    mend: ["N/A"],
+    how: {
+      patents: {
+        note: "Leaving patents unchanged preserves innovation incentives and avoids trade disputes while relying on price negotiation instead. Patent thickets still delay generics and biosimilars.",
+      },
+      "drug-prices": {
+        note: "Leaving patents unchanged keeps prices high until all patents expire.",
+        hurts: ["heavy-care-users"],
+      },
+    },
+    worsens: ["drug-prices"],
     complements: ["drugs-negotiate"],
     changes: ["No patent-law changes; rely on negotiation"],
   }),
@@ -188,11 +228,16 @@ export const SUPPLY_PATHS = [
         sourceIds: ["rd-public-fund-proceedings-of-the-natio-2018"],
       },
     ],
-    pros: ["Offsets lost revenue", "Can target neglected diseases"],
-    cons: ["Costs taxpayers", "Government picks priorities"],
-    whoGains: ["Researchers"],
-    whoLoses: ["Taxpayers"],
-    mend: ["N/A"],
+    how: {
+      "rd-incentives": {
+        note: "Expanded public research and trial funding, especially for late-stage trials, offsets lost revenue and reduces reliance on high prices while allowing neglected diseases to receive funding.",
+      },
+      "t-higher-spending": { note: "Expanded public research and trial funding costs taxpayers." },
+      "x-public-rd-priorities": {
+        note: "Expanded public research funding puts the selection of research priorities in government hands.",
+      },
+    },
+    worsens: ["t-higher-spending"],
     spawns: ["x-public-rd-priorities"],
     costIds: ["pharma-rd", "nhe-research"],
     changes: [
@@ -217,15 +262,23 @@ export const SUPPLY_PATHS = [
         sourceIds: ["rd-prizes-nhs-england-2022"],
       },
     ],
-    pros: ["Rewards innovation without high prices", "Can target neglected areas like antibiotics"],
-    cons: [
-      "Hard to set prize sizes correctly",
-      "Untested at large scale",
-      "Government defines which goals count",
-    ],
-    whoGains: ["Patients with diseases private R&D neglects (e.g., resistant infections)"],
-    whoLoses: ["Taxpayers (prize funding)"],
-    mend: ["N/A"],
+    how: {
+      "rd-incentives": {
+        note: "Prizes or guaranteed purchases reward drugs meeting specified goals without requiring high selling prices, including in neglected areas such as antibiotics.",
+      },
+      "drug-prices": {
+        note: "Prizes or guaranteed purchases pay for innovation so qualifying drugs can then be sold at low prices.",
+      },
+      "t-uncertain-evidence": {
+        note: "Prize funds require judgments about reward sizes that are difficult to set correctly. Prize funds and guaranteed purchases remain untested at large scale.",
+        hurts: ["taxpayers"],
+      },
+      "x-public-rd-priorities": {
+        note: "Government defines which drug-development goals qualify for prizes or guaranteed purchases.",
+      },
+    },
+    worsens: ["t-uncertain-evidence"],
+    solves: ["drug-prices"],
     spawns: ["x-public-rd-priorities"],
     changes: [
       "Create a prize fund for set goals",
@@ -246,11 +299,26 @@ export const SUPPLY_PATHS = [
         sourceIds: ["rd-value-pricing-institute-for-quality-an-2024"],
       },
     ],
-    pros: ["Directs R&D to bigger breakthroughs", "Saves money on me-too drugs"],
-    cons: ["Requires assessment capacity", "Disputes over how to measure value"],
-    whoGains: ["Truly innovative firms"],
-    whoLoses: ["Makers of incremental drugs"],
-    mend: ["N/A"],
+    how: {
+      "rd-incentives": {
+        note: "Paying more for large added benefits directs research toward bigger breakthroughs while spending less on me-too drugs.",
+        helps: ["drug-device-makers"],
+      },
+      "x-central-rationing": {
+        note: "Drug pricing depends on assessments of added benefit, with disputes over how that value should be measured.",
+      },
+      "drug-prices": {
+        note: "Paying little for me-too drugs saves money while reserving high prices for drugs with large added benefits.",
+      },
+      "t-administrative-work": {
+        note: "Basing drug prices on added benefit requires capacity to assess that benefit.",
+      },
+      "t-uncertain-evidence": {
+        note: "Basing drug prices on added benefit leads to disputes over how value should be measured.",
+      },
+    },
+    worsens: ["t-administrative-work", "t-uncertain-evidence"],
+    solves: ["drug-prices"],
     spawns: ["x-central-rationing"],
     complements: ["drugs-negotiate"],
     changes: [
@@ -274,14 +342,19 @@ export const SUPPLY_PATHS = [
         sourceIds: ["shortages-pay-reliability-civica-rx-2024"],
       },
     ],
-    pros: [
-      "Directly targets the cause (prices too low to sustain production)",
-      "Rewards quality and redundant suppliers",
-    ],
-    cons: ["Higher generic prices", "Rating supplier reliability is new and complex"],
-    whoGains: ["Patients"],
-    whoLoses: ["Payers (higher costs)"],
-    mend: ["N/A"],
+    how: {
+      shortages: {
+        note: "Premiums and long-term contracts with minimum volumes address prices too low to sustain production and reward quality-rated, redundant supply chains.",
+      },
+      "t-higher-spending": {
+        note: "Premiums for reliable manufacturers and long-term supply contracts raise generic drug prices.",
+        hurts: ["insurers"],
+      },
+      "t-administrative-work": {
+        note: "Paying for reliable supply requires supplier reliability ratings, which are new and complex.",
+      },
+    },
+    worsens: ["t-higher-spending", "t-administrative-work"],
     costIds: ["hosp-drugs"],
     changes: [
       "Pay premiums for redundant, quality-rated supply chains",
@@ -304,14 +377,18 @@ export const SUPPLY_PATHS = [
         sourceIds: ["shortages-stockpile-hhs-office-of-inspector--2022"],
       },
     ],
-    pros: [
-      "Buffers short disruptions",
-      "Domestic production reduces dependence on a few foreign plants",
-    ],
-    cons: ["Expensive; drugs expire and must be rotated", "Onshoring is slow and costly"],
-    whoGains: ["Patients"],
-    whoLoses: ["Taxpayers"],
-    mend: ["N/A"],
+    how: {
+      shortages: {
+        note: "Buffer stocks cushion short disruptions, while domestic manufacturing reduces dependence on a few foreign plants.",
+      },
+      "t-higher-spending": {
+        note: "Drug buffer stocks are expensive, and expiring drugs must be rotated.",
+      },
+      "t-delayed-benefits": {
+        note: "Funding domestic drug manufacturing involves a slow and costly onshoring process.",
+      },
+    },
+    worsens: ["t-higher-spending", "t-delayed-benefits"],
     complements: ["drugs-public-manufacture"],
     changes: [
       "Maintain buffer stocks of essential drugs",
@@ -334,14 +411,19 @@ export const SUPPLY_PATHS = [
         sourceIds: ["pharmacy-fee-patented-medicine-prices-2024"],
       },
     ],
-    pros: [
-      "Keeps pharmacies open, especially rural and independent ones",
-      "Transparent payment replaces opaque PBM reimbursement",
-    ],
-    cons: ["Higher dispensing costs", "Fee levels must be updated regularly"],
-    whoGains: ["Pharmacies, rural patients"],
-    whoLoses: ["PBMs"],
-    mend: ["N/A"],
+    how: {
+      "pharmacy-deserts": {
+        note: "Transparent dispensing fees covering costs, with extra payments in underserved areas, help rural and independent pharmacies stay open and replace opaque pharmacy benefit manager reimbursement.",
+        helps: ["local-pharmacies"],
+      },
+      "t-higher-spending": {
+        note: "Cost-covering dispensing fees and additional underserved-area payments raise dispensing costs.",
+      },
+      "t-administrative-work": {
+        note: "Cost-covering dispensing fees require regular updates to fee levels.",
+      },
+    },
+    worsens: ["t-higher-spending", "t-administrative-work"],
     costIds: ["pharmacy-payroll"],
     complements: ["pbm-public", "pbm-regulate"],
     changes: ["Set a transparent dispensing fee covering costs", "Add rural pharmacy payments"],
@@ -359,14 +441,17 @@ export const SUPPLY_PATHS = [
         sourceIds: ["pharmacy-mail-telehealth-journal-of-the-american--2017"],
       },
     ],
-    pros: ["Cheap and fast to expand", "Restores access in towns with no pharmacist"],
-    cons: [
-      "Not good for urgent medications or patients needing counseling",
-      "Deliveries can be unreliable for temperature-sensitive drugs",
-    ],
-    whoGains: ["Rural patients"],
-    whoLoses: ["Local pharmacies"],
-    mend: ["N/A"],
+    how: {
+      "pharmacy-deserts": {
+        note: "Remote pharmacist supervision and mail delivery can restore pharmacy access in towns without a pharmacist and are cheap and quick to expand.",
+      },
+      "t-limited-reach": {
+        note: "Mail delivery and remote pharmacist supervision are poorly suited to urgent medications or patients needing counseling.",
+        hurts: ["local-pharmacies"],
+      },
+      safety: { note: "Mail delivery can be unreliable for temperature-sensitive drugs." },
+    },
+    worsens: ["t-limited-reach", "safety"],
     changes: ["Allow remote pharmacist supervision in all states", "Cover mail delivery"],
   }),
 
@@ -388,18 +473,20 @@ export const SUPPLY_PATHS = [
         sourceIds: ["rural-global-budget-centers-for-medicare-med-2023"],
       },
     ],
-    pros: [
-      "Stable funding regardless of volume",
-      "Hospitals can redesign services for community needs",
-      "Ends dependence on a few commercial payers",
-    ],
-    cons: [
-      "Budget may not adjust to changing needs",
-      "Low volume can still mean lower quality for some procedures",
-    ],
-    whoGains: ["Rural communities", "Rural hospital staff"],
-    whoLoses: ["Taxpayers (budgets can cost more than letting hospitals close)"],
-    mend: ["N/A"],
+    how: {
+      "rural-hospitals": {
+        note: "Fixed annual hospital budgets provide stable funding despite low service volume, allowing services to be redesigned for community needs and ending dependence on a few commercial payers.",
+        helps: ["clinicians"],
+      },
+      "x-budget-rationing": {
+        note: "Fixed annual rural hospital budgets may fail to adjust to changing needs.",
+      },
+      safety: {
+        note: "Keeping low-volume rural hospitals open can still leave lower quality for some procedures.",
+        hurts: ["taxpayers"],
+      },
+    },
+    worsens: ["safety"],
     requires: ["global-budgets"],
     spawns: ["x-budget-rationing"],
     changes: ["Give rural hospitals fixed annual budgets", "Adjust for service changes"],
@@ -421,15 +508,23 @@ export const SUPPLY_PATHS = [
         sourceIds: ["rural-convert-centers-for-medicare-med-2025"],
       },
     ],
-    pros: ["Keeps emergency care open", "Lower cost than full inpatient service"],
-    cons: [
-      "Longer travel for inpatient care and births",
-      "Communities lose jobs and local identity",
-    ],
-    whoGains: ["Hospitals that would otherwise close"],
-    whoLoses: ["Patients needing inpatient care locally"],
+    how: {
+      "rural-hospitals": {
+        note: "Converting rural hospitals to emergency and outpatient centers keeps emergency care open at lower cost than maintaining full inpatient services.",
+        helps: ["providers"],
+      },
+      "maternity-deserts": {
+        note: "Dropping inpatient beds means patients must travel farther for births, with transfer agreements connecting the emergency center to hospital care.",
+      },
+      transport: {
+        note: "Removing rural inpatient beds makes travel longer for inpatient care and births.",
+      },
+      "transition-disruption": {
+        note: "Conversion to emergency and outpatient centers leaves communities with lost jobs and local identity.",
+      },
+    },
     mend: ["Fund transport"],
-    worsens: ["maternity-deserts"],
+    worsens: ["maternity-deserts", "transport", "transition-disruption"],
     complements: ["transport-fund"],
     changes: [
       "Expand Rural Emergency Hospital eligibility",
@@ -451,11 +546,23 @@ export const SUPPLY_PATHS = [
         sourceIds: ["maternity-standby-german-federal-ministry--2024"],
       },
     ],
-    pros: ["Keeps births local", "Reduces risky long drives during labor"],
-    cons: ["Low-volume units may have worse outcomes", "Expensive per birth"],
-    whoGains: ["Rural mothers and families"],
-    whoLoses: ["Taxpayers (standby cost)"],
+    how: {
+      "maternity-deserts": {
+        note: "Paying labor units for readiness rather than per birth keeps births local and reduces risky long drives during labor.",
+      },
+      safety: {
+        note: "Keeping labor units ready locally reduces risky long drives during labor. Standby payments also keep low-volume units open, where outcomes may be worse.",
+      },
+      "t-higher-spending": {
+        note: "Paying labor units for readiness rather than per birth is expensive per birth.",
+      },
+      transport: {
+        note: "Standby payments keep births local, reducing the need for long drives during labor.",
+      },
+    },
     mend: ["Link standby funding to quality requirements and transfer agreements"],
+    worsens: ["safety", "t-higher-spending"],
+    solves: ["transport", "safety"],
     changes: ["Pay rural labor units a fixed readiness payment"],
   }),
   path({
@@ -472,14 +579,21 @@ export const SUPPLY_PATHS = [
         sourceIds: ["maternity-midwives-cochrane-2024"],
       },
     ],
-    pros: ["Lower cost per birth", "More capacity in maternity deserts"],
-    cons: [
-      "Physician groups raise safety concerns",
-      "Needs fast transfer to hospitals for complications",
-    ],
-    whoGains: ["Mothers in maternity deserts", "Midwives"],
-    whoLoses: ["Obstetricians (some competition)"],
+    how: {
+      "maternity-deserts": {
+        note: "Licensing and paying certified midwives and freestanding birth centers adds capacity in maternity deserts at lower cost per birth.",
+        helps: ["clinicians"],
+      },
+      "x-scope-quality": {
+        note: "Expanding certified midwives and freestanding birth centers raises safety concerns among physician groups.",
+      },
+      "t-administrative-work": {
+        note: "Midwives and freestanding birth centers need fast hospital transfers when complications occur.",
+        hurts: ["clinicians"],
+      },
+    },
     mend: ["Require collaboration agreements and fast transfer to hospital care"],
+    worsens: ["t-administrative-work"],
     spawns: ["x-scope-quality"],
     changes: [
       "License certified midwives in all states",
@@ -506,14 +620,22 @@ export const SUPPLY_PATHS = [
         sourceIds: ["shortage-service-human-resources-for-heal-2021"],
       },
     ],
-    pros: [
-      "Proven to place clinicians in underserved areas",
-      "Removes debt that pushes graduates toward high-paying specialties",
-    ],
-    cons: ["Many leave after service ends", "Costly per clinician placed"],
-    whoGains: ["Underserved communities", "Graduates with debt"],
-    whoLoses: ["Taxpayers"],
-    mend: ["N/A"],
+    how: {
+      "shortage-areas": {
+        note: "Free training in exchange for service places clinicians in underserved areas and removes debt that pushes graduates toward high-paying specialties.",
+      },
+      "training-debt": {
+        note: "Free training in exchange for service removes debt that pushes graduates toward high-paying specialties.",
+      },
+      "t-limited-reach": {
+        note: "Training in exchange for service does not ensure lasting staffing because many clinicians leave when their service ends.",
+      },
+      "t-higher-spending": {
+        note: "Free training tied to service is costly per clinician placed.",
+      },
+    },
+    worsens: ["t-limited-reach", "t-higher-spending"],
+    solves: ["training-debt"],
     costIds: ["resident-salary"],
     changes: [
       "Expand National Health Service Corps",
@@ -533,14 +655,20 @@ export const SUPPLY_PATHS = [
         sourceIds: ["shortage-pay-centers-for-medicare-med-2026"],
       },
     ],
-    pros: ["Simple; uses the existing fee schedule", "Fast to implement"],
-    cons: [
-      "Pay alone often doesn't move clinicians (schools, spouses' jobs matter)",
-      "Bonuses can go to providers already there",
-    ],
-    whoGains: ["Clinicians in shortage areas"],
-    whoLoses: ["Taxpayers"],
-    mend: ["N/A"],
+    how: {
+      "shortage-areas": {
+        note: "Adding bonuses to the existing fee schedule in shortage areas is a simple change that can be implemented quickly.",
+        helps: ["clinicians"],
+      },
+      "t-limited-reach": {
+        note: "Fee bonuses alone often do not move clinicians because schools and spouses' jobs also matter.",
+        hurts: ["taxpayers"],
+      },
+      "t-imperfect-targeting": {
+        note: "Bonuses for shortage-area practice can go to providers already working there.",
+      },
+    },
+    worsens: ["t-limited-reach", "t-imperfect-targeting"],
     changes: ["Raise the shortage-area fee bonus"],
   }),
   path({
@@ -560,11 +688,20 @@ export const SUPPLY_PATHS = [
         sourceIds: ["shortage-telehealth-centers-for-medicare-med-2021"],
       },
     ],
-    pros: ["Fast, cheap access", "Works especially well for mental health"],
-    cons: ["Not a substitute for hands-on care", "Fraud risk", "Many rural areas lack broadband"],
-    whoGains: ["Rural patients", "Patients needing mental health care"],
-    whoLoses: ["Local practices facing remote competition"],
+    how: {
+      "shortage-areas": {
+        note: "Covering telehealth across state lines with a national telehealth license offers quick, low-cost access to clinicians.",
+      },
+      "mental-health-access": {
+        note: "Telehealth coverage across state lines offers quick, low-cost access and works especially well for mental health care.",
+      },
+      "t-limited-reach": {
+        note: "Telehealth cannot substitute for hands-on care. Telehealth expansion is limited by the lack of broadband in many rural areas.",
+      },
+      fraud: { note: "Expanded telehealth coverage carries a risk of fraud." },
+    },
     mend: ["Fund broadband and local telehealth access points"],
+    worsens: ["t-limited-reach", "fraud"],
     solves: ["mental-health-access"],
     changes: ["Cover telehealth at parity permanently", "Create interstate telehealth licensing"],
   }),
@@ -584,15 +721,19 @@ export const SUPPLY_PATHS = [
         sourceIds: ["transport-fund-kff-2016"],
       },
     ],
-    pros: ["Fewer missed appointments", "Ends surprise ground ambulance bills"],
-    cons: [
-      "Fraud risk (fake rides)",
-      "Cost",
-      "Brokers that manage rides have poor reliability records",
-    ],
-    whoGains: ["Patients without cars", "Rural patients"],
-    whoLoses: ["Taxpayers"],
-    mend: ["N/A"],
+    how: {
+      transport: {
+        note: "Covering rides and ambulances for everyone reduces missed appointments and ends surprise ground ambulance bills.",
+      },
+      "surprise-bills": { note: "Covering ground ambulances ends surprise bills for these trips." },
+      fraud: {
+        note: "Universal ride coverage creates a risk of fraudulent claims for fake rides.",
+      },
+      "t-higher-spending": { note: "Covering rides and ambulances for everyone adds costs." },
+      safety: { note: "Covered rides depend on brokers whose reliability records are poor." },
+    },
+    worsens: ["fraud", "t-higher-spending", "safety"],
+    solves: ["surprise-bills"],
     changes: ["Cover ground ambulance and non-emergency rides for everyone"],
   }),
   path({
@@ -608,11 +749,17 @@ export const SUPPLY_PATHS = [
         sourceIds: ["transport-public-ems-nhs-england-2024"],
       },
     ],
-    pros: ["Ends ambulance bills", "Ambulances deployed by need, not payer"],
-    cons: ["Shifts cost to local budgets", "Private ambulance companies lose business"],
-    whoGains: ["Patients"],
-    whoLoses: ["Private ambulance companies"],
+    how: {
+      transport: {
+        note: "Budget funding for ambulances ends patient ambulance bills and allows deployment according to need rather than payer.",
+      },
+      "t-higher-spending": { note: "Budget funding for ambulances shifts costs to local budgets." },
+      "t-income-loss": {
+        note: "Budget-funded ambulances reduce business for private ambulance companies.",
+      },
+    },
     mend: ["Buy out or contract with private ambulance companies"],
+    worsens: ["t-higher-spending", "t-income-loss"],
     requires: ["global-budgets"],
     changes: [
       "Fund EMS by budget like fire departments",
@@ -638,11 +785,20 @@ export const SUPPLY_PATHS = [
         sourceIds: ["phys-residency-centers-for-medicare-med-2023"],
       },
     ],
-    pros: ["Directly increases supply", "Residents stay near where they train"],
-    cons: ["Takes 7+ years to show results", "Costly per slot"],
-    whoGains: ["Graduates, patients"],
-    whoLoses: ["Taxpayers"],
-    mend: ["N/A"],
+    how: {
+      "physician-shortage": {
+        note: "Funding additional residency positions directly increases physician supply, with priority for primary care, psychiatry, and rural sites. Residents tend to stay near where they train.",
+        helps: ["health-students"],
+      },
+      "wait-times": {
+        note: "Additional residency positions increase physician supply, including primary care, psychiatry, and rural sites, to address capacity behind waits.",
+      },
+      "t-delayed-benefits": {
+        note: "Additional residency positions take years before they yield more practicing physicians.",
+      },
+      "t-higher-spending": { note: "Funding additional residency positions is costly per slot." },
+    },
+    worsens: ["t-delayed-benefits", "t-higher-spending"],
     costIds: ["residency-slot-cost"],
     solves: ["wait-times"],
     changes: ["Fund more residency slots, prioritizing primary care and rural sites"],
@@ -660,11 +816,23 @@ export const SUPPLY_PATHS = [
         sourceIds: ["phys-pay-primary-oecd-2023"],
       },
     ],
-    pros: ["More students choose primary care", "Rewards the care most linked to better outcomes"],
-    cons: ["Specialists lose income", "Takes years to change the workforce mix"],
-    whoGains: ["Primary care physicians"],
-    whoLoses: ["Specialists"],
+    how: {
+      "physician-shortage": {
+        note: "Shifting fee-schedule payments from procedures to primary care encourages more students to choose primary care and rewards care most linked to better outcomes.",
+      },
+      outcomes: {
+        note: "Shifting payments toward primary care rewards the care most linked to better outcomes.",
+      },
+      "t-income-loss": {
+        note: "Shifting fee-schedule dollars from procedures to primary care reduces specialist income.",
+      },
+      "t-delayed-benefits": {
+        note: "Changing payments toward primary care takes years to change the workforce mix.",
+      },
+    },
     mend: ["Phase in"],
+    worsens: ["t-income-loss", "t-delayed-benefits"],
+    solves: ["outcomes"],
     costIds: ["physician-pay-gap"],
     changes: [
       "Shift fee-schedule dollars from procedures to primary care",
@@ -688,11 +856,16 @@ export const SUPPLY_PATHS = [
         sourceIds: ["phys-foreign-tennessee-general-assemb-2026"],
       },
     ],
-    pros: ["Fast supply increase", "Uses experienced physicians"],
-    cons: ["Draws physicians from poorer countries", "Quality assurance concerns"],
-    whoGains: ["Patients"],
-    whoLoses: ["Countries losing physicians"],
-    mend: ["N/A"],
+    how: {
+      "physician-shortage": {
+        note: "Supervised pathways that avoid repeating residency quickly increase supply by allowing experienced international physicians to practice.",
+        helps: ["heavy-care-users"],
+      },
+      safety: {
+        note: "Allowing international physicians to practice without repeating residency raises quality assurance concerns.",
+      },
+    },
+    worsens: ["safety"],
     changes: ["Create supervised licensing pathways for experienced foreign physicians"],
   }),
 
@@ -710,14 +883,17 @@ export const SUPPLY_PATHS = [
         sourceIds: ["debt-free-school-commonwealth-fund-2020"],
       },
     ],
-    pros: [
-      "Lowers pressure to choose high-paying specialties",
-      "More diverse students can afford medicine",
-    ],
-    cons: ["Costly", "Benefits graduates who will earn high incomes anyway"],
-    whoGains: ["Students"],
-    whoLoses: ["Taxpayers"],
+    how: {
+      "training-debt": {
+        note: "Publicly funded tuition lowers pressure to choose high-paying specialties and allows a more diverse group of students to afford medical education.",
+      },
+      "t-higher-spending": { note: "Public funding of medical tuition is costly." },
+      "t-imperfect-targeting": {
+        note: "Publicly funded tuition also benefits graduates who would earn high incomes anyway.",
+      },
+    },
     mend: ["Tie free tuition to service obligations"],
+    worsens: ["t-higher-spending", "t-imperfect-targeting"],
     complements: ["shortage-service"],
     changes: ["Fund tuition for medical and nursing school", "Tie to service obligations"],
   }),
@@ -734,11 +910,22 @@ export const SUPPLY_PATHS = [
         sourceIds: ["debt-shorter-training-nyu-langone-health-2024"],
       },
     ],
-    pros: ["Two fewer years of tuition", "Physicians start practicing earlier"],
-    cons: ["Less mature students choose careers at 18", "Changes accreditation"],
-    whoGains: ["Students"],
-    whoLoses: ["Undergraduate institutions"],
-    mend: ["N/A"],
+    how: {
+      "training-debt": {
+        note: "Programs beginning directly after high school reduce tuition by shortening training and allow physicians to start practicing earlier.",
+      },
+      "physician-shortage": {
+        note: "Shorter programs beginning after high school allow physicians to start practicing earlier.",
+      },
+      "t-uncertain-evidence": {
+        note: "Programs starting after high school require less mature students to choose their careers earlier.",
+      },
+      "t-political-resistance": {
+        note: "Shorter medical programs beginning after high school require changes to accreditation.",
+      },
+    },
+    worsens: ["t-uncertain-evidence", "t-political-resistance"],
+    solves: ["physician-shortage"],
     changes: ["Accredit six-year combined programs"],
   }),
 
@@ -759,11 +946,17 @@ export const SUPPLY_PATHS = [
         sourceIds: ["nurse-staffing-ratios-health-services-research-2010"],
       },
     ],
-    pros: ["Safer care", "Less burnout"],
-    cons: ["Costly", "Hospitals may close beds if they can't hire"],
-    whoGains: ["Nurses, patients"],
-    whoLoses: ["Hospital budgets"],
+    how: {
+      "nursing-shortage": {
+        note: "Enforceable nurse-to-patient ratios make care safer and reduce nurse burnout.",
+      },
+      safety: { note: "Enforceable nurse-to-patient ratios make care safer." },
+      "x-staffing-mandate-cost": {
+        note: "Enforceable nurse staffing ratios are costly and may force hospitals to close beds if they cannot hire enough nurses.",
+      },
+    },
     mend: ["Fund staffing in rates; phase in"],
+    solves: ["safety"],
     spawns: ["x-staffing-mandate-cost"],
     changes: ["Set nurse-to-patient ratios by unit", "Fund ratios through rates"],
   }),
@@ -780,11 +973,17 @@ export const SUPPLY_PATHS = [
         note: "Projections show RN and LPN shortages.",
       },
     ],
-    pros: ["Long-term increase in supply", "Schools already turn away qualified applicants"],
-    cons: ["Takes years", "New nurses still leave if working conditions are poor"],
-    whoGains: ["Nursing students", "Hospitals"],
-    whoLoses: ["Taxpayers"],
-    mend: ["N/A"],
+    how: {
+      "nursing-shortage": {
+        note: "Funding faculty salaries and clinical placements expands the long-term nursing supply by allowing schools to admit qualified applicants they currently turn away. New nurses can still leave if working conditions remain poor.",
+        helps: ["health-students", "providers"],
+      },
+      "t-delayed-benefits": {
+        note: "Expanded nursing education takes years to increase the workforce.",
+        hurts: ["taxpayers"],
+      },
+    },
+    worsens: ["t-delayed-benefits"],
     changes: ["Fund nursing faculty salaries", "Fund clinical placements"],
   }),
 
@@ -802,11 +1001,22 @@ export const SUPPLY_PATHS = [
         sourceIds: ["burnout-simplify-health-affairs-2011"],
       },
     ],
-    pros: ["More time for patients", "Fewer billing staff needed"],
-    cons: ["Less data for audits and research", "Depends on payer consolidation"],
-    whoGains: ["Clinicians"],
-    whoLoses: ["EHR and coding vendors"],
-    mend: ["N/A"],
+    how: {
+      "burnout-admin": {
+        note: "Simpler billing codes, documentation rules, and fewer quality-reporting programs leave more time for patients and reduce the need for billing staff.",
+      },
+      "admin-cost": {
+        note: "Simplifying billing and documentation rules reduces the need for billing staff.",
+      },
+      "t-reduced-data": {
+        note: "Fewer documentation and quality-reporting requirements leave less data for audits and research.",
+      },
+      "t-dependent-reforms": {
+        note: "Simplifying billing and documentation depends on payer consolidation.",
+      },
+    },
+    worsens: ["t-reduced-data", "t-dependent-reforms"],
+    solves: ["admin-cost"],
     requires: ["single-payer"],
     changes: ["Simplify billing codes and documentation rules", "Cut quality-reporting programs"],
   }),
@@ -823,15 +1033,19 @@ export const SUPPLY_PATHS = [
         sourceIds: ["burnout-scribes-nejm-ai-2025"],
       },
     ],
-    pros: ["Quick to deploy", "Shorter documentation time"],
-    cons: [
-      "Doesn't reduce the underlying rules",
-      "Privacy concerns with recorded visits",
-      "AI notes can contain errors",
-    ],
-    whoGains: ["Clinicians"],
-    whoLoses: ["Medical transcriptionists"],
-    mend: ["N/A"],
+    how: {
+      "burnout-admin": {
+        note: "Scribes or ambient documentation tools can be deployed quickly to shorten documentation time. They leave the underlying documentation rules in place.",
+      },
+      privacy: {
+        note: "Ambient documentation records visits, raising privacy concerns.",
+        hurts: ["insurance-billing-workers"],
+      },
+      safety: {
+        note: "Artificial intelligence documentation can produce notes containing errors.",
+      },
+    },
+    worsens: ["privacy", "safety"],
     changes: ["Pay for scribes or AI documentation tools"],
   }),
 
@@ -849,14 +1063,23 @@ export const SUPPLY_PATHS = [
         sourceIds: ["scope-expand-association-of-american--2024"],
       },
     ],
-    pros: ["More capacity fast", "Lower cost"],
-    cons: [
-      "Physician groups raise quality concerns",
-      "Some studies find more prescribing and referrals",
-    ],
-    whoGains: ["Patients in shortage areas", "NPs, PAs"],
-    whoLoses: ["Physicians (competition)"],
-    mend: ["N/A"],
+    how: {
+      "scope-of-practice": {
+        note: "Allowing each profession to practice to the full extent of its training adds capacity quickly at lower cost.",
+      },
+      "physician-shortage": {
+        note: "Letting other professions use their full training adds care capacity quickly.",
+      },
+      "shortage-areas": {
+        note: "Allowing professions to use their full training adds care capacity quickly at lower cost.",
+      },
+      "wait-times": {
+        note: "Expanding practice to the full extent of training quickly adds capacity for care.",
+      },
+      "x-scope-quality": {
+        note: "Expanding professions' practice raises quality concerns among physician groups, and some studies find more prescribing and referrals.",
+      },
+    },
     spawns: ["x-scope-quality"],
     solves: ["physician-shortage", "shortage-areas", "wait-times"],
     changes: [
@@ -876,11 +1099,23 @@ export const SUPPLY_PATHS = [
         sourceIds: ["scope-team-u-s-department-of-vetera-2014"],
       },
     ],
-    pros: ["Keeps physician oversight", "Adds capacity within teams"],
-    cons: ["Supervision is a bottleneck in rural areas", "Supervision fees add cost"],
-    whoGains: ["Patients", "Team members with expanded roles"],
-    whoLoses: ["Rural areas without supervising physicians"],
+    how: {
+      "scope-of-practice": {
+        note: "Expanding roles within teams adds capacity while retaining physician oversight.",
+        helps: ["clinicians"],
+      },
+      "wait-times": {
+        note: "Expanded roles within physician-supervised teams add capacity for care.",
+      },
+      "t-higher-spending": {
+        note: "Physician-supervised team roles involve supervision fees that add costs.",
+      },
+      "t-limited-reach": {
+        note: "Expanded team roles still depend on physician supervision, which can be a bottleneck in rural areas.",
+      },
+    },
     mend: ["Remote supervision"],
+    worsens: ["t-higher-spending", "t-limited-reach"],
     solves: ["wait-times"],
     changes: ["Expand roles within physician-supervised teams", "Allow remote supervision"],
   }),

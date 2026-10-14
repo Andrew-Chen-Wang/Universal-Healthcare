@@ -127,20 +127,55 @@ export const COVERAGE_PATHS = [
         note: "Mandatory private insurance with community rating, risk adjustment, and income-based subsidies.",
       },
     ],
-    pros: [
-      "Keeps choice of plan and competition on service",
-      "Less disruption for people who like their insurer",
-      "Proven to reach near-universal coverage",
-    ],
-    cons: [
-      "Smaller admin savings than single payer (multiple insurers remain)",
-      "Requires a mandate or auto-enrollment plus enforcement",
-      "Needs strong risk adjustment to stop plans from avoiding sick people",
-    ],
-    whoGains: ["Uninsured people", "Insurers that adapt to non-profit or regulated rules"],
-    whoLoses: ["Insurers' profit margins", "Plans that relied on selecting healthy members"],
+    how: {
+      uninsured: {
+        note: "Requiring enrollment in competing plans that accept all applicants and cover standard benefits has reached near-universal coverage. It preserves plan choice and competition on service, with less disruption for people who like their insurer.",
+      },
+      churn: {
+        note: "Mandatory enrollment in plans that accept all applicants provides a continuing route to standard coverage.",
+      },
+      "job-lock": {
+        note: "Mandatory plans accepting all applicants provide coverage beyond reliance on a particular employer.",
+      },
+      networks: {
+        note: "Standard benefits and mostly uniform provider rates reduce differences between competing plans.",
+      },
+      "surprise-bills": {
+        note: "Mostly uniform provider payments reduce differences in the rates charged across plans.",
+      },
+      "x-new-taxes": {
+        note: "The cited sickness-fund model finances coverage through payroll contributions shared by employers and employees.",
+      },
+      "x-metric-gaming": {
+        note: "Plans may avoid sick people unless risk adjustment counters that incentive.",
+      },
+      "x-plan-choice": {
+        note: "Competing regulated plans retain insurer choice and competition on service.",
+      },
+      "transition-disruption": {
+        note: "Allowing competing insurers to remain reduces disruption for people who like their current insurer.",
+      },
+      "admin-cost": {
+        note: "Multiple insurers remain, so administrative savings are smaller than under a single payer.",
+      },
+      "t-enforcement-burden": {
+        note: "Mandatory enrollment or automatic enrollment requires enforcement.",
+      },
+      "t-uneven-risk-pools": {
+        note: "Competing plans need strong risk adjustment to prevent avoidance of sick people.",
+      },
+    },
     mend: ["Let existing insurers convert to regulated plans", "Income-based premium subsidies"],
-    solves: ["churn", "job-lock", "networks", "surprise-bills"],
+    worsens: ["t-enforcement-burden", "t-uneven-risk-pools"],
+    solves: [
+      "churn",
+      "job-lock",
+      "networks",
+      "surprise-bills",
+      "x-plan-choice",
+      "transition-disruption",
+      "admin-cost",
+    ],
     spawns: ["x-new-taxes", "x-metric-gaming"],
     conflicts: ["single-payer"],
     complements: ["all-payer-rates", "auto-enrollment"],
@@ -172,20 +207,33 @@ export const COVERAGE_PATHS = [
         note: "Medicare covers everyone; about half also buy private insurance for faster elective care.",
       },
     ],
-    pros: [
-      "Gradual: no one is forced off a plan they like",
-      "Tests whether a public plan can compete",
-      "Lower up-front tax increase",
-    ],
-    cons: [
-      "Admin savings are small while many payers remain",
-      "Coverage only universal if paired with auto-enrollment",
-      "Risk the public plan attracts sicker people and becomes costly",
-    ],
-    whoGains: ["Uninsured and self-employed people"],
-    whoLoses: ["Insurers in markets where the public plan is cheaper"],
+    how: {
+      uninsured: {
+        note: "A subsidized public plan gives uninsured people another coverage option while employer and private plans continue. This gradual approach lets people keep plans they like, tests public-plan competition, and requires a smaller initial tax increase.",
+      },
+      "job-lock": {
+        note: "A public plan available to anyone offers coverage outside employer insurance.",
+      },
+      "two-tier": {
+        note: "Public coverage alongside private insurance can preserve faster elective access for people buying private coverage, as in the cited Australian example.",
+      },
+      "transition-disruption": {
+        note: "Keeping employer and private plans lets people retain coverage they like during a gradual expansion.",
+      },
+      "x-new-taxes": {
+        note: "Keeping existing coverage alongside a public option limits the initial tax increase.",
+      },
+      "admin-cost": { note: "Keeping many payers limits administrative savings." },
+      "t-dependent-reforms": {
+        note: "Universal coverage through the public option depends on automatic enrollment.",
+      },
+      "t-uneven-risk-pools": {
+        note: "The public plan may attract sicker people, making its coverage more costly.",
+      },
+    },
     mend: ["Risk adjustment between public and private plans"],
-    solves: ["job-lock"],
+    worsens: ["t-dependent-reforms", "t-uneven-risk-pools"],
+    solves: ["job-lock", "transition-disruption", "x-new-taxes", "admin-cost"],
     spawns: ["two-tier"],
     conflicts: ["single-payer"],
     complements: ["auto-enrollment", "medicare-age-down"],
@@ -213,22 +261,31 @@ export const COVERAGE_PATHS = [
         sourceIds: ["medicare-age-down-journal-of-general-inter-2020"],
       },
     ],
-    pros: [
-      "Each step is a natural experiment that can be measured",
-      "Uses an existing program and payment system",
-      "Spreads disruption over many years",
-    ],
-    cons: [
-      "Takes a decade or more to reach universality",
-      "Covering older ages first is the most expensive per person",
-      "Medicare's current gaps (no cap on costs, no dental) must be fixed",
-    ],
-    whoGains: ["Near-retirees and children first"],
-    whoLoses: [
-      "Insurers covering 55–64 year-olds",
-      "Hospitals paid commercial rates for those patients",
-    ],
+    how: {
+      uninsured: {
+        note: "Enrolling children at birth and lowering the Medicare eligibility age in stages extends coverage through an existing program and payment system. Each stage can be measured as a natural experiment while disruption is spread over many years.",
+        helps: ["changing-lives"],
+      },
+      "x-new-taxes": {
+        note: "Expanding Medicare enrollment brings more people into the existing public program, with older entrants costing more per person.",
+      },
+      "transition-disruption": {
+        note: "Expanding an existing program in stages spreads disruption over many years.",
+      },
+      "t-delayed-benefits": {
+        note: "Staged age expansion takes many years to reach universal coverage.",
+        hurts: ["high-price-providers", "insurers"],
+      },
+      "t-higher-spending": {
+        note: "Covering older people first raises spending because their coverage costs the most per person.",
+      },
+      "t-limited-reach": {
+        note: "Expanding current Medicare carries forward the lack of a cost cap and dental coverage unless those gaps are fixed.",
+      },
+    },
     mend: ["Phase hospital rate changes with each age step"],
+    worsens: ["t-delayed-benefits", "t-higher-spending", "t-limited-reach"],
+    solves: ["transition-disruption"],
     complements: ["public-option", "single-payer"],
     spawns: ["x-new-taxes"],
     changes: [
@@ -256,21 +313,16 @@ export const COVERAGE_PATHS = [
         sourceIds: ["auto-enrollment-commonwealth-fund-2026"],
       },
     ],
-    pros: [
-      "Closes most of the coverage gap with little disruption",
-      "Uses existing programs",
-      "Cheapest path to near-universal coverage",
-    ],
-    cons: [
-      "Keeps the cost, complexity, networks, and denials of the current system",
-      "Default plans may have high cost sharing (underinsurance)",
-      "Needs data matching that misses some people",
-    ],
-    whoGains: ["Uninsured people"],
-    whoLoses: ["Taxpayers (new subsidies)"],
-    mend: ["N/A"],
+    how: {
+      uninsured: {
+        note: "Using tax and benefit data to enroll uninsured people in free existing plans closes most coverage gaps with little disruption and at the lowest cost among the described routes to near-universal coverage. Data matching can still miss people.",
+      },
+      "t-limited-reach": {
+        note: "Free-premium default plans may still have high cost sharing. Automatic enrollment preserves the existing system's costs, complexity, networks, and denials.",
+      },
+    },
     complements: ["regulated-multipayer", "public-option"],
-    worsens: ["underinsurance"],
+    worsens: ["t-limited-reach"],
     changes: [
       "Allow IRS, SSA, and state agencies to share data to identify uninsured residents",
       "Enroll uninsured people automatically in Medicaid or a zero-premium marketplace plan",
@@ -295,15 +347,20 @@ export const COVERAGE_PATHS = [
         sourceIds: ["mandate-subsidies-kff-2025"],
       },
     ],
-    pros: ["Familiar structure", "Keeps private insurance intact"],
-    cons: [
-      "Penalties fall on lower-income people",
-      "Weak mandates leave millions uninsured",
-      "Keeps all current administrative costs",
-    ],
-    whoGains: ["Insurers (more customers)"],
-    whoLoses: ["People who pay penalties"],
+    how: {
+      uninsured: {
+        note: "Requiring coverage and increasing affordability subsidies uses a familiar structure while keeping private insurance intact. Weak mandates still leave many people uninsured.",
+      },
+      "t-imperfect-targeting": {
+        note: "Mandate penalties fall on lower-income people.",
+        hurts: ["uninsured"],
+      },
+      "t-limited-reach": {
+        note: "Retaining private insurance preserves current administrative costs.",
+      },
+    },
     mend: ["Exempt low-income people from penalties"],
+    worsens: ["t-imperfect-targeting", "t-limited-reach"],
     conflicts: ["single-payer"],
     changes: [
       "Restore an individual mandate penalty collected on tax returns",
@@ -330,14 +387,20 @@ export const COVERAGE_PATHS = [
         sourceIds: ["churn-continuous-oregon-health-authority-2024"],
       },
     ],
-    pros: ["Cheap and quick to implement", "Reduces paperwork for states and families"],
-    cons: [
-      "Doesn't fix churn between employer and individual coverage",
-      "Some people stay covered after becoming ineligible",
-    ],
-    whoGains: ["Low-income families"],
-    whoLoses: ["Budgets (slightly more enrollees)"],
-    mend: ["N/A"],
+    how: {
+      churn: {
+        note: "Keeping Medicaid and CHIP coverage through income changes reduces paperwork for states and families and is inexpensive and quick to implement. It does not prevent gaps between employer and individual coverage.",
+        helps: ["low-middle-income"],
+      },
+      "admin-cost": {
+        note: "Continuous eligibility reduces enrollment paperwork for states and families.",
+      },
+      "t-imperfect-targeting": {
+        note: "Continuous eligibility can keep people covered after they become ineligible.",
+      },
+    },
+    worsens: ["t-imperfect-targeting"],
+    solves: ["admin-cost"],
     complements: ["auto-enrollment"],
     changes: [
       "Require 12-month continuous eligibility for adults in Medicaid and multi-year eligibility for children up to age 6",
@@ -358,21 +421,23 @@ export const COVERAGE_PATHS = [
         sourceIds: ["churn-portable-health-canada-2025"],
       },
     ],
-    pros: [
-      "Ends churn entirely: no re-enrollment, no gaps between jobs",
-      "Removes Medicaid redetermination paperwork for states and families",
-      "Continuity with the same doctors when life changes",
-    ],
-    cons: [
-      "Only possible with one of the larger payer-structure changes",
-      "Residence still has to be verified, which creates some paperwork",
-    ],
-    whoGains: [
-      "People who change jobs, move, marry, divorce, or have income swings",
-      "State Medicaid agencies (no redeterminations)",
-    ],
-    whoLoses: ["Eligibility vendors and enrollment brokers"],
+    how: {
+      churn: {
+        note: "Residence-based coverage removes re-enrollment, gaps between jobs, and Medicaid income redetermination paperwork for states and families. Life changes no longer end coverage or interrupt continuity with the same doctors.",
+        helps: ["states"],
+      },
+      "admin-cost": {
+        note: "Residence-based coverage removes Medicaid redetermination paperwork for states and families.",
+      },
+      "t-dependent-reforms": {
+        note: "Residence-based coverage requires a larger change to the payer structure.",
+        hurts: ["health-admin-vendors"],
+      },
+      "t-administrative-work": { note: "Verifying residence still creates paperwork." },
+    },
     mend: ["Retrain eligibility caseworkers for residence verification and navigation"],
+    worsens: ["t-dependent-reforms", "t-administrative-work"],
+    solves: ["admin-cost"],
     requires: ["single-payer"],
     changes: [
       "Base eligibility only on residence",
@@ -395,13 +460,18 @@ export const COVERAGE_PATHS = [
         sourceIds: ["joblock-decouple-oecd-2023"],
       },
     ],
-    pros: ["Ends job lock", "More entrepreneurship and early retirement"],
-    cons: ["Ends a benefit many workers value", "Employers lose a recruiting tool"],
-    whoGains: ["Workers wanting to switch jobs or start businesses"],
-    whoLoses: ["Benefits consultants and brokers"],
+    how: {
+      "job-lock": {
+        note: "Replacing employer insurance with public or individually chosen coverage lets people leave jobs without losing insurance. This ends job lock and makes entrepreneurship and early retirement easier.",
+      },
+      "transition-disruption": {
+        note: "Replacing employer coverage ends a benefit many workers value.",
+      },
+      "t-reduced-flexibility": { note: "Employers lose health coverage as a recruiting tool." },
+    },
     mend: ["Require employers to pass premium savings into wages"],
+    worsens: ["transition-disruption", "t-reduced-flexibility"],
     requires: ["single-payer"],
-    spawns: ["x-wage-incidence"],
     changes: [
       "End the tax exclusion for employer health premiums (or make it irrelevant by ending employer plans for covered services)",
       "Require employers to report premium savings and pass them into wages for a transition period",
@@ -424,16 +494,21 @@ export const COVERAGE_PATHS = [
         sourceIds: ["joblock-portable-esi-peterson-kff-health-syst-2025"],
       },
     ],
-    pros: ["Keeps employer funding", "Little disruption"],
-    cons: ["Individual market risk pools may be sicker", "Doesn't help people without jobs"],
-    whoGains: [
-      "Workers at small firms that can't run a group plan",
-      "Workers who want to change jobs without changing doctors",
-    ],
-    whoLoses: ["Brokers who sell group plans"],
+    how: {
+      "job-lock": {
+        note: "Employer contributions fund an individual plan owned by the worker, allowing coverage to move with the person. This preserves employer funding with little disruption.",
+      },
+      "t-uneven-risk-pools": {
+        note: "Moving workers into individual plans may leave individual-market risk pools sicker.",
+      },
+      "t-limited-reach": {
+        note: "Employer-funded portable plans do not help people without jobs.",
+      },
+    },
     mend: [
       "Strong individual-market rules (community rating, risk adjustment) so the pool stays healthy",
     ],
+    worsens: ["t-uneven-risk-pools", "t-limited-reach"],
     complements: ["regulated-multipayer"],
     changes: [
       "Expand ICHRA so any employer can fund individual coverage tax-free",
@@ -455,16 +530,24 @@ export const COVERAGE_PATHS = [
         sourceIds: ["underins-zero-uk-parliament-department-2024"],
       },
     ],
-    pros: ["Ends underinsurance and most medical debt", "Removes billing at the point of care"],
-    cons: [
-      "Increases use of care (the RAND experiment found 30% more spending with free care)",
-      "Higher taxes needed",
-    ],
-    whoGains: ["Chronically ill and low-income people"],
-    whoLoses: ["Taxpayers"],
-    mend: ["N/A"],
-    solves: ["medical-debt"],
-    worsens: ["wait-times"],
+    how: {
+      underinsurance: {
+        note: "Removing deductibles, copays, and coinsurance makes covered services free when used. It ends underinsurance and removes billing at the point of care.",
+      },
+      "medical-debt": {
+        note: "Removing deductibles, copays, and coinsurance ends most medical debt for covered services.",
+      },
+      "wait-times": {
+        note: "Free covered care increases use, placing more demand on care services.",
+      },
+      "admin-cost": { note: "Removing cost sharing eliminates billing at the point of care." },
+      "t-higher-spending": {
+        note: "Making care free increases use and spending, as found in the RAND experiment.",
+      },
+      "x-new-taxes": { note: "Free covered care requires higher taxes." },
+    },
+    solves: ["medical-debt", "admin-cost"],
+    worsens: ["wait-times", "t-higher-spending"],
     spawns: ["x-new-taxes"],
     conflicts: ["underins-income-cap"],
     changes: [
@@ -490,11 +573,20 @@ export const COVERAGE_PATHS = [
         note: "Copays largely covered by supplemental insurance; exemptions for chronic disease.",
       },
     ],
-    pros: ["Some cost control from patients", "Lower taxes than zero cost sharing"],
-    cons: ["Copays still deter some needed care", "Requires billing and income verification"],
-    whoGains: ["Taxpayers"],
-    whoLoses: ["Lower-income people just above exemption limits"],
+    how: {
+      underinsurance: {
+        note: "Small copays discourage low-value use while an income-based annual cap and exemptions protect affordability. Patient cost control allows lower taxes than eliminating cost sharing.",
+      },
+      "low-value-care": { note: "Small patient charges discourage low-value use." },
+      "x-new-taxes": {
+        note: "Keeping modest copays requires lower taxes than eliminating cost sharing.",
+      },
+      "x-copay-billing": {
+        note: "Retaining copays still deters some needed care and requires billing and income verification.",
+      },
+    },
     mend: ["Automatic exemptions using tax data"],
+    solves: ["low-value-care", "x-new-taxes"],
     spawns: ["x-copay-billing"],
     conflicts: ["underins-zero"],
     changes: [
@@ -520,18 +612,23 @@ export const COVERAGE_PATHS = [
         sourceIds: ["underins-value-based-new-england-journal-of-m-2011"],
       },
     ],
-    pros: [
-      "Encourages needed care while discouraging waste",
-      "Free chronic-disease drugs improve adherence and can lower hospital use",
-    ],
-    cons: [
-      "Lists of 'high-value' and 'low-value' services are complex to define and keep updated",
-      "Still needs claim-level billing and cost-sharing tracking",
-      "Patients may not understand why some services are free and others aren't",
-    ],
-    whoGains: ["People with chronic conditions (free maintenance drugs and visits)"],
-    whoLoses: ["Makers of products placed in the low-value tier"],
+    how: {
+      underinsurance: {
+        note: "Making primary care, prevention, and chronic-disease drugs free encourages needed care while copays discourage low-value services. Free chronic-disease drugs improve adherence and can reduce hospital use.",
+      },
+      "low-value-care": {
+        note: "Charging only for low-value services discourages waste while needed care remains free.",
+      },
+      "t-administrative-work": {
+        note: "Defining and updating service-value tiers is complex, and patients may not understand why some services are free while others are charged.",
+      },
+      "x-copay-billing": {
+        note: "Tiered cost sharing still requires claim-level billing and tracking.",
+      },
+    },
     mend: ["Publish the evidence for each tier and allow appeals"],
+    worsens: ["t-administrative-work"],
+    solves: ["low-value-care"],
     complements: ["lowvalue-coverage-list"],
     spawns: ["x-copay-billing"],
     changes: [
@@ -558,18 +655,22 @@ export const COVERAGE_PATHS = [
         sourceIds: ["networks-any-provider-kff-2025"],
       },
     ],
-    pros: [
-      "Ends network surprises and directory errors",
-      "Free choice of doctor and hospital",
-      "No credentialing with dozens of payers",
-    ],
-    cons: [
-      "Removes a tool insurers use to steer patients to cheaper or higher-quality providers",
-      "Weak providers keep patients they might lose under selective contracting",
-    ],
-    whoGains: ["Patients"],
-    whoLoses: ["Insurers relying on narrow networks"],
-    mend: ["N/A"],
+    how: {
+      networks: {
+        note: "Allowing every licensed provider to treat patients at a standard rate ends network surprises and directory errors and preserves free choice of doctor and hospital. Providers no longer need separate credentialing with many payers.",
+      },
+      "admin-cost": {
+        note: "A standard rate with universal provider access removes separate credentialing with many payers.",
+      },
+      "t-higher-spending": {
+        note: "Universal provider access removes insurers' ability to steer patients toward cheaper or higher-quality providers.",
+      },
+      safety: {
+        note: "Without selective contracting, weak providers retain patients they might otherwise lose.",
+      },
+    },
+    worsens: ["t-higher-spending", "safety"],
+    solves: ["admin-cost"],
     complements: ["all-payer-rates"],
     changes: [
       "Require the payer to pay any licensed, enrolled provider at the standard rate",
@@ -589,17 +690,15 @@ export const COVERAGE_PATHS = [
         sourceIds: ["secret-shopper"],
       },
     ],
-    pros: [
-      "Little disruption",
-      "Keeps the savings narrow networks produce (premiums often 10–20% lower)",
-    ],
-    cons: [
-      "Hard to enforce; regulators rely on insurer-reported data",
-      "Keeps network complexity and out-of-network risk",
-    ],
-    whoGains: ["Patients in plans with narrow networks"],
-    whoLoses: ["Insurers (compliance costs)"],
-    mend: ["N/A"],
+    how: {
+      networks: {
+        note: "Distance and wait standards and fines for inaccurate directories improve access while preserving narrow-network premium savings with little disruption. Network complexity and out-of-network risk remain.",
+      },
+      "t-enforcement-burden": {
+        note: "Enforcing network standards is difficult because regulators rely on insurer-reported data.",
+      },
+    },
+    worsens: ["t-enforcement-burden"],
     changes: [
       "Set national time-and-distance and wait-time standards for networks",
       "Require monthly directory audits with fines for ghost listings",
@@ -625,14 +724,15 @@ export const COVERAGE_PATHS = [
         note: "Coverage for undocumented residents in many circumstances.",
       },
     ],
-    pros: [
-      "Ends emergency-only care and uncompensated hospital costs",
-      "Better public health (infectious disease, prenatal care)",
-    ],
-    cons: ["Higher cost", "Political and migration concerns"],
-    whoGains: ["Immigrant families", "Hospitals with uncompensated care"],
-    whoLoses: ["Taxpayers"],
-    mend: ["N/A"],
+    how: {
+      "immigrant-coverage": {
+        note: "Residence-based eligibility regardless of immigration status ends emergency-only care and uncompensated hospital costs. Broader access also supports infectious-disease care and prenatal care.",
+        helps: ["providers"],
+      },
+      "x-migration-concern": {
+        note: "Covering all residents adds costs and raises political and migration concerns.",
+      },
+    },
     spawns: ["x-migration-concern"],
     conflicts: ["immigrants-lawful-only"],
     changes: [
@@ -658,14 +758,18 @@ export const COVERAGE_PATHS = [
         sourceIds: ["immigrants-lawful-only-kff-2025"],
       },
     ],
-    pros: ["Lower cost", "Fewer migration concerns"],
-    cons: [
-      "Keeps uncompensated emergency care",
-      "Mixed-status families remain confused about eligibility",
-    ],
-    whoGains: ["Taxpayers"],
-    whoLoses: ["Undocumented immigrants", "Safety-net hospitals"],
+    how: {
+      "immigrant-coverage": {
+        note: "Covering citizens and lawfully present residents while retaining emergency Medicaid and community health centers for undocumented people costs less and raises fewer migration concerns. Uncompensated emergency care remains.",
+        helps: ["taxpayers"],
+      },
+      "t-administrative-work": {
+        note: "Different eligibility rules leave mixed-status families confused about coverage.",
+        hurts: ["immigrant-families", "providers"],
+      },
+    },
     mend: ["Fund community health centers to serve everyone"],
+    worsens: ["t-administrative-work"],
     conflicts: ["immigrants-all-residents"],
     changes: [
       "Define eligibility by citizenship or lawful presence",
@@ -691,26 +795,25 @@ export const COVERAGE_PATHS = [
         sourceIds: ["crs-territories-medicaid"],
       },
     ],
-    pros: [
-      "Ends the funding cliffs and the gap between territory and mainland coverage",
-      "Same benefits for every U.S. citizen regardless of where they live",
-      "Raises payment to territory clinicians, which may slow their move to the mainland",
-    ],
-    cons: [
-      "Higher federal cost: GAO's estimate implies about 1.6 to 3 times current federal Medicaid spending in Puerto Rico",
-      "National payment rates may not fit island cost structures without adjustments",
-      "Territories lose some control over how their programs run",
-    ],
-    whoGains: [
-      "Territory residents",
-      "Territory hospitals and clinicians",
-      "Territory governments",
-    ],
-    whoLoses: ["Federal taxpayers (higher spending)"],
+    how: {
+      territories: {
+        note: "National enrollment gives territory residents the same benefits, payment rules, and federal funding as other citizens, ending funding cliffs and coverage gaps with the mainland. Higher clinician payments may slow moves to the mainland.",
+      },
+      "t-higher-spending": {
+        note: "Full national inclusion raises federal spending substantially relative to current federal Medicaid spending in Puerto Rico.",
+      },
+      "t-reduced-flexibility": {
+        note: "National rates may not fit island cost structures without adjustments.",
+      },
+      "x-state-control": {
+        note: "National inclusion reduces territory control over program administration.",
+      },
+    },
     mend: [
       "Set geographic payment adjustments for island costs",
       "Let territory governments administer enrollment under national rules, as states do",
     ],
+    worsens: ["t-higher-spending", "t-reduced-flexibility", "x-state-control"],
     complements: ["single-payer", "state-administer"],
     conflicts: ["territories-capped-increase"],
     changes: [
@@ -733,17 +836,15 @@ export const COVERAGE_PATHS = [
         sourceIds: ["gao-16-324"],
       },
     ],
-    pros: [
-      "Ends the recurring funding cliffs",
-      "Lets territories keep programs designed for local conditions",
-      "Smaller change than full inclusion",
-    ],
-    cons: [
-      "Coverage still depends on territory Medicaid eligibility, not universal enrollment",
-      "Medicare differences (such as Part B enrollment) remain unless fixed separately",
-    ],
-    whoGains: ["Low-income territory residents", "Territory governments"],
-    whoLoses: ["Federal taxpayers (higher spending)"],
+    worsens: ["t-limited-reach"],
+    how: {
+      territories: {
+        note: "Removing funding caps and using the state matching formula ends recurring funding cliffs while preserving locally designed territory programs, with less change than full national inclusion. Medicare differences, including enrollment in its outpatient coverage, still need separate fixes.",
+      },
+      "t-limited-reach": {
+        note: "Keeping territory Medicaid eligibility rules leaves coverage short of universal enrollment.",
+      },
+    },
     mend: ["Fix Medicare Part B enrollment and Medicare Savings Programs separately"],
     conflicts: ["territories-capped-increase"],
     changes: [
@@ -765,14 +866,17 @@ export const COVERAGE_PATHS = [
         sourceIds: ["kff-territories-medicaid"],
       },
     ],
-    pros: ["Predictable federal cost", "Ends cliffs if indexing is permanent"],
-    cons: [
-      "Territory residents stay covered on different terms from states",
-      "Caps can fall behind real costs again after disasters or epidemics",
-    ],
-    whoGains: ["Federal budget planners"],
-    whoLoses: ["Territory residents, who keep lower funding per person"],
+    how: {
+      territories: {
+        note: "Higher annual caps indexed to health costs make federal spending predictable and end funding cliffs if indexing is permanent. Territory residents still receive coverage on different terms from residents of states.",
+      },
+      underfunding: {
+        note: "Even indexed caps can fall behind actual costs after disasters or epidemics.",
+        hurts: ["territory-residents"],
+      },
+    },
     mend: ["Add an automatic disaster adjustment to the caps"],
+    worsens: ["underfunding"],
     conflicts: ["territories-full", "territories-medicaid-parity"],
     changes: ["Set new permanent cap levels in law", "Index the caps to medical inflation"],
   }),

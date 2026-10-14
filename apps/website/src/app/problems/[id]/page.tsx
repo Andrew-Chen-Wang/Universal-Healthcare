@@ -197,7 +197,9 @@ export default async function ProblemPage({ params }: { params: Params }) {
         {p.whoProfits && (
           <List title="Who profits from the status quo" items={p.whoProfits} tone="caution" />
         )}
-        <List title="Root causes" items={p.rootCauses} tone="neutral" />
+        {p.rootCauses.length > 0 && (
+          <List title="Root causes" items={p.rootCauses} tone="neutral" />
+        )}
       </div>
 
       {costs.length > 0 && (
@@ -227,51 +229,67 @@ export default async function ProblemPage({ params }: { params: Params }) {
         </section>
       )}
 
-      <section className="mb-10 rounded-md border border-primary/30 bg-accent/50 p-5">
-        <h2 className="mb-2 text-xl font-semibold">Open questions</h2>
-        <ul className="list-disc space-y-1 pl-5">
-          {p.openQuestions.map((q) => (
-            <li key={q}>{q}</li>
-          ))}
-        </ul>
-      </section>
+      {p.openQuestions.length > 0 && (
+        <section className="mb-10 rounded-md border border-primary/30 bg-accent/50 p-5">
+          <h2 className="mb-2 text-xl font-semibold">Open questions</h2>
+          <ul className="list-disc space-y-1 pl-5">
+            {p.openQuestions.map((q) => (
+              <li key={q}>{q}</li>
+            ))}
+          </ul>
+        </section>
+      )}
 
       {causes.length > 0 && (
         <section className="mb-10">
           <h2 className="mb-1 text-xl font-semibold">Caused or worsened by these paths</h2>
           <p className="mb-3 text-sm text-muted-foreground">
-            This problem only matters if one of these paths is chosen.
+            {p.category === "Common trade-offs"
+              ? "A cost these paths share. Each path's page says how it applies there."
+              : "This problem only matters if one of these paths is chosen."}
           </p>
           <div className="grid gap-2 sm:grid-cols-2">
             {causes.map((c) => (
-              <PathLink key={c.id} path={c} />
+              <div key={c.id}>
+                <PathLink path={c} />
+                {c.how?.[p.id] && (
+                  <p className="mt-1 px-1 text-xs text-foreground/75">{c.how[p.id].note}</p>
+                )}
+              </div>
             ))}
           </div>
         </section>
       )}
 
-      <section className="mb-10">
-        <h2 className="mb-1 text-xl font-semibold">Solution paths ({paths.length})</h2>
-        <p className="mb-3 text-sm text-muted-foreground">
-          Open a path for what it fixes, what it creates or worsens, who gains and who loses,
-          precedents, and how it connects to other paths.{" "}
-          <Link href="/paths" className="underline">
-            See all paths as a decision tree.
-          </Link>
-        </p>
-        <div className="space-y-3">
-          {paths.map((x) => (
-            <PathCard key={x.id} path={x} />
-          ))}
-        </div>
-      </section>
+      {paths.length > 0 && (
+        <section className="mb-10">
+          <h2 className="mb-1 text-xl font-semibold">Solution paths ({paths.length})</h2>
+          <p className="mb-3 text-sm text-muted-foreground">
+            Open a path for what it fixes, what it creates or worsens, who gains and who loses,
+            precedents, and how it connects to other paths.{" "}
+            <Link href="/paths" className="underline">
+              See all paths as a decision tree.
+            </Link>
+          </p>
+          <div className="space-y-3">
+            {paths.map((x) => (
+              <PathCard key={x.id} path={x} />
+            ))}
+          </div>
+        </section>
+      )}
 
       {also.length > 0 && (
         <section className="mb-10">
           <h2 className="mb-3 text-xl font-semibold">Also addressed by paths for other problems</h2>
           <div className="grid gap-2 sm:grid-cols-2">
             {also.map((x) => (
-              <PathLink key={x.id} path={x} />
+              <div key={x.id}>
+                <PathLink path={x} />
+                {x.how?.[p.id] && (
+                  <p className="mt-1 px-1 text-xs text-foreground/75">{x.how[p.id].note}</p>
+                )}
+              </div>
             ))}
           </div>
         </section>

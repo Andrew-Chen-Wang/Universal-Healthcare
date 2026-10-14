@@ -20,17 +20,15 @@ export const MONEY_PATHS = [
         sourceIds: ["debt-cancel-cook-county-government-2025"],
       },
     ],
-    pros: [
-      "Very cheap per dollar forgiven (debt sells for pennies)",
-      "Immediate relief and credit repair",
-    ],
-    cons: [
-      "One-time: debt returns unless its causes are fixed",
-      "Only reaches debt that has been sold to buyers, not debt still held by hospitals",
-    ],
-    whoGains: ["Indebted households"],
-    whoLoses: ["Debt buyers (small)"],
-    mend: ["N/A"],
+    how: {
+      "medical-debt": {
+        note: "Buying old medical debt in bulk at a low price and forgiving it provides immediate relief and credit repair. Debt selling for pennies on the dollar makes forgiveness inexpensive relative to the amount forgiven.",
+      },
+      "t-limited-reach": {
+        note: "Forgiveness offers relief only once, and debt returns unless its causes change. It reaches debt sold to buyers rather than debt still held by hospitals.",
+      },
+    },
+    worsens: ["t-limited-reach"],
     costIds: ["med-debt"],
     complements: ["underins-zero", "debt-credit-rules"],
     changes: [
@@ -56,11 +54,15 @@ export const MONEY_PATHS = [
         sourceIds: ["debt-credit-rules-consumer-financial-prote-2024"],
       },
     ],
-    pros: ["Low cost", "Protects credit and housing"],
-    cons: ["Hospitals may collect less and raise other prices", "Doesn't stop new bills"],
-    whoGains: ["Patients"],
-    whoLoses: ["Collection agencies", "Hospitals' collections revenue"],
-    mend: ["N/A"],
+    how: {
+      "medical-debt": {
+        note: "Removing medical debt from credit reports and restricting interest and collections protects credit and housing at low cost. These protections do not stop new medical bills.",
+      },
+      "high-prices": {
+        note: "Limits on debt collection may reduce hospital collections and lead hospitals to raise other prices.",
+      },
+    },
+    worsens: ["high-prices"],
     changes: [
       "Ban medical debt on credit reports nationally",
       "Cap interest on medical debt at 0–3%",
@@ -81,18 +83,20 @@ export const MONEY_PATHS = [
         sourceIds: ["debt-end-billing-commonwealth-fund-2024"],
       },
     ],
-    pros: [
-      "Fixes the cause, not the symptom",
-      "Hospitals stop spending on collections and bad debt",
-      "Patients stop avoiding care for fear of bills",
-    ],
-    cons: [
-      "Depends on choosing zero (or near-zero) cost sharing",
-      "Non-covered services (e.g., cosmetic) can still create debt",
-    ],
-    whoGains: ["Patients"],
-    whoLoses: ["Collections industry"],
+    how: {
+      "medical-debt": {
+        note: "Eliminating or closely capping cost sharing addresses the cause of new medical debt, reduces hospitals' collections and bad-debt work, and removes patients' fear of bills when seeking care. Uncovered services, such as cosmetic care, can still create debt.",
+      },
+      "admin-cost": {
+        note: "Eliminating or closely capping cost sharing removes hospital work on collections and bad debt.",
+      },
+      "t-dependent-reforms": {
+        note: "Preventing bills from generating debt depends on eliminating or nearly eliminating cost sharing.",
+      },
+    },
     mend: ["Transition program for collections workers"],
+    worsens: ["t-dependent-reforms"],
+    solves: ["admin-cost"],
     requires: ["underins-zero"],
     changes: [
       "Eliminate point-of-care charges for covered services",
@@ -115,12 +119,18 @@ export const MONEY_PATHS = [
         sourceIds: ["premium-to-tax-commonwealth-fund-2026"],
       },
     ],
-    pros: ["Most households below about $240k pay less", "Visible, accountable financing"],
-    cons: ["Higher earners pay more", "Taxes are politically harder to raise than premiums"],
-    whoGains: ["Low- and middle-income workers"],
-    whoLoses: ["High-income households"],
+    how: {
+      "premium-burden": {
+        note: "Replacing flat premiums with income-based taxes lowers payments for most households below the stated high-income threshold. Tax financing also makes the funding visible and accountable.",
+      },
+      "x-new-taxes": { note: "Income-based taxes make higher earners pay more." },
+      "t-political-resistance": {
+        note: "Tax financing is politically harder to increase than premiums.",
+      },
+    },
     mend: ["Phase in rates and publish household calculators"],
-    spawns: ["x-new-taxes", "x-wage-incidence"],
+    worsens: ["t-political-resistance"],
+    spawns: ["x-new-taxes"],
     requires: ["single-payer"],
     changes: [
       "End employer and employee premiums for covered services",
@@ -141,11 +151,23 @@ export const MONEY_PATHS = [
         sourceIds: ["germany-gkv"],
       },
     ],
-    pros: ["Fairer than flat premiums", "Keeps plan choice"],
-    cons: ["Effectively a payroll tax", "Self-employed and gig workers need special rules"],
-    whoGains: ["Lower earners"],
-    whoLoses: ["Higher earners"],
-    mend: ["N/A"],
+    how: {
+      "premium-burden": {
+        note: "Setting premiums as a share of income makes contributions fairer than flat premiums while retaining plan choice.",
+      },
+      "x-wage-incidence": {
+        note: "Income-based premiums function as payroll contributions rather than a flat amount per worker.",
+      },
+      "x-plan-choice": {
+        note: "Income-based premiums retain the ability to choose a health plan.",
+      },
+      "x-new-taxes": { note: "Income-based premiums function as a payroll tax." },
+      "t-administrative-work": {
+        note: "Income-based contributions require special rules for self-employed and gig workers.",
+      },
+    },
+    worsens: ["x-new-taxes", "t-administrative-work"],
+    solves: ["x-plan-choice"],
     requires: ["regulated-multipayer"],
     spawns: ["x-wage-incidence"],
     changes: [
@@ -169,18 +191,20 @@ export const MONEY_PATHS = [
         sourceIds: ["opacity-fixed-prices-globalization-and-health-2019"],
       },
     ],
-    pros: [
-      "Ends hidden negotiated rates: everyone pays the same posted price",
-      "Patients and employers no longer need to shop",
-      "Removes the need for transparency files and enforcement",
-    ],
-    cons: [
-      "One price can be too high in cheap areas and too low in expensive ones",
-      "Rate setting becomes a lobbying target",
-    ],
-    whoGains: ["Patients and employers"],
-    whoLoses: ["Providers with high negotiated rates"],
+    how: {
+      "price-opacity": {
+        note: "A public uniform fee schedule ends hidden negotiated rates by making everyone pay the same posted price. Patients and employers no longer need to shop, and transparency files and their enforcement become unnecessary.",
+        helps: ["heavy-care-users"],
+      },
+      "t-reduced-flexibility": {
+        note: "Uniform prices can be too high in low-cost areas and too low in high-cost areas.",
+      },
+      "t-political-resistance": {
+        note: "Setting a public fee schedule creates a target for lobbying.",
+      },
+    },
     mend: ["Regional adjustments"],
+    worsens: ["t-reduced-flexibility", "t-political-resistance"],
     requires: ["all-payer-rates"],
     changes: [
       "Publish one national fee schedule and all hospital budgets",
@@ -204,11 +228,15 @@ export const MONEY_PATHS = [
         sourceIds: ["opacity-disclosure-u-s-government-accountab-2024"],
       },
     ],
-    pros: ["Cheap", "Some employers use data to negotiate"],
-    cons: ["Evidence that patients shop on price is weak", "Doesn't lower prices by itself"],
-    whoGains: ["Employers, researchers"],
-    whoLoses: ["Hospitals with high prices"],
-    mend: ["N/A"],
+    how: {
+      "price-opacity": {
+        note: "Enforcing price disclosure with penalties and standard formats makes prices available at low cost. Some employers use the data to negotiate.",
+      },
+      "t-limited-reach": {
+        note: "Evidence that patients shop by price is weak, and disclosure alone does not reduce prices.",
+      },
+    },
+    worsens: ["t-limited-reach"],
     changes: [
       "Raise penalties for transparency non-compliance",
       "Standardize file formats and require patient-facing price estimates",
@@ -229,17 +257,18 @@ export const MONEY_PATHS = [
         sourceIds: ["maryland-model"],
       },
     ],
-    pros: [
-      "Ends costly arbitration (the dispute system has been flooded with cases)",
-      "Predictable for providers and insurers",
-    ],
-    cons: [
-      "Provider groups argue a fixed benchmark lowers their pay",
-      "Benchmarks set too low weaken emergency and anesthesia staffing",
-    ],
-    whoGains: ["Insurers and patients"],
-    whoLoses: ["Private equity staffing firms"],
-    mend: ["N/A"],
+    how: {
+      "surprise-bills": {
+        note: "A fixed benchmark for out-of-network bills replaces costly arbitration in a dispute system flooded with cases. It makes payment predictable for providers and insurers.",
+        helps: ["insurers"],
+      },
+      "t-income-loss": {
+        note: "Provider groups argue that fixed benchmarks reduce their pay.",
+        hurts: ["private-equity"],
+      },
+      "provider-exit": { note: "Benchmarks set too low weaken emergency and anesthesia staffing." },
+    },
+    worsens: ["t-income-loss", "provider-exit"],
     costIds: ["ins-idr"],
     changes: [
       "Set out-of-network payment at a fixed percentage of Medicare",
@@ -260,20 +289,21 @@ export const MONEY_PATHS = [
         sourceIds: ["surprise-single-payer-taiwan-ministry-of-healt-2024"],
       },
     ],
-    pros: [
-      "Ends surprise billing entirely",
-      "Removes the federal dispute-resolution system and its cost",
-    ],
-    cons: [
-      "Requires all providers to accept one payer or one rate",
-      "Providers who opt out can still charge patients directly",
-    ],
-    whoGains: ["Patients"],
-    whoLoses: [
-      "Arbitration firms",
-      "Private equity–backed staffing groups that relied on out-of-network billing",
-    ],
-    mend: ["N/A (arbitration firms are small)"],
+    how: {
+      "surprise-bills": {
+        note: "A single payer or universal all-payer rates removes out-of-network billing and ends surprise bills entirely. It also removes the federal dispute-resolution system and its cost.",
+      },
+      "admin-cost": {
+        note: "Removing out-of-network billing eliminates the federal dispute-resolution system and its cost.",
+      },
+      "t-dependent-reforms": {
+        note: "Removing out-of-network billing requires all providers to accept the payer or uniform rate.",
+        hurts: ["health-admin-vendors", "private-equity"],
+      },
+      "provider-exit": { note: "Providers opting out can still charge patients directly." },
+    },
+    worsens: ["t-dependent-reforms", "provider-exit"],
+    solves: ["admin-cost"],
     requires: ["networks-any-provider"],
     changes: [
       "Eliminate network status for covered services",
@@ -295,17 +325,18 @@ export const MONEY_PATHS = [
         sourceIds: ["kff-consumer-2023"],
       },
     ],
-    pros: [
-      "Keeps private insurers but reduces abuse",
-      "Public denial data lets patients and employers compare insurers",
-    ],
-    cons: [
-      "Enforcement is hard; insurers can shift from denials to slower approvals",
-      "Most patients never appeal, so penalties catch only a fraction",
-    ],
-    whoGains: ["Patients"],
-    whoLoses: ["Insurers"],
-    mend: ["N/A"],
+    how: {
+      denials: {
+        note: "Publishing denial rates, penalizing overturned denials, and providing fast external appeals reduces abuse while retaining private insurers. Public data lets patients and employers compare insurers.",
+      },
+      "t-enforcement-burden": {
+        note: "Insurers can respond to denial penalties by slowing approvals, making enforcement difficult.",
+      },
+      "t-limited-reach": {
+        note: "Most patients never appeal, so overturned-denial penalties catch only a fraction of cases.",
+      },
+    },
+    worsens: ["t-enforcement-burden", "t-limited-reach"],
     changes: [
       "Require insurers to publish denial rates by service and reason",
       "Penalize insurers for denials overturned on appeal",
@@ -329,14 +360,20 @@ export const MONEY_PATHS = [
         sourceIds: ["denials-coverage-rules-scientific-reports-2022"],
       },
     ],
-    pros: ["Far fewer claim-level denials", "Consistent rules for every patient and provider"],
-    cons: [
-      "Moves 'no' from claim denials to program-wide coverage decisions",
-      "A single rulebook mistake affects everyone",
-    ],
-    whoGains: ["Patients and providers"],
-    whoLoses: ["Utilization management firms"],
+    how: {
+      denials: {
+        note: "Public coverage rules administered with clinicians and independent appeals replace many claim-level denials with consistent rules for every patient and provider.",
+      },
+      "x-central-rationing": {
+        note: "Public coverage decisions move refusals from individual claims to program-wide rules.",
+      },
+      "t-reduced-flexibility": {
+        note: "An error in the shared rulebook affects everyone.",
+        hurts: ["health-admin-vendors"],
+      },
+    },
     mend: ["Transition program"],
+    worsens: ["t-reduced-flexibility"],
     requires: ["single-payer"],
     spawns: ["x-central-rationing"],
     changes: [
@@ -363,14 +400,18 @@ export const MONEY_PATHS = [
         sourceIds: ["pa-gold-card-texas-department-of-insu-2024"],
       },
     ],
-    pros: ["Less paperwork for high-performing clinicians", "Faster care for their patients"],
-    cons: [
-      "Insurers lose a cost-control tool",
-      "Texas found few physicians actually qualified in the first years",
-    ],
-    whoGains: ["Clinicians and patients"],
-    whoLoses: ["Insurers"],
-    mend: ["N/A"],
+    how: {
+      "prior-auth": {
+        note: "Exempting clinicians with strong approval records, requiring immediate electronic decisions, and removing authorization for routine and chronic care reduces paperwork for high-performing clinicians. Their patients receive care faster.",
+      },
+      "t-higher-spending": {
+        note: "Authorization exemptions remove an insurer cost-control tool.",
+      },
+      "t-limited-reach": {
+        note: "Few physicians qualified for the Texas exemptions during the early implementation period.",
+      },
+    },
+    worsens: ["t-higher-spending", "t-limited-reach"],
     costIds: ["admin-total"],
     changes: [
       "Exempt clinicians with high approval rates from prior authorization",
@@ -391,15 +432,18 @@ export const MONEY_PATHS = [
         sourceIds: ["medpac-2025"],
       },
     ],
-    pros: [
-      "Large admin savings for clinics and insurers",
-      "Removes care delays (most physicians report delays from prior auth)",
-    ],
-    cons: ["Risk of more low-value care", "Needs audit capacity to review care afterward"],
-    whoGains: ["Clinicians, patients"],
-    whoLoses: ["Utilization management firms"],
-    mend: ["N/A"],
-    worsens: ["low-value-care"],
+    how: {
+      "prior-auth": {
+        note: "Restricting prior authorization to a small published list and reviewing other care afterward removes care delays. It produces substantial administrative savings for clinics and insurers.",
+      },
+      "admin-cost": {
+        note: "Removing most prior authorization produces substantial administrative savings for clinics and insurers.",
+      },
+      "low-value-care": { note: "Removing most advance review risks more low-value care." },
+      "t-oversight-limits": { note: "Retrospective review requires audit capacity." },
+    },
+    solves: ["admin-cost"],
+    worsens: ["low-value-care", "t-oversight-limits"],
     complements: ["lowvalue-coverage-list"],
     changes: ["Limit prior authorization to a published short list", "Fund post-payment audits"],
   }),
@@ -421,14 +465,20 @@ export const MONEY_PATHS = [
         sourceIds: ["ma-fold-kff-2024"],
       },
     ],
-    pros: ["Ends coding-intensity overpayments", "One set of rules"],
-    cons: [
-      "Enrollees lose extra benefits (gym, dental) unless added to the public plan",
-      "Large insurer losses",
-    ],
-    whoGains: ["Taxpayers"],
-    whoLoses: ["MA insurers and enrollees who liked their plan"],
+    how: {
+      "ma-upcoding": {
+        note: "Moving private Medicare enrollees into a universal public plan ends coding-intensity overpayments and applies the same rules across coverage.",
+      },
+      "x-plan-choice": {
+        note: "Ending private Medicare plans moves enrollees into the universal public plan and removes their private-plan options.",
+      },
+      "dental-gap": {
+        note: "Enrollees lose extra benefits, including gym and dental benefits, unless the public plan adds them.",
+      },
+      "t-income-loss": { note: "Ending private Medicare plans causes large insurer losses." },
+    },
     mend: ["Add dental, vision, hearing to the public plan"],
+    worsens: ["dental-gap", "t-income-loss"],
     requires: ["single-payer"],
     spawns: ["x-plan-choice"],
     costIds: ["ins-ma-partd"],
@@ -451,14 +501,20 @@ export const MONEY_PATHS = [
         sourceIds: ["medpac-2025"],
       },
     ],
-    pros: ["Keeps plan choice and extra benefits", "Saves money without ending a popular program"],
-    cons: [
-      "Plans adapt; past reforms only partly closed the gap",
-      "Plans may cut extra benefits as payments fall",
-    ],
-    whoGains: ["Taxpayers"],
-    whoLoses: ["MA insurers"],
-    mend: ["N/A"],
+    how: {
+      "ma-upcoding": {
+        note: "Changing diagnosis sources and risk-adjustment data and auditing plans saves money while preserving plan choice and extra benefits. It retains the existing popular program.",
+      },
+      "x-plan-choice": {
+        note: "Reforming payments while retaining private Medicare plans preserves plan choice and extra benefits.",
+      },
+      "x-metric-gaming": {
+        note: "Plans adapt to coding reforms, and previous reforms only partly closed the payment gap.",
+      },
+      "dental-gap": { note: "Plans may cut extra benefits as payments decline." },
+    },
+    worsens: ["dental-gap"],
+    solves: ["x-plan-choice"],
     spawns: ["x-metric-gaming"],
     changes: [
       "Use two years of diagnosis data for risk scores",
@@ -484,20 +540,27 @@ export const MONEY_PATHS = [
         sourceIds: ["overhead-public-social-security-administ-2024"],
       },
     ],
-    pros: [
-      "Lowest overhead of any option",
-      "Savings are on the provider side too (one set of rules)",
-      "Admin cost target is published and auditable",
-    ],
-    cons: [
-      "Public agencies may underinvest in customer service and fraud control",
-      "Hundreds of thousands of insurer jobs end",
-    ],
-    whoGains: ["Taxpayers"],
-    whoLoses: ["Insurer employees"],
+    how: {
+      "insurer-overhead": {
+        note: "A public administrator minimizes overhead and reduces provider-side administration through a shared set of rules. Publishing an administrative-cost target makes performance auditable.",
+      },
+      "fraud-concentration": {
+        note: "A public administrator takes over administration while public agencies may underinvest in fraud control.",
+      },
+      "admin-cost": {
+        note: "A public administrator reduces provider-side administrative work through a shared set of rules.",
+      },
+      underfunding: {
+        note: "Public agencies may underinvest in customer service and fraud control.",
+      },
+      "transition-disruption": {
+        note: "Moving to a public administrator ends a large number of insurer jobs.",
+      },
+    },
     mend: ["Worker transition program"],
+    solves: ["admin-cost"],
     requires: ["single-payer"],
-    worsens: ["fraud-concentration"],
+    worsens: ["fraud-concentration", "underfunding", "transition-disruption"],
     costIds: ["ins-private-net", "ins-carrier-payroll"],
     changes: [
       "Create a public administering agency with a published admin-cost target",
@@ -517,14 +580,22 @@ export const MONEY_PATHS = [
         sourceIds: ["overhead-mlr-swiss-federal-council-sw-2024"],
       },
     ],
-    pros: ["Keeps multiple plans", "Less profit leakage"],
-    cons: [
-      "Insurers may raise total spending to raise allowed overhead",
-      "Vertical integration hides profits",
-    ],
-    whoGains: ["Enrollees"],
-    whoLoses: ["Insurer shareholders"],
-    mend: ["N/A"],
+    how: {
+      "insurer-overhead": {
+        note: "Requiring more premium revenue to go to care and requiring nonprofit status reduces profit leakage while retaining multiple plans.",
+      },
+      "x-plan-choice": {
+        note: "Premium-spending requirements and nonprofit status preserve multiple plans.",
+      },
+      "t-higher-spending": {
+        note: "Insurers may increase total spending to enlarge their permitted overhead.",
+      },
+      "t-enforcement-burden": {
+        note: "Vertical integration can hide profits despite premium-spending rules.",
+      },
+    },
+    worsens: ["t-higher-spending", "t-enforcement-burden"],
+    solves: ["x-plan-choice"],
     requires: ["regulated-multipayer"],
     costIds: ["ins-earnings"],
     changes: [
@@ -547,17 +618,20 @@ export const MONEY_PATHS = [
         note: "National drug purchasing without PBM intermediaries.",
       },
     ],
-    pros: [
-      "Ends spread pricing, rebate games, and pharmacy clawbacks",
-      "One national formulary simplifies prescribing",
-    ],
-    cons: [
-      "The public agency must take on formulary and claims work",
-      "One formulary means fewer brand choices for some patients",
-    ],
-    whoGains: ["Patients, pharmacies"],
-    whoLoses: ["PBMs"],
+    how: {
+      pbm: {
+        note: "Direct public negotiation with manufacturers and a transparent pharmacy dispensing fee end spread pricing, rebate games, and pharmacy clawbacks. A national formulary simplifies prescribing.",
+        helps: ["heavy-care-users"],
+      },
+      "t-administrative-work": {
+        note: "Direct public drug administration requires the agency to handle formulary and claims work.",
+      },
+      "t-reduced-flexibility": {
+        note: "A shared formulary leaves fewer brand choices for some patients.",
+      },
+    },
     mend: ["Transition program"],
+    worsens: ["t-administrative-work", "t-reduced-flexibility"],
     costIds: ["pbm-markups"],
     complements: ["drugs-negotiate"],
     changes: [
@@ -579,11 +653,16 @@ export const MONEY_PATHS = [
         sourceIds: ["ftc-pbm-2025"],
       },
     ],
-    pros: ["Keeps private drug plans", "Low cost to government", "Helps independent pharmacies"],
-    cons: ["PBMs adapt with new fees", "Enforcement against three dominant firms is slow"],
-    whoGains: ["Independent pharmacies, patients"],
-    whoLoses: ["PBMs"],
-    mend: ["N/A"],
+    how: {
+      pbm: {
+        note: "Flat PBM fees, rebate pass-through, and restrictions on ownership of pharmacies receiving steered patients help independent pharmacies. The approach retains private drug plans at low government cost.",
+      },
+      "t-enforcement-burden": {
+        note: "PBMs may adapt to flat-fee and rebate rules by introducing new fees.",
+      },
+      "t-delayed-benefits": { note: "Enforcing rules against dominant PBM firms is slow." },
+    },
+    worsens: ["t-enforcement-burden", "t-delayed-benefits"],
     changes: [
       "Delink PBM pay from drug prices (flat fees)",
       "Ban spread pricing",
@@ -607,12 +686,22 @@ export const MONEY_PATHS = [
       },
       { place: "Japan, Germany", note: "Uniform national fee schedules." },
     ],
-    pros: ["Ends price discrimination between payers", "Works with any payer structure"],
-    cons: ["Rate commission becomes the target of lobbying", "Rates too low can cause exits"],
-    whoGains: ["Payers, patients"],
-    whoLoses: ["High-price hospitals"],
+    how: {
+      "high-prices": {
+        note: "A public commission sets uniform rates across public and private payers, ending price discrimination. The approach works with any payer structure.",
+      },
+      "price-opacity": {
+        note: "A public commission sets the same rates for public and private payers rather than separate payer-specific prices.",
+      },
+      consolidation: {
+        note: "Uniform rates remove payer-specific price advantages rather than allowing different negotiated prices.",
+      },
+      "t-political-resistance": { note: "The rate commission becomes a target for lobbying." },
+      "x-price-control-exit": { note: "Uniform rates set too low can cause exits." },
+    },
     mend: ["Phase rates over several years; protect rural hospitals"],
-    solves: ["price-opacity", "consolidation", "facility-fees"],
+    worsens: ["t-political-resistance"],
+    solves: ["price-opacity", "consolidation"],
     spawns: ["x-price-control-exit"],
     complements: ["global-budgets", "single-payer", "regulated-multipayer"],
     changes: [
@@ -634,14 +723,20 @@ export const MONEY_PATHS = [
         sourceIds: ["rand-hospital-2024"],
       },
     ],
-    pros: ["Simple and easy to enforce", "Large savings for employers and workers"],
-    cons: [
-      "Hospitals dependent on high commercial prices lose revenue",
-      "A cap can become a floor for cheaper hospitals",
-    ],
-    whoGains: ["Employers and workers"],
-    whoLoses: ["High-price hospitals"],
+    how: {
+      "high-prices": {
+        note: "Limiting commercial payments relative to Medicare rates offers substantial savings for employers and workers and is simple to enforce. The cap can become a price floor for cheaper hospitals.",
+        helps: ["employers"],
+      },
+      "x-price-control-exit": {
+        note: "Capping commercial payments reduces revenue for hospitals dependent on high commercial prices.",
+      },
+      "t-income-loss": {
+        note: "Hospitals reliant on high commercial payments lose revenue under the cap.",
+      },
+    },
     mend: ["Phase in; transition funds for hospitals with low margins"],
+    worsens: ["t-income-loss"],
     spawns: ["x-price-control-exit"],
     changes: [
       "Cap commercial payments at a set multiple of Medicare",
@@ -665,14 +760,19 @@ export const MONEY_PATHS = [
         sourceIds: ["prices-competition-federal-trade-commission-2024"],
       },
     ],
-    pros: ["Keeps market pricing", "No price commission to lobby"],
-    cons: [
-      "Slow; many markets are already concentrated beyond repair",
-      "Rural areas can only support one hospital",
-    ],
-    whoGains: ["Patients in competitive markets"],
-    whoLoses: ["Dominant systems"],
-    mend: ["N/A"],
+    how: {
+      "high-prices": {
+        note: "Antitrust enforcement, limits on anticompetitive contracts, and site-neutral payment seek lower negotiated prices while retaining market pricing. There is no price commission to lobby.",
+        helps: ["heavy-care-users"],
+      },
+      "t-delayed-benefits": {
+        note: "Competition measures work slowly, and many markets are already concentrated beyond repair.",
+      },
+      "t-limited-reach": {
+        note: "Rural areas may support only a single hospital, limiting the reach of competition measures.",
+      },
+    },
+    worsens: ["t-delayed-benefits", "t-limited-reach"],
     complements: ["consolidation-antitrust"],
     changes: [
       "Increase FTC funding and lower merger-review thresholds",
@@ -698,11 +798,18 @@ export const MONEY_PATHS = [
         sourceIds: ["consolidation-antitrust-american-economic-review-2024"],
       },
     ],
-    pros: ["Restores negotiating leverage", "Protects future competition"],
-    cons: ["Breakups are slow and rare", "Some mergers rescue failing hospitals"],
-    whoGains: ["Payers"],
-    whoLoses: ["Large health systems"],
+    how: {
+      consolidation: {
+        note: "Funding acquisition review and breaking up dominant systems where possible restores negotiating leverage and protects future competition.",
+        helps: ["insurers"],
+      },
+      "t-delayed-benefits": { note: "Hospital breakups are slow and rare." },
+      "rural-hospitals": {
+        note: "Blocking mergers can prevent arrangements that rescue failing hospitals.",
+      },
+    },
     mend: ["Exemptions for genuinely failing rural hospitals"],
+    worsens: ["t-delayed-benefits", "rural-hospitals"],
     changes: [
       "Fund FTC and DOJ health-care enforcement",
       "Review small physician-practice acquisitions",
@@ -721,14 +828,16 @@ export const MONEY_PATHS = [
         sourceIds: ["maryland-model"],
       },
     ],
-    pros: ["Removes the price incentive to merge", "Works even where mergers can't be undone"],
-    cons: [
-      "Consolidation still reduces choice and competition on quality",
-      "Large systems keep political influence over the rate commission",
-    ],
-    whoGains: ["Payers"],
-    whoLoses: ["Systems using market power"],
-    mend: ["N/A"],
+    how: {
+      consolidation: {
+        note: "Public rate setting removes the price incentive to merge, including where mergers cannot be undone. Consolidation can still reduce choice and competition on quality.",
+        helps: ["insurers"],
+      },
+      "t-political-resistance": {
+        note: "Large systems retain political influence over the rate commission.",
+      },
+    },
+    worsens: ["t-political-resistance"],
     requires: ["all-payer-rates"],
     changes: ["Apply uniform rates regardless of system size"],
   }),
@@ -743,14 +852,16 @@ export const MONEY_PATHS = [
     precedents: [
       { place: "Oregon (2025)", note: "Law restricting corporate control of medical practices." },
     ],
-    pros: [
-      "Targets the worst practices (asset stripping, sale-leasebacks)",
-      "Ownership becomes visible to regulators and patients",
-    ],
-    cons: ["Less capital for practices", "Owners restructure to avoid rules"],
-    whoGains: ["Patients, staff"],
-    whoLoses: ["PE firms"],
-    mend: ["N/A"],
+    how: {
+      "private-equity": {
+        note: "Ownership disclosure, acquisition review, sale-leaseback limits, and owner liability target asset stripping and make ownership visible to regulators and patients.",
+      },
+      "capital-underinvestment": {
+        note: "Ownership restrictions reduce capital available to practices.",
+      },
+      "t-enforcement-burden": { note: "Owners may restructure to evade the rules." },
+    },
+    worsens: ["capital-underinvestment", "t-enforcement-burden"],
     changes: [
       "Require ownership disclosure for all providers",
       "Ban corporate control of medical decisions",
@@ -775,17 +886,17 @@ export const MONEY_PATHS = [
         sourceIds: ["pe-rates-hhs-office-of-the-assist-2026"],
       },
     ],
-    pros: [
-      "Removes the arbitrage PE roll-ups rely on, without banning ownership",
-      "No need to define 'bad' ownership in law",
-    ],
-    cons: [
-      "PE still enters areas where margins remain (e.g., hospice, dermatology)",
-      "Firms may cut staff to keep returns under fixed rates",
-    ],
-    whoGains: ["Payers"],
-    whoLoses: ["PE firms"],
-    mend: ["N/A"],
+    how: {
+      "private-equity": {
+        note: "Uniform rates and an end to out-of-network billing remove the pricing arbitrage used by private-equity roll-ups. This does not require banning ownership or defining harmful ownership in law.",
+        helps: ["insurers"],
+      },
+      "t-limited-reach": {
+        note: "Private equity can still enter areas with remaining margins, including hospice and dermatology.",
+      },
+      "nursing-shortage": { note: "Firms may cut staff to maintain returns under fixed rates." },
+    },
+    worsens: ["t-limited-reach", "nursing-shortage"],
     requires: ["all-payer-rates"],
     changes: ["Apply uniform rates and end out-of-network billing"],
   }),
@@ -804,18 +915,22 @@ export const MONEY_PATHS = [
         sourceIds: ["medpac-2025"],
       },
     ],
-    pros: [
-      "Ends the incentive to buy practices just to add facility fees",
-      "Saves patients and payers money on routine visits",
-      "Lets independent practices compete on equal terms",
-    ],
-    cons: [
-      "Hospitals lose revenue that partly subsidizes emergency and standby capacity",
-      "Rules defining 'same service' are complex",
-    ],
-    whoGains: ["Patients, payers"],
-    whoLoses: ["Hospitals"],
+    how: {
+      "facility-fees": {
+        note: "Equal payment for the same service across hospital outpatient departments and independent offices saves patients and payers money on routine visits. It removes the incentive to acquire practices just to add facility fees and lets independent practices compete on equal terms.",
+        helps: ["heavy-care-users"],
+      },
+      consolidation: {
+        note: "Equal payment across settings removes the incentive to buy practices merely to add facility fees.",
+      },
+      "t-income-loss": {
+        note: "Hospitals lose revenue that partly supports emergency and standby capacity.",
+      },
+      "t-administrative-work": { note: "Defining which services count as the same is complex." },
+    },
     mend: ["Separate standby-capacity payments"],
+    worsens: ["t-income-loss", "t-administrative-work"],
+    solves: ["consolidation"],
     changes: [
       "Pay hospital outpatient departments the same as physician offices for the same services",
       "Fund standby capacity separately",
@@ -834,11 +949,17 @@ export const MONEY_PATHS = [
         sourceIds: ["facility-ban-health-affairs-scholar-2025"],
       },
     ],
-    pros: ["Simple and easy to understand", "Ends surprise facility fees for office visits"],
-    cons: ["Narrower than full site-neutral pay", "Hospitals may raise professional fees instead"],
-    whoGains: ["Patients"],
-    whoLoses: ["Hospital systems"],
-    mend: ["N/A"],
+    how: {
+      "facility-fees": {
+        note: "Banning facility fees for office-type care away from hospital campuses ends surprise facility fees for office visits. The rule is simple to understand.",
+        helps: ["heavy-care-users"],
+      },
+      "t-limited-reach": {
+        note: "The off-campus fee ban reaches less care than full site-neutral payment.",
+      },
+      "high-prices": { note: "Hospitals may respond to the fee ban by raising professional fees." },
+    },
+    worsens: ["t-limited-reach", "high-prices"],
     changes: ["Ban facility fees for off-campus clinics"],
   }),
 
@@ -856,14 +977,18 @@ export const MONEY_PATHS = [
         sourceIds: ["exec-community-benefit-oregon-health-authority-2026"],
       },
     ],
-    pros: [
-      "More charity care in return for tax exemptions",
-      "Ties a public subsidy to public value",
-    ],
-    cons: ["Community benefit is hard to measure and easy to inflate", "Doesn't directly cap pay"],
-    whoGains: ["Low-income patients"],
-    whoLoses: ["Executives"],
-    mend: ["N/A"],
+    how: {
+      "executive-pay": {
+        note: "Tying nonprofit tax exemption and executive pay rules to charity care requires more community benefit in return for the public subsidy.",
+      },
+      "t-oversight-limits": {
+        note: "Tying tax exemption to community benefit requires measuring benefits that are hard to assess and easy to inflate.",
+      },
+      "t-limited-reach": {
+        note: "Tying executive pay rules to community benefit does not directly cap executive pay.",
+      },
+    },
+    worsens: ["t-oversight-limits", "t-limited-reach"],
     costIds: ["ceo-pay"],
     changes: [
       "Set minimum community-benefit spending for nonprofit hospitals",
@@ -887,17 +1012,19 @@ export const MONEY_PATHS = [
         sourceIds: ["exec-budget-review-green-mountain-care-boar-2024"],
       },
     ],
-    pros: [
-      "Direct control over administrative spending",
-      "Executive pay becomes public and comparable",
-    ],
-    cons: [
-      "Harder to recruit experienced leaders",
-      "Budget negotiators can't judge every line item",
-    ],
-    whoGains: ["Taxpayers"],
-    whoLoses: ["Executives"],
-    mend: ["N/A"],
+    how: {
+      "executive-pay": {
+        note: "Including administrative and executive costs in negotiated hospital budgets directly controls administrative spending and makes executive pay public and comparable.",
+      },
+      "admin-cost": {
+        note: "Negotiating administrative costs within hospital budgets directly controls administrative spending.",
+      },
+      "t-oversight-limits": {
+        note: "Public budget review depends on negotiators who cannot judge every line item.",
+      },
+    },
+    worsens: ["t-oversight-limits"],
+    solves: ["admin-cost"],
     requires: ["global-budgets"],
     changes: [
       "Include admin and executive costs in hospital budget review",

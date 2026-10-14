@@ -18,11 +18,22 @@ export const DERIVED_PATHS = [
         sourceIds: ["taiwan-nhi"],
       },
     ],
-    pros: ["Accountability without competing insurers", "Patients can still choose any provider"],
-    cons: ["Depends on political will to enforce", "Metrics can be gamed"],
-    whoGains: ["Patients"],
-    whoLoses: ["N/A"],
-    mend: ["N/A"],
+    how: {
+      "x-plan-choice": {
+        note: "Publishing service measures and empowering an ombudsman to order fixes provides accountability without competing insurers, while patients retain provider choice.",
+      },
+      networks: {
+        note: "Allowing patients to choose any provider preserves provider choice within the public payer.",
+      },
+      "t-dependent-reforms": {
+        note: "Service measures and an ombudsman’s power to order fixes depend on political will to enforce them.",
+      },
+      "x-metric-gaming": {
+        note: "Published call-wait, claim-time, and appeal measures can be gamed rather than reflect service accurately.",
+      },
+    },
+    worsens: ["t-dependent-reforms"],
+    solves: ["networks"],
     spawns: ["x-metric-gaming"],
     changes: ["Publish service metrics", "Create an ombudsman with enforcement power"],
   }),
@@ -39,11 +50,23 @@ export const DERIVED_PATHS = [
         sourceIds: ["choice-supplemental-european-observatory-on--2023"],
       },
     ],
-    pros: ["Choice remains for extras", "Some insurer jobs survive"],
-    cons: ["Better care for those who can pay", "Supplemental plans can drive up use"],
-    whoGains: ["Insurers, people who value extras"],
-    whoLoses: ["Equity"],
-    mend: ["N/A"],
+    how: {
+      "x-plan-choice": {
+        note: "Private plans for benefits outside public coverage preserve insurer choice for extras such as private rooms and extra therapies.",
+      },
+      "transition-disruption": {
+        note: "Keeping private supplemental plans preserves some insurer jobs.",
+      },
+      "two-tier": {
+        note: "Private coverage for extras allows people who can pay to obtain better care.",
+      },
+      "t-higher-spending": { note: "Supplemental coverage for extras can drive up use of care." },
+      "x-copay-billing": {
+        note: "The cited complementary insurance model covers statutory cost-sharing, keeping a role for plans that handle patient charges.",
+      },
+    },
+    worsens: ["two-tier", "t-higher-spending"],
+    solves: ["transition-disruption"],
     spawns: ["x-copay-billing"],
     complements: ["twotier-supplemental"],
     changes: ["Allow supplemental plans for extras"],
@@ -65,11 +88,18 @@ export const DERIVED_PATHS = [
         sourceIds: ["choice-regional-plans-scandinavian-journal-of--2022"],
       },
     ],
-    pros: ["Competition on service without multiple insurers", "Integrated care"],
-    cons: ["Capitation risks", "Limited in rural areas"],
-    whoGains: ["Integrated systems"],
-    whoLoses: ["N/A"],
-    mend: ["N/A"],
+    how: {
+      "x-plan-choice": {
+        note: "Letting patients choose among integrated care organizations creates competition on service and integrated care without multiple insurers.",
+      },
+      "x-undertreatment": {
+        note: "Paying the competing care organizations by capitation retains the risks associated with that payment method.",
+      },
+      "t-limited-reach": {
+        note: "Choice among competing integrated care organizations is limited in rural areas.",
+      },
+    },
+    worsens: ["x-undertreatment", "t-limited-reach"],
     requires: ["capitation"],
     changes: ["Let people choose among public care organizations paid by capitation"],
   }),
@@ -78,6 +108,7 @@ export const DERIVED_PATHS = [
   path({
     id: "tax-payroll",
     problemId: "x-new-taxes",
+    role: "answers",
     title: "Payroll tax (employer and employee)",
     summary:
       "Replace premiums mainly with a payroll tax, similar to what employers already pay in premiums.",
@@ -89,10 +120,14 @@ export const DERIVED_PATHS = [
         sourceIds: ["tax-payroll-bundesministerium-f-r-ge-2024"],
       },
     ],
-    pros: ["Mirrors today's flows", "Easy to collect"],
-    cons: ["Only taxes wages, not investment income", "Hurts low-wage firms"],
-    whoGains: ["Firms that offered coverage"],
-    whoLoses: ["Firms that did not"],
+    how: {
+      "x-new-taxes": {
+        note: "Replacing premiums with an easily collected payroll tax follows existing employer payment flows, but taxes wages rather than investment income.",
+      },
+      "x-wage-incidence": {
+        note: "A payroll tax imposes costs on low-wage firms and can hurt them.",
+      },
+    },
     mend: ["Phase in for small businesses"],
     spawns: ["x-wage-incidence"],
     changes: ["Enact a health payroll tax split between employer and employee"],
@@ -100,6 +135,7 @@ export const DERIVED_PATHS = [
   path({
     id: "tax-income",
     problemId: "x-new-taxes",
+    role: "answers",
     title: "Progressive income tax (including capital income)",
     summary: "Fund mostly from a health income tax that also covers capital gains and dividends.",
     precedents: [
@@ -110,16 +146,19 @@ export const DERIVED_PATHS = [
         sourceIds: ["tax-income-office-for-national-stat-2025"],
       },
     ],
-    pros: ["Most progressive", "Broad base"],
-    cons: ["High earners pay much more", "May reduce investment"],
-    whoGains: ["Low- and middle-income households"],
-    whoLoses: ["High earners"],
-    mend: ["N/A"],
+    how: {
+      "x-new-taxes": {
+        note: "An income-based health tax including capital gains and dividends provides a broad, progressive funding base. High earners pay much more, and the tax may reduce investment.",
+        helps: ["low-middle-income"],
+        hurts: ["high-earners"],
+      },
+    },
     changes: ["Enact a progressive health income tax including capital income"],
   }),
   path({
     id: "tax-vat",
     problemId: "x-new-taxes",
+    role: "answers",
     title: "Value-added tax",
     summary: "A broad consumption tax dedicated to health.",
     precedents: [
@@ -130,16 +169,22 @@ export const DERIVED_PATHS = [
         sourceIds: ["tax-vat-tax-foundation-2024"],
       },
     ],
-    pros: ["Large revenue at low rates", "Hard to avoid"],
-    cons: ["Regressive unless paired with rebates", "New collection system"],
-    whoGains: ["N/A"],
-    whoLoses: ["Low-income consumers (without rebates)"],
+    how: {
+      "x-new-taxes": {
+        note: "A broad health consumption tax can raise substantial revenue at low rates and is hard to avoid, but is regressive unless paired with rebates.",
+      },
+      "t-administrative-work": {
+        note: "Collecting a dedicated consumption tax requires a new collection system.",
+      },
+    },
     mend: ["Per-person rebate"],
+    worsens: ["t-administrative-work"],
     changes: ["Enact a VAT dedicated to health with per-person rebates"],
   }),
   path({
     id: "tax-mix",
     problemId: "x-new-taxes",
+    role: "answers",
     title: "A mix of payroll, income, and redirected spending",
     summary:
       "Combine redirected public spending, employer contributions, and a household income-based contribution.",
@@ -150,11 +195,15 @@ export const DERIVED_PATHS = [
         sourceIds: ["tax-mix-health-and-human-rights--2024"],
       },
     ],
-    pros: ["Spreads burden", "Lower rates on each base"],
-    cons: ["More complex", "Harder to explain"],
-    whoGains: ["N/A"],
-    whoLoses: ["N/A"],
-    mend: ["N/A"],
+    how: {
+      "x-new-taxes": {
+        note: "Combining redirected public spending, employer contributions, and income-based household contributions spreads the burden and lowers rates on each funding base.",
+      },
+      "t-administrative-work": {
+        note: "Combining different funding sources makes the financing more complex and harder to explain.",
+      },
+    },
+    worsens: ["t-administrative-work"],
     changes: [
       "Combine redirected spending, employer contributions, and income-based contributions",
     ],
@@ -173,11 +222,19 @@ export const DERIVED_PATHS = [
         sourceIds: ["wage-small-exempt-service-public-fr-2026"],
       },
     ],
-    pros: ["Protects low-wage jobs", "Small businesses avoid a sudden cost"],
-    cons: ["Less revenue", "Firms may split to stay small"],
-    whoGains: ["Low-wage workers"],
-    whoLoses: ["Taxpayers (less revenue)"],
-    mend: ["N/A"],
+    how: {
+      "x-wage-incidence": {
+        note: "Lower employer tax rates for small firms and the initial portion of wages protect low-wage jobs and prevent sudden costs for small businesses.",
+      },
+      "t-funding-instability": {
+        note: "Reducing employer tax rates for small firms and lower wages brings in less revenue.",
+        hurts: ["taxpayers"],
+      },
+      "t-enforcement-burden": {
+        note: "Firms may split to remain eligible for the lower small-firm tax rates.",
+      },
+    },
+    worsens: ["t-funding-instability", "t-enforcement-burden"],
     changes: ["Phase in employer taxes for small and low-wage firms"],
   }),
   path({
@@ -186,11 +243,19 @@ export const DERIVED_PATHS = [
     title: "No employer tax: fund from households directly",
     summary: "Employers pay nothing; they must pass former premium spending into wages.",
     precedents: [{ place: "N/A", note: "Wage pass-through mandates are untested." }],
-    pros: ["No wage loss at non-offering firms", "Simpler for employers"],
-    cons: ["Hard to enforce wage pass-through", "Higher household taxes"],
-    whoGains: ["Low-wage workers"],
-    whoLoses: ["Households"],
-    mend: ["N/A"],
+    how: {
+      "x-wage-incidence": {
+        note: "Funding care directly from households removes employer taxes, avoids wage loss at firms that did not offer coverage, and simplifies employers’ role.",
+      },
+      "t-enforcement-burden": {
+        note: "Requiring employers to pass former premium spending into wages is hard to enforce; the cited precedent describes such mandates as untested.",
+        hurts: ["low-middle-income"],
+      },
+      "x-new-taxes": {
+        note: "Replacing employer payments with direct household funding requires higher household taxes.",
+      },
+    },
+    worsens: ["t-enforcement-burden", "x-new-taxes"],
     requires: ["tax-income"],
     changes: [
       "Fund health from households only",
@@ -216,14 +281,20 @@ export const DERIVED_PATHS = [
         note: "Annual high-cost ceiling; care is free after the ceiling for the rest of the year.",
       },
     ],
-    pros: ["Keeps a price signal without visit-level billing", "No debt collection at providers"],
-    cons: [
-      "Still needs a charge ledger and tax integration",
-      "The price signal is weaker when bills arrive a year later",
-    ],
-    whoGains: ["Providers (no front-desk collection)", "Low-income people (automatic exemption)"],
-    whoLoses: ["Billing and collections vendors"],
+    how: {
+      "x-copay-billing": {
+        note: "Having the payer tally income-capped charges, automatically exempt low-income people, and settle charges through tax returns keeps a price signal without visit-level billing or provider debt collection. A charge ledger and tax integration are still required.",
+      },
+      "admin-cost": {
+        note: "Payer tallies and tax-return settlement remove visit-level billing and debt collection from providers while retaining a central charge ledger.",
+      },
+      "t-weaker-incentives": {
+        note: "Settling charges later through the annual tax return weakens the price signal compared with charges at the visit.",
+      },
+    },
     mend: ["Transition program for collections staff"],
+    worsens: ["t-weaker-incentives"],
+    solves: ["admin-cost"],
     complements: ["underins-income-cap"],
     changes: ["Create a charge ledger", "Cap charges by income", "Settle annually on tax returns"],
   }),
@@ -240,13 +311,22 @@ export const DERIVED_PATHS = [
         sourceIds: ["copay-none-health-canada-2025"],
       },
     ],
-    pros: ["No billing apparatus at all", "No deterrence of needed care"],
-    cons: ["Use of care rises", "Higher taxes"],
-    whoGains: ["Patients"],
-    whoLoses: ["Taxpayers"],
-    mend: ["N/A"],
+    how: {
+      "x-copay-billing": {
+        note: "Eliminating copays for covered services removes the copay billing apparatus and avoids deterring needed care.",
+      },
+      "admin-cost": {
+        note: "Eliminating copays for covered services removes the billing apparatus for those charges.",
+      },
+      "wait-times": { note: "Removing copays increases use of care, adding demand to the system." },
+      "t-higher-spending": {
+        note: "Eliminating charges for covered services increases use of care.",
+      },
+      "x-new-taxes": { note: "Eliminating copays requires higher taxes." },
+    },
+    solves: ["admin-cost"],
     requires: ["underins-zero"],
-    worsens: ["wait-times"],
+    worsens: ["wait-times", "t-higher-spending", "x-new-taxes"],
     changes: ["Remove all point-of-care charges"],
   }),
   path({
@@ -266,11 +346,17 @@ export const DERIVED_PATHS = [
         sourceIds: ["copay-flat-small-department-of-health-and-2023"],
       },
     ],
-    pros: ["Simple", "Targets specific overuse"],
-    cons: ["Deters near-poor", "Still needs collection"],
-    whoGains: ["Taxpayers"],
-    whoLoses: ["Near-poor patients"],
+    how: {
+      "x-copay-billing": {
+        note: "Limiting charges to small flat fees on selected services simplifies charging and targets specific overuse, with exemptions for children, poor people, and chronic illness. Collection is still needed, and charges still deter near-poor patients.",
+        hurts: ["low-middle-income"],
+      },
+      "low-value-care": {
+        note: "Small flat charges for selected services, such as non-emergency emergency-room use, target specific overuse.",
+      },
+    },
     mend: ["Prepayment certificates that cap annual charges"],
+    solves: ["low-value-care"],
     changes: ["Set a few flat fees with exemptions"],
   }),
 
@@ -293,11 +379,17 @@ export const DERIVED_PATHS = [
         sourceIds: ["rationing-transparent-hta-national-institute-for-h-2024"],
       },
     ],
-    pros: ["Decisions are explainable and consistent", "Less political interference"],
-    cons: ["Slow", "Hard 'no' decisions still happen and are contested"],
-    whoGains: ["Patients overall (consistent rules)"],
-    whoLoses: ["Makers of low-value products"],
+    how: {
+      "x-central-rationing": {
+        note: "An independent agency’s public evidence and cost review, patient representation, published reasons, and appeals make decisions explainable and consistent while reducing political interference. Contested coverage refusals still occur.",
+      },
+      "t-delayed-benefits": {
+        note: "Public evidence review, appeals, and reconsideration make coverage decisions slow.",
+        hurts: ["drug-device-makers"],
+      },
+    },
     mend: ["Exceptional-case route for individual patients"],
+    worsens: ["t-delayed-benefits"],
     changes: ["Create an independent coverage agency with public meetings and appeals"],
   }),
   path({
@@ -317,12 +409,22 @@ export const DERIVED_PATHS = [
         sourceIds: ["rationing-no-qaly-kff-2024"],
       },
     ],
-    pros: ["Fewer denials", "No 'death panel' perception"],
-    cons: ["Higher spending", "Weaker leverage"],
-    whoGains: ["Patients needing expensive treatments", "Manufacturers"],
-    whoLoses: ["Taxpayers"],
-    mend: ["N/A"],
-    worsens: ["underfunding"],
+    how: {
+      "x-central-rationing": {
+        note: "Covering treatments shown to work without cost-per-QALY thresholds reduces denials and the perception of a panel deciding who may receive care, while relying on price negotiation to control cost.",
+      },
+      denials: {
+        note: "Covering any treatment shown to work rather than applying cost-per-QALY thresholds leads to fewer coverage denials.",
+      },
+      underfunding: {
+        note: "Broader treatment coverage raises spending while leaving weaker leverage to control costs through negotiation.",
+      },
+      "t-higher-spending": {
+        note: "Covering effective treatments without cost-per-QALY thresholds raises spending and weakens negotiating leverage.",
+      },
+    },
+    solves: ["denials"],
+    worsens: ["underfunding", "t-higher-spending"],
     conflicts: ["rationing-transparent-hta"],
     changes: ["Ban cost-per-QALY thresholds"],
   }),
@@ -340,11 +442,15 @@ export const DERIVED_PATHS = [
         sourceIds: ["rationing-clinician-exceptions-british-journal-of-clini-2020"],
       },
     ],
-    pros: ["Flexibility for unusual cases", "Clinician-driven"],
-    cons: ["Inconsistent decisions", "Equity concerns"],
-    whoGains: ["Patients with rare needs"],
-    whoLoses: ["N/A"],
-    mend: ["N/A"],
+    how: {
+      "x-central-rationing": {
+        note: "Allowing clinicians to request prompt clinical-panel decisions outside the standard coverage list gives unusual cases flexibility through a clinician-driven process.",
+      },
+      disparities: {
+        note: "Individual exceptions to the standard coverage list raise concerns about equity in coverage decisions.",
+      },
+    },
+    worsens: ["disparities"],
     complements: ["rationing-transparent-hta"],
     changes: ["Create a fast clinician exception process"],
   }),
@@ -363,11 +469,22 @@ export const DERIVED_PATHS = [
         sourceIds: ["maryland-model"],
       },
     ],
-    pros: ["Reduces slowdowns", "Fair to growing areas"],
-    cons: ["Weaker cost control", "Formula disputes"],
-    whoGains: ["Patients, hospitals in growing areas"],
-    whoLoses: ["Budget holders"],
-    mend: ["N/A"],
+    how: {
+      "x-budget-rationing": {
+        note: "Recalculating hospital budgets for population growth, aging, and unexpected volume reduces slowdowns and treats growing areas fairly.",
+      },
+      "wait-times": {
+        note: "Adjusting budgets for changing demand helps prevent demand growth from producing queues.",
+      },
+      "t-higher-spending": {
+        note: "Increasing budgets in response to demand weakens cost control.",
+      },
+      "t-uncertain-evidence": {
+        note: "Recalculating budgets using demand formulas can lead to disputes over those formulas.",
+      },
+    },
+    worsens: ["t-higher-spending", "t-uncertain-evidence"],
+    solves: ["wait-times"],
     changes: ["Adjust budgets for population, age, and volume"],
   }),
   path({
@@ -387,11 +504,20 @@ export const DERIVED_PATHS = [
         sourceIds: ["budget-mixed-health-policy-2010"],
       },
     ],
-    pros: ["Balances control and productivity", "Cuts queues"],
-    cons: ["Volume creep", "More billing"],
-    whoGains: ["Patients on waiting lists"],
-    whoLoses: ["N/A"],
-    mend: ["N/A"],
+    how: {
+      "x-budget-rationing": {
+        note: "Using a budget for fixed costs and per-case payments above a baseline balances spending control with productivity and cuts queues.",
+      },
+      "wait-times": {
+        note: "Paying for additional procedures above a baseline rewards throughput and cuts queues.",
+      },
+      "t-higher-spending": {
+        note: "Paying per case above a baseline can lead to growing procedure volume.",
+      },
+      "admin-cost": { note: "Per-case payments for additional procedures require more billing." },
+    },
+    worsens: ["t-higher-spending", "admin-cost"],
+    solves: ["wait-times"],
     requires: ["waits-activity-pay"],
     changes: ["Pay base budgets plus activity payments"],
   }),
@@ -408,11 +534,23 @@ export const DERIVED_PATHS = [
         sourceIds: ["budget-guarantee-oecd-health-policy-studi-2013"],
       },
     ],
-    pros: ["Protects patients", "Keeps budgets"],
-    cons: ["Needs spare capacity", "Complex accounting"],
-    whoGains: ["Patients"],
-    whoLoses: ["Slow hospitals"],
-    mend: ["N/A"],
+    how: {
+      "x-budget-rationing": {
+        note: "Allowing patients to receive treatment elsewhere after a hospital exceeds the maximum wait protects patients while keeping fixed budgets, with the original hospital paying the cost.",
+      },
+      "wait-times": {
+        note: "A maximum-wait rule allows delayed patients to receive treatment elsewhere at the original hospital’s expense.",
+      },
+      "t-dependent-reforms": {
+        note: "Allowing delayed patients to move to another hospital requires spare capacity elsewhere.",
+        hurts: ["providers"],
+      },
+      "t-administrative-work": {
+        note: "Charging treatment at another hospital back to the original hospital’s budget requires complex accounting.",
+      },
+    },
+    worsens: ["t-dependent-reforms", "t-administrative-work"],
+    solves: ["wait-times"],
     requires: ["waits-guarantee"],
     changes: ["Charge late hospitals for care elsewhere"],
   }),
@@ -435,11 +573,16 @@ export const DERIVED_PATHS = [
         sourceIds: ["under-risk-adjust-british-journal-of-gener-2011"],
       },
     ],
-    pros: ["Reduces avoidance", "Fair payments"],
-    cons: ["Upcoding", "Complex"],
-    whoGains: ["Sicker patients"],
-    whoLoses: ["N/A"],
-    mend: ["N/A"],
+    how: {
+      "x-undertreatment": {
+        note: "Higher payments for sicker patients, a ban on patient selection, and public access and outcome monitoring reduce avoidance and make payments fairer.",
+      },
+      "t-administrative-work": {
+        note: "Adjusting payments for patient sickness and monitoring access and outcomes adds complexity.",
+      },
+      "x-metric-gaming": { note: "Higher payments for sicker patients create a risk of upcoding." },
+    },
+    worsens: ["t-administrative-work"],
     spawns: ["x-metric-gaming"],
     changes: ["Risk-adjust capitated payments", "Monitor access and outcomes"],
   }),
@@ -458,11 +601,16 @@ export const DERIVED_PATHS = [
         sourceIds: ["under-blend-scandinavian-journal-of--2024"],
       },
     ],
-    pros: ["Balances incentives", "Proven abroad"],
-    cons: ["More billing", "Complex"],
-    whoGains: ["Patients with complex needs"],
-    whoLoses: ["N/A"],
-    mend: ["N/A"],
+    how: {
+      "x-undertreatment": {
+        note: "Combining per-patient payments for basic care with service fees for additional needed care balances incentives; the approach has been used abroad.",
+      },
+      "admin-cost": { note: "Adding service fees to per-patient payments requires more billing." },
+      "t-administrative-work": {
+        note: "Combining per-patient payments and service fees makes payment administration more complex.",
+      },
+    },
+    worsens: ["admin-cost", "t-administrative-work"],
     changes: ["Blend capitation with fees"],
   }),
   path({
@@ -479,11 +627,19 @@ export const DERIVED_PATHS = [
         sourceIds: ["under-salary-plos-one-2024"],
       },
     ],
-    pros: ["Neutral incentives", "Predictable costs"],
-    cons: ["Productivity may fall", "Less autonomy"],
-    whoGains: ["Clinicians wanting stability"],
-    whoLoses: ["High-volume clinicians"],
+    how: {
+      "x-undertreatment": {
+        note: "Paying salaries removes a direct financial reason to provide more or less care and makes costs predictable.",
+        helps: ["clinicians"],
+      },
+      "t-weaker-incentives": {
+        note: "Salary payment may reduce clinician productivity.",
+        hurts: ["clinicians"],
+      },
+      "t-reduced-flexibility": { note: "Salary payment gives clinicians less autonomy." },
+    },
     mend: ["Productivity bonuses"],
+    worsens: ["t-weaker-incentives", "t-reduced-flexibility"],
     changes: ["Pay clinicians salaries in public or nonprofit groups"],
   }),
 
@@ -502,11 +658,22 @@ export const DERIVED_PATHS = [
         sourceIds: ["exit-price-floors-civica-rx-2026"],
       },
     ],
-    pros: ["Prevents shortages", "Stable supply"],
-    cons: ["Pays more", "Hard to set floors"],
-    whoGains: ["Patients, manufacturers"],
-    whoLoses: ["Budgets"],
-    mend: ["N/A"],
+    how: {
+      "x-price-control-exit": {
+        note: "Minimum prices or longer-term contracts keep essential generic drugs and services profitable to supply, preventing shortages and stabilizing supply.",
+      },
+      shortages: {
+        note: "Minimum prices or longer-term contracts for essential generics keep supply profitable and help prevent shortages.",
+      },
+      "t-higher-spending": {
+        note: "Minimum prices or longer-term supply contracts require paying more.",
+      },
+      "t-uncertain-evidence": {
+        note: "Choosing minimum prices that keep essential supply profitable is difficult.",
+      },
+    },
+    worsens: ["t-higher-spending", "t-uncertain-evidence"],
+    solves: ["shortages"],
     complements: ["shortages-pay-reliability"],
     changes: ["Set price floors and long-term contracts for essential products"],
   }),
@@ -523,11 +690,18 @@ export const DERIVED_PATHS = [
         sourceIds: ["exit-monitoring-health-services-insights-2021"],
       },
     ],
-    pros: ["Responsive", "Data-driven"],
-    cons: ["Reactive", "Needs data systems"],
-    whoGains: ["Patients"],
-    whoLoses: ["N/A"],
-    mend: ["N/A"],
+    how: {
+      "x-price-control-exit": {
+        note: "Tracking launches, discontinuations, and provider participation allows automatic price increases when supply falls, making the response data-driven.",
+      },
+      "t-limited-reach": {
+        note: "Raising prices when tracked supply falls is reactive rather than preventing the initial decline.",
+      },
+      "t-systems-implementation": {
+        note: "Tracking launches, discontinuations, and provider participation requires data systems.",
+      },
+    },
+    worsens: ["t-limited-reach", "t-systems-implementation"],
     changes: ["Track launches and discontinuations", "Raise prices when supply falls"],
   }),
   path({
@@ -536,11 +710,23 @@ export const DERIVED_PATHS = [
     title: "Require timely U.S. launch as a condition of market access",
     summary: "Link favorable pricing to launching in the U.S. promptly.",
     precedents: [{ place: "N/A", note: "Proposed in policy literature; not implemented." }],
-    pros: ["Prevents launch delays", "Simple rule"],
-    cons: ["Hard to enforce", "Legal challenges"],
-    whoGains: ["Patients"],
-    whoLoses: ["Manufacturers"],
-    mend: ["N/A"],
+    how: {
+      "x-price-control-exit": {
+        note: "Linking favorable pricing to prompt domestic launches uses a simple rule to prevent launch delays.",
+      },
+      "innovation-slowdown": {
+        note: "Making favorable prices conditional on prompt launches helps prevent delays in access to new products.",
+      },
+      "t-enforcement-burden": {
+        note: "Enforcing the link between favorable pricing and prompt launches is difficult.",
+        hurts: ["drug-device-makers"],
+      },
+      "t-political-resistance": {
+        note: "Conditioning favorable pricing on prompt launches can face legal challenges.",
+      },
+    },
+    worsens: ["t-enforcement-burden", "t-political-resistance"],
+    solves: ["innovation-slowdown"],
     changes: ["Tie favorable pricing to prompt U.S. launch"],
   }),
 
@@ -559,11 +745,18 @@ export const DERIVED_PATHS = [
         sourceIds: ["rdpri-peer-review-advanced-research-projec-2022"],
       },
     ],
-    pros: ["Insulates from politics", "Proven"],
-    cons: ["Conservative", "Slow"],
-    whoGains: ["Researchers"],
-    whoLoses: ["N/A"],
-    mend: ["N/A"],
+    how: {
+      "x-public-rd-priorities": {
+        note: "Using scientific peer review for funding decisions insulates research priorities from politics and uses an established approach, while reserving funding for high-risk research.",
+      },
+      "innovation-slowdown": {
+        note: "Scientific peer review can be conservative even with funding reserved for high-risk research.",
+      },
+      "t-delayed-benefits": {
+        note: "Scientific peer review makes research funding decisions slow.",
+      },
+    },
+    worsens: ["innovation-slowdown", "t-delayed-benefits"],
     changes: ["Keep peer review", "Set aside funds for high-risk research"],
   }),
   path({
@@ -579,11 +772,18 @@ export const DERIVED_PATHS = [
         sourceIds: ["rdpri-mixed-health-affairs-scholar-2024"],
       },
     ],
-    pros: ["Limits government role", "Targets gaps"],
-    cons: ["Relies on high prices elsewhere", "Gaps hard to define"],
-    whoGains: ["N/A"],
-    whoLoses: ["N/A"],
-    mend: ["N/A"],
+    how: {
+      "x-public-rd-priorities": {
+        note: "Limiting public research funding to neglected areas such as antibiotics and rare diseases narrows government’s role and targets gaps left by private research.",
+      },
+      "high-prices": {
+        note: "Restricting public funding to neglected research areas leaves reliance on high prices elsewhere.",
+      },
+      "t-uncertain-evidence": {
+        note: "Identifying the research gaps that qualify for public funding is difficult.",
+      },
+    },
+    worsens: ["high-prices", "t-uncertain-evidence"],
     changes: ["Fund only neglected areas publicly"],
   }),
 
@@ -602,11 +802,18 @@ export const DERIVED_PATHS = [
         sourceIds: ["scopeq-monitor-health-services-research-2020"],
       },
     ],
-    pros: ["Evidence-based", "Adjusts over time"],
-    cons: ["Data take years", "Hard to attribute outcomes"],
-    whoGains: ["Patients"],
-    whoLoses: ["N/A"],
-    mend: ["N/A"],
+    how: {
+      "x-scope-quality": {
+        note: "Publishing outcomes and prescribing by clinician type allows practice scope to expand or contract based on evidence and adjust over time.",
+      },
+      "t-delayed-benefits": {
+        note: "Collecting outcome and prescribing evidence by clinician type takes years.",
+      },
+      "t-uncertain-evidence": {
+        note: "It is hard to attribute observed outcomes to clinician type when deciding practice scope.",
+      },
+    },
+    worsens: ["t-delayed-benefits", "t-uncertain-evidence"],
     changes: ["Publish outcomes by clinician type"],
   }),
   path({
@@ -625,11 +832,18 @@ export const DERIVED_PATHS = [
         sourceIds: ["scopeq-transition-period-journal-of-the-american--2024"],
       },
     ],
-    pros: ["Builds experience", "Addresses quality concerns"],
-    cons: ["Slows supply", "Supervision bottleneck"],
-    whoGains: ["Patients"],
-    whoLoses: ["New NPs"],
-    mend: ["N/A"],
+    how: {
+      "x-scope-quality": {
+        note: "Requiring supervised practice before independence builds experience and addresses quality concerns.",
+      },
+      "t-delayed-benefits": {
+        note: "Requiring supervised hours before independence slows the addition of independent practitioners.",
+      },
+      "physician-shortage": {
+        note: "Requiring supervision before independent practice creates a supervision bottleneck.",
+      },
+    },
+    worsens: ["t-delayed-benefits", "physician-shortage"],
     changes: ["Require supervised hours before independence"],
   }),
 
@@ -647,11 +861,16 @@ export const DERIVED_PATHS = [
         sourceIds: ["staffing-phase-health-services-research-2013"],
       },
     ],
-    pros: ["Avoids closures", "Aligns with supply"],
-    cons: ["Slower benefits", "Delayed safety gains"],
-    whoGains: ["Facilities"],
-    whoLoses: ["N/A"],
-    mend: ["N/A"],
+    how: {
+      "x-staffing-mandate-cost": {
+        note: "Tightening staffing ratios in stages as training grows aligns requirements with workforce supply and avoids closures, while raising rates to pay for staffing.",
+      },
+      "t-delayed-benefits": {
+        note: "Introducing tighter staffing ratios in stages delays their benefits.",
+      },
+      safety: { note: "Phasing in tighter staffing ratios delays safety gains." },
+    },
+    worsens: ["t-delayed-benefits", "safety"],
     complements: ["nurse-pipeline"],
     changes: ["Phase staffing rules with workforce growth"],
   }),
@@ -668,11 +887,19 @@ export const DERIVED_PATHS = [
         sourceIds: ["staffing-waivers-federal-register-2024"],
       },
     ],
-    pros: ["Prevents closures", "Flexible"],
-    cons: ["Waivers can become permanent", "Unequal protections"],
-    whoGains: ["Rural facilities"],
-    whoLoses: ["Residents of waived facilities"],
-    mend: ["N/A"],
+    how: {
+      "x-staffing-mandate-cost": {
+        note: "Time-limited waivers for facilities that prove they cannot hire provide flexibility and prevent closures.",
+      },
+      "t-enforcement-burden": {
+        note: "Temporary staffing waivers can become permanent rather than ending as intended.",
+        hurts: ["long-term-care-users"],
+      },
+      disparities: {
+        note: "Giving some facilities staffing waivers leaves patients with unequal protections.",
+      },
+    },
+    worsens: ["t-enforcement-burden", "disparities"],
     changes: ["Allow time-limited hardship waivers"],
   }),
 
@@ -690,11 +917,19 @@ export const DERIVED_PATHS = [
         sourceIds: ["woodwork-assessment-frontiers-in-public-heal-2024"],
       },
     ],
-    pros: ["Controls costs", "Consistent"],
-    cons: ["Some needs unmet", "Assessment costs"],
-    whoGains: ["Taxpayers"],
-    whoLoses: ["People just below thresholds"],
-    mend: ["N/A"],
+    how: {
+      "x-woodwork": {
+        note: "Independent need assessments and tiered benefits with set care hours provide consistent allocation and control costs.",
+      },
+      "ltc-spend-down": {
+        note: "Tiered benefits with set care hours leave some long-term care needs unmet.",
+        hurts: ["changing-lives"],
+      },
+      "t-administrative-work": {
+        note: "Independent assessments of care needs add assessment costs.",
+      },
+    },
+    worsens: ["ltc-spend-down", "t-administrative-work"],
     changes: ["Create independent needs assessment with tiered benefits"],
   }),
   path({
@@ -709,11 +944,19 @@ export const DERIVED_PATHS = [
         sourceIds: ["woodwork-cash-health-services-research-2012"],
       },
     ],
-    pros: ["Lower cost", "Supports family care"],
-    cons: ["Quality hard to monitor", "Gendered caregiving burden"],
-    whoGains: ["Family caregivers"],
-    whoLoses: ["N/A"],
-    mend: ["N/A"],
+    how: {
+      "x-woodwork": {
+        note: "Offering a smaller cash benefit for families to provide care themselves lowers costs and supports family care.",
+        helps: ["caregiving-families"],
+      },
+      "t-oversight-limits": {
+        note: "Quality is hard to monitor when families receive cash to provide care themselves.",
+      },
+      "t-caregiving-burden": {
+        note: "Relying on family-provided care with a cash benefit leaves a gendered caregiving burden.",
+      },
+    },
+    worsens: ["t-oversight-limits", "t-caregiving-burden"],
     changes: ["Offer a cash benefit for family caregivers"],
   }),
 
@@ -735,11 +978,19 @@ export const DERIVED_PATHS = [
         sourceIds: ["copay-none-health-canada-2025"],
       },
     ],
-    pros: ["Reduces migration concerns", "Lower cost"],
-    cons: ["Gaps for new arrivals", "Verification paperwork"],
-    whoGains: ["Taxpayers"],
-    whoLoses: ["New arrivals"],
+    how: {
+      "x-migration-concern": {
+        note: "Requiring a period of proven residence before full coverage lowers costs and reduces migration concerns while retaining emergency coverage.",
+      },
+      "immigrant-coverage": {
+        note: "Delaying full coverage until a residence requirement is met leaves gaps for new arrivals even though emergency care remains covered.",
+      },
+      "t-administrative-work": {
+        note: "Checking proof of residence for coverage requires verification paperwork.",
+      },
+    },
     mend: ["Cover children and pregnancy immediately"],
+    worsens: ["immigrant-coverage", "t-administrative-work"],
     changes: [
       "Require a residence period before full coverage",
       "Cover emergencies, children, and pregnancy immediately",
@@ -748,6 +999,7 @@ export const DERIVED_PATHS = [
   path({
     id: "migration-no-wait",
     problemId: "x-migration-concern",
+    role: "answers",
     title: "Cover from day one",
     summary: "Cover all residents immediately.",
     precedents: [
@@ -761,11 +1013,20 @@ export const DERIVED_PATHS = [
         sourceIds: ["migration-no-wait-uk-visas-and-immigration-2024"],
       },
     ],
-    pros: ["No gaps", "Simple"],
-    cons: ["Cost", "Political concerns"],
-    whoGains: ["Immigrants"],
-    whoLoses: ["Taxpayers"],
-    mend: ["N/A"],
+    how: {
+      "x-migration-concern": {
+        note: "Covering all residents immediately leaves no coverage gaps and uses a simple eligibility approach.",
+      },
+      "immigrant-coverage": {
+        note: "Immediate coverage for all residents removes gaps caused by waiting for eligibility.",
+      },
+      "t-higher-spending": { note: "Immediate coverage for all residents adds cost." },
+      "t-political-resistance": {
+        note: "Immediate coverage for all residents raises political concerns.",
+      },
+    },
+    worsens: ["t-higher-spending", "t-political-resistance"],
+    solves: ["immigrant-coverage"],
     changes: ["Cover all residents from day one"],
   }),
 
@@ -784,11 +1045,16 @@ export const DERIVED_PATHS = [
         sourceIds: ["gaming-audit-national-audit-office-2001"],
       },
     ],
-    pros: ["Less gaming", "Credible data"],
-    cons: ["Fewer things measured", "Audit costs"],
-    whoGains: ["Patients"],
-    whoLoses: ["N/A"],
-    mend: ["N/A"],
+    how: {
+      "x-metric-gaming": {
+        note: "Auditing a short list of hard-to-game outcome and patient-reported measures reduces gaming and produces credible data.",
+      },
+      "t-reduced-data": {
+        note: "Restricting monitoring to a short list of measures leaves fewer things measured.",
+      },
+      "t-administrative-work": { note: "Auditing the selected measures adds audit costs." },
+    },
+    worsens: ["t-reduced-data", "t-administrative-work"],
     changes: ["Audit a short list of measures"],
   }),
   path({
@@ -804,11 +1070,20 @@ export const DERIVED_PATHS = [
         sourceIds: ["medpac-2025"],
       },
     ],
-    pros: ["No gaming incentive", "Less admin"],
-    cons: ["Weaker incentive", "Data quality may drop"],
-    whoGains: ["N/A"],
-    whoLoses: ["N/A"],
-    mend: ["N/A"],
+    how: {
+      "x-metric-gaming": {
+        note: "Publishing performance data without bonuses removes the financial incentive to game and reduces administration.",
+      },
+      "admin-cost": {
+        note: "Publishing data without attaching bonuses requires less administration.",
+      },
+      "t-weaker-incentives": {
+        note: "Removing performance bonuses weakens the incentive associated with the measures.",
+      },
+      "t-reduced-data": { note: "Publishing data without bonuses may reduce data quality." },
+    },
+    worsens: ["t-weaker-incentives", "t-reduced-data"],
+    solves: ["admin-cost"],
     changes: ["Publish measures without tying pay"],
   }),
 
@@ -816,6 +1091,7 @@ export const DERIVED_PATHS = [
   path({
     id: "state-administer",
     problemId: "x-state-control",
+    role: "answers",
     title: "States administer under national rules",
     summary:
       "National rules and funding, but states run enrollment and provider relations, like Canada's provinces.",
@@ -826,16 +1102,21 @@ export const DERIVED_PATHS = [
         sourceIds: ["copay-none-health-canada-2025"],
       },
     ],
-    pros: ["Local control", "Experimentation"],
-    cons: ["Variation between states", "Duplication"],
-    whoGains: ["States"],
-    whoLoses: ["N/A"],
-    mend: ["N/A"],
+    how: {
+      "x-state-control": {
+        note: "Letting states run enrollment and provider relations under national rules and funding preserves local control and allows experimentation.",
+      },
+      "admin-cost": {
+        note: "Having states administer enrollment and provider relations duplicates administration.",
+      },
+    },
+    worsens: ["admin-cost"],
     changes: ["Let states administer under national rules"],
   }),
   path({
     id: "state-moe",
     problemId: "x-state-control",
+    role: "answers",
     title: "Maintenance-of-effort payments from states",
     summary: "States pay the national program what they spent on Medicaid, indexed.",
     precedents: [
@@ -849,11 +1130,20 @@ export const DERIVED_PATHS = [
         sourceIds: ["state-moe-centers-for-medicare-med-2024"],
       },
     ],
-    pros: ["Lower federal cost", "Simple"],
-    cons: ["Locks in historical differences", "State budget burden"],
-    whoGains: ["Federal budget"],
-    whoLoses: ["States"],
-    mend: ["N/A"],
+    how: {
+      "x-state-control": {
+        note: "Requiring indexed state payments based on former Medicaid spending lowers federal costs through a simple contribution rule.",
+        helps: ["taxpayers"],
+      },
+      disparities: {
+        note: "Basing state contributions on historical Medicaid spending locks in historical differences.",
+        hurts: ["states"],
+      },
+      "t-funding-instability": {
+        note: "Requiring indexed contributions based on former Medicaid spending burdens state budgets.",
+      },
+    },
+    worsens: ["disparities", "t-funding-instability"],
     changes: ["Require state maintenance-of-effort payments"],
   }),
 ]

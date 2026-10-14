@@ -19,6 +19,12 @@ export type SolutionPath = {
   id: string
   /** The problem this path is primarily a solution to. */
   problemId: string
+  /**
+   * By default a path fixes its main problem. "answers" means it is one answer
+   * to that problem's open question (which tax, whether to allow a private
+   * tier) rather than a way to shrink it, so no gains or losses flow from it.
+   */
+  role?: "answers"
   title: string
   summary: string
   precedents: Precedent[]
@@ -35,7 +41,10 @@ export type SolutionPath = {
   cons?: string[]
   whoGains?: string[]
   whoLoses?: string[]
-  /** Ways to make up for or soften the losses to those who lose. */
+  /**
+   * Ways to soften the losses that aren't (yet) solution paths of their own.
+   * Paths that fix this path's harms are listed under each harm instead.
+   */
   mend?: string[]
   /** Other problems this path also helps. */
   solves?: string[]

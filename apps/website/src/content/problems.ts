@@ -175,11 +175,24 @@ export const PROBLEMS: Problem[] = [
         sourceIds: ["kff-cost-2025"],
       },
     ],
-    whoIsHurt: [
-      "People with chronic illness",
-      "Low- and middle-income families in high-deductible plans",
+    hurts: [
+      {
+        group: "heavy-care-users",
+        how: "High deductibles and coinsurance lead them to avoid care.",
+      },
+      {
+        group: "low-middle-income",
+        how: "High deductibles and coinsurance lead them to avoid care.",
+      },
     ],
-    whoProfits: ["Insurers and employers through lower premiums", "HSA administrators"],
+    profits: [
+      { group: "insurers", how: "They benefit from lower premiums." },
+      { group: "employers", how: "They benefit from lower premiums." },
+      {
+        group: "financial-intermediaries",
+        how: "They administer health savings accounts associated with high-deductible plans.",
+      },
+    ],
     rootCauses: ["Cost sharing used to hold down premiums", "Employers shifting costs to workers"],
     openQuestions: [
       "Should patients pay anything at the point of care? If so, how much and with what cap?",
@@ -222,11 +235,15 @@ export const PROBLEMS: Problem[] = [
     summary:
       "Undocumented immigrants are excluded from most coverage; lawful immigrants face waiting periods. Care comes through ERs, community health centers, and Emergency Medicaid, often late and expensive.",
     evidence: [],
-    whoIsHurt: [
-      "Undocumented and recently arrived immigrants",
-      "Citizen children in mixed-status families",
+    hurts: [
+      {
+        group: "immigrant-families",
+        how: "Coverage exclusions and waiting periods leave families relying on late and expensive safety-net care.",
+      },
     ],
-    whoProfits: ["Short-term public budgets"],
+    profits: [
+      { group: "taxpayers", how: "Coverage exclusions limit public spending in the short term." },
+    ],
     rootCauses: [
       "Federal eligibility rules",
       "Fear of immigration consequences discouraging enrollment",
@@ -265,12 +282,24 @@ export const PROBLEMS: Problem[] = [
         sourceIds: ["pr-physicians-2025"],
       },
     ],
-    whoIsHurt: [
-      "Low-income residents of the territories",
-      "Territory hospitals and clinicians paid less than mainland peers",
-      "Territory governments facing recurring funding cliffs",
+    hurts: [
+      {
+        group: "territory-residents",
+        how: "Capped and temporary federal funding leaves their health coverage less secure.",
+      },
+      { group: "providers", how: "Territory providers are paid less than mainland peers." },
+      { group: "clinicians", how: "Territory providers are paid less than mainland peers." },
+      {
+        group: "territory-governments",
+        how: "Temporary funding laws create recurring funding cliffs.",
+      },
     ],
-    whoProfits: ["Short-term federal budgets"],
+    profits: [
+      {
+        group: "taxpayers",
+        how: "Capped territorial funding limits federal spending in the short term.",
+      },
+    ],
     rootCauses: [
       "Medicaid law caps territory funding and sets a fixed matching rate",
       "Temporary funding laws instead of a permanent formula",
@@ -295,12 +324,28 @@ export const PROBLEMS: Problem[] = [
         sourceIds: ["kff-debt-2022"],
       },
     ],
-    whoIsHurt: [
-      "Low- and middle-income families",
-      "People with serious illness",
-      "Uninsured and underinsured people",
+    hurts: [
+      {
+        group: "low-middle-income",
+        how: "Medical debt leads them to skip care and face damaged credit and financial distress.",
+      },
+      {
+        group: "heavy-care-users",
+        how: "Medical debt leads them to skip care and face damaged credit and financial distress.",
+      },
+      {
+        group: "uninsured",
+        how: "Medical debt leads them to skip care and face damaged credit and financial distress.",
+      },
+      {
+        group: "underinsured",
+        how: "Medical debt leads them to skip care and face damaged credit and financial distress.",
+      },
     ],
-    whoProfits: ["Debt collectors and debt buyers", "Hospitals that sell or sue over debt"],
+    profits: [
+      { group: "debt-collectors", how: "They collect or buy medical debt." },
+      { group: "providers", how: "Hospitals sell medical debt or sue to collect it." },
+    ],
     rootCauses: ["Cost sharing", "Uninsurance", "Surprise and opaque bills"],
     openQuestions: [
       "Should existing medical debt be bought and forgiven?",
@@ -346,8 +391,17 @@ export const PROBLEMS: Problem[] = [
         sourceIds: ["rand-hospital-2024"],
       },
     ],
-    whoIsHurt: ["Patients with deductibles", "Employers trying to manage costs"],
-    whoProfits: ["High-priced providers", "Intermediaries that profit from complexity"],
+    hurts: [
+      {
+        group: "underinsured",
+        how: "Secret contracts and inconsistent transparency make prices hard to know in advance.",
+      },
+      { group: "employers", how: "Opaque and variable prices make health costs hard to manage." },
+    ],
+    profits: [
+      { group: "high-price-providers", how: "Opaque prices help sustain high charges." },
+      { group: "health-admin-vendors", how: "They profit from pricing complexity." },
+    ],
     rootCauses: ["Prices negotiated privately between thousands of payers and providers"],
     openQuestions: ["Should there be one public price for each service?"],
   },
@@ -418,8 +472,20 @@ export const PROBLEMS: Problem[] = [
         sourceIds: ["ama-prior-auth-2024"],
       },
     ],
-    whoIsHurt: ["Patients with chronic and serious illness", "Physicians and staff"],
-    whoProfits: ["Insurers", "Utilization-management vendors"],
+    hurts: [
+      {
+        group: "heavy-care-users",
+        how: "Approval requirements delay treatment and can cause harm.",
+      },
+      { group: "clinicians", how: "Approval requirements take time from physicians and staff." },
+    ],
+    profits: [
+      { group: "insurers", how: "They control treatment approval through prior authorization." },
+      {
+        group: "health-admin-vendors",
+        how: "They supply utilization-management services for approval requirements.",
+      },
+    ],
     rootCauses: ["Insurers' cost-control incentive", "Lack of trusted, shared evidence rules"],
     openQuestions: [
       "Should prior authorization exist? If so, for which services and decided by whom?",
@@ -437,8 +503,23 @@ export const PROBLEMS: Problem[] = [
         sourceIds: ["medpac-2025"],
       },
     ],
-    whoIsHurt: ["Taxpayers", "Medicare beneficiaries through higher Part B premiums"],
-    whoProfits: ["Medicare Advantage insurers", "Risk-adjustment and coding vendors"],
+    hurts: [
+      {
+        group: "taxpayers",
+        how: "Aggressive diagnosis coding raises payments to private Medicare plans.",
+      },
+      { group: "medicare-beneficiaries", how: "Overpayments increase their premiums." },
+    ],
+    profits: [
+      {
+        group: "insurers",
+        how: "Plans receive larger payments when enrollees look sicker on paper.",
+      },
+      {
+        group: "health-admin-vendors",
+        how: "They provide risk-adjustment and coding services rewarded by larger payments.",
+      },
+    ],
     rootCauses: ["Risk-adjusted capitation without enough audit", "Favorable selection"],
     openQuestions: [
       "Should private plans manage public money at all? If so, under what payment and audit rules?",
@@ -477,14 +558,24 @@ export const PROBLEMS: Problem[] = [
         sourceIds: ["ftc-pbm-2025"],
       },
     ],
-    whoIsHurt: [
-      "Patients whose coinsurance is based on list price",
-      "Independent pharmacies",
-      "Employers",
+    hurts: [
+      {
+        group: "underinsured",
+        how: "List-price-based coinsurance exposes them to higher drug prices.",
+      },
+      { group: "local-pharmacies", how: "PBM-owned pharmacies dominate specialty drugs." },
+      { group: "employers", how: "Opaque spread pricing hides prescription benefit margins." },
     ],
-    whoProfits: [
-      "PBMs and their insurer parents",
-      "Manufacturers that buy formulary placement with rebates",
+    profits: [
+      {
+        group: "pbms",
+        how: "Rebates and opaque pricing generate revenue for benefit managers and their insurer parents.",
+      },
+      {
+        group: "insurers",
+        how: "Rebates and opaque pricing generate revenue for benefit managers and their insurer parents.",
+      },
+      { group: "drug-device-makers", how: "Rebates buy formulary placement for their products." },
     ],
     rootCauses: [
       "Rebates based on list price",
@@ -546,8 +637,23 @@ export const PROBLEMS: Problem[] = [
         sourceIds: ["rand-hospital-2024"],
       },
     ],
-    whoIsHurt: ["Commercially insured patients and employers"],
-    whoProfits: ["Dominant health systems and their executives"],
+    hurts: [
+      {
+        group: "employer-covered",
+        how: "Consolidation raises commercial prices without clear quality gains.",
+      },
+      {
+        group: "employers",
+        how: "Consolidation raises commercial prices without clear quality gains.",
+      },
+    ],
+    profits: [
+      {
+        group: "high-price-providers",
+        how: "Dominant systems gain from higher commercial prices.",
+      },
+      { group: "health-executives", how: "Dominant systems gain from higher commercial prices." },
+    ],
     rootCauses: [
       "Leverage over fragmented insurers",
       "Facility fees that reward hospital ownership of practices",
@@ -568,8 +674,23 @@ export const PROBLEMS: Problem[] = [
         sourceIds: ["ama-pe-2022"],
       },
     ],
-    whoIsHurt: ["Patients", "Clinicians who lose autonomy", "Nursing-home residents"],
-    whoProfits: ["PE investors"],
+    hurts: [
+      {
+        group: "heavy-care-users",
+        how: "Practice and facility buyouts can raise prices and cut staff.",
+      },
+      {
+        group: "long-term-care-users",
+        how: "Practice and facility buyouts can raise prices and cut staff.",
+      },
+      { group: "clinicians", how: "Private equity ownership reduces their autonomy." },
+    ],
+    profits: [
+      {
+        group: "private-equity",
+        how: "Investors gain from buying and consolidating medical businesses.",
+      },
+    ],
     rootCauses: ["Fee-for-service arbitrage, out-of-network billing, and roll-up valuations"],
     openQuestions: ["Should investor-owned providers be allowed? With what limits?"],
   },
@@ -580,8 +701,26 @@ export const PROBLEMS: Problem[] = [
     summary:
       "When a hospital owns a clinic, it can charge a facility fee on top of the physician fee for the same visit, which encourages hospitals to buy practices.",
     evidence: [],
-    whoIsHurt: ["Patients and payers"],
-    whoProfits: ["Hospital systems"],
+    hurts: [
+      {
+        group: "underinsured",
+        how: "Hospital ownership adds a facility fee to the cost of the same clinic visit.",
+      },
+      {
+        group: "insurers",
+        how: "Hospital ownership adds a facility fee to the cost of the same clinic visit.",
+      },
+      {
+        group: "taxpayers",
+        how: "Hospital ownership adds a facility fee to the cost of the same clinic visit.",
+      },
+    ],
+    profits: [
+      {
+        group: "providers",
+        how: "Hospital systems collect facility fees on top of physician fees.",
+      },
+    ],
     rootCauses: ["Payment rules that pay more by site rather than by service"],
     openQuestions: ["Should payment be the same regardless of site?"],
   },
@@ -597,8 +736,16 @@ export const PROBLEMS: Problem[] = [
         sourceIds: ["rice-ceo-pay"],
       },
     ],
-    whoIsHurt: ["Taxpayers (forgone taxes)", "Patients"],
-    whoProfits: ["Executives"],
+    hurts: [
+      { group: "taxpayers", how: "Tax exemptions for hospital systems forgo public revenue." },
+      { group: "low-middle-income", how: "Tax-exempt systems provide uneven community benefits." },
+    ],
+    profits: [
+      {
+        group: "health-executives",
+        how: "Nonprofit hospital executives receive substantial compensation.",
+      },
+    ],
     rootCauses: ["Weak community-benefit standards", "Board pay benchmarks against peers"],
     openQuestions: ["Should executive pay be limited for providers paid with public money?"],
   },
@@ -620,8 +767,31 @@ export const PROBLEMS: Problem[] = [
         sourceIds: ["rand-drugs-2024"],
       },
     ],
-    whoIsHurt: ["Patients with coinsurance or no coverage", "Payers"],
-    whoProfits: ["Manufacturers and shareholders", "PBMs earning rebates on high list prices"],
+    hurts: [
+      {
+        group: "underinsured",
+        how: "Market exclusivity sustains drug prices far above production cost.",
+      },
+      {
+        group: "uninsured",
+        how: "Market exclusivity sustains drug prices far above production cost.",
+      },
+      {
+        group: "insurers",
+        how: "Market exclusivity sustains drug prices far above production cost.",
+      },
+      {
+        group: "taxpayers",
+        how: "Market exclusivity sustains drug prices far above production cost.",
+      },
+    ],
+    profits: [
+      {
+        group: "drug-device-makers",
+        how: "Market exclusivity supports high prices and shareholder returns.",
+      },
+      { group: "pbms", how: "High list prices generate rebates for benefit managers." },
+    ],
     rootCauses: ["Patent monopolies", "Fragmented buyers", "Rebate system"],
     openQuestions: [
       "Should drug prices be set by value, by cost-plus, by international reference, or by negotiation?",
@@ -639,8 +809,20 @@ export const PROBLEMS: Problem[] = [
         sourceIds: ["imak-humira"],
       },
     ],
-    whoIsHurt: ["Patients and payers paying monopoly prices longer"],
-    whoProfits: ["Brand manufacturers"],
+    hurts: [
+      {
+        group: "heavy-care-users",
+        how: "Extended monopolies keep them paying monopoly prices longer.",
+      },
+      { group: "insurers", how: "Extended monopolies keep them paying monopoly prices longer." },
+      { group: "taxpayers", how: "Extended monopolies keep them paying monopoly prices longer." },
+    ],
+    profits: [
+      {
+        group: "drug-device-makers",
+        how: "Secondary patents extend brand manufacturers’ monopolies.",
+      },
+    ],
     rootCauses: ["Patent office standards", "Cost of challenging many patents"],
     openQuestions: [
       "Should drug patents exist as they do now, be shortened, be limited to one per product, or be replaced by prizes or public funding?",
@@ -662,11 +844,19 @@ export const PROBLEMS: Problem[] = [
         sourceIds: ["cbo-hr3-drugs"],
       },
     ],
-    whoIsHurt: [
-      "Today's patients (high prices)",
-      "Future patients (if prices are cut without replacing R&D funding)",
+    hurts: [
+      { group: "heavy-care-users", how: "High prices make current treatment less affordable." },
+      {
+        group: "future-care-users",
+        how: "Price cuts without replacement research funding can reduce the development of new drugs.",
+      },
     ],
-    whoProfits: ["Manufacturers and investors"],
+    profits: [
+      {
+        group: "drug-device-makers",
+        how: "High prices fund research and support expected investor returns.",
+      },
+    ],
     rootCauses: ["Private financing of risky R&D recovered through monopoly pricing"],
     openQuestions: [
       "How should drug R&D be paid for: high prices, public funding, prizes, advance purchase commitments, or a mix?",
@@ -684,9 +874,19 @@ export const PROBLEMS: Problem[] = [
         sourceIds: ["ashp-shortages-2024"],
       },
     ],
-    whoIsHurt: ["Cancer patients", "Hospitals and emergency patients"],
-    whoProfits: [
-      "No one sustainably; group purchasing organizations push prices to unsustainable lows",
+    hurts: [
+      {
+        group: "heavy-care-users",
+        how: "Essential generic shortages interrupt access to chemotherapy and emergency drugs.",
+      },
+      {
+        group: "emergency-care-users",
+        how: "Essential generic shortages interrupt access to chemotherapy and emergency drugs.",
+      },
+      {
+        group: "providers",
+        how: "Dependence on few factories leaves hospitals exposed to essential drug shortages.",
+      },
     ],
     rootCauses: [
       "Race-to-the-bottom generic pricing",
@@ -709,8 +909,22 @@ export const PROBLEMS: Problem[] = [
         sourceIds: ["bls-oews-2025"],
       },
     ],
-    whoIsHurt: ["Rural residents", "Older adults without transportation"],
-    whoProfits: ["PBM-owned mail and specialty pharmacies"],
+    hurts: [
+      {
+        group: "rural-residents",
+        how: "Pharmacy closures reduce access to medicines, especially without transportation.",
+      },
+      {
+        group: "older-adults",
+        how: "Pharmacy closures reduce access to medicines, especially without transportation.",
+      },
+    ],
+    profits: [
+      {
+        group: "pbms",
+        how: "Affiliated mail and specialty pharmacies benefit as local pharmacies close.",
+      },
+    ],
     rootCauses: ["PBM reimbursement below cost", "Shift to mail order"],
     openQuestions: ["How should pharmacies be paid (dispensing fee, cost-plus)?"],
   },
@@ -725,11 +939,19 @@ export const PROBLEMS: Problem[] = [
     evidence: [
       { text: "181 rural hospital closures (2005–2022).", sourceIds: ["ahr-rural-closures"] },
     ],
-    whoIsHurt: [
-      "About 60 million rural residents",
-      "Emergency and trauma patients facing longer transport",
+    hurts: [
+      { group: "rural-residents", how: "Hospital closures reduce local access to care." },
+      {
+        group: "emergency-care-users",
+        how: "Closures require longer emergency and trauma transport.",
+      },
     ],
-    whoProfits: ["No one directly; urban systems sometimes gain patients"],
+    profits: [
+      {
+        group: "providers",
+        how: "Urban systems sometimes gain patients from rural hospital closures.",
+      },
+    ],
     rootCauses: [
       "Fee-for-service payment that requires volume",
       "Payer mix",
@@ -752,8 +974,16 @@ export const PROBLEMS: Problem[] = [
         sourceIds: ["march-of-dimes-2024"],
       },
     ],
-    whoIsHurt: ["Pregnant people in rural areas", "Newborns"],
-    whoProfits: ["No one"],
+    hurts: [
+      {
+        group: "maternity-families",
+        how: "Obstetric unit closures leave pregnant people and newborns without local maternity care.",
+      },
+      {
+        group: "rural-residents",
+        how: "Obstetric unit closures leave pregnant people and newborns without local maternity care.",
+      },
+    ],
     rootCauses: ["Low payment for births", "Staffing and liability costs", "Low volume"],
     openQuestions: ["Should obstetric units be funded as essential infrastructure?"],
   },
@@ -773,8 +1003,20 @@ export const PROBLEMS: Problem[] = [
         sourceIds: ["hrsa-bh-2025"],
       },
     ],
-    whoIsHurt: ["Rural and low-income urban residents"],
-    whoProfits: ["No one directly"],
+    hurts: [
+      {
+        group: "rural-residents",
+        how: "Clinician shortages limit primary and mental health care access.",
+      },
+      {
+        group: "low-middle-income",
+        how: "Clinician shortages limit primary and mental health care access.",
+      },
+      {
+        group: "underserved-residents",
+        how: "Clinician shortages limit primary and mental health care access.",
+      },
+    ],
     rootCauses: [
       "Clinicians cluster where pay and amenities are highest",
       "Training located in cities",
@@ -796,8 +1038,20 @@ export const PROBLEMS: Problem[] = [
         sourceIds: ["bls-oews-2025"],
       },
     ],
-    whoIsHurt: ["Older and disabled people", "Rural residents"],
-    whoProfits: ["Private ambulance operators billing out of network"],
+    hurts: [
+      { group: "older-adults", how: "Lack of transportation causes missed appointments." },
+      { group: "heavy-care-users", how: "Lack of transportation causes missed appointments." },
+      {
+        group: "rural-residents",
+        how: "Closing rural emergency transport services reduce access to care.",
+      },
+    ],
+    profits: [
+      {
+        group: "ambulance-operators",
+        how: "Out-of-network ground ambulance bills lack surprise-billing protections.",
+      },
+    ],
     rootCauses: [
       "EMS funded by local budgets and fee-for-service",
       "No coverage for non-emergency transport in most plans",
@@ -825,8 +1079,14 @@ export const PROBLEMS: Problem[] = [
         sourceIds: ["bls-oews-2025"],
       },
     ],
-    whoIsHurt: ["Patients waiting for appointments", "Physicians facing burnout"],
-    whoProfits: ["Incumbent specialists (scarcity supports pay)"],
+    hurts: [
+      {
+        group: "underserved-residents",
+        how: "Physician shortages leave them waiting for appointments.",
+      },
+      { group: "clinicians", how: "Physician shortages contribute to burnout." },
+    ],
+    profits: [{ group: "specialists", how: "Scarcity supports incumbent specialists’ pay." }],
     rootCauses: [
       "Residency cap",
       "Fee schedule that undervalues primary care",
@@ -850,8 +1110,23 @@ export const PROBLEMS: Problem[] = [
         sourceIds: ["medscape-resident-2024"],
       },
     ],
-    whoIsHurt: ["Medical students", "Patients who need primary care"],
-    whoProfits: ["Lenders; high-paying specialties benefit from limited competition"],
+    hurts: [
+      {
+        group: "health-students",
+        how: "High debt and low residency pay push graduates toward high-paying specialties.",
+      },
+      {
+        group: "underserved-residents",
+        how: "Debt-driven specialty choices reduce primary care and rural practice availability.",
+      },
+    ],
+    profits: [
+      {
+        group: "financial-intermediaries",
+        how: "Lenders benefit from medical education borrowing.",
+      },
+      { group: "specialists", how: "High-paying specialties benefit from limited competition." },
+    ],
     rootCauses: ["High tuition", "Long training at low pay"],
     openQuestions: [
       "Should medical, dental, and nursing education be tuition-free, possibly in exchange for service?",
@@ -869,8 +1144,21 @@ export const PROBLEMS: Problem[] = [
         sourceIds: ["bls-oews-2025"],
       },
     ],
-    whoIsHurt: ["Patients in understaffed hospitals and nursing homes", "Workers"],
-    whoProfits: ["Staffing agencies charging premium rates", "Operators who keep staffing thin"],
+    hurts: [
+      {
+        group: "heavy-care-users",
+        how: "Understaffed hospitals and nursing homes leave them with too few caregivers.",
+      },
+      {
+        group: "long-term-care-users",
+        how: "Understaffed hospitals and nursing homes leave them with too few caregivers.",
+      },
+      { group: "clinicians", how: "High turnover and low aide pay burden care workers." },
+    ],
+    profits: [
+      { group: "staffing-agencies", how: "Shortages allow them to charge premium rates." },
+      { group: "providers", how: "Operators benefit from keeping staffing thin." },
+    ],
     rootCauses: ["Low pay for direct care", "Faculty shortages", "Burnout"],
     openQuestions: [
       "Should there be minimum staffing ratios?",
@@ -889,8 +1177,19 @@ export const PROBLEMS: Problem[] = [
         sourceIds: ["ama-prior-auth-2024"],
       },
     ],
-    whoIsHurt: ["Physicians and nurses", "Patients who get less face time"],
-    whoProfits: ["EHR vendors and billing intermediaries"],
+    hurts: [
+      {
+        group: "clinicians",
+        how: "Documentation and insurer paperwork drive burnout and early retirement.",
+      },
+      { group: "heavy-care-users", how: "Paperwork leaves less face time with clinicians." },
+    ],
+    profits: [
+      {
+        group: "health-admin-vendors",
+        how: "They supply the record and billing systems used for administrative work.",
+      },
+    ],
     rootCauses: ["Documentation for billing rather than care", "Multiple payers' rules"],
     openQuestions: ["How much documentation should payment require?"],
   },
@@ -906,8 +1205,13 @@ export const PROBLEMS: Problem[] = [
         sourceIds: ["bls-oews-2025"],
       },
     ],
-    whoIsHurt: ["Patients in shortage areas"],
-    whoProfits: ["Physicians whose market is protected"],
+    hurts: [
+      {
+        group: "underserved-residents",
+        how: "Practice limits prevent trained professionals from filling care gaps.",
+      },
+    ],
+    profits: [{ group: "clinicians", how: "Physicians benefit from a protected market." }],
     rootCauses: ["State licensing rules shaped by professional lobbying"],
     openQuestions: ["Which professionals should be allowed to do what, independently?"],
   },
@@ -922,8 +1226,16 @@ export const PROBLEMS: Problem[] = [
     evidence: [
       { text: "U.S. last among 10 high-income countries.", sourceIds: ["commonwealth-2024"] },
     ],
-    whoIsHurt: ["Everyone, especially low-income and minority communities"],
-    whoProfits: ["N/A"],
+    hurts: [
+      {
+        group: "low-middle-income",
+        how: "Poor health outcomes especially affect low-income and minority communities.",
+      },
+      {
+        group: "minority-communities",
+        how: "Poor health outcomes especially affect low-income and minority communities.",
+      },
+    ],
     rootCauses: [
       "Access barriers",
       "Chronic disease",
@@ -938,8 +1250,16 @@ export const PROBLEMS: Problem[] = [
     summary:
       "U.S. maternal mortality is the highest among wealthy countries, with large racial gaps; Medicaid postpartum coverage historically ended at 60 days.",
     evidence: [],
-    whoIsHurt: ["Pregnant and postpartum people, especially Black women"],
-    whoProfits: ["N/A"],
+    hurts: [
+      {
+        group: "maternity-families",
+        how: "High maternal mortality and postpartum coverage gaps especially harm Black women.",
+      },
+      {
+        group: "minority-communities",
+        how: "High maternal mortality and postpartum coverage gaps especially harm Black women.",
+      },
+    ],
     rootCauses: ["Coverage gaps", "Maternity deserts", "Uneven quality"],
     openQuestions: ["Should coverage be continuous through pregnancy and the year after?"],
   },
@@ -955,8 +1275,15 @@ export const PROBLEMS: Problem[] = [
         sourceIds: ["shrank-waste-2019"],
       },
     ],
-    whoIsHurt: ["Patients"],
-    whoProfits: ["Fee-for-service providers paid for treating complications"],
+    hurts: [
+      {
+        group: "heavy-care-users",
+        how: "Delivery and coordination failures cause preventable harm.",
+      },
+    ],
+    profits: [
+      { group: "providers", how: "Fee-for-service providers are paid for treating complications." },
+    ],
     rootCauses: ["Fragmented records", "Payment for volume rather than outcomes"],
     openQuestions: [
       "How should providers be paid: per service, per patient, per episode, or by budget?",
@@ -974,8 +1301,26 @@ export const PROBLEMS: Problem[] = [
         sourceIds: ["holgash-heberlein"],
       },
     ],
-    whoIsHurt: ["Black, Hispanic, Native, rural, and low-income people"],
-    whoProfits: ["Providers who select better-paying patients"],
+    hurts: [
+      {
+        group: "minority-communities",
+        how: "Access and outcomes differ by race, income, and location.",
+      },
+      {
+        group: "rural-residents",
+        how: "Access and outcomes differ by race, income, and location.",
+      },
+      {
+        group: "low-middle-income",
+        how: "Access and outcomes differ by race, income, and location.",
+      },
+    ],
+    profits: [
+      {
+        group: "providers",
+        how: "They can select better-paying patients over those with lower-paying coverage.",
+      },
+    ],
     rootCauses: [
       "Payment differences by insurance type",
       "Geographic maldistribution",
@@ -995,8 +1340,19 @@ export const PROBLEMS: Problem[] = [
         sourceIds: ["mello-liability"],
       },
     ],
-    whoIsHurt: ["Injured patients", "Physicians (premiums, stress)"],
-    whoProfits: ["Malpractice insurers and attorneys"],
+    hurts: [
+      {
+        group: "heavy-care-users",
+        how: "Most patients injured by care never receive compensation.",
+      },
+      { group: "clinicians", how: "Liability brings insurance premiums and stress." },
+    ],
+    profits: [
+      {
+        group: "malpractice-services",
+        how: "The liability system generates insurance and legal business.",
+      },
+    ],
     rootCauses: ["Fault-based tort system"],
     openQuestions: ["Should injury compensation be no-fault and administrative?"],
   },
@@ -1040,7 +1396,7 @@ export const PROBLEMS: Problem[] = [
   {
     id: "billing-jobs",
     category: "Administration & complexity",
-    title: "Hundreds of thousands of jobs exist only to manage billing complexity",
+    title: "Simplifying billing would displace hundreds of thousands of workers",
     summary:
       "Billing clerks, coders, insurance verification staff, claims adjusters, and brokers make up a large workforce. Simplification removes their jobs.",
     evidence: [
@@ -1074,8 +1430,15 @@ export const PROBLEMS: Problem[] = [
         sourceIds: ["shrank-waste-2019"],
       },
     ],
-    whoIsHurt: ["Patients exposed to harms", "Payers"],
-    whoProfits: ["Providers paid per service", "Device and test manufacturers"],
+    hurts: [
+      { group: "heavy-care-users", how: "Low-benefit tests and treatments expose them to harm." },
+      { group: "insurers", how: "They pay for tests and treatments with little benefit." },
+      { group: "taxpayers", how: "They pay for tests and treatments with little benefit." },
+    ],
+    profits: [
+      { group: "providers", how: "Per-service payments reward additional low-value care." },
+      { group: "drug-device-makers", how: "They sell devices and tests used in low-value care." },
+    ],
     rootCauses: ["Fee-for-service", "Defensive medicine", "Patient demand without evidence"],
     openQuestions: [
       "Who decides what is low-value, and should it be excluded from coverage or just discouraged?",
@@ -1097,8 +1460,16 @@ export const PROBLEMS: Problem[] = [
         sourceIds: ["cms-improper"],
       },
     ],
-    whoIsHurt: ["Taxpayers and premium payers"],
-    whoProfits: ["Fraudulent providers (DME, hospice, labs, home health have been hotspots)"],
+    hurts: [
+      { group: "taxpayers", how: "Fraud and improper payments consume public funds and premiums." },
+      {
+        group: "employer-covered",
+        how: "Fraud and improper payments consume public funds and premiums.",
+      },
+    ],
+    profits: [
+      { group: "fraudsters", how: "Fraudulent providers receive improper health payments." },
+    ],
     rootCauses: ["Pay-first, check-later claims", "Fragmented data across payers"],
     openQuestions: [
       "How much should be spent on program integrity, and how much friction is acceptable for honest providers?",
@@ -1119,12 +1490,27 @@ export const PROBLEMS: Problem[] = [
         sourceIds: ["holgash-heberlein"],
       },
     ],
-    whoIsHurt: [
-      "People with mental illness",
-      "Families",
-      "Emergency departments that board psychiatric patients",
+    hurts: [
+      {
+        group: "mental-health-users",
+        how: "Shortages and limited insurance acceptance make mental health treatment hard to obtain.",
+      },
+      {
+        group: "caregiving-families",
+        how: "Shortages and limited insurance acceptance make mental health treatment hard to obtain.",
+      },
+      {
+        group: "providers",
+        how: "Emergency departments board psychiatric patients who cannot access other care.",
+      },
     ],
-    whoProfits: ["Cash-pay practices", "Insurers that avoid behavioral-health costs"],
+    profits: [
+      {
+        group: "private-practices",
+        how: "Limited insurance acceptance supports cash-pay treatment.",
+      },
+      { group: "insurers", how: "They benefit from avoiding behavioral health costs." },
+    ],
     rootCauses: ["Low insurer payment", "Workforce shortage", "Weak parity enforcement"],
     openQuestions: [
       "How should therapists be paid so they participate?",
@@ -1138,8 +1524,23 @@ export const PROBLEMS: Problem[] = [
     summary:
       "Overdoses kill tens of thousands each year; treatment with buprenorphine and methadone is restricted, and coverage gaps interrupt treatment.",
     evidence: [],
-    whoIsHurt: ["People with substance use disorders", "Families and communities"],
-    whoProfits: ["Unregulated treatment operators", "Illicit drug markets"],
+    hurts: [
+      {
+        group: "addiction-communities",
+        how: "Overdoses, treatment restrictions, and coverage gaps harm people and their families.",
+      },
+      {
+        group: "caregiving-families",
+        how: "Overdoses, treatment restrictions, and coverage gaps harm people and their families.",
+      },
+    ],
+    profits: [
+      {
+        group: "providers",
+        how: "Unregulated treatment operators benefit from the treatment system’s gaps.",
+      },
+      { group: "fraudsters", how: "Illicit drug markets benefit from ongoing substance use." },
+    ],
     rootCauses: ["Stigma", "Regulatory barriers", "Coverage churn"],
     openQuestions: ["Should addiction treatment be available without cost or prior authorization?"],
   },
@@ -1157,8 +1558,24 @@ export const PROBLEMS: Problem[] = [
         sourceIds: ["kff-hcbs-waitlist"],
       },
     ],
-    whoIsHurt: ["Older and disabled people", "Family caregivers"],
-    whoProfits: ["Nursing-home operators (institutional bias)", "Elder-law planners"],
+    hurts: [
+      {
+        group: "older-adults",
+        how: "Coverage rules require exhausting savings and leave people waiting for home care.",
+      },
+      {
+        group: "long-term-care-users",
+        how: "Coverage rules require exhausting savings and leave people waiting for home care.",
+      },
+      {
+        group: "caregiving-families",
+        how: "Home-care waiting lists leave families providing care.",
+      },
+    ],
+    profits: [
+      { group: "providers", how: "Institutional coverage bias benefits nursing-home operators." },
+      { group: "legal-planners", how: "Spend-down rules create demand for elder-law planning." },
+    ],
     rootCauses: ["No social long-term care insurance", "Medicaid's institutional bias"],
     openQuestions: [
       "Should long-term care be covered for everyone? Including room and board?",
@@ -1177,8 +1594,23 @@ export const PROBLEMS: Problem[] = [
         sourceIds: ["macpac-nursing"],
       },
     ],
-    whoIsHurt: ["Residents", "Staff"],
-    whoProfits: ["Owners using related-party transactions and real-estate structures"],
+    hurts: [
+      {
+        group: "long-term-care-users",
+        how: "Understaffing and low reimbursement contribute to quality and safety problems.",
+      },
+      { group: "clinicians", how: "Understaffing burdens nursing-home staff." },
+    ],
+    profits: [
+      {
+        group: "providers",
+        how: "Owners benefit from related-party transactions and real-estate structures.",
+      },
+      {
+        group: "private-equity",
+        how: "Owners benefit from related-party transactions and real-estate structures.",
+      },
+    ],
     rootCauses: ["Low Medicaid rates", "Weak ownership transparency"],
     openQuestions: ["Should nursing homes face minimum staffing and ownership rules?"],
   },
@@ -1194,8 +1626,14 @@ export const PROBLEMS: Problem[] = [
         sourceIds: ["medpac-hospice-2025"],
       },
     ],
-    whoIsHurt: ["Patients who lose curative treatment", "Taxpayers"],
-    whoProfits: ["Hospices with long-stay patients"],
+    hurts: [
+      {
+        group: "heavy-care-users",
+        how: "Inappropriate hospice enrollment can remove access to curative treatment.",
+      },
+      { group: "taxpayers", how: "Hospice fraud concerns threaten public spending." },
+    ],
+    profits: [{ group: "providers", how: "Hospices benefit from long-stay patients." }],
     rootCauses: ["Per-diem payment rewards long stays", "Requirement to give up curative care"],
     openQuestions: ["Should patients be able to receive hospice and curative care together?"],
   },
@@ -1210,8 +1648,23 @@ export const PROBLEMS: Problem[] = [
     evidence: [
       { text: "Out-of-pocket dental spending was $72.5B in 2024.", sourceIds: ["cms-nhe-2024"] },
     ],
-    whoIsHurt: ["Seniors", "Low-income adults"],
-    whoProfits: ["Medicare Advantage plans marketing 'extra benefits'", "Cash-pay providers"],
+    hurts: [
+      {
+        group: "older-adults",
+        how: "Coverage gaps and costs lead them to skip dental and other excluded care.",
+      },
+      {
+        group: "low-middle-income",
+        how: "Coverage gaps and costs lead them to skip dental and other excluded care.",
+      },
+    ],
+    profits: [
+      {
+        group: "insurers",
+        how: "Private Medicare plans market extra benefits missing from traditional coverage.",
+      },
+      { group: "private-practices", how: "Coverage gaps support cash-pay care." },
+    ],
     rootCauses: ["Historical separation of dental from medical insurance"],
     openQuestions: ["Should dental, vision, and hearing be covered like medical care?"],
   },
@@ -1225,8 +1678,17 @@ export const PROBLEMS: Problem[] = [
     evidence: [
       { text: "Government public health activity $157.6B (2024).", sourceIds: ["cms-nhe-2024"] },
     ],
-    whoIsHurt: ["Everyone; future patients"],
-    whoProfits: ["Treatment businesses (more chronic disease means more treatment)"],
+    hurts: [
+      {
+        group: "future-care-users",
+        how: "Limited prevention funding leaves chronic disease driving treatment needs.",
+      },
+      {
+        group: "heavy-care-users",
+        how: "Limited prevention funding leaves chronic disease driving treatment needs.",
+      },
+    ],
+    profits: [{ group: "providers", how: "More chronic disease creates more treatment business." }],
     rootCauses: ["Payment for treatment, not prevention", "Short budget horizons"],
     openQuestions: ["How much should shift from treatment to prevention and public health?"],
   },
@@ -1238,8 +1700,16 @@ export const PROBLEMS: Problem[] = [
     summary:
       "Social conditions shape outcomes more than medical care, yet health systems have few tools or funding streams to address them.",
     evidence: [],
-    whoIsHurt: ["Low-income people", "People experiencing homelessness"],
-    whoProfits: ["N/A"],
+    hurts: [
+      {
+        group: "low-middle-income",
+        how: "Health systems lack tools and funding to address social conditions shaping their health.",
+      },
+      {
+        group: "homeless-people",
+        how: "Health systems lack tools and funding to address social conditions shaping their health.",
+      },
+    ],
     rootCauses: ["Separate silos for health and social services"],
     openQuestions: [
       "Should the health system pay for non-medical needs (housing, food) when they improve health?",
@@ -1254,10 +1724,15 @@ export const PROBLEMS: Problem[] = [
     summary:
       "Records are scattered across incompatible EHRs; tests are repeated and information is lost between providers.",
     evidence: [],
-    whoIsHurt: ["Patients, especially those with many providers"],
-    whoProfits: [
-      "EHR vendors that profit from lock-in",
-      "Providers that keep patients within their systems",
+    hurts: [
+      {
+        group: "heavy-care-users",
+        how: "Incompatible records lose information across providers and cause repeated tests.",
+      },
+    ],
+    profits: [
+      { group: "health-admin-vendors", how: "Record-system lock-in benefits vendors." },
+      { group: "providers", how: "Fragmented records help keep patients within their systems." },
     ],
     rootCauses: ["Proprietary systems", "Competitive incentives to hoard data"],
     openQuestions: [
@@ -1271,8 +1746,15 @@ export const PROBLEMS: Problem[] = [
     summary:
       "The 2024 Change Healthcare ransomware attack disrupted claims nationwide for weeks and exposed data on a large share of Americans.",
     evidence: [],
-    whoIsHurt: ["Providers who went unpaid", "Patients whose data was exposed"],
-    whoProfits: ["Attackers"],
+    hurts: [
+      { group: "providers", how: "Cyberattacks disrupt claims and leave providers unpaid." },
+      { group: "employer-covered", how: "Cyberattacks expose personal health data." },
+      { group: "uninsured", how: "Cyberattacks expose personal health data." },
+      { group: "underinsured", how: "Cyberattacks expose personal health data." },
+    ],
+    profits: [
+      { group: "fraudsters", how: "Attackers profit from ransomware attacks on health systems." },
+    ],
     rootCauses: ["Concentration of clearinghouses", "Weak security baselines"],
     openQuestions: ["How much redundancy and security should be required, and who pays?"],
   },
@@ -1283,8 +1765,27 @@ export const PROBLEMS: Problem[] = [
     summary:
       "Health data is shared widely for payment, research, and marketing; sensitive data (reproductive, mental health, immigration) can expose people to harm.",
     evidence: [],
-    whoIsHurt: ["Patients with sensitive conditions"],
-    whoProfits: ["Data brokers"],
+    hurts: [
+      {
+        group: "heavy-care-users",
+        how: "Widely shared sensitive health information can expose them to harm.",
+      },
+      {
+        group: "mental-health-users",
+        how: "Widely shared sensitive health information can expose them to harm.",
+      },
+      {
+        group: "maternity-families",
+        how: "Widely shared sensitive health information can expose them to harm.",
+      },
+      {
+        group: "immigrant-families",
+        how: "Widely shared sensitive health information can expose them to harm.",
+      },
+    ],
+    profits: [
+      { group: "data-brokers", how: "They benefit from health information shared for marketing." },
+    ],
     rootCauses: ["HIPAA gaps", "Data used for commercial purposes"],
     openQuestions: [
       "Who should be allowed to see a national health dataset, and under what rules?",
@@ -1362,8 +1863,16 @@ export const PROBLEMS: Problem[] = [
         sourceIds: ["germany-gkv"],
       },
     ],
-    whoIsHurt: ["People who rely only on the public system"],
-    whoProfits: ["Higher-income patients; providers with private practices"],
+    hurts: [
+      {
+        group: "public-care-users",
+        how: "Private fast lanes draw provider time away from public care.",
+      },
+    ],
+    profits: [
+      { group: "high-earners", how: "Paying privately buys faster care." },
+      { group: "private-practices", how: "They earn revenue from the private fast lane." },
+    ],
     rootCauses: ["Higher private prices attract provider time"],
     openQuestions: ["Should private insurance for publicly covered services be allowed?"],
   },
@@ -1379,8 +1888,16 @@ export const PROBLEMS: Problem[] = [
         sourceIds: ["nhs-rtt"],
       },
     ],
-    whoIsHurt: ["Patients", "Workers in the system"],
-    whoProfits: ["Taxpayers in the short run"],
+    hurts: [
+      { group: "public-care-users", how: "Slow public funding growth leads to longer waits." },
+      { group: "clinicians", how: "Public budget competition constrains funding for their work." },
+    ],
+    profits: [
+      {
+        group: "taxpayers",
+        how: "Restrained health funding limits public spending in the short run.",
+      },
+    ],
     rootCauses: ["Annual budget politics", "No automatic link between demand and funding"],
     openQuestions: ["Should funding be automatic (dedicated taxes, formulas) or set annually?"],
   },
@@ -1396,8 +1913,18 @@ export const PROBLEMS: Problem[] = [
         sourceIds: ["oecd-health-2025"],
       },
     ],
-    whoIsHurt: ["Patients waiting for diagnostics"],
-    whoProfits: ["Short-term budgets"],
+    hurts: [
+      {
+        group: "heavy-care-users",
+        how: "Underinvestment in diagnostic equipment leaves them waiting for tests.",
+      },
+    ],
+    profits: [
+      {
+        group: "taxpayers",
+        how: "Restrained capital investment limits spending in the short term.",
+      },
+    ],
     rootCauses: ["Capital competes with operating spending"],
     openQuestions: ["Who decides where hospitals, ORs, and scanners are built?"],
   },
@@ -1413,8 +1940,26 @@ export const PROBLEMS: Problem[] = [
         sourceIds: ["cbo-hr3-drugs"],
       },
     ],
-    whoIsHurt: ["Patients needing new therapies", "Biotech workers and investors"],
-    whoProfits: ["Payers in the short run"],
+    hurts: [
+      {
+        group: "heavy-care-users",
+        how: "Strict value assessment can delay or refuse new therapies.",
+      },
+      {
+        group: "drug-device-makers",
+        how: "Lower prices reduce research returns for biotech workers and investors.",
+      },
+    ],
+    profits: [
+      {
+        group: "taxpayers",
+        how: "Strict value assessment lowers payment for new products in the short run.",
+      },
+      {
+        group: "insurers",
+        how: "Strict value assessment lowers payment for new products in the short run.",
+      },
+    ],
     rootCauses: ["Price cuts without replacing R&D incentives"],
     openQuestions: [
       "How much innovation loss is acceptable for lower prices, and how can R&D be funded differently?",
@@ -1429,8 +1974,22 @@ export const PROBLEMS: Problem[] = [
     evidence: [
       { text: "Medicare hospital margins were about −13% in 2023.", sourceIds: ["medpac-2025"] },
     ],
-    whoIsHurt: ["Patients in affected specialties and regions"],
-    whoProfits: ["Cash practices"],
+    hurts: [
+      {
+        group: "heavy-care-users",
+        how: "Provider retirements, opt-outs, and closures reduce access in affected specialties and regions.",
+      },
+      {
+        group: "underserved-residents",
+        how: "Provider retirements, opt-outs, and closures reduce access in affected specialties and regions.",
+      },
+    ],
+    profits: [
+      {
+        group: "private-practices",
+        how: "Payment cuts can shift providers toward cash-only care.",
+      },
+    ],
     rootCauses: ["Revenue cuts without matching cost reductions"],
     openQuestions: ["At what level should provider payment be set, and how fast should it change?"],
   },
@@ -1501,8 +2060,12 @@ export const PROBLEMS: Problem[] = [
     evidence: [
       { text: "Medicare FFS improper payment rate about 7.7%.", sourceIds: ["cms-improper"] },
     ],
-    whoIsHurt: ["Taxpayers"],
-    whoProfits: ["Fraudsters"],
+    hurts: [
+      { group: "taxpayers", how: "A single national payer concentrates fraud and cyber risk." },
+    ],
+    profits: [
+      { group: "fraudsters", how: "Concentrated national payments provide a single fraud target." },
+    ],
     rootCauses: ["Pay-and-chase claims processing"],
     openQuestions: ["How should one payer verify claims without burdening honest providers?"],
   },
@@ -1516,8 +2079,209 @@ const T = "Common trade-offs" as const
  * problems in the graph (with pages, group links, and debates) so each is
  * described once, but they need no solution paths of their own.
  */
-const TRADEOFFS: Problem[] = []
-void T
+const TRADEOFFS: Problem[] = [
+  {
+    id: "t-higher-spending",
+    category: T,
+    title: "Raises spending or loosens control over it",
+    summary:
+      "The path costs more to run, or removes a limit on prices, spending, or use. This matters most when budgets are tight and the added care brings little benefit, and less when the extra spending buys care that is worth it.",
+    evidence: [],
+    hurts: [{ group: "taxpayers", how: "Public budgets pay the added spending." }],
+    rootCauses: [],
+    openQuestions: [],
+  },
+  {
+    id: "t-delayed-benefits",
+    category: T,
+    title: "Takes years, or money up front, before it pays off",
+    summary:
+      "Costs or disruption come first and benefits arrive later. This matters most when needs are urgent or funding may not last through the transition, and less when a gradual change is acceptable.",
+    evidence: [],
+    rootCauses: [],
+    openQuestions: [],
+  },
+  {
+    id: "t-enforcement-burden",
+    category: T,
+    title: "Requires difficult enforcement",
+    summary:
+      "The approach depends on checking compliance and responding when rules are ignored or evaded. Its burden is greater when oversight is weak or affected organizations can readily change their behavior to avoid the rules.",
+    evidence: [],
+    rootCauses: [],
+    openQuestions: [],
+  },
+  {
+    id: "t-dependent-reforms",
+    category: T,
+    title: "Depends on other changes to work",
+    summary:
+      "The approach cannot deliver its intended benefit without complementary changes or sustained participation. This is a serious limitation when those conditions are absent and less so when they are already in place.",
+    evidence: [],
+    rootCauses: [],
+    openQuestions: [],
+  },
+  {
+    id: "t-limited-reach",
+    category: T,
+    title: "Solves only part of the problem",
+    summary:
+      "The path helps some people or places but not others, or offers partial relief. This matters most when it is treated as a complete fix, and less when it is one part of a broader response.",
+    evidence: [],
+    rootCauses: [],
+    openQuestions: [],
+  },
+  {
+    id: "t-uneven-risk-pools",
+    category: T,
+    title: "Concentrates costly patients in some plans",
+    summary:
+      "The approach can leave some plans covering a more costly mix of patients. This matters when payments do not account for those differences and is less serious when risk is shared adequately.",
+    evidence: [],
+    rootCauses: [],
+    openQuestions: [],
+  },
+  {
+    id: "t-imperfect-targeting",
+    category: T,
+    title: "Directs benefits or burdens imperfectly",
+    summary:
+      "Eligibility rules and allocation measures may miss intended recipients or favor people who need less help. The cost is greater when these mismatches persist and smaller when rules can be corrected.",
+    evidence: [],
+    rootCauses: [],
+    openQuestions: [],
+  },
+  {
+    id: "t-political-resistance",
+    category: T,
+    title: "Faces political, industry, or legal opposition",
+    summary:
+      "Affected groups may oppose the path, and it may invite legal disputes over authority or obligations. This matters when opposition blocks or weakens the policy, and less when there is durable agreement.",
+    evidence: [],
+    rootCauses: [],
+    openQuestions: [],
+  },
+  {
+    id: "t-income-loss",
+    category: T,
+    title: "Reduces income or business for affected groups",
+    summary:
+      "The approach reduces payments, earnings, or business for some participants. This matters most when they cannot readily adjust and less when the loss can be absorbed without disrupting needed services.",
+    evidence: [],
+    rootCauses: [],
+    openQuestions: [],
+  },
+  {
+    id: "t-reduced-flexibility",
+    category: T,
+    title: "Limits choice or applies one rule to every setting",
+    summary:
+      "The path narrows options for patients, workers, or organizations, or sets one rule that fits some places poorly. This matters most when the remaining options don't meet people's needs, and less when adjustments are allowed.",
+    evidence: [],
+    rootCauses: [],
+    openQuestions: [],
+  },
+  {
+    id: "t-systems-implementation",
+    category: T,
+    title: "Requires new or changing information systems",
+    summary:
+      "The approach depends on building, integrating, or updating information systems. The burden is greater when implementation is difficult or failures interrupt the work those systems support.",
+    evidence: [],
+    rootCauses: [],
+    openQuestions: [],
+  },
+  {
+    id: "t-uncertain-evidence",
+    category: T,
+    title: "Depends on uncertain evidence or judgments",
+    summary:
+      "The approach requires decisions where evidence is incomplete or outcomes are hard to assess. This matters most when mistakes are difficult to reverse and less when decisions can be reviewed as evidence improves.",
+    evidence: [],
+    rootCauses: [],
+    openQuestions: [],
+  },
+  {
+    id: "t-reduced-data",
+    category: T,
+    title: "Leaves less complete or useful data",
+    summary:
+      "The approach reduces the information available for oversight, research, or decisions. This matters most when missing or uneven data obscure important differences and less when the remaining information is sufficient.",
+    evidence: [],
+    rootCauses: [],
+    openQuestions: [],
+  },
+  {
+    id: "t-workforce-adjustment",
+    category: T,
+    title: "Requires workers to change roles or skills",
+    summary:
+      "The approach depends on people adapting to new roles or skills that may not match their previous work. This matters most when suitable opportunities or support are limited and less when workers can make the transition successfully.",
+    evidence: [],
+    rootCauses: [],
+    openQuestions: [],
+  },
+  {
+    id: "t-funding-instability",
+    category: T,
+    title: "Leaves funding vulnerable or inflexible",
+    summary:
+      "The approach leaves funding exposed to budget pressure or ties resources to rules that can become unsuitable. This matters most when funding cannot adapt to changing needs and less when commitments remain adequate and flexible.",
+    evidence: [],
+    rootCauses: [],
+    openQuestions: [],
+  },
+  {
+    id: "t-reduced-compensation",
+    category: T,
+    title: "Limits compensation for people who are harmed",
+    summary:
+      "The approach narrows the compensation or routes to compensation available to injured patients. This matters most when serious harm leaves substantial unmet needs and less when adequate support remains available.",
+    evidence: [],
+    rootCauses: [],
+    openQuestions: [],
+  },
+  {
+    id: "t-caregiving-burden",
+    category: T,
+    title: "Leaves unequal burdens on family caregivers",
+    summary:
+      "The approach can leave care responsibilities unevenly distributed within families. This matters most when caregivers lack support or choice and less when responsibilities are shared on acceptable terms.",
+    evidence: [],
+    rootCauses: [],
+    openQuestions: [],
+  },
+  {
+    id: "t-administrative-work",
+    category: T,
+    title: "Adds paperwork, coordination, or complexity",
+    summary:
+      "The path adds rules, verification, accounting, or coordination between organizations, which can slow legitimate payments or confuse patients. This matters most when procedures are complicated or staff are scarce, and less when they are simple and well run.",
+    evidence: [],
+    rootCauses: [],
+    openQuestions: [],
+  },
+  {
+    id: "t-oversight-limits",
+    category: T,
+    title: "Makes performance and quality hard to oversee",
+    summary:
+      "The approach depends on monitoring activity or quality that is difficult to observe or interpret. This matters most when problems can persist without detection and less when oversight can identify and address them.",
+    evidence: [],
+    rootCauses: [],
+    openQuestions: [],
+  },
+  {
+    id: "t-weaker-incentives",
+    category: T,
+    title: "Weakens incentives for desired behavior",
+    summary:
+      "The approach weakens a signal or reward intended to influence behavior. This matters most when the behavior is essential to the policy and less when other motivations or safeguards are sufficient.",
+    evidence: [],
+    rootCauses: [],
+    openQuestions: [],
+  },
+]
 
 /**
  * Problems that exist only because a solution path was chosen. Each is linked
@@ -1625,8 +2389,22 @@ const DERIVED: Problem[] = [
         sourceIds: ["baicker-chandra"],
       },
     ],
-    whoIsHurt: ["Low-wage workers at non-offering employers", "Small businesses"],
-    whoProfits: ["Workers at firms that offered expensive coverage (wages rise)"],
+    hurts: [
+      {
+        group: "low-middle-income",
+        how: "New employer health taxes tend to reduce wages at firms that previously offered no coverage.",
+      },
+      {
+        group: "employers",
+        how: "Small businesses that offered no coverage face a new payroll cost.",
+      },
+    ],
+    profits: [
+      {
+        group: "employer-covered",
+        how: "Savings at firms that offered expensive coverage can raise workers’ wages.",
+      },
+    ],
     rootCauses: ["Uniform payroll tax replacing uneven premium spending"],
     openQuestions: [
       "Should employers pay anything toward health care? If so, how should small and low-wage employers be treated?",
@@ -1644,8 +2422,20 @@ const DERIVED: Problem[] = [
         sourceIds: ["rand-hie"],
       },
     ],
-    whoIsHurt: ["Low-income and chronically ill patients", "Providers who must collect"],
-    whoProfits: ["Billing vendors"],
+    hurts: [
+      {
+        group: "low-middle-income",
+        how: "Point-of-care charges deter care, especially for poorer patients.",
+      },
+      {
+        group: "heavy-care-users",
+        how: "Point-of-care charges deter care, especially for poorer patients.",
+      },
+      { group: "providers", how: "Copays require collection, exemptions, and billing work." },
+    ],
+    profits: [
+      { group: "health-admin-vendors", how: "Copays preserve demand for billing services." },
+    ],
     rootCauses: ["Charging at the point of care"],
     openQuestions: ["If charges exist, who is exempt, what is the cap, and how is it collected?"],
   },
@@ -1684,8 +2474,13 @@ const DERIVED: Problem[] = [
         sourceIds: ["fraser-2025"],
       },
     ],
-    whoIsHurt: ["Patients needing elective procedures"],
-    whoProfits: ["Budget holders"],
+    hurts: [
+      {
+        group: "heavy-care-users",
+        how: "Hospitals may slow elective procedures when demand exceeds fixed budgets.",
+      },
+    ],
+    profits: [{ group: "taxpayers", how: "Global budgets cap spending." }],
     rootCauses: ["Payment not tied to volume"],
     openQuestions: ["How should budgets adjust when demand rises?"],
   },
@@ -1701,8 +2496,22 @@ const DERIVED: Problem[] = [
         sourceIds: ["medpac-2025"],
       },
     ],
-    whoIsHurt: ["Sicker, costlier patients"],
-    whoProfits: ["Providers or plans that keep the difference"],
+    hurts: [
+      {
+        group: "heavy-care-users",
+        how: "Fixed payments encourage avoiding sick patients or providing less care.",
+      },
+    ],
+    profits: [
+      {
+        group: "providers",
+        how: "They keep the difference when care costs less than fixed payments.",
+      },
+      {
+        group: "insurers",
+        how: "They keep the difference when care costs less than fixed payments.",
+      },
+    ],
     rootCauses: ["Fixed payment regardless of care delivered"],
     openQuestions: ["How should quality and access be monitored under fixed payments?"],
   },
@@ -1718,8 +2527,13 @@ const DERIVED: Problem[] = [
         sourceIds: ["ashp-shortages-2024"],
       },
     ],
-    whoIsHurt: ["Patients who need the affected products or services"],
-    whoProfits: ["Short-term budgets"],
+    hurts: [
+      {
+        group: "heavy-care-users",
+        how: "Low price limits may reduce access to products and services through shortages or exits.",
+      },
+    ],
+    profits: [{ group: "taxpayers", how: "Low price limits reduce spending in the short term." }],
     rootCauses: ["Prices below what sustains supply"],
     openQuestions: ["How should prices be set to sustain supply and innovation?"],
   },
@@ -1730,8 +2544,22 @@ const DERIVED: Problem[] = [
     summary:
       "Publicly funded R&D or prizes put research priorities in government hands, which may underfund risky ideas or be swayed by politics.",
     evidence: [],
-    whoIsHurt: ["Researchers in unfunded areas", "Patients with rare conditions"],
-    whoProfits: ["Well-connected research institutions"],
+    hurts: [
+      {
+        group: "researchers",
+        how: "Government priorities may leave risky or politically disfavored research unfunded.",
+      },
+      {
+        group: "heavy-care-users",
+        how: "People with rare conditions can lose research support for needed treatments.",
+      },
+    ],
+    profits: [
+      {
+        group: "researchers",
+        how: "Well-connected institutions can benefit from politically influenced research funding.",
+      },
+    ],
     rootCauses: ["Centralized funding decisions"],
     openQuestions: ["Who should set research priorities, and how much should remain private?"],
   },
@@ -1742,8 +2570,12 @@ const DERIVED: Problem[] = [
     summary:
       "Expanding what nurse practitioners, physician assistants, pharmacists, and dental therapists can do adds capacity, but some studies and physician groups raise concerns about over-prescribing, more referrals, and missed diagnoses.",
     evidence: [],
-    whoIsHurt: ["Patients if quality falls"],
-    whoProfits: ["N/A"],
+    hurts: [
+      {
+        group: "heavy-care-users",
+        how: "Expanded independent practice may expose them to missed diagnoses or over-prescribing.",
+      },
+    ],
     rootCauses: ["Shorter training for some roles"],
     openQuestions: ["How should quality be measured and assured as roles expand?"],
   },
@@ -1754,8 +2586,19 @@ const DERIVED: Problem[] = [
     summary:
       "Minimum nurse or aide staffing levels improve safety, but cost money and, during shortages, may force facilities to close beds or shut down.",
     evidence: [],
-    whoIsHurt: ["Facilities that can't hire", "Patients in areas where beds close"],
-    whoProfits: ["Staffing agencies"],
+    hurts: [
+      {
+        group: "providers",
+        how: "Hiring shortages and staffing mandates may force beds or facilities to close.",
+      },
+      {
+        group: "underserved-residents",
+        how: "Bed and facility closures reduce local care access.",
+      },
+    ],
+    profits: [
+      { group: "staffing-agencies", how: "Hiring requirements create demand for agency staff." },
+    ],
     rootCauses: ["Mandates without workforce supply"],
     openQuestions: ["Should staffing rules phase in with workforce growth?"],
   },
@@ -1771,8 +2614,19 @@ const DERIVED: Problem[] = [
         sourceIds: [],
       },
     ],
-    whoIsHurt: ["Taxpayers"],
-    whoProfits: ["Families relieved of caregiving", "Home-care agencies"],
+    hurts: [
+      {
+        group: "taxpayers",
+        how: "Replacing unpaid family care with paid aides increases public costs.",
+      },
+    ],
+    profits: [
+      { group: "caregiving-families", how: "Covered home care relieves unpaid caregiving." },
+      {
+        group: "providers",
+        how: "Home-care agencies gain paid care work previously done by families.",
+      },
+    ],
     rootCauses: ["Large hidden demand met today by unpaid family care"],
     openQuestions: ["How should eligibility for long-term care be assessed and capped?"],
   },
@@ -1783,8 +2637,13 @@ const DERIVED: Problem[] = [
     summary:
       "Covering undocumented immigrants adds cost and, critics argue, could attract migration; leaving them out keeps emergency-room care and public-health gaps.",
     evidence: [],
-    whoIsHurt: ["Taxpayers (cost)", "Immigrants (if excluded)"],
-    whoProfits: ["N/A"],
+    hurts: [
+      { group: "taxpayers", how: "Covering undocumented immigrants adds public cost." },
+      {
+        group: "immigrant-families",
+        how: "Exclusion preserves emergency-care reliance and public health gaps.",
+      },
+    ],
     rootCauses: ["Residence-based vs. status-based eligibility"],
     openQuestions: ["What proof of residence is required, and is there a waiting period?"],
   },
@@ -1800,8 +2659,18 @@ const DERIVED: Problem[] = [
         sourceIds: ["nhs-rtt"],
       },
     ],
-    whoIsHurt: ["Patients the metrics are meant to protect"],
-    whoProfits: ["Providers that game measures"],
+    hurts: [
+      {
+        group: "heavy-care-users",
+        how: "Gaming wait-time and quality measures undermines their intended protection.",
+      },
+    ],
+    profits: [
+      {
+        group: "providers",
+        how: "They can benefit by changing referral dates, avoiding sick patients, or upcoding.",
+      },
+    ],
     rootCauses: ["Rewards tied to measurable proxies"],
     openQuestions: ["How should metrics be audited and designed to resist gaming?"],
   },

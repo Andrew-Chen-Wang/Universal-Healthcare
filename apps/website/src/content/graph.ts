@@ -32,9 +32,9 @@ export type Impact = {
 export const isMigrated = (p: SolutionPath) => p.how !== undefined
 
 /** Every problem a path links to, as [id, direction]. */
-function links(p: SolutionPath): [string, "fixes" | "harms"][] {
+function links(p: SolutionPath): [string, "fixes" | "harms" | "answers"][] {
   return [
-    [p.problemId, "fixes"],
+    [p.problemId, p.role === "answers" ? "answers" : "fixes"],
     ...(p.solves ?? []).map((id) => [id, "fixes"] as [string, "fixes"]),
     ...(p.worsens ?? []).map((id) => [id, "harms"] as [string, "harms"]),
     ...(p.spawns ?? []).map((id) => [id, "harms"] as [string, "harms"]),
@@ -44,7 +44,12 @@ function links(p: SolutionPath): [string, "fixes" | "harms"][] {
 const legacy = (items?: string[]) => (items ?? []).filter((i) => !i.startsWith("N/A"))
 
 /** What a path fixes and what it creates or worsens. */
-export function effectsOf(p: SolutionPath): { fixes: Effect[]; harms: Effect[] } {
+export function effectsOf(p: SolutionPath): {
+  fixes: Effect[]
+  harms: Effect[]
+  /** Set when the path answers its main problem's open question instead of fixing it. */
+  answers?: Effect
+} {
   if (!p.how)
     return {
       fixes: legacy(p.pros).map((title) => ({ title })),
@@ -52,15 +57,23 @@ export function effectsOf(p: SolutionPath): { fixes: Effect[]; harms: Effect[] }
     }
   const fixes: Effect[] = []
   const harms: Effect[] = []
+  let answers: Effect | undefined
   for (const [id, dir] of links(p)) {
     const e = { problemId: id, title: PROBLEM_BY_ID[id].title, ...p.how[id] }
-    ;(dir === "fixes" ? fixes : harms).push(e)
+    if (dir === "answers") answers = e
+    else (dir === "fixes" ? fixes : harms).push(e)
   }
-  return { fixes, harms }
+  return { fixes, harms, answers }
 }
 
-/** Paths that fix a problem: its own paths plus paths for other problems that solve it. */
-export const fixersOf = (problemId: string) => [...pathsFor(problemId), ...alsoSolvedBy(problemId)]
+/**
+ * Paths that fix a problem: its own paths (except those that only answer its
+ * open question) plus paths for other problems that solve it.
+ */
+export const fixersOf = (problemId: string) => [
+  ...pathsFor(problemId).filter((p) => p.role !== "answers"),
+  ...alsoSolvedBy(problemId),
+]
 /** Paths that create or worsen a problem. */
 export const causersOf = (problemId: string) => [...createdBy(problemId), ...worsenedBy(problemId)]
 
@@ -81,8 +94,10 @@ export function impactsOf(p: SolutionPath): { gains: Impact[]; loses: Impact[] }
   }
   for (const [id, dir] of links(p)) {
     const pr = PROBLEM_BY_ID[id]
-    for (const l of pr.hurts ?? []) add(dir === "fixes" ? gains : loses, l.group, id, l.how)
-    for (const l of pr.profits ?? []) add(dir === "fixes" ? loses : gains, l.group, id, l.how)
+    if (dir !== "answers") {
+      for (const l of pr.hurts ?? []) add(dir === "fixes" ? gains : loses, l.group, id, l.how)
+      for (const l of pr.profits ?? []) add(dir === "fixes" ? loses : gains, l.group, id, l.how)
+    }
     const h = p.how[id]
     for (const g of h.helps ?? []) add(gains, g, id, h.note)
     for (const g of h.hurts ?? []) add(loses, g, id, h.note)
@@ -123,7 +138,7 @@ for (const p of PATHS) {
     for (const g of [...(h.helps ?? []), ...(h.hurts ?? [])])
       if (!GROUP_BY_ID[g]) errors.push(`${p.id}.how.${id}: unknown group ${g}`)
   }
-  if (p.pros || p.cons || p.whoGains || p.whoLoses || p.mend)
+  if (p.pros || p.cons || p.whoGains || p.whoLoses)
     errors.push(`${p.id}: migrated paths must drop the legacy free-text lists`)
 }
 for (const pr of PROBLEMS) {

@@ -23,11 +23,17 @@ export const RISK_PATHS = [
         sourceIds: ["waits-guarantee-danske-regioner-2024"],
       },
     ],
-    pros: ["Enforces timely care", "Gives patients a concrete right"],
-    cons: ["Gaming of referral dates", "Needs spare capacity somewhere"],
-    whoGains: ["Patients"],
-    whoLoses: ["Slow providers"],
-    mend: ["N/A"],
+    how: {
+      "wait-times": {
+        note: "A time limit gives patients a concrete right to timely care by allowing them to use another provider, including abroad, at the payer’s cost.",
+      },
+      "x-metric-gaming": { note: "A care deadline can encourage gaming of referral dates." },
+      "t-dependent-reforms": {
+        note: "Allowing patients to switch providers after a care deadline requires spare capacity somewhere else.",
+        hurts: ["providers"],
+      },
+    },
+    worsens: ["t-dependent-reforms"],
     spawns: ["x-metric-gaming"],
     changes: [
       "Set legal maximum waits by service",
@@ -46,11 +52,16 @@ export const RISK_PATHS = [
         sourceIds: ["waits-capacity-the-epma-journal-2010"],
       },
     ],
-    pros: ["Prevents waits", "Builds a sustainable workforce"],
-    cons: ["Costly up front", "Slow"],
-    whoGains: ["Patients"],
-    whoLoses: ["Taxpayers"],
-    mend: ["N/A"],
+    how: {
+      "wait-times": {
+        note: "Expanding workforce and facilities before universal coverage begins prevents waits and builds a sustainable workforce.",
+      },
+      "t-delayed-benefits": {
+        note: "Expanding workforce and facilities before universal coverage is costly up front and slow.",
+        hurts: ["taxpayers"],
+      },
+    },
+    worsens: ["t-delayed-benefits"],
     complements: ["phys-residency", "nurse-pipeline", "scope-expand"],
     changes: ["Expand workforce and facilities before coverage starts"],
   }),
@@ -67,11 +78,18 @@ export const RISK_PATHS = [
         sourceIds: ["waits-activity-pay-the-commonwealth-fund-2017"],
       },
     ],
-    pros: ["Rewards throughput", "Cuts queues"],
-    cons: ["Spending can rise", "Incentive to do more procedures"],
-    whoGains: ["Patients on waiting lists"],
-    whoLoses: ["Budgets"],
-    mend: ["N/A"],
+    how: {
+      "wait-times": {
+        note: "Extra payment for procedures beyond baseline volume rewards throughput and cuts queues.",
+      },
+      "t-higher-spending": {
+        note: "Paying extra for procedures beyond baseline volume can increase spending.",
+      },
+      "low-value-care": {
+        note: "Extra payment beyond baseline volume creates an incentive to perform more procedures.",
+      },
+    },
+    worsens: ["t-higher-spending", "low-value-care"],
     complements: ["global-budgets"],
     changes: ["Pay extra for procedures beyond baseline volume"],
   }),
@@ -80,6 +98,7 @@ export const RISK_PATHS = [
   path({
     id: "twotier-allow",
     problemId: "two-tier",
+    role: "answers",
     title: "Allow private insurance for covered services",
     summary: "People may buy private insurance to skip public queues.",
     precedents: [
@@ -90,11 +109,18 @@ export const RISK_PATHS = [
         sourceIds: ["twotier-allow-australian-prudential-re-2025"],
       },
     ],
-    pros: ["Relief valve for waits", "Adds private money"],
-    cons: ["Clinicians may move to private work", "Unequal care"],
-    whoGains: ["Wealthy people"],
-    whoLoses: ["Public patients if clinicians move"],
+    how: {
+      "two-tier": {
+        note: "Allowing private insurance to bypass public queues offers relief from waits and adds private money. Clinicians may move into private work, and care becomes unequal.",
+        helps: ["high-earners"],
+        hurts: ["public-care-users"],
+      },
+      "wait-times": {
+        note: "Private insurance lets patients bypass public queues, providing a relief valve for waits.",
+      },
+    },
     mend: ["Require minimum public hours"],
+    solves: ["wait-times"],
     conflicts: ["twotier-ban"],
     changes: [
       "Allow private insurance for covered services",
@@ -117,11 +143,19 @@ export const RISK_PATHS = [
         sourceIds: ["twotier-ban-supreme-court-of-canada-2005"],
       },
     ],
-    pros: ["Equal care for everyone", "Keeps clinicians in the public system"],
-    cons: ["No escape from waits", "Legal challenges (as in Canada)"],
-    whoGains: ["Equity"],
-    whoLoses: ["People wanting faster care"],
+    how: {
+      "two-tier": {
+        note: "Banning private insurance for publicly covered services keeps clinicians in the public system and supports equal care for everyone.",
+      },
+      "wait-times": {
+        note: "Banning private insurance for publicly covered services leaves patients without a private escape from waits.",
+      },
+      "t-political-resistance": {
+        note: "A ban on private insurance for publicly covered services can face legal challenges, as in Canada.",
+      },
+    },
     mend: ["Strong wait-time guarantees"],
+    worsens: ["wait-times", "t-political-resistance"],
     conflicts: ["twotier-allow"],
     changes: ["Ban duplicate private insurance for covered services"],
   }),
@@ -138,11 +172,19 @@ export const RISK_PATHS = [
         sourceIds: ["twotier-supplemental-canadian-life-and-health-2025"],
       },
     ],
-    pros: ["Compromise: extras are private, core care is equal", "Keeps some insurer jobs"],
-    cons: ["Limited relief for waits", "Line between extras and core care blurs"],
-    whoGains: ["People who want extras"],
-    whoLoses: ["N/A"],
-    mend: ["N/A"],
+    how: {
+      "two-tier": {
+        note: "Limiting private insurance to uncovered extras keeps core care equal while allowing private rooms and cosmetic services. It also preserves some insurer jobs.",
+        helps: ["employer-covered"],
+      },
+      "t-enforcement-burden": {
+        note: "Restricting private insurance to extras is difficult when the boundary between extras and core care blurs.",
+      },
+      "t-limited-reach": {
+        note: "Private insurance limited to uncovered extras offers little relief from waits for core care.",
+      },
+    },
+    worsens: ["t-enforcement-burden", "t-limited-reach"],
     changes: ["Allow private insurance only for non-covered items"],
   }),
 
@@ -165,14 +207,21 @@ export const RISK_PATHS = [
         sourceIds: ["cms-trustees-2025"],
       },
     ],
-    pros: ["Protects the budget from yearly political fights", "Providers can plan"],
-    cons: [
-      "Automatic growth weakens spending control",
-      "Earmarked funds can face 'insolvency' scares",
-    ],
-    whoGains: ["Patients and providers (stable funding)"],
-    whoLoses: ["Budget writers (less flexibility)"],
+    how: {
+      underfunding: {
+        note: "Earmarked revenue and automatic budget growth protect health funding from annual political fights and allow providers to plan.",
+        helps: ["heavy-care-users"],
+      },
+      "t-higher-spending": {
+        note: "Automatic budget growth with costs, population, and age mix weakens spending control.",
+      },
+      "t-funding-instability": { note: "Earmarked health funds can face insolvency scares." },
+      "x-new-taxes": {
+        note: "Dedicated health financing uses earmarked payroll and income contributions.",
+      },
+    },
     mend: ["Pair with a spending-growth target that triggers review"],
+    worsens: ["t-higher-spending", "t-funding-instability"],
     spawns: ["x-new-taxes"],
     conflicts: ["underfunding-annual"],
     changes: [
@@ -183,6 +232,7 @@ export const RISK_PATHS = [
   path({
     id: "underfunding-annual",
     problemId: "underfunding",
+    role: "answers",
     title: "Annual appropriations from general revenue",
     summary: "The health budget is set every year alongside other spending.",
     precedents: [
@@ -197,11 +247,17 @@ export const RISK_PATHS = [
         sourceIds: ["fraser-2025"],
       },
     ],
-    pros: ["Strong spending control", "Health competes openly with other priorities"],
-    cons: ["Health care is squeezed in downturns", "Waits rise when budgets lag demand"],
-    whoGains: ["Taxpayers in the short run"],
-    whoLoses: ["Patients when budgets lag"],
+    how: {
+      underfunding: {
+        note: "Setting the health budget annually alongside other spending provides strong spending control and lets health compete openly with other priorities. Health funding is squeezed in downturns.",
+      },
+      "wait-times": { note: "Waits rise when annually set health budgets lag demand." },
+      "x-budget-rationing": {
+        note: "Setting the health budget annually can leave funding behind demand, with longer waits for care.",
+      },
+    },
     mend: ["A legal floor (e.g., per-capita spending cannot fall in real terms)"],
+    worsens: ["wait-times"],
     spawns: ["x-budget-rationing"],
     conflicts: ["underfunding-trust-fund"],
     changes: ["Fund health through annual appropriations", "Set a real per-capita spending floor"],
@@ -220,13 +276,17 @@ export const RISK_PATHS = [
         sourceIds: ["maryland-model"],
       },
     ],
-    pros: ["Balances stability and control", "Transparent"],
-    cons: ["Targets often missed", "Board can be ignored"],
-    whoGains: ["Taxpayers and patients"],
-    whoLoses: ["N/A"],
-    mend: ["N/A"],
+    how: {
+      underfunding: {
+        note: "An independent board’s budget recommendations against a growth target balance stability and spending control. Requiring public justification for departures makes budget decisions transparent.",
+        helps: ["taxpayers"],
+      },
+      "t-enforcement-burden": {
+        note: "Budget growth targets are often missed, and the independent board’s recommendations can be ignored.",
+      },
+    },
+    worsens: ["t-enforcement-burden"],
     complements: ["underfunding-trust-fund", "global-budgets"],
-    spawns: ["x-metric-gaming"],
     changes: [
       "Create an independent board with a spending-growth target",
       "Require public justification for departures",
@@ -248,11 +308,27 @@ export const RISK_PATHS = [
       },
       { place: "Maryland", note: "Certificate-of-need review for major capital projects." },
     ],
-    pros: ["Prevents duplicate equipment arms races", "Can direct investment to underserved areas"],
-    cons: ["Slow approvals", "Capital is easy to cut in tight budgets"],
-    whoGains: ["Underserved regions"],
-    whoLoses: ["Hospitals that expand to compete", "Equipment makers"],
+    how: {
+      "capital-underinvestment": {
+        note: "A separate capital budget allocates buildings and major equipment by regional need rather than operating revenue, allowing investment in underserved areas. Capital funding remains easy to cut when budgets are tight.",
+        helps: ["underserved-residents"],
+      },
+      "low-value-care": {
+        note: "Allocating major equipment through a separate regional capital budget prevents duplicate equipment arms races.",
+      },
+      disparities: {
+        note: "Allocating capital by regional need allows investment to be directed to underserved areas.",
+      },
+      "t-delayed-benefits": {
+        note: "Regional allocation through a separate capital budget can involve slow approvals.",
+      },
+      "x-budget-rationing": {
+        note: "A separate capital budget is vulnerable to cuts when budgets are tight.",
+      },
+    },
     mend: ["Multi-year capital commitments set by law"],
+    worsens: ["t-delayed-benefits"],
+    solves: ["low-value-care", "disparities"],
     costIds: ["cap-structures", "nhe-structures"],
     complements: ["global-budgets"],
     spawns: ["x-budget-rationing"],
@@ -275,11 +351,20 @@ export const RISK_PATHS = [
         sourceIds: ["capital-in-rates-centers-for-medicare-med-2024"],
       },
     ],
-    pros: ["Hospitals keep flexibility", "No central approval bottleneck"],
-    cons: ["Rich systems still out-invest poor ones", "Can fund duplication"],
-    whoGains: ["Hospital management"],
-    whoLoses: ["Poorer hospitals"],
-    mend: ["N/A"],
+    how: {
+      "capital-underinvestment": {
+        note: "Including a capital component in payments lets hospitals decide how to invest, preserving flexibility and avoiding a central approval bottleneck.",
+        helps: ["health-executives"],
+      },
+      disparities: {
+        note: "Funding capital through hospital payments leaves richer systems able to out-invest poorer ones.",
+        hurts: ["providers"],
+      },
+      "low-value-care": {
+        note: "Letting hospitals invest capital components of payments can fund duplicate equipment or facilities.",
+      },
+    },
+    worsens: ["disparities", "low-value-care"],
     complements: ["fee-for-service-fixed"],
     changes: ["Add a capital component to provider rates"],
   }),
@@ -303,11 +388,19 @@ export const RISK_PATHS = [
         sourceIds: ["innovation-fast-track-european-federation-of-p-2025"],
       },
     ],
-    pros: ["Patients get new drugs fast", "Keeps the U.S. an attractive launch market"],
-    cons: ["Pays high prices for drugs that may not work", "Hard to withdraw coverage later"],
-    whoGains: ["Patients, manufacturers"],
-    whoLoses: ["Budgets"],
+    how: {
+      "innovation-slowdown": {
+        note: "Immediate coverage at a provisional price gives patients fast access to new drugs and keeps the United States an attractive launch market.",
+      },
+      "t-uncertain-evidence": {
+        note: "Immediate provisional coverage pays high prices for drugs that may not work while evidence is collected.",
+      },
+      "t-political-resistance": {
+        note: "Once new drugs or devices receive immediate coverage, withdrawing that coverage later is difficult.",
+      },
+    },
     mend: ["Rebate the difference if the reassessed price is lower"],
+    worsens: ["t-uncertain-evidence", "t-political-resistance"],
     complements: ["drugs-negotiate", "rd-value-pricing"],
     changes: [
       "Cover new drugs at launch with provisional prices",
@@ -327,11 +420,18 @@ export const RISK_PATHS = [
         sourceIds: ["cbo-pharma-rd-2021"],
       },
     ],
-    pros: ["Offsets lost private R&D", "Can target unmet needs"],
-    cons: ["Government picks winners", "Savings are smaller"],
-    whoGains: ["Researchers, patients with neglected diseases"],
-    whoLoses: ["Taxpayers"],
-    mend: ["N/A"],
+    how: {
+      "innovation-slowdown": {
+        note: "Directing part of price-negotiation savings to public research and late-stage trials offsets lost private research and can target unmet needs.",
+      },
+      "x-public-rd-priorities": {
+        note: "Directing negotiation savings to public research puts the choice of research winners in government hands.",
+      },
+      "t-limited-reach": {
+        note: "Allocating part of negotiation savings to public research leaves smaller savings.",
+      },
+    },
+    worsens: ["t-limited-reach"],
     requires: ["rd-public-fund"],
     spawns: ["x-public-rd-priorities"],
     changes: ["Dedicate a share of drug savings to research"],
@@ -339,6 +439,7 @@ export const RISK_PATHS = [
   path({
     id: "innovation-accept",
     problemId: "innovation-slowdown",
+    role: "answers",
     title: "Accept somewhat slower adoption",
     summary:
       "Accept that negotiation and assessment delay some new treatments, as in peer countries, in exchange for lower prices.",
@@ -353,11 +454,24 @@ export const RISK_PATHS = [
         sourceIds: ["innovation-accept-patented-medicine-prices-2025"],
       },
     ],
-    pros: ["Largest savings", "Avoids paying for unproven drugs"],
-    cons: ["Some patients wait", "Manufacturer revenue falls"],
-    whoGains: ["Taxpayers"],
-    whoLoses: ["Patients needing the newest drugs", "Manufacturers"],
+    how: {
+      "innovation-slowdown": {
+        note: "Accepting delays from negotiation and assessment yields the largest savings and avoids paying for unproven drugs. Some patients wait for new treatments.",
+      },
+      "drug-prices": {
+        note: "Accepting negotiation and assessment delays obtains lower prices and the largest savings on new treatments.",
+      },
+      "low-value-care": { note: "Assessment before coverage avoids paying for unproven drugs." },
+      "t-income-loss": {
+        note: "Negotiating lower prices and assessing new treatments reduces manufacturer revenue.",
+      },
+      "x-central-rationing": {
+        note: "Coverage assessment delays some new treatments while avoiding payment for unproven drugs.",
+      },
+    },
     mend: ["Exceptional-access route for individual patients"],
+    worsens: ["t-income-loss"],
+    solves: ["drug-prices", "low-value-care"],
     spawns: ["x-central-rationing"],
     changes: ["Require assessment before coverage", "Create an exceptional-access route"],
   }),
@@ -376,11 +490,16 @@ export const RISK_PATHS = [
         sourceIds: ["maryland-model"],
       },
     ],
-    pros: ["Time to adjust", "Fewer closures"],
-    cons: ["Slower savings", "Prolongs high prices"],
-    whoGains: ["Providers with high commercial revenue"],
-    whoLoses: ["Taxpayers (savings delayed)"],
-    mend: ["N/A"],
+    how: {
+      "provider-exit": {
+        note: "Moving to uniform payment rates in steps gives providers time to cut costs and adjust, reducing closures.",
+      },
+      "t-delayed-benefits": { note: "Phasing payment rates in gradually delays savings." },
+      "high-prices": {
+        note: "Gradually moving to uniform payment rates prolongs today’s high prices.",
+      },
+    },
+    worsens: ["t-delayed-benefits", "high-prices"],
     complements: ["all-payer-rates", "prices-cap"],
     changes: ["Phase rate changes over several years"],
   }),
@@ -398,11 +517,20 @@ export const RISK_PATHS = [
       },
       { place: "Canada (Ontario)", note: "Extra-billing banned; very few physicians opt out." },
     ],
-    pros: ["Keeps clinicians public", "Limits two-tier"],
-    cons: ["Some leave anyway", "Less flexibility"],
-    whoGains: ["Public patients"],
-    whoLoses: ["Clinicians wanting both public and private patients"],
-    mend: ["N/A"],
+    how: {
+      "provider-exit": {
+        note: "Barring opted-out clinicians from billing the public program for a period encourages them to remain in public practice, although some still leave.",
+      },
+      "two-tier": {
+        note: "Barring opted-out clinicians from public billing limits mixing public and cash-only practice and helps limit a private fast lane.",
+      },
+      "t-reduced-flexibility": {
+        note: "The public billing restriction limits clinicians’ flexibility to combine public and private practice.",
+        hurts: ["clinicians"],
+      },
+    },
+    worsens: ["t-reduced-flexibility"],
+    solves: ["two-tier"],
     complements: ["twotier-ban"],
     changes: ["Require opted-out clinicians to stay out for a set period"],
   }),
@@ -419,11 +547,22 @@ export const RISK_PATHS = [
         sourceIds: ["exit-workforce-buffer-health-affairs-2011"],
       },
     ],
-    pros: ["Protects net income", "Less paperwork"],
-    cons: ["Depends on other reforms", "Slow"],
-    whoGains: ["Clinicians"],
-    whoLoses: ["N/A"],
-    mend: ["N/A"],
+    how: {
+      "provider-exit": {
+        note: "Reducing billing overhead, reforming malpractice, and relieving debt protect clinicians’ take-home income when payment rates fall.",
+      },
+      "admin-cost": {
+        note: "Reducing billing overhead cuts the paperwork clinicians must handle.",
+      },
+      "t-dependent-reforms": {
+        note: "Protecting take-home income through lower overhead, malpractice reform, and debt relief depends on those other reforms being carried out.",
+      },
+      "t-delayed-benefits": {
+        note: "Reducing clinicians’ costs through complementary reforms is slow, so the income protection takes time to arrive.",
+      },
+    },
+    worsens: ["t-dependent-reforms", "t-delayed-benefits"],
+    solves: ["admin-cost"],
     requires: ["admin-one-claims"],
     complements: ["malpractice-no-fault", "debt-free-school"],
     changes: ["Reduce billing overhead, malpractice costs, and debt for clinicians"],
@@ -443,11 +582,19 @@ export const RISK_PATHS = [
         sourceIds: ["churn-portable-health-canada-2025"],
       },
     ],
-    pros: ["Systems can be tested before full load", "Workers have time to transition"],
-    cons: ["Runs two systems in parallel", "Longer before full savings"],
-    whoGains: ["Displaced workers", "People who need time to adjust"],
-    whoLoses: ["Taxpayers (running two systems)"],
-    mend: ["N/A"],
+    how: {
+      "transition-disruption": {
+        note: "Moving coverage groups in stages lets systems be tested before the full load arrives and gives workers time to transition.",
+        helps: ["changing-lives"],
+      },
+      "admin-cost": {
+        note: "Moving groups in stages requires the old and new systems to operate in parallel.",
+      },
+      "t-delayed-benefits": {
+        note: "Moving groups in stages extends the time before the new system delivers its full savings.",
+      },
+    },
+    worsens: ["admin-cost", "t-delayed-benefits"],
     conflicts: ["transition-big-bang"],
     complements: ["medicare-age-down"],
     changes: ["Move groups in waves over 4+ years"],
@@ -464,11 +611,21 @@ export const RISK_PATHS = [
         sourceIds: ["taiwan-nhi"],
       },
     ],
-    pros: ["Benefits and savings arrive quickly", "No parallel systems"],
-    cons: ["IT and enrollment failures affect everyone at once", "Abrupt job losses"],
-    whoGains: ["Uninsured people"],
-    whoLoses: ["Workers displaced suddenly"],
+    how: {
+      "transition-disruption": {
+        note: "Moving everyone after a preparation period brings benefits and savings quickly and avoids parallel systems, but causes abrupt job losses.",
+        helps: ["uninsured"],
+      },
+      "admin-cost": {
+        note: "Moving everyone to the new system together avoids operating parallel coverage systems.",
+      },
+      "t-systems-implementation": {
+        note: "Moving everyone together means information-system and enrollment failures affect everyone at once.",
+      },
+    },
     mend: ["Large up-front worker transition program"],
+    worsens: ["t-systems-implementation"],
+    solves: ["admin-cost"],
     conflicts: ["transition-phased"],
     complements: ["billing-transition"],
     changes: ["Switch everyone in one or two years after preparation"],
@@ -487,12 +644,19 @@ export const RISK_PATHS = [
         sourceIds: ["transition-pilot-states-state-of-vermont-2014"],
       },
     ],
-    pros: ["Real evidence before national roll-out", "Lower risk"],
-    cons: ["Pilots face migration and funding limits", "Slow"],
-    whoGains: ["Pilot-state residents"],
-    whoLoses: ["N/A"],
-    mend: ["N/A"],
-    spawns: ["x-state-control"],
+    how: {
+      "transition-disruption": {
+        note: "Testing full universal systems in volunteer states provides real evidence before national expansion and lowers rollout risk.",
+        helps: ["states"],
+      },
+      "t-funding-instability": {
+        note: "Volunteer-state pilots face migration and funding limits while attempting to run full universal systems.",
+      },
+      "t-delayed-benefits": {
+        note: "Testing state systems before expanding nationally makes the transition slow.",
+      },
+    },
+    worsens: ["t-funding-instability", "t-delayed-benefits"],
     changes: ["Fund volunteer state pilots", "Evaluate before national roll-out"],
   }),
 
@@ -510,11 +674,22 @@ export const RISK_PATHS = [
         sourceIds: ["nhcaa-fraud"],
       },
     ],
-    pros: ["Proven high return", "Deters fraud"],
-    cons: ["Adds admin cost", "Can burden honest providers"],
-    whoGains: ["Taxpayers"],
-    whoLoses: ["Fraudsters"],
-    mend: ["N/A"],
+    how: {
+      "fraud-concentration": {
+        note: "Reserving administrative funding for fraud detection, audits, and prosecutors deters fraud; the cited control program recovers more than it spends.",
+      },
+      fraud: {
+        note: "Dedicated funding for fraud detection, audits, and prosecutors supports deterrence and recovery of fraudulent payments.",
+      },
+      "admin-cost": {
+        note: "Reserving funding for fraud detection, audits, and prosecutors adds administrative cost.",
+      },
+      "t-administrative-work": {
+        note: "Fraud detection and audits can also burden honest providers.",
+      },
+    },
+    worsens: ["admin-cost", "t-administrative-work"],
+    solves: ["fraud"],
     complements: ["fraud-analytics", "fraud-enrollment"],
     changes: ["Reserve a share of admin spending for program integrity"],
   }),
@@ -533,11 +708,19 @@ export const RISK_PATHS = [
         sourceIds: ["fraudconc-regional-centers-for-medicare-med-2024"],
       },
     ],
-    pros: ["No single point of failure", "Comparisons across regions"],
-    cons: ["Less uniform", "More overhead"],
-    whoGains: ["Regional contractors"],
-    whoLoses: ["Taxpayers (duplicate overhead)"],
-    mend: ["N/A"],
+    how: {
+      "fraud-concentration": {
+        note: "Dividing claims processing among regional administrators avoids a single point of failure and permits comparisons of integrity across regions.",
+        helps: ["health-admin-vendors"],
+      },
+      "admin-cost": {
+        note: "Splitting claims processing among regional administrators adds overhead.",
+      },
+      "x-metric-gaming": {
+        note: "Making regional administrators compete on integrity metrics puts those measures at the center of performance comparisons.",
+      },
+    },
+    worsens: ["admin-cost"],
     complements: ["cyber-redundant"],
     spawns: ["x-metric-gaming"],
     changes: ["Split claims processing among regional administrators"],

@@ -104,6 +104,203 @@ export const GROUPS: Group[] = [
     label: "Taxpayers and public budgets",
     summary: "Everyone who funds public programs, and the budgets that pay for them.",
   },
+  {
+    id: "underinsured",
+    label: "People with unaffordable deductibles or coinsurance",
+    summary: "Insured people face cost sharing that makes care difficult to afford.",
+  },
+  {
+    id: "immigrant-families",
+    label: "Immigrants and mixed-status families",
+    summary: "Immigrants and their families face coverage eligibility restrictions and gaps.",
+  },
+  {
+    id: "territory-residents",
+    label: "Residents of U.S. territories",
+    summary:
+      "People living in United States territories depend on territorial health coverage and services.",
+  },
+  {
+    id: "territory-governments",
+    label: "Territory governments",
+    summary:
+      "Territorial governments administer health programs subject to federal funding limits.",
+  },
+  {
+    id: "providers",
+    label: "Hospitals, clinics, and care organizations",
+    summary:
+      "Organizations deliver care and manage the revenue, staffing, and facilities needed to provide it.",
+  },
+  {
+    id: "health-executives",
+    label: "Health care executives",
+    summary: "Executives manage health care organizations and receive compensation from them.",
+  },
+  {
+    id: "financial-intermediaries",
+    label: "Health financing intermediaries and lenders",
+    summary:
+      "Businesses administer health savings accounts, arrange health financing, or lend for medical education.",
+  },
+  {
+    id: "debt-collectors",
+    label: "Medical debt collectors and buyers",
+    summary: "Businesses collect or purchase unpaid medical bills.",
+  },
+  {
+    id: "health-admin-vendors",
+    label: "Health administration and software vendors",
+    summary:
+      "Businesses supply billing, coding, eligibility, utilization management, and health record systems.",
+  },
+  {
+    id: "medicare-beneficiaries",
+    label: "Medicare beneficiaries",
+    summary: "People enrolled in Medicare depend on its coverage and pay its premiums.",
+  },
+  {
+    id: "pbms",
+    label: "Pharmacy benefit managers and their pharmacies",
+    summary:
+      "Businesses manage prescription benefits and operate affiliated mail and specialty pharmacies.",
+  },
+  {
+    id: "local-pharmacies",
+    label: "Community pharmacies",
+    summary: "Local pharmacies dispense medicines and depend on prescription reimbursement.",
+  },
+  {
+    id: "private-equity",
+    label: "Private equity firms and investors",
+    summary: "Investment firms own or finance health care businesses for financial returns.",
+  },
+  {
+    id: "long-term-care-users",
+    label: "Older and disabled people needing long-term care",
+    summary:
+      "People needing ongoing help with daily activities depend on home care or residential facilities.",
+  },
+  {
+    id: "future-care-users",
+    label: "People who will need care in the future",
+    summary: "People may need future treatments and benefit from prevention and medical research.",
+  },
+  {
+    id: "emergency-care-users",
+    label: "People needing emergency or trauma care",
+    summary: "People with urgent conditions depend on timely emergency treatment and transport.",
+  },
+  {
+    id: "rural-residents",
+    label: "Rural residents",
+    summary:
+      "People in rural communities depend on local health services and face geographic access barriers.",
+  },
+  {
+    id: "older-adults",
+    label: "Older adults",
+    summary: "Older people depend on accessible care and coverage for age-related health needs.",
+  },
+  {
+    id: "maternity-families",
+    label: "Pregnant and postpartum people and infants",
+    summary:
+      "People during pregnancy and after birth and their infants depend on maternity and newborn care.",
+  },
+  {
+    id: "underserved-residents",
+    label: "Residents of areas with too few health professionals",
+    summary: "People in shortage areas have limited access to local clinicians and services.",
+  },
+  {
+    id: "ambulance-operators",
+    label: "Private ambulance operators",
+    summary: "Businesses provide emergency transport and bill for ambulance services.",
+  },
+  {
+    id: "specialists",
+    label: "Specialist clinicians and practices",
+    summary:
+      "Clinicians and practices provide specialty services whose payment and competition affect their work.",
+  },
+  {
+    id: "health-students",
+    label: "Health profession students and trainees",
+    summary:
+      "Students and trainees prepare for clinical careers while facing education costs and training limits.",
+  },
+  {
+    id: "staffing-agencies",
+    label: "Health care staffing agencies",
+    summary: "Businesses supply temporary clinical and direct-care staff to care organizations.",
+  },
+  {
+    id: "minority-communities",
+    label: "Black, Hispanic, and Native communities",
+    summary: "Communities experience racial differences in health access and outcomes.",
+  },
+  {
+    id: "malpractice-services",
+    label: "Malpractice insurers and attorneys",
+    summary: "Insurers and attorneys handle medical liability coverage and litigation.",
+  },
+  {
+    id: "fraudsters",
+    label: "Fraudulent operators and cybercriminals",
+    summary: "Actors exploit health payments or information systems for illicit gain.",
+  },
+  {
+    id: "mental-health-users",
+    label: "People needing mental health care",
+    summary:
+      "People with mental health conditions depend on accessible behavioral health treatment.",
+  },
+  {
+    id: "caregiving-families",
+    label: "Family caregivers and affected families",
+    summary:
+      "Families provide unpaid care or support relatives facing illness and treatment needs.",
+  },
+  {
+    id: "addiction-communities",
+    label: "People with substance use disorders and affected communities",
+    summary:
+      "People using drugs and their communities face addiction harms and barriers to treatment.",
+  },
+  {
+    id: "legal-planners",
+    label: "Elder-law planners",
+    summary: "Legal advisers help families plan for long-term care eligibility and expenses.",
+  },
+  {
+    id: "homeless-people",
+    label: "People experiencing homelessness",
+    summary:
+      "People without stable housing face social needs that health systems struggle to address.",
+  },
+  {
+    id: "data-brokers",
+    label: "Health data brokers",
+    summary: "Businesses trade or market health information.",
+  },
+  {
+    id: "public-care-users",
+    label: "People relying on publicly funded care",
+    summary:
+      "People depend on public coverage and public care capacity rather than a private alternative.",
+  },
+  {
+    id: "researchers",
+    label: "Medical researchers and research institutions",
+    summary:
+      "Researchers and institutions develop treatments and depend on research priorities and funding.",
+  },
+  {
+    id: "private-practices",
+    label: "Cash-pay and private care practices",
+    summary: "Practices earn revenue from privately paid care outside public coverage.",
+  },
 ]
 
 export const GROUP_BY_ID: Record<string, Group> = Object.fromEntries(GROUPS.map((g) => [g.id, g]))
