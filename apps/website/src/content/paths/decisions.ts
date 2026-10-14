@@ -9,6 +9,8 @@
  * a phased roll-out in waves.
  */
 import { PHASES } from "../plan"
+// TEMPORARY: written by the /paths/review page. Fold into ROWS, then delete.
+import OVERRIDES from "./review-overrides.json"
 
 export type PhaseId = (typeof PHASES)[number]["id"]
 export type Confidence = "high" | "medium" | "low"
@@ -23,7 +25,18 @@ export type Decision = {
   /** What the owner should check when reviewing. */
   review?: string
   reviewed: boolean
+  /** Owner's own note from the review page. */
+  ownerNote?: string
 }
+
+/** TEMPORARY: one owner edit saved by /paths/review. */
+export type Override = {
+  status?: "chosen" | "rejected"
+  phase?: PhaseId
+  reviewed?: boolean
+  note?: string
+}
+export const REVIEW_OVERRIDES = OVERRIDES as Record<string, Override>
 
 type Row = [
   pathId: string,
@@ -578,7 +591,8 @@ const ROWS: Row[] = [
   ),
 ]
 
-export const DECISIONS: Decision[] = ROWS.map(
+/** Draft decisions as written above, before owner edits. */
+export const DRAFT_DECISIONS: Decision[] = ROWS.map(
   ([pathId, status, phase, confidence, reason, review]) => ({
     pathId,
     status,
@@ -589,6 +603,20 @@ export const DECISIONS: Decision[] = ROWS.map(
     reviewed: false,
   }),
 )
+
+export const DECISIONS: Decision[] = DRAFT_DECISIONS.map((d) => {
+  const o = REVIEW_OVERRIDES[d.pathId]
+  if (!o) return d
+  const status = o.status ?? d.status
+  const phase = status === "chosen" ? (o.phase ?? d.phase) : undefined
+  return {
+    ...d,
+    status,
+    phase,
+    reviewed: o.reviewed ?? d.reviewed,
+    ...(o.note ? { ownerNote: o.note } : {}),
+  }
+})
 
 export const DECISION_BY_PATH: Record<string, Decision> = Object.fromEntries(
   DECISIONS.map((d) => [d.pathId, d]),

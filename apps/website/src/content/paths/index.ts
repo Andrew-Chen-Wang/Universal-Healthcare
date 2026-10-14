@@ -16,7 +16,8 @@ import type { SolutionPath } from "./types"
 
 export type { SolutionPath, PathStatus } from "./types"
 export type { Decision } from "./decisions"
-export { DECISIONS, DECISION_BY_PATH } from "./decisions"
+export { DECISIONS, DECISION_BY_PATH, DRAFT_DECISIONS, REVIEW_OVERRIDES } from "./decisions"
+export type { Override } from "./decisions"
 
 export const PATHS: SolutionPath[] = [
   ...COVERAGE_PATHS,
@@ -129,4 +130,8 @@ for (const pr of PROBLEMS)
   )
     errors.push(`problem ${pr.id}: no chosen path`)
 
-if (errors.length) throw new Error(`Path validation failed:\n${errors.join("\n")}`)
+/** Validation problems. The build fails on any; in dev the review page lists them instead. */
+export const PATH_ERRORS = errors
+if (errors.length && process.env.NODE_ENV === "production")
+  throw new Error(`Path validation failed:\n${errors.join("\n")}`)
+if (errors.length) console.warn(`Path validation failed:\n${errors.join("\n")}`)
