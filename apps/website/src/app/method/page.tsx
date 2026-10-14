@@ -7,10 +7,12 @@ import {
   Sources,
   Table,
 } from "@website/components/site/ui"
-import { PAYER_LABELS } from "@website/content/baseline"
+import { PAYER_LABELS, SERVICES_2024 } from "@website/content/baseline"
 import { ASSUMPTIONS, SERVICE_ASSUMPTIONS, fmt } from "@website/content/model"
 import { SENSITIVITY } from "@website/content/sensitivity"
 import type { Metadata } from "next"
+
+const serviceLabel = (id: string) => SERVICES_2024.find((s) => s.id === id)?.label ?? id
 
 export const metadata: Metadata = { title: "Method & assumptions" }
 
@@ -101,7 +103,7 @@ export default function MethodPage() {
           <tbody>
             {SERVICE_ASSUMPTIONS.map((s) => (
               <tr key={s.id}>
-                <td className="font-medium">{s.id}</td>
+                <td className="font-medium">{serviceLabel(s.id)}</td>
                 <td className="text-sm">{s.reference}</td>
                 <td className="num text-right">{s.relativePrice.privateInsurance.toFixed(2)}</td>
                 <td className="num text-right">{s.relativePrice.medicare.toFixed(2)}</td>
@@ -117,7 +119,7 @@ export default function MethodPage() {
         <div className="mt-6 space-y-4">
           {SERVICE_ASSUMPTIONS.map((s) => (
             <div key={s.id} className="border-l-2 border-rule pl-4 text-sm">
-              <div className="font-semibold">{s.id}</div>
+              <div className="font-semibold">{serviceLabel(s.id)}</div>
               <p className="text-foreground/85">{s.notes}</p>
               <Sources ids={s.sourceIds} />
             </div>

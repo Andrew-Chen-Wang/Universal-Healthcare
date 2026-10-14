@@ -7,7 +7,13 @@
  * Overlaps are expected: a nurse's wage is inside hospital spending, which is
  * inside national spending. Each item states what it is part of.
  */
-import { SERVICES_2024, SPONSOR_LABELS, SPONSOR_LINES_2024 } from "./baseline"
+import {
+  PAYER_LABELS,
+  type Payer,
+  SERVICES_2024,
+  SPONSOR_LABELS,
+  SPONSOR_LINES_2024,
+} from "./baseline"
 import { v } from "./constants"
 
 export const COST_CATEGORIES = [
@@ -59,12 +65,15 @@ const serviceItems: InventoryItem[] = SERVICES_2024.map((s) => ({
   amount: s.total,
   unit: "usdB",
   formula: Object.entries(s.byPayer)
-    .map(([p, x]) => `${p} ${b(x)}`)
+    .map(([p, x]) => `${PAYER_LABELS[p as Payer]} ${b(x)}`)
     .join(" + "),
   partOf: "National health expenditures ($5,278.6B, 2024)",
   sourceIds: ["cms-nhe-2024"],
   note: s.description,
-  details: Object.entries(s.byPayer).map(([p, x]) => ({ label: p, value: b(x) })),
+  details: Object.entries(s.byPayer).map(([p, x]) => ({
+    label: PAYER_LABELS[p as Payer],
+    value: b(x),
+  })),
 }))
 
 // ---------------------------------------------------------------- 1b. Who pays
