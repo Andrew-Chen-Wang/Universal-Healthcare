@@ -16,9 +16,16 @@ export default function ChangesPage() {
         lede="Every change to the system, grouped into phases. Each change has its tasks, design choices and alternatives, costs with calculations, trade-offs, risks, the existing laws and institutions it affects, and comparisons with other countries. Political feasibility is deliberately set aside."
       />
       <Callout tone="caution" title="Draft">
-        These changes were drafted before the problem-by-problem solution decisions. They will be
-        revised as each solution path in Part 1 is chosen, and changes may move between phases, be
-        replaced, or be run as experiments first.
+        The steps below are the detailed build-out of the plan. The full list of concrete changes
+        from every chosen solution path is on{" "}
+        <Link href="/changes" className="underline">
+          Changes by phase
+        </Link>
+        . The picks are drafts awaiting review in the{" "}
+        <Link href="/paths/ledger" className="underline">
+          review ledger
+        </Link>
+        .
       </Callout>
       {PHASES.map((p) => {
         const nav = NAV.find((x) => x.id === p.id)!

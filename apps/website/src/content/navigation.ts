@@ -144,7 +144,17 @@ export const SIDEBAR: SidePart[] = [
     id: "paths",
     title: "Part 1 · Decide solution paths",
     href: "/paths",
-    groups: [],
+    groups: [
+      {
+        id: "decide",
+        title: "Decisions",
+        href: "/paths",
+        items: [
+          { id: "tree", label: "Decision tree", href: "/paths" },
+          { id: "ledger", label: "Review ledger (draft picks)", href: "/paths/ledger" },
+        ],
+      },
+    ],
   },
   {
     id: "costs",
@@ -165,21 +175,29 @@ export const SIDEBAR: SidePart[] = [
     id: "changes",
     title: "Part 2 · Changes by phase",
     href: "/plan",
-    groups: NAV.map((p) => ({
-      id: `ph-${p.id}`,
-      title: `${p.number}. ${p.title}`,
-      href: p.href,
-      items: p.steps.map((s) => ({
-        id: s.id,
-        label: s.title,
-        number: s.number,
-        href: s.href,
-        children: s.sections.map((sec) => ({
-          id: `${s.id}-${sec.id}`,
-          label: sec.label,
-          href: sec.href,
+    groups: [
+      {
+        id: "all-changes",
+        title: "All changes from chosen paths",
+        href: "/changes",
+        items: [{ id: "changes", label: "Changes by phase", href: "/changes" }],
+      },
+      ...NAV.map((p) => ({
+        id: `ph-${p.id}`,
+        title: `${p.number}. ${p.title}`,
+        href: p.href,
+        items: p.steps.map((s) => ({
+          id: s.id,
+          label: s.title,
+          number: s.number,
+          href: s.href,
+          children: s.sections.map((sec) => ({
+            id: `${s.id}-${sec.id}`,
+            label: sec.label,
+            href: sec.href,
+          })),
         })),
       })),
-    })),
+    ],
   },
 ]

@@ -2,6 +2,7 @@ import { PathLink, ProblemChip, real, StatusPill } from "@website/components/sit
 import { B, Page, PageHeader, ProsCons, Sources, Usd } from "@website/components/site/ui"
 import { INVENTORY_BY_ID } from "@website/content/cost-inventory"
 import {
+  DECISION_BY_PATH,
   complementsOf,
   conflictsOf,
   PATH_BY_ID,
@@ -9,6 +10,7 @@ import {
   pathsFor,
   requiredBy,
 } from "@website/content/paths"
+import { PHASES } from "@website/content/plan"
 import { PROBLEM_BY_ID } from "@website/content/problems"
 import type { Metadata } from "next"
 import Link from "next/link"
@@ -65,6 +67,8 @@ export default async function PathPage({ params }: { params: Params }) {
   const conflicts = conflictsOf(p.id)
   const complements = complementsOf(p.id)
   const created = [...(p.spawns ?? []), ...(p.worsens ?? [])]
+  const decision = DECISION_BY_PATH[p.id]
+  const phase = PHASES.find((ph) => ph.id === decision?.phase)
 
   return (
     <Page>
@@ -77,12 +81,32 @@ export default async function PathPage({ params }: { params: Params }) {
         title={p.title}
         lede={p.summary}
       />
-      <div className="mb-8 flex items-center gap-2 text-sm">
-        Status: <StatusPill status={p.status} />
-        <span className="text-muted-foreground">
-          Nothing is chosen until the plan's owner decides.
-        </span>
-      </div>
+      {decision && (
+        <section className="mb-10 rounded-md border border-rule bg-card p-4 text-sm">
+          <div className="flex flex-wrap items-center gap-2">
+            <span className="font-semibold">Draft decision:</span>
+            <StatusPill status={p.status} />
+            {phase && (
+              <Link href={`/changes#${phase.id}`} className="underline">
+                Phase {phase.number}: {phase.title}
+              </Link>
+            )}
+            <span className="text-muted-foreground">
+              Confidence: {decision.confidence} ·{" "}
+              {decision.reviewed ? "reviewed" : "not yet reviewed"}
+            </span>
+          </div>
+          <p className="mt-2">{decision.reason}</p>
+          {decision.review && (
+            <p className="mt-2 text-foreground/80">
+              <span className="font-medium">To review:</span> {decision.review}
+            </p>
+          )}
+          <Link href="/paths/ledger" className="mt-2 inline-block text-xs underline">
+            Review ledger
+          </Link>
+        </section>
+      )}
 
       <section className="mb-10">
         <h2 className="mb-3 text-xl font-semibold">How this path connects</h2>

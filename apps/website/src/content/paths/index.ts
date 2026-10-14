@@ -6,6 +6,7 @@ import { PROBLEM_BY_ID, PROBLEMS } from "../problems"
 import { INVENTORY_BY_ID } from "../cost-inventory"
 import { SOURCE_BY_ID } from "../sources"
 import { CARE_PATHS } from "./care"
+import { DECISION_BY_PATH, DECISIONS } from "./decisions"
 import { COVERAGE_PATHS } from "./coverage"
 import { DERIVED_PATHS } from "./derived"
 import { MONEY_PATHS } from "./money"
@@ -14,6 +15,8 @@ import { SUPPLY_PATHS } from "./supply"
 import type { SolutionPath } from "./types"
 
 export type { SolutionPath, PathStatus } from "./types"
+export type { Decision } from "./decisions"
+export { DECISIONS, DECISION_BY_PATH } from "./decisions"
 
 export const PATHS: SolutionPath[] = [
   ...COVERAGE_PATHS,
@@ -22,7 +25,9 @@ export const PATHS: SolutionPath[] = [
   ...CARE_PATHS,
   ...RISK_PATHS,
   ...DERIVED_PATHS,
-]
+].map((p) => ({ ...p, status: DECISION_BY_PATH[p.id]?.status ?? p.status }))
+
+export const CHOSEN = PATHS.filter((p) => p.status === "chosen")
 
 export const PATH_BY_ID: Record<string, SolutionPath> = {}
 for (const p of PATHS) {
@@ -97,4 +102,31 @@ for (const pr of PROBLEMS) {
   if (pr.category === "Problems created by solution paths" && createdBy(pr.id).length === 0)
     errors.push(`problem ${pr.id}: no path creates it`)
 }
+// Decisions: every path decided, chosen paths consistent and complete.
+for (const d of DECISIONS)
+  if (!PATH_BY_ID[d.pathId]) errors.push(`decision for unknown path ${d.pathId}`)
+const chosenIds = new Set(CHOSEN.map((p) => p.id))
+for (const p of PATHS) {
+  const d = DECISION_BY_PATH[p.id]
+  if (!d) {
+    errors.push(`${p.id}: no decision`)
+    continue
+  }
+  if (d.status === "chosen" && !d.phase) errors.push(`${p.id}: chosen without a phase`)
+  if (p.status !== "chosen") continue
+  for (const r of p.requires ?? [])
+    if (!chosenIds.has(r)) errors.push(`${p.id}: requires ${r}, which is not chosen`)
+  for (const x of conflictsOf(p.id))
+    if (chosenIds.has(x.id)) errors.push(`${p.id}: conflicts with chosen ${x.id}`)
+  for (const sp of p.spawns ?? [])
+    if (!pathsFor(sp).some((q) => chosenIds.has(q.id)))
+      errors.push(`${p.id}: creates ${sp}, which has no chosen path`)
+}
+for (const pr of PROBLEMS)
+  if (
+    pr.category !== "Problems created by solution paths" &&
+    !pathsFor(pr.id).some((q) => chosenIds.has(q.id))
+  )
+    errors.push(`problem ${pr.id}: no chosen path`)
+
 if (errors.length) throw new Error(`Path validation failed:\n${errors.join("\n")}`)
