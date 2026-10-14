@@ -204,4 +204,28 @@ export const CURRENT_LAW: Record<string, Reading> = {
     text: `Reported breaches keep growing: breaches affecting fewer than 500 people rose ${show("smallBreachGrowth")} from 2020 to 2024. Most health apps and data brokers remain outside HIPAA.`,
     sourceIds: ["hhs-breach-report-2024"],
   },
+  "job-lock": {
+    text: `Under current law, coverage outside a job got more expensive: after the enhanced Marketplace tax credits expired, the average premium Marketplace enrollees paid rose from ${show("marketplacePremiumPaid2025")} a month in 2025 to ${show("marketplacePremiumPaid2026")} in 2026. Leaving a job for self-employment or early retirement now costs more.`,
+    sourceIds: ["kff-marketplace-2026"],
+  },
+  patents: {
+    text: `Enforcement chips at the edges: after FTC challenges in 2023 and 2024, patents were delisted from the FDA's Orange Book for ${show("ftcDelistedProducts")} brand-name products, and in May 2025 the FTC challenged more than ${show("ftcRenewedPatentChallenges2025")} listings again. The patent rules that allow thickets are unchanged.`,
+    sourceIds: ["ftc-orange-book-2025"],
+  },
+  "rd-incentives": {
+    text: `Under current law the link stays mostly intact: CBO estimates the Inflation Reduction Act's drug-pricing provisions will mean ${show("iraFewerDrugs30y")} fewer new drugs out of about ${show("newDrugs30y")} over the next three decades. Funding for drug development still depends on high U.S. prices.`,
+    sourceIds: ["cbo-ira-new-drugs-2023"],
+  },
+  transport: {
+    text: `Medicare's extra payments for ground ambulances, including the super-rural bonus, remain temporary: Congress extended them again in 2026, through December 31, 2027. Unless Congress acts again, they end after that.`,
+    sourceIds: ["cms-ambulance-addons-2026"],
+  },
+  "scope-of-practice": {
+    text: `The workforce the limits apply to keeps growing: BLS projects nurse practitioner jobs will grow ${show("npGrowth2025to2035")}, from ${show("npEmployment2025")} in 2025 to ${show("npEmployment2035")} in 2035. How much of that capacity patients can use still depends on each state's practice rules.`,
+    sourceIds: ["bls-np-projections-2025"],
+  },
+  "low-value-care": {
+    text: `Low-value care is falling only slowly: the share of traditional Medicare beneficiaries who received at least one of the low-value services studied fell from ${show("lowValueShare2014")} in 2014 to ${show("lowValueShare2018")} in 2018.`,
+    sourceIds: ["mafi-low-value-2021"],
+  },
 }
