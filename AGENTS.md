@@ -55,6 +55,9 @@ into the website and are not deployed.
   number literal in prose or pages; import it (`v("id")`, `show("id")`) instead.
 - `model.ts` computes the ledger; `calculations.ts` turns every cost into arithmetic
   steps; each cost item has `stepId` and its own page.
+- `reform-model.ts` prices picks without a single payer line by line on top of the 2024
+  baseline (coverage, provider and drug prices, new benefits, insurer overhead, workforce),
+  reusing `model.ts`'s rates; `/your-plan` and `/approaches` use it via `costFor`.
 - Plan steps live in `content/plan/`; `step-extras.ts` links each step to decisions,
   trade-offs, risks, jobs, and international comparisons; `changes.ts` lists every
   system change with its step.

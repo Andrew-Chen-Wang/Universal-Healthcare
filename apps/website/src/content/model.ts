@@ -434,7 +434,7 @@ export type SourceLine = {
   explanation: string
 }
 
-function computeService(a: ServiceAssumption): ServiceResult {
+export function computeService(a: ServiceAssumption): ServiceResult {
   const row = SERVICES_2024.find((s) => s.id === a.id)
   if (!row) throw new Error(`Unknown service ${a.id}`)
   const p = row.byPayer

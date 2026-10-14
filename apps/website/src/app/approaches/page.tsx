@@ -37,17 +37,25 @@ function spending(picks: string[]) {
       </>
     )
   const c = costFor(new Set(picks))
-  if (!c)
-    return (
-      <span className="text-muted-foreground">
-        Not priced by the site&apos;s model, which only prices a single payer so far. See the
-        published estimate below.
-      </span>
-    )
   return (
-    <>
-      <B v={c.nationalAfter} /> a year, <B v={c.delta} sign /> against today
-    </>
+    <div className="space-y-1.5">
+      <p>
+        <B v={c.nationalAfter} /> a year, <B v={c.delta} sign /> against today
+      </p>
+      <details className="text-xs">
+        <summary className="cursor-pointer text-muted-foreground">
+          {c.kind === "single-payer" ? "How the single-payer model prices it" : "Line by line"}
+        </summary>
+        <ul className="mt-1 space-y-1.5">
+          {c.rules.map((r) => (
+            <li key={r.label}>
+              <span className="font-medium">{r.label}:</span>{" "}
+              <span className="text-foreground/80">{r.effect}</span>
+            </li>
+          ))}
+        </ul>
+      </details>
+    </div>
   )
 }
 
@@ -147,10 +155,13 @@ export default function ApproachesPage() {
         draft picks, which Claude made for the owner to review. Open any column in the plan builder
         to change it.
         <span className="mt-2 block">
-          The site&apos;s cost model prices only a single payer. For a common yardstick, the
+          The site&apos;s spending row prices the single payer with the full cost ledger, and the
+          other columns line by line on top of today&apos;s spending (coverage, provider prices,
+          drug prices, new benefits, insurer overhead, workforce), with the same rates and prices.
+          Both are 2024 dollars as if fully in place in 2024. Picks with no cost input, such as
+          antitrust or privacy rules, aren&apos;t priced. For a check from outside, the
           published-estimate row uses one study that priced current law and eight reforms the same
-          way: the Urban Institute&apos;s 2019 comparison, for 2020 in 2020 dollars, as if each were
-          fully in place.
+          way: the Urban Institute&apos;s 2019 comparison, for 2020 in 2020 dollars.
         </span>
         <Sources ids={["urban-2019"]} />
       </Callout>
