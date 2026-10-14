@@ -4,6 +4,7 @@ import { Button } from "@website/components/ui/button"
 import { cn } from "@website/lib/utils"
 import Link from "next/link"
 import { useEffect, useMemo, useState } from "react"
+import { coverageFor, type Pop, type Status } from "./coverage"
 
 export type BuilderProblem = { id: string; title: string; category: string; derived: boolean }
 export type BuilderPath = {
@@ -46,11 +47,13 @@ export function PlanBuilder({
   paths,
   categories,
   draft,
+  pop,
 }: {
   problems: BuilderProblem[]
   paths: BuilderPath[]
   categories: string[]
   draft: string[]
+  pop: Pop
 }) {
   const [picks, setPicks] = useState<Set<string>>(new Set())
   const [loaded, setLoaded] = useState(false)
@@ -167,6 +170,8 @@ export function PlanBuilder({
           Clear all picks
         </Button>
       </div>
+
+      <CoverageTable picks={picks} pop={pop} />
 
       <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_320px]">
         <div className="min-w-0 space-y-8">
@@ -361,5 +366,84 @@ function PathItems({
         ))}
       </List>
     </div>
+  )
+}
+
+const STATUS: Record<Status, { label: string; className: string }> = {
+  covered: { label: "Covered", className: "bg-gain-soft text-gain" },
+  partial: { label: "Partly covered", className: "bg-caution-soft text-caution" },
+  waiting: { label: "Waiting period", className: "bg-caution-soft text-caution" },
+  emergency: { label: "Emergency care only", className: "bg-loss-soft text-loss" },
+  separate: { label: "Separate system", className: "bg-secondary text-foreground/75" },
+  gap: { label: "Not addressed", className: "bg-loss-soft text-loss" },
+  open: { label: "Undecided", className: "bg-secondary text-foreground/75" },
+}
+
+function millions(n: number) {
+  return n >= 10 ? n.toFixed(0) : n >= 1 ? n.toFixed(1) : n.toFixed(2)
+}
+
+function CoverageTable({ picks, pop }: { picks: Set<string>; pop: Pop }) {
+  const rows = coverageFor(picks, pop)
+  return (
+    <section className="mb-10" aria-labelledby="coverage-heading">
+      <h2 id="coverage-heading" className="mb-1 text-lg font-semibold">
+        Who your plan covers
+      </h2>
+      <p className="mb-3 text-sm text-muted-foreground">
+        Counts in millions, from different surveys and years (see{" "}
+        <Link href="/inputs" className="underline">
+          inputs
+        </Link>
+        ), so they are not summed. U.S. resident population: {millions(pop.residentPop2025)}{" "}
+        million.
+      </p>
+      <div className="overflow-x-auto rounded-md border border-rule bg-card">
+        <table className="w-full min-w-[640px] text-left text-sm">
+          <thead>
+            <tr className="text-xs tracking-wide text-muted-foreground uppercase">
+              <th scope="col" className="px-4 py-2 font-medium">
+                Group
+              </th>
+              <th scope="col" className="px-4 py-2 text-right font-medium">
+                Millions
+              </th>
+              <th scope="col" className="px-4 py-2 font-medium">
+                Status
+              </th>
+              <th scope="col" className="px-4 py-2 font-medium">
+                Why
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {rows.map((r) => (
+              <tr key={r.id} className="border-t border-rule align-top">
+                <th scope="row" className="px-4 py-2 font-medium">
+                  {r.label}
+                </th>
+                <td className="px-4 py-2 text-right font-mono whitespace-nowrap">
+                  {Array.isArray(r.count)
+                    ? `${millions(r.count[0])}–${millions(r.count[1])}`
+                    : millions(r.count)}
+                  {r.per === "year" && <span className="text-muted-foreground"> /yr</span>}
+                </td>
+                <td className="px-4 py-2">
+                  <span
+                    className={cn(
+                      "inline-block rounded-sm px-2 py-0.5 text-xs font-medium whitespace-nowrap",
+                      STATUS[r.status].className,
+                    )}
+                  >
+                    {STATUS[r.status].label}
+                  </span>
+                </td>
+                <td className="px-4 py-2 text-foreground/80">{r.detail}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </section>
   )
 }

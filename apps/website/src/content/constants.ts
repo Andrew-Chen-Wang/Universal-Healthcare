@@ -4,7 +4,7 @@
  * Content files import from here instead of writing literals, so a number that
  * appears in the ledger, a plan step, and a household example is always the same
  * number. Each constant records its unit, where it comes from, and how sure we
- * are. The /costs/inputs page renders this whole file.
+ * are. The /inputs page renders this whole file.
  *
  * Units:
  *   usdB    billions of dollars
@@ -52,6 +52,7 @@ function k(
 }
 
 const POP = "Population & economy"
+const GROUPS = "Population groups (coverage)"
 const PREM = "Premiums & cost sharing (2025)"
 const PRICE = "Prices & payment rates"
 const PLAN = "Plan policy parameters"
@@ -73,6 +74,140 @@ const INS = "Insurer overhead breakdown"
 const ACC = "Access & capacity"
 
 export const C = {
+  // ---------------------------------------------------------------- Population groups (coverage)
+  // In millions unless noted. Groups come from different surveys and years, so they don't sum exactly.
+  residentPop2025: k(
+    GROUPS,
+    "U.S. resident population, 50 states + DC, July 2025 (millions)",
+    341.78,
+    "count",
+    "data",
+    { sourceIds: ["census-popest-2025"] },
+  ),
+  usBornCitizens: k(
+    GROUPS,
+    "U.S.-born citizens, 2024 (millions, civilian noninstitutionalized)",
+    281.59,
+    "count",
+    "data",
+    { sourceIds: ["kff-citizenship-2024"] },
+  ),
+  naturalizedCitizens: k(GROUPS, "Naturalized citizens, 2024 (millions)", 25.61, "count", "data", {
+    sourceIds: ["kff-citizenship-2024"],
+  }),
+  lawfulPermanentResidents: k(
+    GROUPS,
+    "Lawful permanent residents, January 2024 (millions)",
+    12.8,
+    "count",
+    "data",
+    { sourceIds: ["mpi-frs-2026"] },
+  ),
+  nonimmigrantResidents: k(
+    GROUPS,
+    "Resident nonimmigrants (work and student visas and families), FY2019 (millions)",
+    3.2,
+    "count",
+    "data",
+    {
+      confidence: "medium",
+      sourceIds: ["dhs-nonimmigrant-2019"],
+      note: "Latest DHS estimate is for FY2019.",
+    },
+  ),
+  unauthorizedHigh: k(
+    GROUPS,
+    "Unauthorized immigrants, 2023, Pew (millions)",
+    14.0,
+    "count",
+    "data",
+    {
+      confidence: "medium",
+      sourceIds: ["pew-unauthorized-2025"],
+      note: "Includes about 6 million people with temporary protections (TPS, pending asylum).",
+    },
+  ),
+  unauthorizedLow: k(
+    GROUPS,
+    "Unauthorized immigrants, January 2022, DHS (millions)",
+    11.0,
+    "count",
+    "data",
+    { confidence: "medium", sourceIds: ["dhs-unauthorized-2022"] },
+  ),
+  newLprArrivals: k(
+    GROUPS,
+    "New lawful permanent residents admitted from abroad, FY2024 (millions)",
+    0.574,
+    "count",
+    "data",
+    { sourceIds: ["mpi-frs-2026"] },
+  ),
+  visitorArrivals: k(
+    GROUPS,
+    "International visitor arrivals, 2025 (millions)",
+    68.3,
+    "count",
+    "data",
+    { sourceIds: ["ita-visitors-2025"] },
+  ),
+  uninsuredToday: k(GROUPS, "People uninsured all of 2025 (millions)", 26.7, "count", "data", {
+    sourceIds: ["census-p60-291"],
+  }),
+  mandateRepealUninsured2027: k(
+    GROUPS,
+    "Added uninsured from repealing the mandate, CBO projection for 2027 (millions)",
+    13,
+    "count",
+    "estimate",
+    { confidence: "medium", sourceIds: ["cbo-mandate-repeal-2017"] },
+  ),
+  tricareActiveFamilies: k(
+    GROUPS,
+    "Active-duty members and families eligible for TRICARE, FY2024 (millions)",
+    2.82,
+    "count",
+    "data",
+    { sourceIds: ["dha-tricare-fy24"] },
+  ),
+  vaEnrolled: k(GROUPS, "Veterans enrolled in VA health care (millions)", 9.1, "count", "data", {
+    sourceIds: ["va-health"],
+  }),
+  ihsServed: k(
+    GROUPS,
+    "People served by the Indian Health Service (millions)",
+    2.8,
+    "count",
+    "data",
+    { sourceIds: ["ihs-2026"] },
+  ),
+  incarcerated: k(
+    GROUPS,
+    "People in prisons and jails, yearend 2023 (millions)",
+    1.853,
+    "count",
+    "data",
+    { sourceIds: ["bjs-correctional-2023"] },
+  ),
+  puertoRicoPop: k(GROUPS, "Puerto Rico population, July 2025 (millions)", 3.185, "count", "data", {
+    sourceIds: ["census-pr-quickfacts"],
+  }),
+  otherTerritoriesPop: k(
+    GROUPS,
+    "Guam, U.S. Virgin Islands, American Samoa, Northern Mariana Islands, 2020 (millions)",
+    0.338,
+    "count",
+    "data",
+    { sourceIds: ["census-island-areas-2020"] },
+  ),
+  unauthorizedSpendShare: k(
+    GROUPS,
+    "Health spending per unauthorized immigrant vs per U.S.-born person, 2017 ($1,629 vs $6,088)",
+    0.268,
+    "share",
+    "data",
+    { confidence: "medium", sourceIds: ["jama-unauthorized-spending"] },
+  ),
   // ---------------------------------------------------------------- Population & economy
   population: k(
     POP,

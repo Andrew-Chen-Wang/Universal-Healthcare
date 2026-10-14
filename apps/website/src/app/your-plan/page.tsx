@@ -1,8 +1,10 @@
 import { real } from "@website/components/site/paths"
 import { Page, PageHeader } from "@website/components/site/ui"
+import { v } from "@website/content/constants"
 import { CHOSEN, conflictsOf, PATHS } from "@website/content/paths"
 import { PROBLEM_CATEGORIES, PROBLEMS } from "@website/content/problems"
 import type { Metadata } from "next"
+import type { Pop } from "./coverage"
 import { PlanBuilder, type BuilderPath, type BuilderProblem } from "./plan-builder"
 
 export const metadata: Metadata = {
@@ -12,6 +14,26 @@ export const metadata: Metadata = {
 }
 
 const DERIVED = "Problems created by solution paths"
+
+const POP_IDS = [
+  "residentPop2025",
+  "usBornCitizens",
+  "naturalizedCitizens",
+  "lawfulPermanentResidents",
+  "nonimmigrantResidents",
+  "unauthorizedHigh",
+  "unauthorizedLow",
+  "newLprArrivals",
+  "visitorArrivals",
+  "uninsuredToday",
+  "mandateRepealUninsured2027",
+  "tricareActiveFamilies",
+  "vaEnrolled",
+  "ihsServed",
+  "incarcerated",
+  "puertoRicoPop",
+  "otherTerritoriesPop",
+] as const
 
 export default function YourPlanPage() {
   const problems: BuilderProblem[] = PROBLEMS.map((p) => ({
@@ -46,6 +68,7 @@ export default function YourPlanPage() {
         paths={paths}
         categories={PROBLEM_CATEGORIES.filter((c) => c !== DERIVED)}
         draft={CHOSEN.map((p) => p.id)}
+        pop={Object.fromEntries(POP_IDS.map((id) => [id, v(id)])) as Pop}
       />
     </Page>
   )
