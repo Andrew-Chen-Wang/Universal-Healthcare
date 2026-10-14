@@ -70,3 +70,6 @@ into the website and are not deployed.
   validates every link at build time. Status stays `"open"` until the owner decides;
   only chosen paths get folded into Part 2. Routes: `/problems/[id]`, `/paths`
   (decision tree), `/paths/[id]`.
+- Optimizations that work in any system (whoever pays: labs, virtual-first, hospital at
+  home) live in `content/optimizations.ts`, outside the problem → path tree, with evidence
+  for and against. Routes: `/optimizations`, `/optimizations/[id]`.
