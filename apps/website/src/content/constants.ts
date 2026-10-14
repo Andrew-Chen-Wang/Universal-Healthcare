@@ -1722,6 +1722,21 @@ export const C = {
   ),
 
   // ---------------------------------------------------------------- Taxes
+  breakEvenFloor: k(
+    PLAN,
+    "Owner's rule for the hybrid draft: no household below this income pays more",
+    500000,
+    "usd",
+    "policy",
+  ),
+  employerMandateThreshold: k(
+    PLAN,
+    "Full-time workers at which the employer coverage mandate applies (ACA)",
+    50,
+    "count",
+    "policy",
+    { sourceIds: ["irs-employer-mandate"] },
+  ),
   employerTaxRate: k(TAX, "Employer health payroll tax rate", 0.075, "share", "policy"),
   payrollExemption: k(TAX, "Payroll exempt per employer", 250000, "usd", "policy"),
   smallEmployerExemptShare: k(

@@ -1,4 +1,4 @@
-import { Page, PageHeader } from "@website/components/site/ui"
+import { Page, PageHeader, SinglePayerPlanNotice } from "@website/components/site/ui"
 import { costsForStep } from "@website/content/calculations"
 import { NAV } from "@website/content/navigation"
 import { CHOSEN, DECISION_BY_PATH } from "@website/content/paths"
@@ -42,6 +42,7 @@ export default async function PhasePage({ params }: { params: Promise<{ phase: s
           </ul>
         </div>
       </PageHeader>
+      <SinglePayerPlanNotice />
       <section className="mb-8 rounded-md border border-rule bg-card p-4">
         <h2 className="text-lg font-semibold">
           Changes from chosen paths in this phase: {changeCount}

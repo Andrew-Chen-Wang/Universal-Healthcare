@@ -126,7 +126,8 @@ export default function PathsPage() {
           Compare approaches
         </Link>{" "}
         puts keeping current law, minor changes, bigger changes that keep today&apos;s insurers, a
-        universal multi-payer system, and the draft single-payer picks side by side.
+        universal multi-payer system, the earlier single-payer draft, and the current draft (a
+        Germany-style hybrid) side by side.
       </Callout>
 
       <Callout title="How to read the relationships">

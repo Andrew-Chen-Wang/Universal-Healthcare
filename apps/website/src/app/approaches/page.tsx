@@ -42,6 +42,19 @@ function spending(picks: string[]) {
       <p>
         <B v={c.nationalAfter} /> a year, <B v={c.delta} sign /> against today
       </p>
+      {c.kind === "reform" && c.federalAfter !== undefined && c.federalBefore !== undefined && (
+        <p className="text-xs text-muted-foreground">
+          Federal <B v={c.federalAfter - c.federalBefore} sign />
+          {c.gap !== undefined && (
+            <>
+              ; {c.gap > 0 ? "still to fund " : "surplus over named taxes "}
+              <B v={Math.abs(c.gap)} />
+            </>
+          )}
+          {c.noNewTaxBelow !== undefined &&
+            `; no new tax below $${c.noNewTaxBelow.toLocaleString("en-US")} of income`}
+        </p>
+      )}
       <details className="text-xs">
         <summary className="cursor-pointer text-muted-foreground">
           {c.kind === "single-payer" ? "How the single-payer model prices it" : "Line by line"}
