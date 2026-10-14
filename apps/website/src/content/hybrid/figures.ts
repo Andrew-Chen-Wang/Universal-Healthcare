@@ -122,5 +122,7 @@ export const H = {
   drugsFederal: fmt(hybridLine("drugPrices").federal, { sign: true }),
   overhead: fmt(hybridLine("overhead").delta, { sign: true }),
   workforce: fmt(hybridLine("workforce").delta),
+  maFix: fmt(hybridLine("maFix").delta, { sign: true }),
+  medicareDvh: fmt(hybridLine("medicareDvh").delta, { sign: true }),
   oneTimeTotal: fmt(HYBRID_ONE_TIME_TOTAL),
 }

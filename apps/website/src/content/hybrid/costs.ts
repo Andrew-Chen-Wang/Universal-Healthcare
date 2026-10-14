@@ -6,6 +6,7 @@ import { NHE_TOTAL_2024 } from "../baseline"
 import type { CalcStep, CostItem } from "../calculations"
 import { type ConstantId, DERIVED, show, v } from "../constants"
 import { fmt } from "../model"
+import { HOUSEHOLDS } from "../households"
 import { H, HYBRID_COST, HYBRID_ONE_TIME, hybridLine } from "./figures"
 
 const usd = (x: number) => `$${Math.round(x).toLocaleString("en-US")}`
@@ -67,6 +68,23 @@ fromLine(
   "saving",
   "Private insurer overhead",
   "Lower premiums vs. insurer, broker, and marketing jobs.",
+)
+
+fromLine(
+  "maFix",
+  "hy-ma-fix",
+  "fix-today",
+  "saving",
+  "Medicare Advantage payment fixes",
+  "Lower federal spending vs. fewer extra benefits in some plans.",
+)
+fromLine(
+  "medicareDvh",
+  "hy-medicare-dvh",
+  "medicare-fixes",
+  "spending",
+  "Dental, vision, and hearing in Medicare",
+  "Closes seniors' biggest coverage gaps at a federal cost paid by top-end taxes.",
 )
 
 // Federal subsidies for the newly covered.
@@ -277,5 +295,96 @@ for (const c of HYBRID_ONE_TIME)
     tradeoff: "Spending before the plans open so they work on day one.",
     sourceIds: [],
   })
+
+// Who pays: the change for each payer.
+add({
+  id: "hy-who-pays",
+  title: "Who pays more and who pays less",
+  stepId: "tax-legislation",
+  kind: "budget",
+  summary: `Taxpayers with income above ${show("surtaxThreshold")} pay ${H.topEnd} more a year; the federal government spends ${H.federal} more; private premiums (employers and workers) fall by ${fmt(HYBRID_COST.privateBefore - HYBRID_COST.privateAfter)}; out-of-pocket spending falls by ${fmt(-HYBRID_COST.oopChange)}.`,
+  amount: HYBRID_COST.delta,
+  amountUnit: "B",
+  calc: [
+    {
+      label: `Top-end taxes: households above ${show("surtaxThreshold")}`,
+      value: HYBRID_COST.funding?.revenue ?? 0,
+      unit: "B",
+    },
+    { label: "Federal spending", value: HYBRID_COST.federalDelta, unit: "B" },
+    {
+      label: "Private premiums, employers and workers together",
+      formula: `${fmt(HYBRID_COST.privateAfter)} − ${fmt(HYBRID_COST.privateBefore)}`,
+      value: HYBRID_COST.privateAfter - HYBRID_COST.privateBefore,
+      unit: "B",
+    },
+    { label: "Out-of-pocket spending (drug prices)", value: HYBRID_COST.oopChange, unit: "B" },
+    {
+      label: "Change in national spending (all priced lines)",
+      value: HYBRID_COST.delta,
+      unit: "B",
+      result: true,
+    },
+  ],
+  tradeoff: `Concentrates new costs on the highest incomes, as the owner's ${show("breakEvenFloor")} rule requires.`,
+  sourceIds: ["cms-nhe-2024", "tpc-surtax", "jct-capital-gains"],
+})
+
+// Household examples: the same households as the single-payer plan's, under the hybrid.
+const premiumDrop = 1 - HYBRID_COST.privateAfter / HYBRID_COST.privateBefore
+for (const h of HOUSEHOLDS) {
+  const workerSaving = h.employeePremiumPreTax * premiumDrop
+  const employerSaving = h.employerPremium * premiumDrop
+  const keepRate = 1 - h.federalRate - h.stateRate - v("employeeFica")
+  const wageGain = employerSaving * v("wagePassThrough") * keepRate
+  const surtax = Math.max(0, h.agi - v("surtaxThreshold")) * v("surtaxRate")
+  const capGains = h.capitalGainsAboveMillion * (v("topRateOrdinary") - v("topRateCapGains"))
+  const net = workerSaving + wageGain - surtax - capGains
+  add({
+    id: `hy-hh-${h.id}`,
+    title: `Household: ${h.name}`,
+    stepId: "tax-legislation",
+    kind: "household",
+    summary: `${h.description} Under the hybrid: ${net >= 0 ? "better off" : "worse off"} by ${usd(Math.abs(net))} a year in the long run.`,
+    amount: net,
+    amountUnit: "$",
+    calc: [
+      { label: "Fall in private premiums", value: premiumDrop, unit: "%" },
+      { label: "Worker's premium contribution", value: h.employeePremiumPreTax, unit: "$" },
+      {
+        label: "Worker's premium saving",
+        formula: `${usd(h.employeePremiumPreTax)} × ${(premiumDrop * 100).toFixed(1)}%`,
+        value: workerSaving,
+        unit: "$",
+      },
+      { label: "Employer's premium contribution", value: h.employerPremium, unit: "$" },
+      {
+        label: "Employer saving passed into wages, after tax",
+        formula: `${usd(employerSaving)} × ${(v("wagePassThrough") * 100).toFixed(0)}% passed through × ${(keepRate * 100).toFixed(1)}% kept after tax`,
+        value: wageGain,
+        unit: "$",
+        inputs: ["wagePassThrough", "employeeFica"],
+      },
+      {
+        label: `Surtax on income above ${show("surtaxThreshold")}`,
+        formula: `max(0, ${usd(h.agi)} − ${usd(v("surtaxThreshold"))}) × ${show("surtaxRate")}`,
+        value: -surtax,
+        unit: "$",
+        inputs: ["surtaxThreshold", "surtaxRate"],
+      },
+      {
+        label: `Capital gains taxed as ordinary income above ${show("surtaxThreshold")}`,
+        formula: `${usd(h.capitalGainsAboveMillion)} × (${show("topRateOrdinary")} − ${show("topRateCapGains")})`,
+        value: -capGains,
+        unit: "$",
+        inputs: ["topRateOrdinary", "topRateCapGains"],
+      },
+      { label: "Net change a year (long run)", value: net, unit: "$", result: true },
+    ],
+    tradeoff:
+      "Assumes plans pass lower costs into premiums and employers pass savings into wages; neither is automatic. Out-of-pocket drug savings and new dental, vision, and hearing coverage aren't counted.",
+    sourceIds: ["kff-ehbs-2025"],
+  })
+}
 
 export const HY_COST_ITEMS = items

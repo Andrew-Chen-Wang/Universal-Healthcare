@@ -219,6 +219,39 @@ export default function Home() {
           </Link>
           . One-time set-up costs: {H.oneTimeTotal}.
         </p>
+        <h3 className="mt-6 mb-2 text-lg font-semibold">Households under the hybrid</h3>
+        <Table>
+          <thead>
+            <tr>
+              <th>Household</th>
+              <th className="text-right">Change a year</th>
+            </tr>
+          </thead>
+          <tbody>
+            {HYBRID_PLAN.costItems
+              .filter((c) => c.kind === "household" && c.id.startsWith("hy-hh-"))
+              .map((c) => (
+                <tr key={c.id}>
+                  <td>
+                    <Link href={HYBRID_PLAN.costHref(c.stepId, c.id)} className="underline">
+                      {c.title.replace("Household: ", "")}
+                    </Link>
+                  </td>
+                  <td className="text-right">
+                    <Delta v={c.amount} unit="$" />
+                  </td>
+                </tr>
+              ))}
+          </tbody>
+        </Table>
+        <p className="mt-2 text-sm text-muted-foreground">
+          Long run, once employers pass premium savings into wages. New dental, vision, and hearing
+          coverage and out-of-pocket drug savings aren&apos;t counted.{" "}
+          <Link href={HYBRID_PLAN.costHref("tax-legislation", "hy-who-pays")} className="underline">
+            Who pays more and who pays less
+          </Link>
+          .
+        </p>
       </Section>
 
       <Section

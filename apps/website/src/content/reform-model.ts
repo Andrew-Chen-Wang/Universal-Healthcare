@@ -64,6 +64,8 @@ export type ReformCost = {
   /** Private insurance spending (benefits plus overhead), before and after: what premiums follow. */
   privateBefore: number
   privateAfter: number
+  /** Change in households' out-of-pocket spending from priced lines. */
+  oopChange: number
 }
 
 /** Paths whose effect this model prices. */
@@ -129,6 +131,8 @@ export function reformCost(picks: Set<string>): ReformCost {
   const lines: ReformLine[] = []
   /** Change in private insurers' benefit payments, which their overhead follows. */
   let privateChange = 0
+  /** Change in households' out-of-pocket spending. */
+  let oopChange = 0
   /** Federal share of a change in Medicare and Medicaid spending. */
   const publicShare = (payer: string, change: number) =>
     payer === "medicare" ? change : payer === "medicaid" ? change * FEDERAL_MEDICAID_SHARE : 0
@@ -264,6 +268,7 @@ export function reformCost(picks: Set<string>): ReformCost {
         delta += change
         federal += publicShare(p, change)
         if (p === "privateInsurance") privateChange += change
+        if (p === "outOfPocket") oopChange += change
       }
     }
     lines.push({
@@ -347,6 +352,7 @@ export function reformCost(picks: Set<string>): ReformCost {
       delta += change
       federal += publicShare(p, change)
       if (p === "privateInsurance") privateChange += change
+      if (p === "outOfPocket") oopChange += change
     }
     lines.push({
       id: "drugPrices",
@@ -507,6 +513,86 @@ export function reformCost(picks: Set<string>): ReformCost {
         : ["cms-nhe-2024"],
     })
 
+  // 5b. Medicare: Advantage payment fixes, and basic dental, vision, and hearing
+  if (has("ma-reform")) {
+    const yearly = v("cboMaRiskAdjust10yr") / 10
+    lines.push({
+      id: "maFix",
+      label: "Medicare Advantage payment fixes",
+      delta: -yearly,
+      federal: -yearly,
+      explanation: `CBO estimates that using two years of diagnosis data and dropping diagnoses from health risk assessments would save ${fmt(v("cboMaRiskAdjust10yr"))} over ten years, ${fmt(yearly)} a year on average. Excluding chart-review diagnoses and expanding audits would save more; for scale, MedPAC puts coding intensity at ${fmt(v("maCodingIntensity2026"))} in 2026. Plans pass part of the cut through as fewer extra benefits, so national spending falls by about the same amount.`,
+      sourceIds: ["cbo-ma-risk-2024", "medpac-2026-ma"],
+      steps: [
+        {
+          label: "CBO: ten-year savings from two years of data and no risk-assessment diagnoses",
+          value: v("cboMaRiskAdjust10yr"),
+          unit: "B",
+          inputs: ["cboMaRiskAdjust10yr"],
+          sourceIds: ["cbo-ma-risk-2024"],
+        },
+        {
+          label: "Average a year",
+          formula: `${fmt(v("cboMaRiskAdjust10yr"))} ÷ 10`,
+          value: yearly,
+          unit: "B",
+        },
+        {
+          label: "For scale: MA coding intensity, 2026 (MedPAC)",
+          value: v("maCodingIntensity2026"),
+          unit: "B",
+          inputs: ["maCodingIntensity2026"],
+          sourceIds: ["medpac-2026-ma"],
+        },
+        {
+          label: "Change in federal and national spending",
+          value: -yearly,
+          unit: "B",
+          result: true,
+        },
+      ],
+    })
+  }
+  if (has("dental-basic") && !DENTAL.some(has)) {
+    const parts = [
+      ["Dental", v("cboMedicareDental10yr"), "cboMedicareDental10yr"],
+      ["Vision", v("cboMedicareVision10yr"), "cboMedicareVision10yr"],
+      ["Hearing", v("cboMedicareHearing10yr"), "cboMedicareHearing10yr"],
+    ] as const
+    const yearly = parts.reduce((s2, p) => s2 + p[1], 0) / 10
+    lines.push({
+      id: "medicareDvh",
+      label: "Dental, vision, and hearing in Medicare",
+      delta: yearly,
+      federal: yearly,
+      explanation: `Medicare adds dental, vision, and hearing to match the standard benefit. CBO estimated a broader version at ${fmt(parts.reduce((s2, p) => s2 + p[1], 0))} over ten years (dental ${fmt(parts[0][1])}, vision ${fmt(parts[1][1])}, hearing ${fmt(parts[2][1])}), ${fmt(yearly)} a year on average. The hybrid's basic benefit has tighter limits, so this is an upper bound; national spending counts it in full, also an upper bound, since seniors already pay for some of this care themselves.`,
+      sourceIds: ["cbo-medicare-dvh-2021"],
+      steps: [
+        ...parts.map(
+          ([label, val, id]): CalcStep => ({
+            label: `CBO: ${label.toLowerCase()}, ten years`,
+            value: val,
+            unit: "B",
+            inputs: [id],
+            sourceIds: ["cbo-medicare-dvh-2021"],
+          }),
+        ),
+        {
+          label: "Average a year",
+          formula: `${fmt(parts.reduce((s2, p) => s2 + p[1], 0))} ÷ 10`,
+          value: yearly,
+          unit: "B",
+        },
+        {
+          label: "Change in federal and national spending (upper bound)",
+          value: yearly,
+          unit: "B",
+          result: true,
+        },
+      ],
+    })
+  }
+
   // 6. Workforce
   if (WORKFORCE.some(has))
     lines.push({
@@ -534,13 +620,8 @@ export function reformCost(picks: Set<string>): ReformCost {
   const notPriced: ReformCost["notPriced"] = []
   if (has("dental-basic") && !DENTAL.some(has))
     notPriced.push({
-      label: "Basic dental, glasses, and hearing aids",
-      note: "In every plan's standard benefit, paid through premiums; not yet priced.",
-    })
-  if (has("ma-reform"))
-    notPriced.push({
-      label: "Medicare Advantage payment fixes",
-      note: "Would lower federal spending; not yet priced.",
+      label: "Basic dental, glasses, and hearing aids in private plans",
+      note: "In every private and regulated plan's standard benefit, paid through premiums; not yet priced. For scale, the single-payer model prices full public dental, vision, and hearing for everyone well above this.",
     })
   if (has("underins-income-cap"))
     notPriced.push({ label: "Income-based caps on cost sharing", note: "Not yet priced." })
@@ -561,5 +642,6 @@ export function reformCost(picks: Set<string>): ReformCost {
     notPriced,
     privateBefore: PRIVATE_BENEFITS + PRIVATE_OVERHEAD,
     privateAfter: PRIVATE_BENEFITS + privateChange + overheadAfter,
+    oopChange,
   }
 }

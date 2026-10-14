@@ -71,8 +71,7 @@ export const HY_PHASE_0: HybridPhase = {
       ],
       cost: {
         recurring: 0,
-        ledgerNote:
-          "Mostly rules, not spending. The Medicare Advantage fix would lower federal spending but isn't priced yet.",
+        ledgerNote: `Mostly rules, not spending. The Medicare Advantage payment fix changes federal spending by ${H.maFix} a year (CBO).`,
       },
       pros: [
         { point: "Help arrives in the first year, not after the new plans are built." },
@@ -338,7 +337,7 @@ export const HY_PHASE_1: HybridPhase = {
       cost: {
         recurring: 0,
         ledgerNote:
-          "Basic dental, glasses, and hearing aids are paid through premiums and aren't priced yet; the income cap on cost sharing isn't priced yet either.",
+          "Basic dental, glasses, and hearing aids are paid through premiums and aren't priced yet; the income cap on cost sharing isn't priced yet either. Adding them to Medicare is priced in the Medicare step.",
       },
       pros: [
         { point: "Everyone, whatever their plan, gets the same core coverage." },

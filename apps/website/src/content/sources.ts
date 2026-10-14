@@ -2165,6 +2165,33 @@ export const SOURCES: Source[] = [
     note: "189 specialist practices called as statutory or private patients: statutory patients waited 3.08 times longer (95% CI 1.88–5.04), e.g. 36.7 vs 11.9 working days for gastroscopy.",
   },
   {
+    id: "cbo-ma-risk-2024",
+    title:
+      "Options for Reducing the Deficit: 2025 to 2034. Modify Payments to Medicare Advantage Plans for Health Risk",
+    org: "Congressional Budget Office",
+    year: 2024,
+    url: "https://www.cbo.gov/budget-options/60907",
+    note: "Using two years of diagnosis data and excluding diagnoses from health risk assessments would save about $124 billion over 2025–2034. (Read through the Bipartisan Policy Center's summary; cbo.gov blocked direct access.)",
+  },
+  {
+    id: "cbo-medicare-dvh-2021",
+    title:
+      "CBO estimate of adding dental, vision, and hearing benefits to Medicare (House Energy and Commerce reconciliation, Title VI)",
+    org: "Congressional Budget Office (via AJMC)",
+    year: 2021,
+    url: "https://ajmc.com/view/ada-vs-cbo-including-dental-coverage-under-medicare",
+    note: "About $358 billion over 10 years: almost $238 billion for dental, $30 billion for vision, and $89 billion for hearing.",
+  },
+  {
+    id: "medpac-2026-ma",
+    title:
+      "March 2026 Report to the Congress, Chapter 12: The Medicare Advantage program: Status report",
+    org: "Medicare Payment Advisory Commission",
+    year: 2026,
+    url: "https://www.medpac.gov/wp-content/uploads/2026/03/Mar26_Ch12_MedPAC_Report_To_Congress_SEC.pdf",
+    note: "MA payments projected about 14% ($76 billion) above fee-for-service spending for the same enrollees in 2026: favorable selection about 11% ($57 billion) and coding intensity about 4% ($22 billion).",
+  },
+  {
     id: "kff-uncompensated-2013",
     title: "Uncompensated Care for the Uninsured in 2013: A Detailed Examination",
     org: "KFF (Coughlin, Holahan, Caswell, McGrath)",

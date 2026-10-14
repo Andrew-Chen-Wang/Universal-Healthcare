@@ -300,12 +300,14 @@ export const HY_PHASE_2: HybridPhase = {
             "Add basic dental, glasses, and hearing aids to traditional Medicare to match the standard benefit.",
           owner: "CMS",
           when: "Years 1–2",
-          tradeoff: "Raises Medicare spending; not yet priced.",
+          tradeoff: `Raises federal spending by up to ${H.medicareDvh} a year.`,
         },
       ],
       cost: {
-        recurring: 0,
-        ledgerNote: "Medicare Advantage savings and Medicare dental aren't priced yet.",
+        recurring:
+          (HYBRID_COST.lines.find((l) => l.id === "medicareDvh")?.delta ?? 0) +
+          (HYBRID_COST.lines.find((l) => l.id === "maFix")?.delta ?? 0),
+        ledgerNote: `Dental, vision, and hearing in Medicare: up to ${H.medicareDvh} a year (CBO, a broader benefit). Medicare Advantage payment fixes: ${H.maFix} a year (CBO).`,
       },
       pros: [{ point: "Seniors keep the program they know." }],
       cons: [{ point: "Medicare's own gaps, like long-term care, stay." }],

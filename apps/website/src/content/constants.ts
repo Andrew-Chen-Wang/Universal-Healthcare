@@ -884,6 +884,52 @@ export const C = {
     "data",
     { sourceIds: ["mafi-low-value-2021"] },
   ),
+  cboMaRiskAdjust10yr: k(
+    REFORM,
+    "CBO: savings over 2025–2034 from two years of diagnosis data and no health-risk-assessment diagnoses in Medicare Advantage risk scores ($B)",
+    124,
+    "usdB",
+    "estimate",
+    { sourceIds: ["cbo-ma-risk-2024"] },
+  ),
+  maCodingIntensity2026: k(
+    REFORM,
+    "MedPAC: Medicare Advantage payments above fee-for-service from coding intensity, 2026 ($B)",
+    22,
+    "usdB",
+    "estimate",
+    { sourceIds: ["medpac-2026-ma"] },
+  ),
+  cboMedicareDental10yr: k(
+    REFORM,
+    "CBO: adding dental to Medicare, 10 years ($B)",
+    238,
+    "usdB",
+    "estimate",
+    {
+      sourceIds: ["cbo-medicare-dvh-2021"],
+    },
+  ),
+  cboMedicareVision10yr: k(
+    REFORM,
+    "CBO: adding vision to Medicare, 10 years ($B)",
+    30,
+    "usdB",
+    "estimate",
+    {
+      sourceIds: ["cbo-medicare-dvh-2021"],
+    },
+  ),
+  cboMedicareHearing10yr: k(
+    REFORM,
+    "CBO: adding hearing to Medicare, 10 years ($B)",
+    89,
+    "usdB",
+    "estimate",
+    {
+      sourceIds: ["cbo-medicare-dvh-2021"],
+    },
+  ),
   // ---------------------------------------------------------------- Optimizations for any system
   lipidPriceHopd: k(
     OPT,
