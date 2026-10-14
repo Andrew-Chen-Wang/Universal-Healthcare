@@ -33,7 +33,11 @@ export const DERIVED_PATHS = [
     summary:
       "People can buy private plans for things outside the public benefit (private rooms, extra therapies), keeping some insurer choice.",
     precedents: [
-      { place: "France", note: "Most people hold complementary insurance (mutuelles)." },
+      {
+        place: "France",
+        note: "In France, over 95% of the population holds voluntary complementary health insurance to cover statutory cost-sharing, and nearly 20% receives state-subsidized complementary coverage (2023).",
+        sourceIds: ["choice-supplemental-european-observatory-on--2023"],
+      },
     ],
     pros: ["Choice remains for extras", "Some insurer jobs survive"],
     cons: ["Better care for those who can pay", "Supplemental plans can drive up use"],
@@ -55,6 +59,11 @@ export const DERIVED_PATHS = [
         place: "Sweden (regional choice reforms)",
         note: "Free choice of primary care provider with money following the patient.",
       },
+      {
+        place: "Sweden",
+        note: "A 2022 review reports private ownership of 44% of Swedish primary care centres, compared with about 30% before reform, and cites an earlier three-region survey in which about 60% felt they had chosen their provider.",
+        sourceIds: ["choice-regional-plans-scandinavian-journal-of--2022"],
+      },
     ],
     pros: ["Competition on service without multiple insurers", "Integrated care"],
     cons: ["Capitation risks", "Limited in rural areas"],
@@ -72,7 +81,14 @@ export const DERIVED_PATHS = [
     title: "Payroll tax (employer and employee)",
     summary:
       "Replace premiums mainly with a payroll tax, similar to what employers already pay in premiums.",
-    precedents: [{ place: "Germany, France", note: "Payroll contributions fund most care." }],
+    precedents: [
+      { place: "Germany, France", note: "Payroll contributions fund most care." },
+      {
+        place: "Germany",
+        note: "German statutory health insurance is funded mainly by a payroll contribution of 14.6% of earnings, shared equally by employers and employees, plus a fund-specific supplementary rate (2026).",
+        sourceIds: ["tax-payroll-bundesministerium-f-r-ge-2024"],
+      },
+    ],
     pros: ["Mirrors today's flows", "Easy to collect"],
     cons: ["Only taxes wages, not investment income", "Hurts low-wage firms"],
     whoGains: ["Firms that offered coverage"],
@@ -86,7 +102,14 @@ export const DERIVED_PATHS = [
     problemId: "x-new-taxes",
     title: "Progressive income tax (including capital income)",
     summary: "Fund mostly from a health income tax that also covers capital gains and dividends.",
-    precedents: [{ place: "Canada, UK", note: "Mostly general revenue." }],
+    precedents: [
+      { place: "Canada, UK", note: "Mostly general revenue." },
+      {
+        place: "United Kingdom",
+        note: "In the UK, government-financed healthcare funded primarily through general taxation accounted for 81% of total healthcare expenditure (£280 billion) in 2025.",
+        sourceIds: ["tax-income-office-for-national-stat-2025"],
+      },
+    ],
     pros: ["Most progressive", "Broad base"],
     cons: ["High earners pay much more", "May reduce investment"],
     whoGains: ["Low- and middle-income households"],
@@ -101,6 +124,11 @@ export const DERIVED_PATHS = [
     summary: "A broad consumption tax dedicated to health.",
     precedents: [
       { place: "Most OECD countries", note: "VATs fund large shares of public spending." },
+      {
+        place: "OECD countries",
+        note: "Across OECD countries that levy a value-added tax (all except the U.S.), VAT revenue accounted on average for almost 22% of total tax revenue in 2022, serving as a primary pillar of public finance.",
+        sourceIds: ["tax-vat-tax-foundation-2024"],
+      },
     ],
     pros: ["Large revenue at low rates", "Hard to avoid"],
     cons: ["Regressive unless paired with rebates", "New collection system"],
@@ -115,7 +143,13 @@ export const DERIVED_PATHS = [
     title: "A mix of payroll, income, and redirected spending",
     summary:
       "Combine redirected public spending, employer contributions, and a household income-based contribution.",
-    precedents: [{ place: "Taiwan", note: "Premiums based on payroll plus government subsidies." }],
+    precedents: [
+      {
+        place: "Taiwan",
+        note: "A June 2025 article describes Taiwan NHI premiums as 5.17% of monthly income, contributing 89% of its annual budget, and describes the government contribution as statutorily capped at 36%.",
+        sourceIds: ["tax-mix-health-and-human-rights--2024"],
+      },
+    ],
     pros: ["Spreads burden", "Lower rates on each base"],
     cons: ["More complex", "Harder to explain"],
     whoGains: ["N/A"],
@@ -132,7 +166,13 @@ export const DERIVED_PATHS = [
     problemId: "x-wage-incidence",
     title: "Phase in employer taxes for small and low-wage firms",
     summary: "Lower rates for small firms and on the first part of wages.",
-    precedents: [{ place: "France", note: "Reduced employer contributions on low wages." }],
+    precedents: [
+      {
+        place: "France",
+        note: "In France, employer social contributions on low-wage workers are phased down via a degressive reduction, offering up to a 39.8% to 40.2% maximum contribution exemption at minimum wage (phasing out up to 3 times SMIC in 2026).",
+        sourceIds: ["wage-small-exempt-service-public-fr-2026"],
+      },
+    ],
     pros: ["Protects low-wage jobs", "Small businesses avoid a sudden cost"],
     cons: ["Less revenue", "Firms may split to stay small"],
     whoGains: ["Low-wage workers"],
@@ -168,7 +208,8 @@ export const DERIVED_PATHS = [
     precedents: [
       {
         place: "Germany",
-        note: "Annual cap at 2% of income (1% for chronic illness); exemptions on application.",
+        note: "German copayments are capped each year at 2% of gross household income (1% for people with serious chronic illness); amounts above the cap are exempt on application.",
+        sourceIds: ["copay-auto-exempt-bundesministerium-f-r-ge-2024"],
       },
       {
         place: "Sweden",
@@ -193,6 +234,11 @@ export const DERIVED_PATHS = [
     summary: "Remove the problem at its source: no copays for covered services.",
     precedents: [
       { place: "UK, Canada", note: "No charges for covered hospital and physician care." },
+      {
+        place: "Canada",
+        note: "Under the Canada Health Act, provinces must prohibit point-of-care patient charges for medically necessary care or face dollar-for-dollar federal transfer deductions, under which $62.2 million was levied in March 2025.",
+        sourceIds: ["copay-none-health-canada-2025"],
+      },
     ],
     pros: ["No billing apparatus at all", "No deterrence of needed care"],
     cons: ["Use of care rises", "Higher taxes"],
@@ -213,6 +259,11 @@ export const DERIVED_PATHS = [
       {
         place: "UK (England)",
         note: "Flat prescription charge with about 89% of items dispensed free due to exemptions.",
+      },
+      {
+        place: "United Kingdom (England)",
+        note: "In England, where the NHS levies a flat prescription charge, approximately 89% of items dispensed in the community are free of charge due to age, medical, and income exemptions (2023).",
+        sourceIds: ["copay-flat-small-department-of-health-and-2023"],
       },
     ],
     pros: ["Simple", "Targets specific overuse"],
@@ -236,6 +287,11 @@ export const DERIVED_PATHS = [
         place: "Germany G-BA and IQWiG",
         note: "Benefit assessment with patient representatives (non-voting).",
       },
+      {
+        place: "United Kingdom",
+        note: "NICE's technology-appraisal appeal procedure allows consultees 15 working days after final draft guidance is issued to submit an appeal before final guidance.",
+        sourceIds: ["rationing-transparent-hta-national-institute-for-h-2024"],
+      },
     ],
     pros: ["Decisions are explainable and consistent", "Less political interference"],
     cons: ["Slow", "Hard 'no' decisions still happen and are contested"],
@@ -255,6 +311,11 @@ export const DERIVED_PATHS = [
         place: "U.S. Medicare",
         note: "Covers what is 'reasonable and necessary' and is barred from using QALYs.",
       },
+      {
+        place: "United States",
+        note: "KFF explains that the Inflation Reduction Act prohibits using QALY-based health outcomes evidence in Medicare's negotiation of a maximum fair drug price.",
+        sourceIds: ["rationing-no-qaly-kff-2024"],
+      },
     ],
     pros: ["Fewer denials", "No 'death panel' perception"],
     cons: ["Higher spending", "Weaker leverage"],
@@ -273,6 +334,11 @@ export const DERIVED_PATHS = [
       "Clinicians can request coverage for individual patients outside the standard list, decided within days by a clinical panel.",
     precedents: [
       { place: "NHS England Individual Funding Requests", note: "Case-by-case exceptions." },
+      {
+        place: "United Kingdom (England)",
+        note: "A study first published in 2020 found IFR decline rates of 71% for NHS England and 34% for CCGs, with lack of exceptionality cited for 42 of 45 declined requests submitted in 2016–2018.",
+        sourceIds: ["rationing-clinician-exceptions-british-journal-of-clini-2020"],
+      },
     ],
     pros: ["Flexibility for unusual cases", "Clinician-driven"],
     cons: ["Inconsistent decisions", "Equity concerns"],
@@ -315,6 +381,11 @@ export const DERIVED_PATHS = [
         place: "Norway, Sweden",
         note: "Mixed budgets plus activity-based funding after long waits in the 1990s.",
       },
+      {
+        place: "Norway",
+        note: "Norway introduced activity-based hospital funding in July 1997; since 2006 it has reimbursed 40% of estimated treatment costs.",
+        sourceIds: ["budget-mixed-health-policy-2010"],
+      },
     ],
     pros: ["Balances control and productivity", "Cuts queues"],
     cons: ["Volume creep", "More billing"],
@@ -330,7 +401,13 @@ export const DERIVED_PATHS = [
     title: "Waiting-time guarantees as a backstop",
     summary:
       "Budgets are fixed, but if a hospital exceeds a maximum wait, the patient can be treated elsewhere and the cost is charged to the original hospital's budget.",
-    precedents: [{ place: "Denmark", note: "Extended free hospital choice after 30 days." }],
+    precedents: [
+      {
+        place: "Denmark",
+        note: "In Denmark, coupling a maximum waiting-time guarantee with extended free hospital choice reduced experienced waiting times for elective surgery from about 12 weeks in 2001 to 7.6 weeks in 2011 (2013).",
+        sourceIds: ["budget-guarantee-oecd-health-policy-studi-2013"],
+      },
+    ],
     pros: ["Protects patients", "Keeps budgets"],
     cons: ["Needs spare capacity", "Complex accounting"],
     whoGains: ["Patients"],
@@ -352,6 +429,11 @@ export const DERIVED_PATHS = [
         place: "UK Quality and Outcomes Framework",
         note: "Pay-for-performance in general practice; improvements leveled off and some gaming occurred.",
       },
+      {
+        place: "United Kingdom",
+        note: "A 2011 study states that approximately 25% of UK GP income was tied to QOF quality targets and describes exception reporting as a safeguard against inappropriate or excessive treatment.",
+        sourceIds: ["under-risk-adjust-british-journal-of-gener-2011"],
+      },
     ],
     pros: ["Reduces avoidance", "Fair payments"],
     cons: ["Upcoding", "Complex"],
@@ -370,6 +452,11 @@ export const DERIVED_PATHS = [
     precedents: [
       { place: "Denmark GPs", note: "Roughly 20–30% capitation, the rest fee-for-service." },
       { place: "Ontario family health teams", note: "Blended capitation models." },
+      {
+        place: "Denmark",
+        note: "A 2025 article describes Danish GP remuneration as approximately one-third capitation payments and two-thirds fee-for-service payments.",
+        sourceIds: ["under-blend-scandinavian-journal-of--2024"],
+      },
     ],
     pros: ["Balances incentives", "Proven abroad"],
     cons: ["More billing", "Complex"],
@@ -386,6 +473,11 @@ export const DERIVED_PATHS = [
       "Clinicians are paid salaries, so there's no direct financial reason to do more or less.",
     precedents: [
       { place: "U.S. VA, Kaiser Permanente; Nordic hospitals", note: "Salaried physicians." },
+      {
+        place: "Sweden",
+        note: "A 2024 Swedish primary-care study describes salaried professionals and centres averaging four GPs and 20 staff, with a mean patient list of 8,280 in its 2016 data.",
+        sourceIds: ["under-salary-plos-one-2024"],
+      },
     ],
     pros: ["Neutral incentives", "Predictable costs"],
     cons: ["Productivity may fall", "Less autonomy"],
@@ -402,7 +494,14 @@ export const DERIVED_PATHS = [
     title: "Price floors and supply guarantees for essential products",
     summary:
       "Set minimum prices or multi-year contracts for essential generics and services so supply stays profitable.",
-    precedents: [{ place: "Civica Rx", note: "Long-term fixed-price contracts with hospitals." }],
+    precedents: [
+      { place: "Civica Rx", note: "Long-term fixed-price contracts with hospitals." },
+      {
+        place: "United States",
+        note: "Under Civica Rx's fixed-price, long-term contracting model to prevent drug shortages, the nonprofit supplies over 70 essential generic medicines to more than 1,400 hospitals with a target 6-month buffer inventory (2026).",
+        sourceIds: ["exit-price-floors-civica-rx-2026"],
+      },
+    ],
     pros: ["Prevents shortages", "Stable supply"],
     cons: ["Pays more", "Hard to set floors"],
     whoGains: ["Patients, manufacturers"],
@@ -418,7 +517,11 @@ export const DERIVED_PATHS = [
     summary:
       "Track launches, discontinuations, and provider participation; raise prices automatically when supply falls.",
     precedents: [
-      { place: "Japan", note: "Biennial fee-schedule revisions respond to supply data." },
+      {
+        place: "Japan",
+        note: "In Japan's universal health system covering 126 million people, the government centrally regulates prices through a nationwide uniform fee schedule that is routinely revised every 2 years to adjust provider payments (2021).",
+        sourceIds: ["exit-monitoring-health-services-insights-2021"],
+      },
     ],
     pros: ["Responsive", "Data-driven"],
     cons: ["Reactive", "Needs data systems"],
@@ -448,7 +551,14 @@ export const DERIVED_PATHS = [
     title: "Independent peer review with set-asides for high-risk ideas",
     summary:
       "Keep funding decisions with scientific peer review, with a fixed share for high-risk research.",
-    precedents: [{ place: "NIH, ARPA-H", note: "Peer review plus a high-risk agency." }],
+    precedents: [
+      { place: "NIH, ARPA-H", note: "Peer review plus a high-risk agency." },
+      {
+        place: "United States",
+        note: "To fund high-risk, high-reward health technologies beyond traditional peer review, the U.S. established ARPA-H modeled after DARPA, launching with a $1 billion three-year congressional appropriation (2022).",
+        sourceIds: ["rdpri-peer-review-advanced-research-projec-2022"],
+      },
+    ],
     pros: ["Insulates from politics", "Proven"],
     cons: ["Conservative", "Slow"],
     whoGains: ["Researchers"],
@@ -461,7 +571,14 @@ export const DERIVED_PATHS = [
     problemId: "x-public-rd-priorities",
     title: "Keep private R&D for most drugs; public funds fill gaps",
     summary: "Public funds go only to areas private R&D neglects (antibiotics, rare diseases).",
-    precedents: [{ place: "CARB-X", note: "Public-private antibiotic accelerator." }],
+    precedents: [
+      { place: "CARB-X", note: "Public-private antibiotic accelerator." },
+      {
+        place: "United States",
+        note: "A 2026 CARB-X evaluation reports over US$1 billion committed through 2028 and 77 funded applications among the 2016–2019 application cohort, whose outcomes were assessed through February 2024.",
+        sourceIds: ["rdpri-mixed-health-affairs-scholar-2024"],
+      },
+    ],
     pros: ["Limits government role", "Targets gaps"],
     cons: ["Relies on high prices elsewhere", "Gaps hard to define"],
     whoGains: ["N/A"],
@@ -479,6 +596,11 @@ export const DERIVED_PATHS = [
       "Publish outcome and prescribing data by clinician type; expand or restrict scope based on results.",
     precedents: [
       { place: "U.S. VA", note: "Granted NPs full practice authority (2016) with monitoring." },
+      {
+        place: "United States",
+        note: "A 2020 nonexperimental evaluation of 139 VA medical centres found that a 10% increase in privileged primary-care NPs was associated with about 4% shorter new-patient waits, equivalent to 0.30 days.",
+        sourceIds: ["scopeq-monitor-health-services-research-2020"],
+      },
     ],
     pros: ["Evidence-based", "Adjusts over time"],
     cons: ["Data take years", "Hard to attribute outcomes"],
@@ -496,6 +618,11 @@ export const DERIVED_PATHS = [
       {
         place: "Several U.S. states",
         note: "Require 1,000 hours to several years of collaborative practice first; about half of full-practice states require none.",
+      },
+      {
+        place: "United States",
+        note: "Among 28 U.S. states granting full practice authority to nurse practitioners, 14 require supervised transition-to-practice periods ranging from 1,040 to 4,600 hours, while 13 states and D.C. require none (2024).",
+        sourceIds: ["scopeq-transition-period-journal-of-the-american--2024"],
       },
     ],
     pros: ["Builds experience", "Addresses quality concerns"],
@@ -516,7 +643,8 @@ export const DERIVED_PATHS = [
     precedents: [
       {
         place: "California",
-        note: "Ratios phased in from 2004 (medical-surgical 1:6, tightened to 1:5 in 2005) and completed in 2008.",
+        note: "California phased in hospital nurse staffing mandates under AB 394 by setting medical-surgical ratios to 1:6 in January 2004, tightening them to 1:5 in March 2005 before expanding to specialty units in 2008 (2013).",
+        sourceIds: ["staffing-phase-health-services-research-2013"],
       },
     ],
     pros: ["Avoids closures", "Aligns with supply"],
@@ -532,7 +660,14 @@ export const DERIVED_PATHS = [
     problemId: "x-staffing-mandate-cost",
     title: "Hardship waivers for shortage areas",
     summary: "Facilities that prove they can't hire get time-limited waivers.",
-    precedents: [{ place: "U.S. 2024 nursing home rule", note: "Included hardship exemptions." }],
+    precedents: [
+      { place: "U.S. 2024 nursing home rule", note: "Included hardship exemptions." },
+      {
+        place: "United States",
+        note: "The 2024 federal nursing home rule mandated 3.48 nurse hours per resident day (including 0.55 RN hours) while offering hardship exemptions for facilities in shortage areas making good-faith hiring efforts (2024).",
+        sourceIds: ["staffing-waivers-federal-register-2024"],
+      },
+    ],
     pros: ["Prevents closures", "Flexible"],
     cons: ["Waivers can become permanent", "Unequal protections"],
     whoGains: ["Rural facilities"],
@@ -549,6 +684,11 @@ export const DERIVED_PATHS = [
     summary: "An independent assessor rates need levels; benefits are tiered with set hours.",
     precedents: [
       { place: "Germany, Japan", note: "Care levels determined by independent assessors." },
+      {
+        place: "Germany",
+        note: "A 2024 German long-term-care study describes allocation to care grades 1–5 and reports approximately 5 million people needing long-term care in 2021.",
+        sourceIds: ["woodwork-assessment-frontiers-in-public-heal-2024"],
+      },
     ],
     pros: ["Controls costs", "Consistent"],
     cons: ["Some needs unmet", "Assessment costs"],
@@ -565,7 +705,8 @@ export const DERIVED_PATHS = [
     precedents: [
       {
         place: "Germany",
-        note: "Many beneficiaries choose the cash option, which costs less than services.",
+        note: "In Germany's long-term care system, 79% of home-care beneficiaries choose the cash benefit over formal services, receiving a monthly allowance valued at roughly 50% of the in-kind service benefit limit (2012).",
+        sourceIds: ["woodwork-cash-health-services-research-2012"],
       },
     ],
     pros: ["Lower cost", "Supports family care"],
@@ -588,6 +729,11 @@ export const DERIVED_PATHS = [
         place: "Canadian provinces",
         note: "Some provinces (e.g., British Columbia, Quebec) make new residents wait up to 3 months; others, such as New Brunswick, have dropped the wait.",
       },
+      {
+        place: "Canada",
+        note: "Under the Canada Health Act portability framework, Canadian provinces such as Quebec can impose a waiting period of up to 3 months before new or returning residents become eligible for public health insurance (2025).",
+        sourceIds: ["copay-none-health-canada-2025"],
+      },
     ],
     pros: ["Reduces migration concerns", "Lower cost"],
     cons: ["Gaps for new arrivals", "Verification paperwork"],
@@ -609,6 +755,11 @@ export const DERIVED_PATHS = [
         place: "UK NHS",
         note: "Most residents covered on arrival (visa holders pay a surcharge).",
       },
+      {
+        place: "United Kingdom",
+        note: "Under UK policy, immigrants and visa holders can access the NHS free of charge from the date their visa starts, subject to an upfront Immigration Health Surcharge of £1,035 per year (£776 for students and minors) (2024).",
+        sourceIds: ["migration-no-wait-uk-visas-and-immigration-2024"],
+      },
     ],
     pros: ["No gaps", "Simple"],
     cons: ["Cost", "Political concerns"],
@@ -625,7 +776,14 @@ export const DERIVED_PATHS = [
     title: "Independent audits and few, simple measures",
     summary:
       "Keep a short list of hard-to-game measures (outcomes, patient-reported) and audit them.",
-    precedents: [{ place: "NHS England", note: "Audits of waiting-list data after gaming." }],
+    precedents: [
+      { place: "NHS England", note: "Audits of waiting-list data after gaming." },
+      {
+        place: "United Kingdom",
+        note: "The NAO's 2001 investigation covered nine trusts with inappropriate waiting-list adjustments and recommended investigating 13 trusts meeting both thresholds: over 10% suspended and over 2% waiting longer than twelve months.",
+        sourceIds: ["gaming-audit-national-audit-office-2001"],
+      },
+    ],
     pros: ["Less gaming", "Credible data"],
     cons: ["Fewer things measured", "Audit costs"],
     whoGains: ["Patients"],
@@ -661,7 +819,13 @@ export const DERIVED_PATHS = [
     title: "States administer under national rules",
     summary:
       "National rules and funding, but states run enrollment and provider relations, like Canada's provinces.",
-    precedents: [{ place: "Canada", note: "Provincial plans under the Canada Health Act." }],
+    precedents: [
+      {
+        place: "Canada",
+        note: "Under Canada's framework where 13 provinces and territories administer health plans under national standards, the federal government provided over $52.1 billion via the Canada Health Transfer in fiscal year 2024–2025 (2025).",
+        sourceIds: ["copay-none-health-canada-2025"],
+      },
+    ],
     pros: ["Local control", "Experimentation"],
     cons: ["Variation between states", "Duplication"],
     whoGains: ["States"],
@@ -678,6 +842,11 @@ export const DERIVED_PATHS = [
       {
         place: "Medicare Part D clawback",
         note: "States pay Medicare for dual-eligible drug costs.",
+      },
+      {
+        place: "United States",
+        note: "Under the Medicare Part D phased-down state contribution (clawback) requirement for dual-eligible drug costs, state payments to the Medicare Part D trust fund totaled $15.8 billion in calendar year 2023 (2024).",
+        sourceIds: ["state-moe-centers-for-medicare-med-2024"],
       },
     ],
     pros: ["Lower federal cost", "Simple"],

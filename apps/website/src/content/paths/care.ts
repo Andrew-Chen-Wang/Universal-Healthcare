@@ -344,7 +344,7 @@ export const CARE_PATHS = [
       { place: "U.S. proposals", note: "Tested in some states; limited evidence." },
       {
         place: "Maine, United States",
-        note: "In 1993, Maine's liability demonstration gave guidelines for 20 conditions and procedures in four specialties legal force in participating physicians' malpractice cases.",
+        note: "GAO’s 1993 report states that Maine guidelines for 20 conditions and procedures in four specialties acquired the force and effect of state law on January 1, 1992, for the participating-physician liability demonstration.",
         sourceIds: ["malpractice-safe-harbor-u-s-government-accountab-1993"],
       },
     ],
@@ -449,7 +449,7 @@ export const CARE_PATHS = [
       { place: "UK NICE, Germany IQWiG", note: "Health technology assessment." },
       {
         place: "Germany",
-        note: "In Germany (2011–2017), health technology assessments by IQWiG found that 58% of 216 newly approved drugs showed no proven added benefit over existing standard care, constraining negotiated reimbursement prices.",
+        note: "Between 2011 and 2017, IQWiG assessed 216 German-market drug approvals, comprising 152 new molecular entities and 64 new indications, and found no proven added benefit over standard care in 125 assessments (58%).",
         sourceIds: ["lowvalue-coverage-list-the-bmj-2019"],
       },
     ],
@@ -471,7 +471,7 @@ export const CARE_PATHS = [
       { place: "Choosing Wisely", note: "Modest effects." },
       {
         place: "Choosing Wisely (U.S.)",
-        note: "In U.S. Medicare (2014–2018), receipt of 32 Choosing Wisely low-value services fell only from 36.3% to 33.6% of beneficiaries, illustrating the modest impact of voluntary guidelines and clinician feedback alone.",
+        note: "Among older Medicare fee-for-service beneficiaries, receipt of at least one of 32 measured low-value services declined from 36.3% in 2014 to 33.6% in 2018, a descriptive trend that does not isolate the effect of voluntary guidelines or clinician feedback.",
         sourceIds: ["lowvalue-nudges-jama-network-open-2021"],
       },
     ],
@@ -515,7 +515,7 @@ export const CARE_PATHS = [
       { place: "CMS moratoria", note: "Used for home health and ambulances." },
       {
         place: "U.S. (CMS)",
-        note: "In Miami-Dade County, CMS reported home health agencies grew 15% annually to 662 providers in 2012 (with 56% billing intermittently), prompting the first federal enrollment moratorium in 2013 to stop fraud.",
+        note: "CMS reported Miami-Dade’s active home health agencies grew from 385 in 2008 to 662 in 2012, a 15% compound annual increase, and that 56% had not billed continuously since 2008, a category including new entrants rather than necessarily intermittent billers.",
         sourceIds: ["fraud-enrollment-centers-for-medicare-med-2013"],
       },
     ],
@@ -540,7 +540,7 @@ export const CARE_PATHS = [
       { place: "U.S. parity laws", note: "Parity on paper, not in pay." },
       {
         place: "U.S.",
-        note: "In the U.S. (2024), an RTI study found commercial insurers reimbursed medical office visits 22% higher than behavioral health visits, driving patients out-of-network 3.5 times more often despite parity laws.",
+        note: "RTI’s 2024 report, using 2021 claims, found medical/surgical office-visit reimbursement averaged 21.7% higher than behavioral-health reimbursement and behavioral-health out-of-network clinician use was 3.5 times as frequent, without establishing that the payment disparity caused that difference.",
         sourceIds: ["mh-parity-pay-rti-international-2024"],
       },
     ],
@@ -582,7 +582,7 @@ export const CARE_PATHS = [
       { place: "France, Canada", note: "Buprenorphine and methadone widely available." },
       {
         place: "France",
-        note: "In France (1995–1999), deregulating buprenorphine to allow general practitioners to prescribe it without special licensing expanded treatment tenfold and reduced fatal opioid overdoses by nearly 80%.",
+        note: "The French study reported approximately 65,000 buprenorphine patients annually—about ten times the number treated under restrictive methadone policies—and a coincident 79% decline in overdose deaths from 1995 to 1999.",
         sourceIds: ["addiction-mat-the-american-journal-on--2004"],
       },
     ],
@@ -631,7 +631,7 @@ export const CARE_PATHS = [
       { place: "Washington State", note: "WA Cares: lifetime benefit funded by payroll tax." },
       {
         place: "Germany",
-        note: "In Germany (1995), universal long-term care insurance funded by a 1.7% payroll contribution covered the population and relieved means-tested welfare, which had previously funded roughly 80% of nursing home residents.",
+        note: "Germany introduced mandatory long-term-care insurance in 1995 with a 1.0% gross-income contribution, rising to 1.7% in July 1996, replacing much public assistance previously received by about 80% of nursing-home residents.",
         sourceIds: ["ltc-social-insurance-the-milbank-quarterly-2000"],
       },
     ],
@@ -677,7 +677,7 @@ export const CARE_PATHS = [
       { place: "UK proposals (Dilnot cap)", note: "Lifetime cap on care costs proposed." },
       {
         place: "UK",
-        note: "In the UK (2011), the Dilnot Commission proposed capping individual lifetime social care costs at £35,000, finding that 1 in 10 older adults faced catastrophic costs exceeding £100,000 under existing means testing.",
+        note: "In England in 2011, the Dilnot Commission recommended a £35,000 cap on lifetime individual care contributions, while its briefing described one in ten people over 65 facing care costs exceeding £100,000.",
         sourceIds: ["ltc-catastrophic-the-king-s-fund-2011"],
       },
     ],
@@ -728,7 +728,7 @@ export const CARE_PATHS = [
     precedents: [
       {
         place: "Denmark",
-        note: "In Denmark, a 1987 reform halting conventional nursing home construction contributed to a 30% drop in nursing home beds between 1985 and 1997 as care shifted to home services and adapted housing.",
+        note: "Denmark’s nursing-home beds declined 30% between 1985 and 1997 as home services and adapted housing expanded; the cited paper dates legislation limiting new nursing-home construction to 1988.",
         sourceIds: ["nh-small-homes-the-gerontologist-2001"],
       },
     ],
@@ -900,8 +900,7 @@ export const CARE_PATHS = [
     precedents: [
       {
         place: "Most European countries",
-        note: "According to the OECD SOCX database, public social spending outside health averages about 14% to 15% of GDP across European nations (and exceeds 20% in France), compared to under 11% in the U.S. (2022).",
-        sourceIds: ["social-needs-separate-oecd-2023"],
+        note: "Strong social programs outside health.",
       },
     ],
     pros: [
@@ -927,7 +926,7 @@ export const CARE_PATHS = [
     precedents: [
       {
         place: "Taiwan, Estonia, Denmark",
-        note: "In Estonia, 100% of patients have a nationwide digital health record integrating data across all providers, handling 2.7 million monthly patient queries and 100% digital prescriptions (2024).",
+        note: "Every resident of Estonia has a nationwide digital health record; the system handles about 2.7 million patient queries a month, and 100% of prescriptions are digital.",
         sourceIds: ["interop-national-e-estonia-2024"],
       },
     ],
@@ -968,7 +967,7 @@ export const CARE_PATHS = [
     precedents: [
       {
         place: "Change Healthcare attack (2024)",
-        note: "Following the 2024 Change Healthcare cyberattack, CMS issued over $3.26 billion in emergency accelerated and advance payments to more than 8,900 hospitals, doctors, and suppliers to prevent cash-flow collapse.",
+        note: "CMS reported more than $3.26 billion in Change Healthcare emergency payments in June 2024, comprising over $2.55 billion to more than 4,200 Part A providers and over $717.18 million through 4,722 Part B advance payments.",
         sourceIds: ["cyber-standards-centers-for-medicare-med-2024"],
       },
     ],
@@ -987,7 +986,7 @@ export const CARE_PATHS = [
     precedents: [
       {
         place: "Change Healthcare attack (2024)",
-        note: "An AHA survey of nearly 1,000 hospitals found that 94% suffered financial harm from the 2024 Change Healthcare clearinghouse attack, with 74% reporting patient care disruptions and 59% losing over $1 million daily.",
+        note: "AHA’s March 2024 survey of about 1,000 hospitals found 94% reported financial effects and 74% patient-care effects; among hospitals reporting cash-flow effects, nearly 60% reported revenue impacts of at least $1 million per day.",
         sourceIds: ["cyber-redundant-american-hospital-associ-2024"],
       },
     ],
@@ -1027,7 +1026,7 @@ export const CARE_PATHS = [
     precedents: [
       {
         place: "UK NHS",
-        note: "In England’s NHS, 1,339,862 patients opted out of secondary data sharing in a single month (June 2021) amid centralized database plans, raising the national opt-out rate from 2.77% to 4.97% of the population.",
+        note: "Between 31 May and 30 June 2021, England recorded 1,339,862 additional national data opt-outs, increasing the opt-out share of people registered with GP practices from 2.77% to 4.97%.",
         sourceIds: ["privacy-opt-out-bjgp-open-2024"],
       },
     ],

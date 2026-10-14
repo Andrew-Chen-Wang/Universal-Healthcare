@@ -19,7 +19,7 @@ export const RISK_PATHS = [
       },
       {
         place: "Denmark",
-        note: "In Denmark, where patients can choose private care if public hospital waits exceed 30 days, regions made a record 242,060 private referrals in 2023 under the extended free choice guarantee.",
+        note: "Danish regions made a historically high 242,060 referrals to private hospitals and clinics in 2023, as reported by Danske Regioner in January 2024.",
         sourceIds: ["waits-guarantee-danske-regioner-2024"],
       },
     ],
@@ -42,7 +42,7 @@ export const RISK_PATHS = [
     precedents: [
       {
         place: "Taiwan",
-        note: "Under Taiwan's 15-year infrastructure plan launched in 1985 before universal coverage, hospital capacity expanded to 126,476 beds (5.7 per 1,000 people) by 2000, keeping waiting times near zero after NHI launched in 1995.",
+        note: "Taiwan's 15-year Health and Medical Care Plan began in July 1985, and by 2000 its hospitals had 126,476 beds, or 5.7 beds per 1,000 population.",
         sourceIds: ["waits-capacity-the-epma-journal-2010"],
       },
     ],
@@ -134,7 +134,7 @@ export const RISK_PATHS = [
       { place: "Taiwan, Canada", note: "Supplemental only." },
       {
         place: "Canada",
-        note: "In Canada, where private insurance is limited to non-covered services like drugs and dental, private supplemental plans covered 27 million people (roughly 75% of the population) and paid $40.8 billion in 2024.",
+        note: "Private supplemental insurers in Canada covered 27 million people and paid $53.3 billion in health claims in 2024.",
         sourceIds: ["twotier-supplemental-canadian-life-and-health-2025"],
       },
     ],
@@ -271,7 +271,7 @@ export const RISK_PATHS = [
       },
       {
         place: "U.S. Medicare",
-        note: "U.S. Medicare inpatient prospective payments include a dedicated capital payment ($512.14 per discharge in fiscal year 2025) built directly into rates to fund equipment and facility investments.",
+        note: "Medicare's FY 2025 inpatient capital prospective-payment calculation uses a national capital standard federal base rate of $512.14, subject to applicable payment adjustments.",
         sourceIds: ["capital-in-rates-centers-for-medicare-med-2024"],
       },
     ],
@@ -415,7 +415,7 @@ export const RISK_PATHS = [
     precedents: [
       {
         place: "Canada",
-        note: "A 2011 Health Affairs study found U.S. practices spent $82,975 per doctor yearly interacting with payers—nearly four times Ontario's $22,205—while nursing staff spent 20.6 hours weekly on billing versus 2.5 in Canada.",
+        note: "A 2011 Health Affairs study estimated annual payer-interaction costs of $82,975 per U.S. physician versus $22,205 in Ontario, with nursing staff spending 20.6 versus 2.5 hours per physician per week on all payer interactions.",
         sourceIds: ["exit-workforce-buffer-health-affairs-2011"],
       },
     ],
@@ -483,7 +483,7 @@ export const RISK_PATHS = [
       { place: "Canada (Saskatchewan)", note: "Provincial program led the national system." },
       {
         place: "Vermont",
-        note: "Vermont abandoned its planned single-payer pilot in 2014 after official financing models showed it would require an 11.5% payroll tax and up to 9.5% income tax to raise $2.59 billion in new revenue.",
+        note: "Vermont's December 2014 Green Mountain Care report estimated $2.580 billion in needed new state tax revenue for 2017 and modeled an 11.5% employer payroll tax plus income-based public premiums up to 9.5%.",
         sourceIds: ["transition-pilot-states-state-of-vermont-2014"],
       },
     ],
@@ -527,6 +527,11 @@ export const RISK_PATHS = [
     precedents: [
       { place: "U.S. Medicare MACs", note: "Regional contractors process claims." },
       { place: "Canada", note: "Each province runs its own plan." },
+      {
+        place: "United States",
+        note: "In FY 2024, 12 regional A/B and 4 DME Medicare Administrative Contractors processed over 1.1 billion fee-for-service claims and paid $459.7 billion in benefits for 33.9 million beneficiaries under national rules.",
+        sourceIds: ["fraudconc-regional-centers-for-medicare-med-2024"],
+      },
     ],
     pros: ["No single point of failure", "Comparisons across regions"],
     cons: ["Less uniform", "More overhead"],
