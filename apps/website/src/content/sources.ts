@@ -1696,6 +1696,55 @@ export const SOURCES: Source[] = [
     url: "https://www.kff.org/medicaid/recent-changes-in-medicaid-financing-in-puerto-rico-and-other-u-s-territories/",
     note: "Territories' federal Medicaid funding is capped; Puerto Rico's FMAP is 76% through FY2027 with a capped allotment of about $3.6 billion for FY2026; other territories' FMAP is 83%.",
   },
+  {
+    id: "crs-territories-medicaid",
+    title: "Medicaid and CHIP in the Territories (IF11012)",
+    org: "Congressional Research Service",
+    year: 2023,
+    url: "https://www.congress.gov/crs_external_products/IF/PDF/IF11012/IF11012.11.pdf",
+    note: "Federal Medicaid funding is open-ended for states and DC but capped for all five territories; FY2023 caps of about $137M (Guam), $135M (USVI), $90M (American Samoa), $66M (CNMI). Territory residents get Enhanced Allotment Program drug help instead of Part D low-income subsidies.",
+  },
+  {
+    id: "macpac-macstats-2026",
+    title: "MACStats: Medicaid and CHIP Data Book (February 2026)",
+    org: "MACPAC",
+    year: 2026,
+    url: "https://www.macpac.gov/wp-content/uploads/2026/02/MACSTATS_Feb2026_WEB_508.pdf",
+    note: "FY2024 Medicaid benefit spending of $3,293 per full-year-equivalent enrollee in Puerto Rico vs $10,302 average; Puerto Rico FY2024 full-year-equivalent enrollment 1,429,830.",
+  },
+  {
+    id: "gao-14-31",
+    title:
+      "Puerto Rico: Information on How Statehood Would Potentially Affect Selected Federal Programs and Revenue Sources (GAO-14-31)",
+    org: "U.S. Government Accountability Office",
+    year: 2014,
+    url: "https://www.gao.gov/products/gao-14-31",
+    note: "Estimated federal Medicaid spending of $1.1\u2013$2.1 billion for Puerto Rico as a state in 2011, versus $685 million actually spent in FY2011 (excluding nursing home and home health costs).",
+  },
+  {
+    id: "gao-16-324",
+    title: "U.S. Territories: Public Health Insurance Programs (GAO-16-324)",
+    org: "U.S. Government Accountability Office",
+    year: 2016,
+    url: "https://www.gao.gov/products/gao-16-324",
+    note: "The ACA provided the five territories $7.3 billion in additional Medicaid and CHIP funding available through at least FY2019.",
+  },
+  {
+    id: "gao-21-607r",
+    title: "Medicare: Information on Enrollment in Part B in Puerto Rico (GAO-21-607R)",
+    org: "U.S. Government Accountability Office",
+    year: 2021,
+    url: "https://www.gao.gov/assets/gao-21-607r.pdf",
+    note: "Social Security recipients in Puerto Rico are automatically enrolled in Medicare Part A but not Part B; Medicare Savings Programs are not available there.",
+  },
+  {
+    id: "pr-physicians-2025",
+    title: "Physician migration and health system strain in Puerto Rico",
+    org: "Global Public Health (PMC)",
+    year: 2025,
+    url: "https://pmc.ncbi.nlm.nih.gov/articles/PMC11921220/",
+    note: "Reports Puerto Rico's physician workforce fell from about 14,500 in 2009 to about 9,000 by 2020 (citing earlier reporting).",
+  },
 ]
 
 export const SOURCE_BY_ID = Object.fromEntries(SOURCES.map((s) => [s.id, s]))

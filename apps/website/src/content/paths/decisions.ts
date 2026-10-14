@@ -135,6 +135,19 @@ const ROWS: Row[] = [
     "Residence-based eligibility ends emergency-only care and uncompensated costs; a residence period limits migration concerns.",
     "Value judgment with real cost; decide whether undocumented residents are covered.",
   ),
+  c(
+    "territories-full",
+    "universal",
+    "medium",
+    "Universal means every U.S. citizen; the territories join with the last wave.",
+    "Higher federal cost (GAO's Puerto Rico estimate implies about 1.6 to 3 times today's federal Medicaid spending there). Parity Medicaid is the smaller alternative.",
+  ),
+  r(
+    "territories-medicaid-parity",
+    "medium",
+    "Full inclusion chosen; parity would keep coverage tied to territory Medicaid eligibility.",
+  ),
+  r("territories-capped-increase", "high", "Keeps territory residents on different terms."),
   r(
     "immigrants-lawful-only",
     "low",

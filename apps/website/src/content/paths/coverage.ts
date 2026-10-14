@@ -641,4 +641,107 @@ export const COVERAGE_PATHS = [
       "Fund community health centers to serve all residents",
     ],
   }),
+  path({
+    id: "territories-full",
+    problemId: "territories",
+    title: "Cover the territories in the national program on the same terms as the states",
+    summary:
+      "Residents of Puerto Rico and the other territories are enrolled in the national program like everyone else, with the same benefits, payment rules, and federal funding.",
+    precedents: [
+      {
+        place: "Puerto Rico (GAO estimate)",
+        note: "GAO estimated federal Medicaid spending in Puerto Rico would have been $1.1–2.1 billion as a state in 2011, versus $685 million actually spent.",
+        sourceIds: ["gao-14-31"],
+      },
+      {
+        place: "Hawaii and Alaska",
+        note: "Non-contiguous states receive open-ended federal Medicaid funding under the same formula as other states.",
+        sourceIds: ["crs-territories-medicaid"],
+      },
+    ],
+    pros: [
+      "Ends the funding cliffs and the gap between territory and mainland coverage",
+      "Same benefits for every U.S. citizen regardless of where they live",
+      "Raises payment to territory clinicians, which may slow their move to the mainland",
+    ],
+    cons: [
+      "Higher federal cost: GAO's estimate implies about 1.6 to 3 times current federal Medicaid spending in Puerto Rico",
+      "National payment rates may not fit island cost structures without adjustments",
+      "Territories lose some control over how their programs run",
+    ],
+    whoGains: [
+      "Territory residents",
+      "Territory hospitals and clinicians",
+      "Territory governments",
+    ],
+    whoLoses: ["Federal taxpayers (higher spending)"],
+    mend: [
+      "Set geographic payment adjustments for island costs",
+      "Let territory governments administer enrollment under national rules, as states do",
+    ],
+    complements: ["single-payer", "state-administer"],
+    conflicts: ["territories-capped-increase"],
+    changes: [
+      "Define program residency to include all five territories",
+      "Remove the territories' Medicaid caps and fixed matching rates from federal law",
+      "Make Medicare Part B enrollment automatic in Puerto Rico",
+      "Set geographic payment adjustments for the territories",
+    ],
+  }),
+  path({
+    id: "territories-medicaid-parity",
+    problemId: "territories",
+    title: "Give the territories state-like Medicaid funding but keep separate programs",
+    summary:
+      "Remove the caps and apply the regular state matching formula, while each territory keeps running its own Medicaid program and eligibility rules.",
+    precedents: [
+      {
+        place: "U.S. territories (ACA)",
+        note: "The ACA gave the five territories $7.3 billion in extra Medicaid and CHIP funding through at least FY2019, a temporary version of this approach.",
+        sourceIds: ["gao-16-324"],
+      },
+    ],
+    pros: [
+      "Ends the recurring funding cliffs",
+      "Lets territories keep programs designed for local conditions",
+      "Smaller change than full inclusion",
+    ],
+    cons: [
+      "Coverage still depends on territory Medicaid eligibility, not universal enrollment",
+      "Medicare differences (such as Part B enrollment) remain unless fixed separately",
+    ],
+    whoGains: ["Low-income territory residents", "Territory governments"],
+    whoLoses: ["Federal taxpayers (higher spending)"],
+    mend: ["Fix Medicare Part B enrollment and Medicare Savings Programs separately"],
+    conflicts: ["territories-capped-increase"],
+    changes: [
+      "Remove the Medicaid caps for the territories",
+      "Apply the state matching-rate formula to the territories",
+      "Require territories to meet state Medicaid eligibility standards",
+    ],
+  }),
+  path({
+    id: "territories-capped-increase",
+    problemId: "territories",
+    title: "Keep capped funding but raise it and index it to costs",
+    summary:
+      "Keep annual caps, but set them higher and grow them with health costs so funding stops depending on temporary laws.",
+    precedents: [
+      {
+        place: "Puerto Rico (2023 law)",
+        note: "The Consolidated Appropriations Act, 2023 set Puerto Rico's federal match at 76% through FY2027 with a capped allotment of about $3.6 billion for FY2026.",
+        sourceIds: ["kff-territories-medicaid"],
+      },
+    ],
+    pros: ["Predictable federal cost", "Ends cliffs if indexing is permanent"],
+    cons: [
+      "Territory residents stay covered on different terms from states",
+      "Caps can fall behind real costs again after disasters or epidemics",
+    ],
+    whoGains: ["Federal budget planners"],
+    whoLoses: ["Territory residents, who keep lower funding per person"],
+    mend: ["Add an automatic disaster adjustment to the caps"],
+    conflicts: ["territories-full", "territories-medicaid-parity"],
+    changes: ["Set new permanent cap levels in law", "Index the caps to medical inflation"],
+  }),
 ]

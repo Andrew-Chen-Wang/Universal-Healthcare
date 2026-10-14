@@ -154,9 +154,28 @@ export function coverageFor(picks: Set<string>, pop: Pop): GroupRow[] {
       id: "territories",
       label: "U.S. territories (Puerto Rico, Guam, USVI, American Samoa, N. Mariana Islands)",
       count: pop.puertoRicoPop + pop.otherTerritoriesPop,
-      status: "gap",
-      detail:
-        "No path covers the territories yet. Their federal Medicaid funding is capped, unlike the states'.",
+      ...(has("territories-full")
+        ? {
+            status: base.status,
+            detail: `Included on the same terms as the states. ${base.detail}`,
+          }
+        : has("territories-medicaid-parity")
+          ? {
+              status: "partial" as const,
+              detail:
+                "Territory Medicaid with state-like funding: covered if eligible, not enrolled automatically.",
+            }
+          : has("territories-capped-increase")
+            ? {
+                status: "partial" as const,
+                detail:
+                  "Capped territory Medicaid, raised and indexed; coverage still differs from the states.",
+              }
+            : {
+                status: "gap" as const,
+                detail:
+                  "No territories path picked. Their federal Medicaid funding is capped, unlike the states'.",
+              }),
     },
   ]
 }

@@ -214,6 +214,51 @@ export const PROBLEMS: Problem[] = [
     ],
   },
 
+  {
+    id: "territories",
+    category: "Coverage & eligibility",
+    title: "U.S. territories get capped, lower federal health funding",
+    summary:
+      "About 3.5 million U.S. citizens and nationals live in Puerto Rico, Guam, the U.S. Virgin Islands, American Samoa, and the Northern Mariana Islands. Federal Medicaid money there is capped each year instead of open-ended, Medicare works differently, and funding depends on temporary laws that keep expiring.",
+    evidence: [
+      {
+        text: "Federal Medicaid funding is open-ended for the states and DC but capped in all five territories.",
+        sourceIds: ["crs-territories-medicaid"],
+      },
+      {
+        text: "Puerto Rico's 76% federal match runs through FY2027; its capped allotment is about $3.6 billion for FY2026.",
+        sourceIds: ["kff-territories-medicaid"],
+      },
+      {
+        text: "Puerto Rico's Medicaid spent $3,293 per enrollee in FY2024, against a $10,302 average.",
+        sourceIds: ["macpac-macstats-2026"],
+      },
+      {
+        text: "Medicare Part B is not automatic for Social Security recipients in Puerto Rico, and Medicare Savings Programs are unavailable there.",
+        sourceIds: ["gao-21-607r"],
+      },
+      {
+        text: "Puerto Rico's physician workforce fell from about 14,500 in 2009 to about 9,000 by 2020.",
+        sourceIds: ["pr-physicians-2025"],
+      },
+    ],
+    whoIsHurt: [
+      "Low-income residents of the territories",
+      "Territory hospitals and clinicians paid less than mainland peers",
+      "Territory governments facing recurring funding cliffs",
+    ],
+    whoProfits: ["Short-term federal budgets"],
+    rootCauses: [
+      "Medicaid law caps territory funding and sets a fixed matching rate",
+      "Temporary funding laws instead of a permanent formula",
+      "Territories have no voting representation in Congress",
+    ],
+    openQuestions: [
+      "Should territory residents be covered on the same terms as residents of the states?",
+      "Should territories keep running their own programs?",
+    ],
+  },
+
   // ---------------------------------------------------------------- Affordability & debt
   {
     id: "medical-debt",
