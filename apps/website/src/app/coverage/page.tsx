@@ -4,13 +4,15 @@ import { CHANGES } from "@website/content/changes"
 import { BENCHMARKS } from "@website/content/benchmarks"
 import { CHECKS, COVERAGE, type Ref } from "@website/content/coverage"
 import { DECISIONS } from "@website/content/decisions"
-import { costHref, stepHref } from "@website/content/navigation"
+import { SINGLE_PAYER_PLAN } from "@website/content/plans"
 import { STEP_BY_ID } from "@website/content/plan"
 import { RISKS } from "@website/content/risks"
 import { STEP_EXTRAS } from "@website/content/step-extras"
 import { TRADEOFFS } from "@website/content/tradeoffs"
 import type { Metadata } from "next"
 import Link from "next/link"
+
+const { costHref, stepHref } = SINGLE_PAYER_PLAN
 
 export const metadata: Metadata = { title: "Coverage check" }
 

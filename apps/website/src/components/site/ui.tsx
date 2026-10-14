@@ -339,14 +339,27 @@ export function NextLinks({ links }: { links: { href: string; label: string }[] 
   )
 }
 
-/** Part 2 still describes the earlier single-payer draft until it's rewritten for the hybrid. */
-export function SinglePayerPlanNotice() {
-  return (
-    <Callout tone="caution" title="This plan describes the single-payer path">
-      The current draft is a Germany-style hybrid that keeps employer plans; this phased plan still
-      describes the earlier single-payer draft and is being rewritten. Compare both on{" "}
+/** Says which version of Part 2 a page belongs to, with a link to the other. */
+export function PlanVersionNotice({ variant }: { variant: "hybrid" | "single-payer" }) {
+  return variant === "hybrid" ? (
+    <Callout title="Current draft: Germany-style hybrid">
+      Employer plans stay; everyone else is enrolled in regulated non-profit plans. The earlier
+      single-payer draft is kept as its own plan:{" "}
+      <Link href="/single-payer/plan" className="underline">
+        single-payer plan
+      </Link>
+      . Compare both on{" "}
       <Link href="/approaches" className="underline">
         Compare approaches
+      </Link>
+      .
+    </Callout>
+  ) : (
+    <Callout tone="caution" title="Earlier draft: single payer">
+      This is the single-payer plan, kept as a complete path to compare. The current draft is a
+      Germany-style hybrid:{" "}
+      <Link href="/plan" className="underline">
+        current plan
       </Link>
       .
     </Callout>

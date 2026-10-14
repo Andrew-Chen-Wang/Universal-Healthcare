@@ -7,7 +7,7 @@ import {
 } from "@website/content/baseline"
 import { COST_BY_ID } from "@website/content/calculations"
 import { MODEL, MODEL_COSTLY, MODEL_LEAN, fmt } from "@website/content/model"
-import { costHref } from "@website/content/navigation"
+import { SINGLE_PAYER_PLAN } from "@website/content/plans"
 import { ALL_STEPS } from "@website/content/plan"
 import {
   ONE_TIME_COSTS,
@@ -18,6 +18,8 @@ import { DISPLACED_TOTAL } from "@website/content/workforce"
 import { COST_CATEGORIES, INVENTORY } from "@website/content/cost-inventory"
 import { PROBLEM_CATEGORIES, PROBLEMS } from "@website/content/problems"
 import Link from "next/link"
+
+const { costHref } = SINGLE_PAYER_PLAN
 
 const h = MODEL.headline
 const oop = MODEL.sourceLines.find((l) => l.id === "hhOop")!
