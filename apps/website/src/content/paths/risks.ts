@@ -17,6 +17,11 @@ export const RISK_PATHS = [
         place: "Denmark, Sweden",
         note: "Treatment guarantees with free choice of another hospital.",
       },
+      {
+        place: "Denmark",
+        note: "In Denmark, where patients can choose private care if public hospital waits exceed 30 days, regions made a record 242,060 private referrals in 2023 under the extended free choice guarantee.",
+        sourceIds: ["waits-guarantee-danske-regioner-2024"],
+      },
     ],
     pros: ["Enforces timely care", "Gives patients a concrete right"],
     cons: ["Gaming of referral dates", "Needs spare capacity somewhere"],
@@ -34,7 +39,13 @@ export const RISK_PATHS = [
     problemId: "wait-times",
     title: "Build capacity before demand rises",
     summary: "Expand workforce and facilities before universal coverage starts.",
-    precedents: [{ place: "Taiwan", note: "Waits remained short after universal coverage." }],
+    precedents: [
+      {
+        place: "Taiwan",
+        note: "Under Taiwan's 15-year infrastructure plan launched in 1985 before universal coverage, hospital capacity expanded to 126,476 beds (5.7 per 1,000 people) by 2000, keeping waiting times near zero after NHI launched in 1995.",
+        sourceIds: ["waits-capacity-the-epma-journal-2010"],
+      },
+    ],
     pros: ["Prevents waits", "Builds a sustainable workforce"],
     cons: ["Costly up front", "Slow"],
     whoGains: ["Patients"],
@@ -48,7 +59,14 @@ export const RISK_PATHS = [
     problemId: "wait-times",
     title: "Pay for activity on top of budgets",
     summary: "Pay extra for procedures beyond baseline volume to cut queues.",
-    precedents: [{ place: "Sweden, Norway", note: "Activity-based pay reduced waits." }],
+    precedents: [
+      { place: "Sweden, Norway", note: "Activity-based pay reduced waits." },
+      {
+        place: "Norway",
+        note: "In Norway, hospital wait times to start treatment fell by 13% over four years to an average of 60 days in 2017, as the country combined activity-based funding with national waiting-time targets.",
+        sourceIds: ["waits-activity-pay-the-commonwealth-fund-2017"],
+      },
+    ],
     pros: ["Rewards throughput", "Cuts queues"],
     cons: ["Spending can rise", "Incentive to do more procedures"],
     whoGains: ["Patients on waiting lists"],
@@ -64,7 +82,14 @@ export const RISK_PATHS = [
     problemId: "two-tier",
     title: "Allow private insurance for covered services",
     summary: "People may buy private insurance to skip public queues.",
-    precedents: [{ place: "UK, Australia", note: "Private insurance coexists." }],
+    precedents: [
+      { place: "UK, Australia", note: "Private insurance coexists." },
+      {
+        place: "Australia",
+        note: "In Australia, where duplicate private insurance is permitted alongside public Medicare, 45.2% of the population (12.4 million people) held private hospital treatment cover as of December 2024.",
+        sourceIds: ["twotier-allow-australian-prudential-re-2025"],
+      },
+    ],
     pros: ["Relief valve for waits", "Adds private money"],
     cons: ["Clinicians may move to private work", "Unequal care"],
     whoGains: ["Wealthy people"],
@@ -86,6 +111,11 @@ export const RISK_PATHS = [
         place: "Canada (most provinces)",
         note: "Limits on private payment; in Chaoulli (2005) the Supreme Court ruled 4–3 that Quebec's ban on private insurance violated the Quebec Charter, given long waits.",
       },
+      {
+        place: "Canada (Quebec)",
+        note: "In Chaoulli (2005), the Supreme Court of Canada ruled 4–3 that Quebec's ban on private insurance for covered care violated the Quebec Charter, given delays where access to a waiting list is not access to care.",
+        sourceIds: ["twotier-ban-supreme-court-of-canada-2005"],
+      },
     ],
     pros: ["Equal care for everyone", "Keeps clinicians in the public system"],
     cons: ["No escape from waits", "Legal challenges (as in Canada)"],
@@ -100,7 +130,14 @@ export const RISK_PATHS = [
     problemId: "two-tier",
     title: "Allow supplemental only (non-covered items)",
     summary: "Private insurance only for things not covered (private rooms, cosmetic).",
-    precedents: [{ place: "Taiwan, Canada", note: "Supplemental only." }],
+    precedents: [
+      { place: "Taiwan, Canada", note: "Supplemental only." },
+      {
+        place: "Canada",
+        note: "In Canada, where private insurance is limited to non-covered services like drugs and dental, private supplemental plans covered 27 million people (roughly 75% of the population) and paid $40.8 billion in 2024.",
+        sourceIds: ["twotier-supplemental-canadian-life-and-health-2025"],
+      },
+    ],
     pros: ["Compromise: extras are private, core care is equal", "Keeps some insurer jobs"],
     cons: ["Limited relief for waits", "Line between extras and core care blurs"],
     whoGains: ["People who want extras"],
@@ -232,6 +269,11 @@ export const RISK_PATHS = [
         place: "Germany",
         note: "States are supposed to fund capital but under-fund it, so hospitals shift operating money to capital.",
       },
+      {
+        place: "U.S. Medicare",
+        note: "U.S. Medicare inpatient prospective payments include a dedicated capital payment ($512.14 per discharge in fiscal year 2025) built directly into rates to fund equipment and facility investments.",
+        sourceIds: ["capital-in-rates-centers-for-medicare-med-2024"],
+      },
     ],
     pros: ["Hospitals keep flexibility", "No central approval bottleneck"],
     cons: ["Rich systems still out-invest poor ones", "Can fund duplication"],
@@ -255,6 +297,11 @@ export const RISK_PATHS = [
         note: "Free launch price for the first year; Germany has some of the fastest drug availability in Europe.",
       },
       { place: "UK Cancer Drugs Fund", note: "Temporary funding while data mature." },
+      {
+        place: "Germany",
+        note: "In Germany, where AMNOG provides immediate coverage at launch before price reassessment, new drug availability averaged 128 days in 2024, compared to an EU average of 578 days.",
+        sourceIds: ["innovation-fast-track-european-federation-of-p-2025"],
+      },
     ],
     pros: ["Patients get new drugs fast", "Keeps the U.S. an attractive launch market"],
     cons: ["Pays high prices for drugs that may not work", "Hard to withdraw coverage later"],
@@ -300,6 +347,11 @@ export const RISK_PATHS = [
         place: "Canada, Australia",
         note: "New drugs often become publicly covered a year or more after U.S. launch.",
       },
+      {
+        place: "Canada",
+        note: "The Patented Medicine Prices Review Board's June 2025 report found that, among the 2022 new-to-Canada medicines with both Canadian and PMPRB11 sales, Canadian sales began an average of 11 months after the first international sale.",
+        sourceIds: ["innovation-accept-patented-medicine-prices-2025"],
+      },
     ],
     pros: ["Largest savings", "Avoids paying for unproven drugs"],
     cons: ["Some patients wait", "Manufacturer revenue falls"],
@@ -339,7 +391,11 @@ export const RISK_PATHS = [
     summary:
       "Clinicians may opt out, but then cannot bill the public program for anyone for a period (e.g., 2 years).",
     precedents: [
-      { place: "U.S. Medicare", note: "Opted-out physicians may not bill Medicare for two years." },
+      {
+        place: "U.S. Medicare",
+        note: "Under U.S. Medicare's rule barring opted-out physicians from billing the program for two years, only 1.2% of active non-pediatric physicians (12,244 doctors) were opted out in 2024.",
+        sourceIds: ["networks-any-provider-kff-2025"],
+      },
       { place: "Canada (Ontario)", note: "Extra-billing banned; very few physicians opt out." },
     ],
     pros: ["Keeps clinicians public", "Limits two-tier"],
@@ -356,7 +412,13 @@ export const RISK_PATHS = [
     title: "Lower costs for clinicians, not only pay",
     summary:
       "Offset lower rates with less billing overhead, malpractice reform, and debt relief so take-home income falls less than gross rates.",
-    precedents: [{ place: "Canada", note: "Physician practices need very little billing staff." }],
+    precedents: [
+      {
+        place: "Canada",
+        note: "A 2011 Health Affairs study found U.S. practices spent $82,975 per doctor yearly interacting with payers—nearly four times Ontario's $22,205—while nursing staff spent 20.6 hours weekly on billing versus 2.5 in Canada.",
+        sourceIds: ["exit-workforce-buffer-health-affairs-2011"],
+      },
+    ],
     pros: ["Protects net income", "Less paperwork"],
     cons: ["Depends on other reforms", "Slow"],
     whoGains: ["Clinicians"],
@@ -377,7 +439,8 @@ export const RISK_PATHS = [
     precedents: [
       {
         place: "Canada",
-        note: "Hospital coverage came in 1957 and physician coverage in 1966, rolled out province by province.",
+        note: "Canada expanded universal coverage in stages: the federal Hospital Insurance and Diagnostic Services Act passed in 1957, all provinces and territories had universal hospital insurance by 1961, the Medical Care Act passed in 1966, and all provincial and territorial plans included physician services by 1972.",
+        sourceIds: ["churn-portable-health-canada-2025"],
       },
     ],
     pros: ["Systems can be tested before full load", "Workers have time to transition"],
@@ -418,7 +481,11 @@ export const RISK_PATHS = [
       "Run full universal systems in a few volunteer states, measure, then scale nationally.",
     precedents: [
       { place: "Canada (Saskatchewan)", note: "Provincial program led the national system." },
-      { place: "Vermont", note: "Planned a single payer in 2014 but abandoned it over financing." },
+      {
+        place: "Vermont",
+        note: "Vermont abandoned its planned single-payer pilot in 2014 after official financing models showed it would require an 11.5% payroll tax and up to 9.5% income tax to raise $2.59 billion in new revenue.",
+        sourceIds: ["transition-pilot-states-state-of-vermont-2014"],
+      },
     ],
     pros: ["Real evidence before national roll-out", "Lower risk"],
     cons: ["Pilots face migration and funding limits", "Slow"],

@@ -14,6 +14,11 @@ export const MONEY_PATHS = [
         place: "New York City, Cook County, and other localities",
         note: "Used public funds with nonprofits to cancel billions of dollars in medical debt.",
       },
+      {
+        place: "Cook County, Illinois",
+        note: "By June 2025, Cook County's medical debt relief program had canceled $664.7 million in debt for 556,815 residents since its 2022 launch.",
+        sourceIds: ["debt-cancel-cook-county-government-2025"],
+      },
     ],
     pros: [
       "Very cheap per dollar forgiven (debt sells for pennies)",
@@ -45,6 +50,11 @@ export const MONEY_PATHS = [
         place: "Colorado, New York, other states",
         note: "State laws banning medical debt from credit reports and limiting collections.",
       },
+      {
+        place: "United States",
+        note: "After 2023 credit-report changes, consumers whose largest medical collection was just below $500 saw credit scores rise about 20 points more than those just above it.",
+        sourceIds: ["debt-credit-rules-consumer-financial-prote-2024"],
+      },
     ],
     pros: ["Low cost", "Protects credit and housing"],
     cons: ["Hospitals may collect less and raise other prices", "Doesn't stop new bills"],
@@ -63,7 +73,14 @@ export const MONEY_PATHS = [
     problemId: "medical-debt",
     title: "Prevent new debt by ending point-of-care bills",
     summary: "With no cost sharing (or income-capped cost sharing), new medical debt mostly stops.",
-    precedents: [{ place: "UK, Canada", note: "Medical debt is rare for covered services." }],
+    precedents: [
+      { place: "UK, Canada", note: "Medical debt is rare for covered services." },
+      {
+        place: "United Kingdom",
+        note: "In 2023, 4% of UK adults reported serious difficulty paying medical bills or being unable to pay them, compared with 22% in the United States.",
+        sourceIds: ["debt-end-billing-commonwealth-fund-2024"],
+      },
+    ],
     pros: [
       "Fixes the cause, not the symptom",
       "Hospitals stop spending on collections and bad debt",
@@ -92,6 +109,11 @@ export const MONEY_PATHS = [
       "Premiums (a flat amount per worker) are replaced with taxes based on income, so lower earners pay less and higher earners pay more.",
     precedents: [
       { place: "Canada, UK, Taiwan", note: "Funded through general and payroll taxes." },
+      {
+        place: "Canada",
+        note: "In 2022, government spending financed 71% of Canada's total health expenditure in a system funded mainly through taxes.",
+        sourceIds: ["premium-to-tax-commonwealth-fund-2026"],
+      },
     ],
     pros: ["Most households below about $240k pay less", "Visible, accountable financing"],
     cons: ["Higher earners pay more", "Taxes are politically harder to raise than premiums"],
@@ -141,7 +163,11 @@ export const MONEY_PATHS = [
     summary:
       "A single fee schedule (single payer or all-payer rates) makes prices identical and public.",
     precedents: [
-      { place: "Japan", note: "A national fee schedule sets the same price everywhere." },
+      {
+        place: "Japan",
+        note: "A 2019 study reported that Japan's national fee schedule listed about 4,000 service items and 17,000 pharmaceuticals.",
+        sourceIds: ["opacity-fixed-prices-globalization-and-health-2019"],
+      },
     ],
     pros: [
       "Ends hidden negotiated rates: everyone pays the same posted price",
@@ -171,6 +197,11 @@ export const MONEY_PATHS = [
       {
         place: "U.S. (2021–)",
         note: "Compliance has been partial; files are huge and hard to use.",
+      },
+      {
+        place: "United States",
+        note: "CMS estimated that 70% of hospitals fully complied with both federal price-transparency requirements in November 2022, up from 27% in February 2021.",
+        sourceIds: ["opacity-disclosure-u-s-government-accountab-2024"],
       },
     ],
     pros: ["Cheap", "Some employers use data to negotiate"],
@@ -221,7 +252,14 @@ export const MONEY_PATHS = [
     problemId: "surprise-bills",
     title: "Eliminate out-of-network status",
     summary: "With one payer or universal all-payer rates, there is no out-of-network.",
-    precedents: [{ place: "Canada", note: "No networks for publicly covered services." }],
+    precedents: [
+      { place: "Canada", note: "No networks for publicly covered services." },
+      {
+        place: "Taiwan",
+        note: "At the end of 2023, Taiwan's national insurer contracted with 23,085 hospitals and clinics, representing 91.6% of medical institutions nationwide.",
+        sourceIds: ["surprise-single-payer-taiwan-ministry-of-healt-2024"],
+      },
+    ],
     pros: [
       "Ends surprise billing entirely",
       "Removes the federal dispute-resolution system and its cost",
@@ -285,6 +323,11 @@ export const MONEY_PATHS = [
         place: "Canada, Taiwan",
         note: "Few claim-level denials; coverage limits are set at the program level instead.",
       },
+      {
+        place: "Taiwan",
+        note: "In a 2017 Taiwan claims-review experiment, decisions judged too harsh fell from 11.08% to 2.59% of assessed cases when physician reviewers' identities were disclosed.",
+        sourceIds: ["denials-coverage-rules-scientific-reports-2022"],
+      },
     ],
     pros: ["Far fewer claim-level denials", "Consistent rules for every patient and provider"],
     cons: [
@@ -313,6 +356,11 @@ export const MONEY_PATHS = [
       {
         place: "Texas (2021)",
         note: "HB 3459 (2021) exempts physicians with 90%+ approval rates over six months, but only in state-regulated plans (about a fifth of the market).",
+      },
+      {
+        place: "Texas",
+        note: "A 2024 Texas insurance department report found that 74% of providers meeting evaluation thresholds received a prior-authorization gold card.",
+        sourceIds: ["pa-gold-card-texas-department-of-insu-2024"],
       },
     ],
     pros: ["Less paperwork for high-performing clinicians", "Faster care for their patients"],
@@ -366,6 +414,11 @@ export const MONEY_PATHS = [
       {
         place: "Traditional Medicare",
         note: "Covers about half of beneficiaries without private plans.",
+      },
+      {
+        place: "United States",
+        note: "For 2024, MedPAC estimated Medicare Advantage spending would be $83 billion higher than spending for similar beneficiaries in traditional Medicare.",
+        sourceIds: ["ma-fold-kff-2024"],
       },
     ],
     pros: ["Ends coding-intensity overpayments", "One set of rules"],
@@ -425,6 +478,11 @@ export const MONEY_PATHS = [
         place: "Traditional Medicare",
         note: "Administrative costs are about 1.4% of spending per the Trustees, excluding provider-side costs and work done by Social Security and the IRS.",
       },
+      {
+        place: "United States",
+        note: "In 2023, federal administrative expenses were 1.4% of Medicare hospital-insurance costs and 0.9% of supplementary medical-insurance costs.",
+        sourceIds: ["overhead-public-social-security-administ-2024"],
+      },
     ],
     pros: [
       "Lowest overhead of any option",
@@ -452,7 +510,13 @@ export const MONEY_PATHS = [
     title: "Tighter medical-loss ratios and non-profit requirement",
     summary:
       "Raise the required share of premiums spent on care, and require non-profit status, as in Germany or Switzerland.",
-    precedents: [{ place: "Switzerland", note: "Basic insurance must be non-profit." }],
+    precedents: [
+      {
+        place: "Switzerland",
+        note: "In 2023, administrative costs for Switzerland's compulsory basic health insurance equaled 4.9% of earned premiums.",
+        sourceIds: ["overhead-mlr-swiss-federal-council-sw-2024"],
+      },
+    ],
     pros: ["Keeps multiple plans", "Less profit leakage"],
     cons: [
       "Insurers may raise total spending to raise allowed overhead",
@@ -595,6 +659,11 @@ export const MONEY_PATHS = [
         place: "FTC hospital merger cases",
         note: "Successful challenges have lowered prices locally.",
       },
+      {
+        place: "North Carolina",
+        note: "In 2024, Novant abandoned its proposed purchase of two North Carolina hospitals after an FTC challenge and an appeals-court injunction.",
+        sourceIds: ["prices-competition-federal-trade-commission-2024"],
+      },
     ],
     pros: ["Keeps market pricing", "No price commission to lobby"],
     cons: [
@@ -622,6 +691,11 @@ export const MONEY_PATHS = [
       {
         place: "U.S. FTC",
         note: "Challenges hospital mergers but rarely reverses completed ones.",
+      },
+      {
+        place: "United States",
+        note: "Between 2002 and 2020, the FTC took enforcement action against 13 of 1,164 hospital mergers, according to a 2024 study.",
+        sourceIds: ["consolidation-antitrust-american-economic-review-2024"],
       },
     ],
     pros: ["Restores negotiating leverage", "Protects future competition"],
@@ -695,6 +769,11 @@ export const MONEY_PATHS = [
         place: "No Surprises Act",
         note: "Hurt PE-backed staffing firms that relied on out-of-network billing.",
       },
+      {
+        place: "United States",
+        note: "After the No Surprises Act began, out-of-network emergency bills declined 24% in 2022 compared with 2019, according to a federal evaluation.",
+        sourceIds: ["pe-rates-hhs-office-of-the-assist-2026"],
+      },
     ],
     pros: [
       "Removes the arbitrage PE roll-ups rely on, without banning ownership",
@@ -749,6 +828,11 @@ export const MONEY_PATHS = [
     summary: "No facility fees for office-type care outside a hospital campus.",
     precedents: [
       { place: "Connecticut, Colorado", note: "State bans on some outpatient facility fees." },
+      {
+        place: "Connecticut",
+        note: "A 2025 study found that Connecticut's 2017 facility-fee ban was associated with a 6.91% relative decline in outpatient charges' share of total hospital charges.",
+        sourceIds: ["facility-ban-health-affairs-scholar-2025"],
+      },
     ],
     pros: ["Simple and easy to understand", "Ends surprise facility fees for office visits"],
     cons: ["Narrower than full site-neutral pay", "Hospitals may raise professional fees instead"],
@@ -766,7 +850,11 @@ export const MONEY_PATHS = [
     summary:
       "Require a minimum level of charity care and community benefit, and tie executive pay rules to it.",
     precedents: [
-      { place: "Oregon", note: "Minimum community benefit spending for nonprofit hospitals." },
+      {
+        place: "Oregon",
+        note: "In fiscal 2024, 27 of Oregon's 34 assigned hospital or health-system community-benefit spending floors were met, a compliance rate of 79.4%.",
+        sourceIds: ["exec-community-benefit-oregon-health-authority-2026"],
+      },
     ],
     pros: [
       "More charity care in return for tax exemptions",
@@ -792,6 +880,11 @@ export const MONEY_PATHS = [
       {
         place: "Canadian hospitals",
         note: "Executive pay disclosed publicly and capped in some provinces.",
+      },
+      {
+        place: "Vermont",
+        note: "For fiscal 2025, Vermont's Green Mountain Care Board reviewed and established budgets for the state's 14 community hospitals.",
+        sourceIds: ["exec-budget-review-green-mountain-care-boar-2024"],
       },
     ],
     pros: [

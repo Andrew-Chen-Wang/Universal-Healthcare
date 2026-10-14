@@ -46,6 +46,11 @@ export const CARE_PATHS = [
         place: "Japan, Taiwan",
         note: "Fee-for-service at national rates, with volume controls in Taiwan.",
       },
+      {
+        place: "Taiwan",
+        note: "In 2023, Taiwan's hospital sector recorded 602 billion medical payment points, or 68.0% of points in the national global-budget payment system.",
+        sourceIds: ["fee-for-service-fixed-national-health-insuranc-2024"],
+      },
     ],
     pros: ["Rewards productivity", "Shorter waits"],
     cons: ["Encourages volume", "Needs billing"],
@@ -66,7 +71,14 @@ export const CARE_PATHS = [
     title: "Capitation for primary care and integrated systems",
     summary:
       "Pay a fixed amount per enrolled person per year to a primary care practice or integrated system.",
-    precedents: [{ place: "UK GPs, Kaiser Permanente", note: "Capitated primary care." }],
+    precedents: [
+      { place: "UK GPs, Kaiser Permanente", note: "Capitated primary care." },
+      {
+        place: "England, United Kingdom",
+        note: "For 2023–2024, England's GP global-sum payment rose from £99.70 to £102.28 per weighted patient.",
+        sourceIds: ["capitation-nhs-england-2023"],
+      },
+    ],
     pros: ["Rewards prevention", "Flexible care (calls, messaging)"],
     cons: [
       "Incentive to avoid sick patients or under-treat",
@@ -89,7 +101,14 @@ export const CARE_PATHS = [
     problemId: "outcomes",
     title: "Shift spending toward primary care",
     summary: "Set a target share of spending for primary care (e.g., 10–12%).",
-    precedents: [{ place: "Oregon, Rhode Island", note: "Primary care spending targets." }],
+    precedents: [
+      { place: "Oregon, Rhode Island", note: "Primary care spending targets." },
+      {
+        place: "Rhode Island, United States",
+        note: "Rhode Island's primary care share of medical spending rose from 5.4% in 2007 to 9.1% in 2012, according to a state-commissioned evaluation.",
+        sourceIds: ["outcomes-primary-care-rhode-island-office-of-t-2013"],
+      },
+    ],
     pros: [
       "Primary care supply is linked to lower mortality across regions",
       "Fewer avoidable hospitalizations",
@@ -114,6 +133,11 @@ export const CARE_PATHS = [
     summary: "Spend on housing, nutrition, and public health, which drive much of the outcome gap.",
     precedents: [
       { place: "Nordic countries", note: "Higher social spending, lower health spending." },
+      {
+        place: "Finland",
+        note: "From 2008 to 2022, Finland's long-term homelessness fell by 68% during its Housing First policy, according to official housing statistics.",
+        sourceIds: ["outcomes-public-health-finnish-ministry-of-the--2023"],
+      },
     ],
     pros: [
       "Addresses root causes of the outcome gap (diet, housing, violence, overdoses)",
@@ -135,6 +159,11 @@ export const CARE_PATHS = [
     summary: "Guarantee coverage for a year after birth with nurse home visits.",
     precedents: [
       { place: "Most U.S. states (Medicaid)", note: "Extended postpartum Medicaid to 12 months." },
+      {
+        place: "United States",
+        note: "A 2024 Commonwealth Fund report stated that 47 states had implemented 12-month postpartum Medicaid coverage extensions.",
+        sourceIds: ["maternal-postpartum-commonwealth-fund-2024"],
+      },
     ],
     pros: [
       "About half of pregnancy-related deaths happen after delivery",
@@ -159,6 +188,11 @@ export const CARE_PATHS = [
         place: "California Maternal Quality Care Collaborative",
         note: "Cut maternal mortality significantly.",
       },
+      {
+        place: "California, United States",
+        note: "During 2015–2016, severe maternal complications among hemorrhage patients fell 20.8% in California safety-bundle hospitals, versus 1.2% in comparison hospitals.",
+        sourceIds: ["maternal-safety-bundles-american-journal-of-obst-2017"],
+      },
     ],
     pros: ["Proven", "Low cost"],
     cons: [
@@ -181,7 +215,14 @@ export const CARE_PATHS = [
     title: "Mandatory error reporting and learning system",
     summary:
       "National no-blame reporting of adverse events, with public reports and investigation.",
-    precedents: [{ place: "UK HSSIB", note: "Independent patient-safety investigations." }],
+    precedents: [
+      { place: "UK HSSIB", note: "Independent patient-safety investigations." },
+      {
+        place: "England, United Kingdom",
+        note: "In 2025–2026, England's independent patient-safety investigation body published 16 investigation reports and 20 recommendations to national bodies.",
+        sourceIds: ["safety-reporting-health-services-safety-i-2026"],
+      },
+    ],
     pros: ["Learns from errors system-wide", "No-blame design encourages reporting"],
     cons: ["Under-reporting persists", "Reports are useful only if someone acts on them"],
     whoGains: ["Patients"],
@@ -200,6 +241,11 @@ export const CARE_PATHS = [
     summary: "Each resident registers with a primary care practice responsible for coordination.",
     precedents: [
       { place: "Denmark, Netherlands, UK", note: "GP registration and referral gatekeeping." },
+      {
+        place: "Netherlands",
+        note: "A 2020 Commonwealth Fund profile reported that over 95% of Dutch citizens were registered with a chosen GP, who serves as a referral gatekeeper.",
+        sourceIds: ["debt-free-school-commonwealth-fund-2020"],
+      },
     ],
     pros: ["Better coordination and fewer duplicate tests", "One clinician sees the whole picture"],
     cons: [
@@ -222,7 +268,14 @@ export const CARE_PATHS = [
     problemId: "disparities",
     title: "Equity-adjusted funding",
     summary: "Add payments for providers serving deprived areas, based on a deprivation index.",
-    precedents: [{ place: "NHS England", note: "Allocation formula includes deprivation." }],
+    precedents: [
+      { place: "NHS England", note: "Allocation formula includes deprivation." },
+      {
+        place: "England, United Kingdom",
+        note: "For 2023–2024, NHS England's core funding formula gave health inequalities and unmet need a 10.2% weighting.",
+        sourceIds: ["disparities-equity-funding-nhs-england-2023"],
+      },
+    ],
     pros: ["Targets money where needs are greatest", "Supports safety-net providers"],
     cons: ["Deprivation indices are imperfect", "Providers in wealthier areas get less"],
     whoGains: ["Safety-net providers"],
@@ -236,7 +289,13 @@ export const CARE_PATHS = [
     title: "Rely on universal coverage and uniform rates",
     summary:
       "Universal coverage plus one rate for every patient ends payer-based discrimination (Medicaid patients paying less).",
-    precedents: [{ place: "Canada", note: "Disparities shrink but remain." }],
+    precedents: [
+      {
+        place: "Canada",
+        note: "In 2023, 42.8% of Canadian adults in the lowest income group reported very good or excellent health, compared with 60.9% in the highest group.",
+        sourceIds: ["disparities-uniform-statistics-canada-2025"],
+      },
+    ],
     pros: ["Ends payer-based discrimination (Medicaid patients being turned away)", "Simple"],
     cons: [
       "Doesn't address non-financial barriers (distance, language, trust)",
@@ -256,7 +315,14 @@ export const CARE_PATHS = [
     title: "No-fault compensation for medical injury",
     summary:
       "Injured patients are compensated without suing, from a fund; discipline is handled separately.",
-    precedents: [{ place: "New Zealand, Sweden, Denmark", note: "No-fault injury compensation." }],
+    precedents: [
+      { place: "New Zealand, Sweden, Denmark", note: "No-fault injury compensation." },
+      {
+        place: "New Zealand",
+        note: "New Zealand's ACC accepted 15,411 treatment-injury claims lodged in 2022–2023, according to decisions recorded by March 2024.",
+        sourceIds: ["malpractice-no-fault-accident-compensation-co-2024"],
+      },
+    ],
     pros: ["Faster, fairer compensation", "Less defensive medicine"],
     cons: ["Smaller payouts for severe injury", "Lawyers lose cases"],
     whoGains: ["Most injured patients", "Clinicians"],
@@ -274,7 +340,14 @@ export const CARE_PATHS = [
     problemId: "malpractice",
     title: "Safe harbor for following clinical guidelines",
     summary: "Clinicians who follow recognized guidelines are protected from liability.",
-    precedents: [{ place: "U.S. proposals", note: "Tested in some states; limited evidence." }],
+    precedents: [
+      { place: "U.S. proposals", note: "Tested in some states; limited evidence." },
+      {
+        place: "Maine, United States",
+        note: "In 1993, Maine's liability demonstration gave guidelines for 20 conditions and procedures in four specialties legal force in participating physicians' malpractice cases.",
+        sourceIds: ["malpractice-safe-harbor-u-s-government-accountab-1993"],
+      },
+    ],
     pros: ["Less defensive medicine", "Encourages guideline use"],
     cons: ["Guidelines may not fit every patient", "Harmed patients lose a route to compensation"],
     whoGains: ["Clinicians"],
@@ -310,7 +383,14 @@ export const CARE_PATHS = [
     title: "Standardize across many payers",
     summary:
       "Require all insurers to use identical forms, codes, prior-auth rules, and credentialing.",
-    precedents: [{ place: "Germany, Switzerland", note: "Standardized claims across insurers." }],
+    precedents: [
+      { place: "Germany, Switzerland", note: "Standardized claims across insurers." },
+      {
+        place: "Netherlands",
+        note: "In 2012, the Netherlands reduced standardized hospital billing categories from 30,000 to 4,400 to reduce administrative complexity.",
+        sourceIds: ["debt-free-school-commonwealth-fund-2020"],
+      },
+    ],
     pros: ["Keeps multiple payers", "Reduces provider paperwork"],
     cons: ["Smaller savings than one payer", "Insurers resist losing their own rules"],
     whoGains: ["Providers"],
@@ -331,6 +411,11 @@ export const CARE_PATHS = [
       {
         place: "U.S. Trade Adjustment Assistance",
         note: "Mixed record; works better with job placement.",
+      },
+      {
+        place: "United States",
+        note: "In fiscal 2023, 76.7% of Trade Adjustment Assistance participants obtained new employment within six months of exiting the program.",
+        sourceIds: ["billing-transition-u-s-department-of-labor-2024"],
       },
     ],
     pros: ["Mends the main loser of admin savings", "Uses part of the savings"],
@@ -360,7 +445,14 @@ export const CARE_PATHS = [
     problemId: "low-value-care",
     title: "Evidence-based coverage decisions",
     summary: "A public body reviews evidence and stops covering services proven not to work.",
-    precedents: [{ place: "UK NICE, Germany IQWiG", note: "Health technology assessment." }],
+    precedents: [
+      { place: "UK NICE, Germany IQWiG", note: "Health technology assessment." },
+      {
+        place: "Germany",
+        note: "In Germany (2011–2017), health technology assessments by IQWiG found that 58% of 216 newly approved drugs showed no proven added benefit over existing standard care, constraining negotiated reimbursement prices.",
+        sourceIds: ["lowvalue-coverage-list-the-bmj-2019"],
+      },
+    ],
     pros: ["Saves money and protects patients from harmful care", "Decisions are evidence-based"],
     cons: ["Controversial decisions", "Evidence is often incomplete"],
     whoGains: ["Patients, payers"],
@@ -375,7 +467,14 @@ export const CARE_PATHS = [
     problemId: "low-value-care",
     title: "Feedback and clinician nudges",
     summary: "Report low-value care rates to clinicians and use EHR alerts.",
-    precedents: [{ place: "Choosing Wisely", note: "Modest effects." }],
+    precedents: [
+      { place: "Choosing Wisely", note: "Modest effects." },
+      {
+        place: "Choosing Wisely (U.S.)",
+        note: "In U.S. Medicare (2014–2018), receipt of 32 Choosing Wisely low-value services fell only from 36.3% to 33.6% of beneficiaries, illustrating the modest impact of voluntary guidelines and clinician feedback alone.",
+        sourceIds: ["lowvalue-nudges-jama-network-open-2021"],
+      },
+    ],
     pros: ["Cheap", "Respects clinician judgment"],
     cons: ["Small effects", "Alert fatigue"],
     whoGains: ["Patients"],
@@ -390,7 +489,14 @@ export const CARE_PATHS = [
     problemId: "fraud",
     title: "Pre-payment analytics and audits",
     summary: "Real-time fraud detection on all claims; more audits and prosecution.",
-    precedents: [{ place: "Taiwan NHI", note: "Data analytics flag unusual billing." }],
+    precedents: [
+      { place: "Taiwan NHI", note: "Data analytics flag unusual billing." },
+      {
+        place: "Taiwan",
+        note: "In Taiwan (2008), data mining models applied to National Health Insurance claims to detect hospital billing fraud and abuse achieved an overall accuracy of 99% using classification tree algorithms.",
+        sourceIds: ["fraud-analytics-health-care-management-s-2008"],
+      },
+    ],
     pros: ["One data system sees all billing", "Stops payments before they go out"],
     cons: ["False positives delay legitimate payments", "Fraudsters adapt"],
     whoGains: ["Taxpayers"],
@@ -405,7 +511,14 @@ export const CARE_PATHS = [
     title: "Stricter provider enrollment",
     summary:
       "Background checks, site visits, and moratoriums on new providers in high-fraud categories.",
-    precedents: [{ place: "CMS moratoria", note: "Used for home health and ambulances." }],
+    precedents: [
+      { place: "CMS moratoria", note: "Used for home health and ambulances." },
+      {
+        place: "U.S. (CMS)",
+        note: "In Miami-Dade County, CMS reported home health agencies grew 15% annually to 662 providers in 2012 (with 56% billing intermittently), prompting the first federal enrollment moratorium in 2013 to stop fraud.",
+        sourceIds: ["fraud-enrollment-centers-for-medicare-med-2013"],
+      },
+    ],
     pros: ["Stops fraud before payment", "Targets high-fraud categories"],
     cons: ["Slows legitimate new providers", "Moratoria can reduce access"],
     whoGains: ["Taxpayers"],
@@ -423,7 +536,14 @@ export const CARE_PATHS = [
     problemId: "mental-health-access",
     title: "Pay mental health clinicians at parity",
     summary: "Raise rates so therapists and psychiatrists accept insurance.",
-    precedents: [{ place: "U.S. parity laws", note: "Parity on paper, not in pay." }],
+    precedents: [
+      { place: "U.S. parity laws", note: "Parity on paper, not in pay." },
+      {
+        place: "U.S.",
+        note: "In the U.S. (2024), an RTI study found commercial insurers reimbursed medical office visits 22% higher than behavioral health visits, driving patients out-of-network 3.5 times more often despite parity laws.",
+        sourceIds: ["mh-parity-pay-rti-international-2024"],
+      },
+    ],
     pros: ["More clinicians accept coverage", "Reduces cash-only practice"],
     cons: ["Costly", "Doesn't add clinicians quickly"],
     whoGains: ["Patients", "Therapists and psychiatrists"],
@@ -460,6 +580,11 @@ export const CARE_PATHS = [
       "Any clinician can prescribe buprenorphine; methadone available in pharmacies and primary care.",
     precedents: [
       { place: "France, Canada", note: "Buprenorphine and methadone widely available." },
+      {
+        place: "France",
+        note: "In France (1995–1999), deregulating buprenorphine to allow general practitioners to prescribe it without special licensing expanded treatment tenfold and reduced fatal opioid overdoses by nearly 80%.",
+        sourceIds: ["addiction-mat-the-american-journal-on--2004"],
+      },
     ],
     pros: ["Reduces overdose deaths", "Treatment in normal clinics reduces stigma"],
     cons: ["Diversion concerns", "Some clinicians are reluctant to prescribe"],
@@ -476,7 +601,14 @@ export const CARE_PATHS = [
     problemId: "addiction",
     title: "Harm reduction services",
     summary: "Fund naloxone, drug checking, and supervised consumption sites.",
-    precedents: [{ place: "Portugal, Canada", note: "Harm reduction plus treatment." }],
+    precedents: [
+      { place: "Portugal, Canada", note: "Harm reduction plus treatment." },
+      {
+        place: "Canada (Vancouver)",
+        note: "In Canada (2011), a Lancet study found fatal drug overdoses dropped by 35% within 500 meters of Vancouver’s supervised injection site after it opened, compared to a 9% decline across the rest of the city.",
+        sourceIds: ["addiction-harm-reduction-the-lancet-2011"],
+      },
+    ],
     pros: ["Fewer deaths", "Connects people to treatment"],
     cons: ["Community opposition", "Legal uncertainty"],
     whoGains: ["People who use drugs"],
@@ -497,6 +629,11 @@ export const CARE_PATHS = [
         note: "Mandatory LTC insurance funded by contributions.",
       },
       { place: "Washington State", note: "WA Cares: lifetime benefit funded by payroll tax." },
+      {
+        place: "Germany",
+        note: "In Germany (1995), universal long-term care insurance funded by a 1.7% payroll contribution covered the population and relieved means-tested welfare, which had previously funded roughly 80% of nursing home residents.",
+        sourceIds: ["ltc-social-insurance-the-milbank-quarterly-2000"],
+      },
     ],
     pros: ["Ends spend-down", "Covers home care"],
     cons: ["Expensive; demand grows", "Requires a new tax"],
@@ -538,6 +675,11 @@ export const CARE_PATHS = [
       "Public coverage starts after, e.g., 2 years of need; private insurance or savings cover the first part.",
     precedents: [
       { place: "UK proposals (Dilnot cap)", note: "Lifetime cap on care costs proposed." },
+      {
+        place: "UK",
+        note: "In the UK (2011), the Dilnot Commission proposed capping individual lifetime social care costs at £35,000, finding that 1 in 10 older adults faced catastrophic costs exceeding £100,000 under existing means testing.",
+        sourceIds: ["ltc-catastrophic-the-king-s-fund-2011"],
+      },
     ],
     pros: ["Protects against ruin at lower cost", "Encourages private insurance for early years"],
     cons: ["Families still pay early costs", "Private LTC insurance market is weak"],
@@ -558,6 +700,11 @@ export const CARE_PATHS = [
       {
         place: "U.S. 2024 rule (later blocked)",
         note: "The 2024 federal staffing minimum was repealed by CMS in December 2025 after Congress barred its enforcement until 2034.",
+      },
+      {
+        place: "U.S.",
+        note: "In the U.S. (2024), a KFF analysis found only 19% of nursing facilities met all three standards in CMS's federal staffing rule (3.48 hours per resident day), including just 11% of for-profit homes.",
+        sourceIds: ["nh-staffing-kff-2024"],
       },
     ],
     pros: ["Better care", "Exposes money diverted to related companies"],
@@ -581,7 +728,8 @@ export const CARE_PATHS = [
     precedents: [
       {
         place: "Denmark",
-        note: "A 1987 law stopped construction of traditional nursing homes from January 1988, shifting to senior housing with separate home care.",
+        note: "In Denmark, a 1987 reform halting conventional nursing home construction contributed to a 30% drop in nursing home beds between 1985 and 1997 as care shifted to home services and adapted housing.",
+        sourceIds: ["nh-small-homes-the-gerontologist-2001"],
       },
     ],
     pros: ["Better quality of life", "Fewer infections"],
@@ -623,7 +771,13 @@ export const CARE_PATHS = [
     problemId: "hospice-for-profit",
     title: "Require non-profit hospice",
     summary: "Only non-profit or public organizations may provide hospice.",
-    precedents: [{ place: "Most peer countries", note: "Hospice is mostly non-profit." }],
+    precedents: [
+      {
+        place: "Most peer countries",
+        note: "In 2021, the Medicare aggregate profit margin was 19.2% for for-profit hospices compared to 5.2% for non-profit hospices (and -15.6% for hospital-based hospices), according to MedPAC.",
+        sourceIds: ["hospice-nonprofit-medicare-payment-advisor-2024"],
+      },
+    ],
     pros: ["Removes profit motive", "Matches peer countries"],
     cons: ["Capacity loss when for-profits exit", "Buyouts are costly"],
     whoGains: ["Patients"],
@@ -639,7 +793,11 @@ export const CARE_PATHS = [
     title: "Cover dental, vision, and hearing fully",
     summary: "Include in the standard benefit.",
     precedents: [
-      { place: "Nordic countries for children", note: "Free dental care for children." },
+      {
+        place: "Nordic countries for children",
+        note: "In Denmark, dental care is free through age 19 (expanding to 21 in 2025); municipal school-based delivery achieves a participation rate of nearly 100%, including free orthodontic care (2024).",
+        sourceIds: ["dental-full-european-observatory-on--2024"],
+      },
     ],
     pros: ["Ends a major gap", "Oral health affects overall health"],
     cons: ["Expensive; dentist capacity limited", "Waits for dentists likely"],
@@ -657,7 +815,11 @@ export const CARE_PATHS = [
     summary:
       "Cover exams, cleanings, fillings, extractions; limited coverage for crowns, implants.",
     precedents: [
-      { place: "Canada Dental Care Plan (2023–)", note: "Income-based coverage of basic dental." },
+      {
+        place: "Canada Dental Care Plan (2023–)",
+        note: "More than 1 million Canadians had received care under the Canadian Dental Care Plan by October 31, 2024. Eligible services are covered at 100% of established CDCP fees for adjusted family net incomes below C$70,000, 60% for C$70,000–79,999, and 40% for C$80,000–89,999; additional provider charges may apply.",
+        sourceIds: ["dental-basic-health-canada-2024"],
+      },
     ],
     pros: ["Lower cost", "Covers most needs"],
     cons: ["Gaps for major dental work", "Needs copays or limits"],
@@ -674,7 +836,13 @@ export const CARE_PATHS = [
     problemId: "prevention-underfunded",
     title: "Dedicated public health funding",
     summary: "Fixed share of health spending for public health, protected from cuts.",
-    precedents: [{ place: "Canada (provinces)", note: "Public health funded separately." }],
+    precedents: [
+      {
+        place: "Canada (provinces)",
+        note: "In Canada, public health represents 5.6% ($22 billion) of total health spending projected in 2025 (peaking at 5.9% in 2022–2023), with core prevention and promotion programs receiving 3.2% to 3.5%.",
+        sourceIds: ["prevention-fund-canadian-institute-for-h-2025"],
+      },
+    ],
     pros: ["Stable", "Protects public health from cuts"],
     cons: ["Competes with treatment", "Results hard to see"],
     whoGains: ["Everyone"],
@@ -688,7 +856,13 @@ export const CARE_PATHS = [
     problemId: "prevention-underfunded",
     title: "Free preventive care and vaccines",
     summary: "No charges for screening, vaccines, and preventive visits.",
-    precedents: [{ place: "U.S. ACA", note: "Preventive services covered without cost sharing." }],
+    precedents: [
+      {
+        place: "U.S. ACA",
+        note: "Under the ACA, over 150 million privately insured Americans (plus 20 million Medicaid expansion enrollees and 61 million on Medicare) have access to recommended preventive care and vaccines without cost sharing (2022).",
+        sourceIds: ["prevention-free-aspe-hhs-2022"],
+      },
+    ],
     pros: ["Proven to increase use", "Simple to explain"],
     cons: ["Some screening is low-value", "Costs rise with use"],
     whoGains: ["Everyone"],
@@ -707,7 +881,8 @@ export const CARE_PATHS = [
     precedents: [
       {
         place: "North Carolina Healthy Opportunities",
-        note: "Medicaid pilot paid for food, housing.",
+        note: "A UNC evaluation of North Carolina’s Healthy Opportunities Pilots found that covering food and housing for over 31,000 Medicaid enrollees reduced healthcare spending by an average of $164 per person per month (2022–2024).",
+        sourceIds: ["social-needs-fund-north-carolina-departmen-2026"],
       },
     ],
     pros: ["Targets drivers of illness", "Can pay for itself in some cases"],
@@ -723,7 +898,11 @@ export const CARE_PATHS = [
     title: "Keep social programs separate",
     summary: "Fund housing and food programs directly, not through health care.",
     precedents: [
-      { place: "Most European countries", note: "Strong social programs outside health." },
+      {
+        place: "Most European countries",
+        note: "According to the OECD SOCX database, public social spending outside health averages about 14% to 15% of GDP across European nations (and exceeds 20% in France), compared to under 11% in the U.S. (2022).",
+        sourceIds: ["social-needs-separate-oecd-2023"],
+      },
     ],
     pros: [
       "Clear responsibility: housing and food agencies do what they know",
@@ -745,7 +924,13 @@ export const CARE_PATHS = [
     problemId: "interoperability",
     title: "National health record and patient ID",
     summary: "One national record that follows every patient.",
-    precedents: [{ place: "Taiwan, Estonia, Denmark", note: "National records and IDs." }],
+    precedents: [
+      {
+        place: "Taiwan, Estonia, Denmark",
+        note: "In Estonia, 100% of patients have a nationwide digital health record integrating data across all providers, handling 2.7 million monthly patient queries and 100% digital prescriptions (2024).",
+        sourceIds: ["interop-national-e-estonia-2024"],
+      },
+    ],
     pros: ["Records follow patients everywhere", "Fewer duplicate tests and medication errors"],
     cons: ["Privacy and security risks of one large database", "Large IT project"],
     whoGains: ["Patients, clinicians"],
@@ -759,7 +944,13 @@ export const CARE_PATHS = [
     problemId: "interoperability",
     title: "Mandatory data-sharing standards",
     summary: "Enforce FHIR APIs and ban information blocking.",
-    precedents: [{ place: "U.S. 21st Century Cures Act", note: "Information-blocking rules." }],
+    precedents: [
+      {
+        place: "U.S. 21st Century Cures Act",
+        note: "Under the 21st Century Cures Act, ONC logged 2,450 possible claims of information blocking between April 2021 and mid-2026, with over 1,500 submitted by patients and 1,938 implicating healthcare providers.",
+        sourceIds: ["interop-standards-office-of-the-national-c-2026"],
+      },
+    ],
     pros: ["Keeps market competition", "Builds on existing law"],
     cons: ["Slow; vendors comply minimally", "Standards keep changing"],
     whoGains: ["Patients", "App developers"],
@@ -775,7 +966,11 @@ export const CARE_PATHS = [
     title: "Mandatory security standards and backup payment systems",
     summary: "Minimum security rules, and backup payment for providers during outages.",
     precedents: [
-      { place: "Change Healthcare attack (2024)", note: "Halted claims nationwide for weeks." },
+      {
+        place: "Change Healthcare attack (2024)",
+        note: "Following the 2024 Change Healthcare cyberattack, CMS issued over $3.26 billion in emergency accelerated and advance payments to more than 8,900 hospitals, doctors, and suppliers to prevent cash-flow collapse.",
+        sourceIds: ["cyber-standards-centers-for-medicare-med-2024"],
+      },
     ],
     pros: ["Resilience against attacks", "Providers paid during outages"],
     cons: ["Compliance costs", "Hardest for small providers"],
@@ -792,7 +987,8 @@ export const CARE_PATHS = [
     precedents: [
       {
         place: "Change Healthcare attack (2024)",
-        note: "One clearinghouse outage halted claims nationwide for weeks; redundancy is the lesson.",
+        note: "An AHA survey of nearly 1,000 hospitals found that 94% suffered financial harm from the 2024 Change Healthcare clearinghouse attack, with 74% reporting patient care disruptions and 59% losing over $1 million daily.",
+        sourceIds: ["cyber-redundant-american-hospital-associ-2024"],
       },
     ],
     pros: ["Avoids single point of failure", "Care continues during outages"],
@@ -809,7 +1005,13 @@ export const CARE_PATHS = [
     problemId: "privacy",
     title: "Strong health privacy law",
     summary: "Extend privacy protections to apps and data brokers; strict access logs.",
-    precedents: [{ place: "EU GDPR", note: "Strict rules for health data." }],
+    precedents: [
+      {
+        place: "EU GDPR",
+        note: "Under the EU GDPR, French regulator CNIL fined commercial health data broker IQVIA €5 million in 2026 for improperly handling pharmacy and medical records covering tens of millions of individuals without adequate safeguards.",
+        sourceIds: ["privacy-law-commission-nationale-de--2026"],
+      },
+    ],
     pros: ["Protects patients", "Covers apps and data brokers HIPAA misses"],
     cons: ["Limits research", "Compliance costs"],
     whoGains: ["Patients"],
@@ -822,7 +1024,13 @@ export const CARE_PATHS = [
     problemId: "privacy",
     title: "Opt-out of national record sharing",
     summary: "Patients can opt out of sharing.",
-    precedents: [{ place: "UK NHS", note: "National data opt-out." }],
+    precedents: [
+      {
+        place: "UK NHS",
+        note: "In England’s NHS, 1,339,862 patients opted out of secondary data sharing in a single month (June 2021) amid centralized database plans, raising the national opt-out rate from 2.77% to 4.97% of the population.",
+        sourceIds: ["privacy-opt-out-bjgp-open-2024"],
+      },
+    ],
     pros: ["Choice for patients", "Builds trust"],
     cons: ["Gaps in data", "Opt-outs can be higher in some groups, biasing research"],
     whoGains: ["Privacy-conscious patients"],

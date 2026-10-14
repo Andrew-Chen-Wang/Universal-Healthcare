@@ -132,7 +132,8 @@ export const COVERAGE_PATHS = [
     precedents: [
       {
         place: "Washington State",
-        note: "Cascade Select launched in 2021; about 1% of marketplace enrollees chose it in year one, as its premiums averaged about 11% above the cheapest silver plan.",
+        note: "In January 2025, about 94,000 marketplace customers selected Cascade Select public option plans, up 50% from 2024.",
+        sourceIds: ["public-option-washington-health-benefi-2025"],
       },
       {
         place: "Australia",
@@ -174,6 +175,11 @@ export const COVERAGE_PATHS = [
         place: "Canada (Saskatchewan → national)",
         note: "Hospital coverage (1947) came 15 years before physician coverage (1962) and spread province by province.",
       },
+      {
+        place: "Saskatchewan, Canada",
+        note: "After Saskatchewan added public physician coverage in 1962, physician-care insurance coverage rose from 67% in 1960 to 99.9% by 1965.",
+        sourceIds: ["medicare-age-down-journal-of-general-inter-2020"],
+      },
     ],
     pros: [
       "Each step is a natural experiment that can be measured",
@@ -214,7 +220,8 @@ export const COVERAGE_PATHS = [
       },
       {
         place: "Netherlands",
-        note: "The government enrolls people who fail to pick a plan and deducts premiums from wages.",
+        note: "In 2023, about 28,500 people remained uninsured in the Netherlands, which identifies uninsured residents and can collect insurance premiums from wages.",
+        sourceIds: ["auto-enrollment-commonwealth-fund-2026"],
       },
     ],
     pros: [
@@ -250,6 +257,11 @@ export const COVERAGE_PATHS = [
         place: "U.S. ACA (2014–2018)",
         note: "The federal mandate penalty was set to $0 in 2019; coverage fell only slightly.",
       },
+      {
+        place: "United States",
+        note: "The U.S. uninsured rate among people ages 0–64 rose from 10.4% in 2018 to 10.9% in 2019, when the federal mandate penalty ended.",
+        sourceIds: ["mandate-subsidies-kff-2025"],
+      },
     ],
     pros: ["Familiar structure", "Keeps private insurance intact"],
     cons: [
@@ -280,6 +292,11 @@ export const COVERAGE_PATHS = [
         place: "Oregon, Washington",
         note: "Multi-year continuous eligibility for young children under Medicaid waivers.",
       },
+      {
+        place: "Oregon",
+        note: "By December 2024, 80.5% of Oregon Medicaid members completing renewal kept benefits; most adults then received two years of continuous eligibility.",
+        sourceIds: ["churn-continuous-oregon-health-authority-2024"],
+      },
     ],
     pros: ["Cheap and quick to implement", "Reduces paperwork for states and families"],
     cons: [
@@ -303,6 +320,11 @@ export const COVERAGE_PATHS = [
       "Under single payer or a regulated multi-payer system, coverage never depends on employment or income, so life changes do not end coverage.",
     precedents: [
       { place: "Most OECD countries", note: "Coverage is based on residence or legal status." },
+      {
+        place: "Canada",
+        note: "In 2023–2024, Canada's provinces and territories reciprocally billed about C$1 billion for insured hospital and physician care outside patients' home jurisdictions.",
+        sourceIds: ["churn-portable-health-canada-2025"],
+      },
     ],
     pros: [
       "Ends churn entirely: no re-enrollment, no gaps between jobs",
@@ -335,6 +357,11 @@ export const COVERAGE_PATHS = [
       "Replace employer-sponsored insurance with public or individually chosen coverage so leaving a job never ends coverage.",
     precedents: [
       { place: "Canada, UK, Taiwan", note: "Job changes never affect health coverage." },
+      {
+        place: "Canada",
+        note: "Canada's public and primary voluntary health insurance covered 100% of the population in 2023, with public hospital and physician coverage based on residence.",
+        sourceIds: ["joblock-decouple-oecd-2023"],
+      },
     ],
     pros: ["Ends job lock", "More entrepreneurship and early retirement"],
     cons: ["Ends a benefit many workers value", "Employers lose a recruiting tool"],
@@ -358,6 +385,11 @@ export const COVERAGE_PATHS = [
       {
         place: "U.S. ICHRA (2020)",
         note: "Employers may fund individual-market coverage tax-free.",
+      },
+      {
+        place: "United States",
+        note: "In 2025, 4% of U.S. firms offering health benefits and employing at least 10 workers funded individual-market insurance for some employees.",
+        sourceIds: ["joblock-portable-esi-peterson-kff-health-syst-2025"],
       },
     ],
     pros: ["Keeps employer funding", "Little disruption"],
@@ -385,6 +417,11 @@ export const COVERAGE_PATHS = [
     summary: "Covered services are free when used: no deductibles, copays, or coinsurance.",
     precedents: [
       { place: "UK, Canada (hospital & physician care)", note: "No charges for covered services." },
+      {
+        place: "England",
+        note: "In a November 2024 parliamentary answer, the government reported that about 89% of prescription items in England were dispensed free in the community.",
+        sourceIds: ["underins-zero-uk-parliament-department-2024"],
+      },
     ],
     pros: ["Ends underinsurance and most medical debt", "Removes billing at the point of care"],
     cons: [
@@ -411,7 +448,11 @@ export const COVERAGE_PATHS = [
     summary:
       "Keep small charges to discourage low-value use, but cap total out-of-pocket at a share of income and exempt the poor.",
     precedents: [
-      { place: "Germany", note: "Small copays capped at 2% of income (1% for chronic illness)." },
+      {
+        place: "Germany",
+        note: "In 2018, 7.9% of Germany's statutory health insurance members exceeded the 1% income cap for chronic illness and became exempt from further copays.",
+        sourceIds: ["underins-income-cap-european-observatory-on--2020"],
+      },
       {
         place: "France",
         note: "Copays largely covered by supplemental insurance; exemptions for chronic disease.",
@@ -440,6 +481,11 @@ export const COVERAGE_PATHS = [
       {
         place: "U.S. employers & HSAs",
         note: "Some employers waive copays for chronic-disease drugs.",
+      },
+      {
+        place: "United States",
+        note: "A 2011 randomized trial found that removing copays for preventive drugs after a heart attack increased medication adherence by 4–6 percentage points.",
+        sourceIds: ["underins-value-based-new-england-journal-of-m-2011"],
       },
     ],
     pros: [
@@ -473,6 +519,11 @@ export const COVERAGE_PATHS = [
       {
         place: "Traditional Medicare, Canada",
         note: "Nearly all physicians accept the public payer.",
+      },
+      {
+        place: "United States",
+        note: "As of November 2024, 1.2% of active non-pediatric physicians had formally opted out of Medicare.",
+        sourceIds: ["networks-any-provider-kff-2025"],
       },
     ],
     pros: [
@@ -534,7 +585,8 @@ export const COVERAGE_PATHS = [
     precedents: [
       {
         place: "California",
-        note: "Medi-Cal expanded to all income-eligible adults regardless of status (2024); the 2025–26 budget froze new enrollment of undocumented adults from January 2026 to close a deficit.",
+        note: "In 2025, California's Legislative Analyst estimated that 1.7 million undocumented Medi-Cal enrollees had comprehensive coverage.",
+        sourceIds: ["immigrants-all-residents-california-legislative-a-2025"],
       },
       {
         place: "Spain, Thailand",
@@ -567,6 +619,11 @@ export const COVERAGE_PATHS = [
       {
         place: "Most European countries",
         note: "Undocumented migrants usually limited to emergency or basic care.",
+      },
+      {
+        place: "United States",
+        note: "Emergency Medicaid spending was $3.8 billion in fiscal 2023, or 0.4% of total Medicaid spending, for people ineligible for full coverage because of immigration status.",
+        sourceIds: ["immigrants-lawful-only-kff-2025"],
       },
     ],
     pros: ["Lower cost", "Fewer migration concerns"],
