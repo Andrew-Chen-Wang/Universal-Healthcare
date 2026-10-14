@@ -816,9 +816,9 @@ for (const row of [...SINGLE_PAYER_ROWS, ...HYBRID_ROWS]) merged.set(row[0], row
 const ROWS: Row[] = [...merged.values()]
 
 /** The earlier single-payer draft, kept as its own path to compare. */
-export const SINGLE_PAYER_PICKS: string[] = SINGLE_PAYER_ROWS.filter((r) => r[1] === "chosen").map(
-  (r) => r[0],
-)
+export const SINGLE_PAYER_PICKS: string[] = SINGLE_PAYER_ROWS.filter(
+  (row) => row[1] === "chosen",
+).map((row) => row[0])
 
 /** Draft decisions as written above, before owner edits. */
 export const DRAFT_DECISIONS: Decision[] = ROWS.map(
