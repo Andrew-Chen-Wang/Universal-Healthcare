@@ -4,7 +4,8 @@ import type { Override } from "@website/content/paths"
 import { cn } from "@website/lib/utils"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
-import { useEffect, useMemo, useRef, useState } from "react"
+import { Button } from "@website/components/ui/button"
+import { useEffect, useMemo, useState } from "react"
 
 type Status = "chosen" | "rejected"
 type Confidence = "high" | "medium" | "low"
@@ -63,38 +64,44 @@ export function ReviewBoard({
 }) {
   const router = useRouter()
   const [edits, setEdits] = useState<Overrides>(initial)
+  const [saved, setSaved] = useState<Overrides>(initial)
   const [save, setSave] = useState<SaveState>("idle")
   const [order, setOrder] = useState<"priority" | "problem">("priority")
   const [hideReviewed, setHideReviewed] = useState(true)
   const [flaggedOnly, setFlaggedOnly] = useState(false)
   const [query, setQuery] = useState("")
-  const timer = useRef<ReturnType<typeof setTimeout>>(undefined)
-  const first = useRef(true)
+
+  const unsaved = rows.filter(
+    (r) => JSON.stringify(edits[r.id] ?? {}) !== JSON.stringify(saved[r.id] ?? {}),
+  ).length
 
   useEffect(() => {
-    if (first.current) {
-      first.current = false
-      return
+    if (!unsaved) return
+    const warn = (e: BeforeUnloadEvent) => {
+      e.preventDefault()
     }
-    if (!canSave) return
-    clearTimeout(timer.current)
+    window.addEventListener("beforeunload", warn)
+    return () => {
+      window.removeEventListener("beforeunload", warn)
+    }
+  }, [unsaved])
+
+  const saveNow = async () => {
     setSave("saving")
-    const send = async () => {
-      try {
-        const res = await fetch("/paths/review/save", {
-          method: "POST",
-          headers: { "content-type": "application/json" },
-          body: JSON.stringify(edits),
-        })
-        if (!res.ok) throw new Error(String(res.status))
-        setSave("saved")
-        router.refresh()
-      } catch {
-        setSave("error")
-      }
+    try {
+      const res = await fetch("/paths/review/save", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify(edits),
+      })
+      if (!res.ok) throw new Error(String(res.status))
+      setSaved(edits)
+      setSave("saved")
+      router.refresh()
+    } catch {
+      setSave("error")
     }
-    timer.current = setTimeout(() => void send(), 500)
-  }, [edits, canSave, router])
+  }
 
   const update = (id: string, patch: Partial<Override>) => {
     setEdits((e) => {
@@ -144,7 +151,7 @@ export function ReviewBoard({
     errors.filter((e) => e.startsWith(`${id}:`) || e.startsWith(`${id}.`))
 
   return (
-    <div>
+    <div className="pb-24">
       {!canSave && (
         <div className="mb-6 rounded-md border-l-4 border-loss/40 bg-loss-soft px-5 py-4 text-sm">
           Saving only works under <code>pnpm run dev</code>. This build is read-only.
@@ -161,9 +168,6 @@ export function ReviewBoard({
           </span>
           <span className={cn(errors.length ? "text-loss" : "text-gain", "font-medium")}>
             {errors.length ? `${errors.length} consistency problems` : "Plan is consistent"}
-          </span>
-          <span className="ml-auto text-muted-foreground" aria-live="polite">
-            {{ idle: "", saving: "Saving…", saved: "Saved", error: "Save failed" }[save]}
           </span>
         </div>
         <div className="mt-3 flex flex-wrap items-center gap-3 text-sm">
@@ -384,13 +388,16 @@ export function ReviewBoard({
                   </button>
                 )}
               </div>
-              <NoteField
-                key={`${r.id}-${edits[r.id] ? "e" : "d"}`}
-                initial={c.note}
+              <textarea
+                value={c.note}
                 disabled={!canSave}
-                onCommit={(note) => {
-                  update(r.id, { note: note || undefined })
+                onChange={(e) => {
+                  update(r.id, { note: e.target.value || undefined })
                 }}
+                rows={2}
+                placeholder="Your note for Claude (optional): e.g. 'flip to regulated multi-payer', 'move to wave one'"
+                aria-label={`Your note on ${r.title}`}
+                className="mt-3 w-full rounded-md border border-rule bg-background px-3 py-2 text-base sm:text-sm"
               />
               {rowErrors.length > 0 && (
                 <ul className="mt-3 list-disc space-y-1 pl-5 text-xs text-loss">
@@ -403,35 +410,40 @@ export function ReviewBoard({
           )
         })}
       </ol>
-    </div>
-  )
-}
 
-/** Note box that saves on blur so typing doesn't write the file on every key. */
-function NoteField({
-  initial,
-  disabled,
-  onCommit,
-}: {
-  initial: string
-  disabled: boolean
-  onCommit: (note: string) => void
-}) {
-  const [value, setValue] = useState(initial)
-  return (
-    <textarea
-      value={value}
-      disabled={disabled}
-      onChange={(e) => {
-        setValue(e.target.value)
-      }}
-      onBlur={() => {
-        if (value.trim() !== initial) onCommit(value.trim())
-      }}
-      rows={2}
-      placeholder="Your note for Claude (optional): e.g. 'flip to regulated multi-payer', 'move to wave one'"
-      aria-label="Your note"
-      className="mt-3 w-full rounded-md border border-rule bg-background px-3 py-2 text-sm"
-    />
+      {canSave && (unsaved > 0 || save !== "idle") && (
+        <div className="fixed inset-x-0 bottom-0 z-20 border-t border-rule bg-background/95 px-4 pt-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] backdrop-blur">
+          <div className="mx-auto flex max-w-5xl items-center gap-3">
+            <span className="text-sm" aria-live="polite">
+              {save === "saving"
+                ? "Saving…"
+                : save === "error"
+                  ? "Save failed. Is the dev server running?"
+                  : unsaved
+                    ? `${unsaved} unsaved ${unsaved === 1 ? "path" : "paths"}`
+                    : "All changes saved"}
+            </span>
+            <Button
+              variant="outline"
+              className="ml-auto h-11"
+              disabled={!unsaved || save === "saving"}
+              onClick={() => {
+                setEdits(saved)
+                setSave("idle")
+              }}
+            >
+              Discard
+            </Button>
+            <Button
+              className="h-11 px-6"
+              disabled={!unsaved || save === "saving"}
+              onClick={() => void saveNow()}
+            >
+              Save
+            </Button>
+          </div>
+        </div>
+      )}
+    </div>
   )
 }
