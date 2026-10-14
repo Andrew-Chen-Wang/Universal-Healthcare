@@ -14,7 +14,7 @@ export const COVERAGE_PATHS = [
     problemId: "uninsured",
     title: "Single public payer for everyone",
     summary:
-      "One public program covers every resident automatically. Private insurance for covered services ends; providers stay mostly private and bill one payer at one set of rates.",
+      "One public program covers every resident automatically. Providers stay mostly private and bill one payer at one set of rates. Whether private insurance may still sell coverage for the same care is a separate choice: Australia and the UK allow it, Canada mostly bans it (see Two-tier care).",
     precedents: [
       {
         place: "Taiwan",
@@ -44,7 +44,7 @@ export const COVERAGE_PATHS = [
         note: "With one payer and one fee schedule, no provider is out of network, so there is no surprise bill.",
       },
       "insurer-overhead": {
-        note: "Private insurers stop administering covered care, so their overhead and profit on it end. Taiwan's administrative cost is about 1% of spending.",
+        note: "The public plan pays every covered claim, so insurers no longer administer the core benefit, and their overhead and profit on it end. Taiwan's administrative cost is about 1% of spending. If duplicate private insurance is allowed, people who buy it pay that insurer's overhead on top.",
         sourceIds: ["taiwan-nhi"],
       },
       "admin-cost": {
@@ -58,7 +58,7 @@ export const COVERAGE_PATHS = [
         sourceIds: ["rand-hospital-2024"],
       },
       "transition-disruption": {
-        note: `About ${ENROLLMENT_2024.employerSponsored} million people leave employer plans, and insurers lose their core business.`,
+        note: `About ${ENROLLMENT_2024.employerSponsored} million people leave employer plans as their main coverage, and insurers lose their core business. What is left for them depends on whether private insurance may duplicate the public plan or only sell extras.`,
         sourceIds: ["cms-nhe-2024"],
       },
       "billing-jobs": {
@@ -70,7 +70,7 @@ export const COVERAGE_PATHS = [
         sourceIds: ["rand-hie"],
       },
       "x-plan-choice": {
-        note: "There is no other insurer to switch to if the public plan is run poorly.",
+        note: "There is no other public plan to switch to if it is run poorly. Private cover on top, where it is allowed, costs extra.",
       },
       "x-new-taxes": {
         note: `Taxes replace premiums and most out-of-pocket costs. In CBO's single-payer options, federal subsidies rise by $${v("cboSinglePayerFederalLow") / 1000} trillion to $${v("cboSinglePayerFederalHigh") / 1000} trillion in 2030.`,
@@ -81,6 +81,9 @@ export const COVERAGE_PATHS = [
       },
       "x-state-control": {
         note: "A national program replaces state-run Medicaid and CHIP, along with the state choices built into them.",
+      },
+      "two-tier": {
+        note: "Once one public plan covers everyone, it has to be decided whether private insurance may still sell coverage for the same care. Allowing it keeps today's insurers and gives a faster private lane for those who pay; banning it keeps clinicians in the public system.",
       },
     },
     solves: [
@@ -95,18 +98,17 @@ export const COVERAGE_PATHS = [
       "high-prices",
     ],
     worsens: ["transition-disruption", "billing-jobs", "wait-times"],
-    spawns: ["x-plan-choice", "x-new-taxes", "x-central-rationing", "x-state-control"],
+    spawns: ["x-plan-choice", "x-new-taxes", "x-central-rationing", "x-state-control", "two-tier"],
     conflicts: ["regulated-multipayer", "public-option", "mandate-subsidies"],
     complements: ["all-payer-rates", "global-budgets"],
     costIds: ["nhe-netCostOfInsurance", "admin-total", "ind-524114"],
     changes: [
       "Create a national health program (or expand Medicare) covering every resident, with automatic enrollment from tax, Social Security, and immigration records",
-      "Prohibit private insurance from selling coverage that duplicates the public benefit",
       "Fold Medicare, Medicaid, CHIP, ACA marketplace subsidies, FEHB, and TRICARE civilian coverage into the program; decide whether the VA and IHS stay separate",
       "Replace employer premiums, employee premiums, and state Medicaid spending with dedicated taxes and maintenance-of-effort payments",
       "Build one national enrollment, eligibility, and claims-payment system with a member card",
       "Set one national fee schedule and/or hospital budgets, with regional adjustments",
-      "Amend ERISA so employer self-insured health plans end for covered services",
+      "Amend ERISA so employer plans are no longer people's primary coverage for services the public plan covers",
       "Fund a worker transition program for insurer, broker, and billing staff",
     ],
   }),

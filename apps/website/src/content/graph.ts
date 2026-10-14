@@ -31,10 +31,13 @@ export type Impact = {
 
 export const isMigrated = (p: SolutionPath) => p.how !== undefined
 
+type Direction = "fixes" | "harms" | "answers" | "keeps"
+
 /** Every problem a path links to, as [id, direction]. */
-function links(p: SolutionPath): [string, "fixes" | "harms" | "answers"][] {
+function links(p: SolutionPath): [string, Direction][] {
+  const main: Direction = p.role === "answers" ? "answers" : p.role === "keeps" ? "keeps" : "fixes"
   return [
-    [p.problemId, p.role === "answers" ? "answers" : "fixes"],
+    [p.problemId, main],
     ...(p.solves ?? []).map((id) => [id, "fixes"] as [string, "fixes"]),
     ...(p.worsens ?? []).map((id) => [id, "harms"] as [string, "harms"]),
     ...(p.spawns ?? []).map((id) => [id, "harms"] as [string, "harms"]),
@@ -49,6 +52,8 @@ export function effectsOf(p: SolutionPath): {
   harms: Effect[]
   /** Set when the path answers its main problem's open question instead of fixing it. */
   answers?: Effect
+  /** Set when the path keeps current law: the problem it leaves in place. */
+  keeps?: Effect
 } {
   if (!p.how)
     return {
@@ -58,12 +63,14 @@ export function effectsOf(p: SolutionPath): {
   const fixes: Effect[] = []
   const harms: Effect[] = []
   let answers: Effect | undefined
+  let keeps: Effect | undefined
   for (const [id, dir] of links(p)) {
     const e = { problemId: id, title: PROBLEM_BY_ID[id].title, ...p.how[id] }
     if (dir === "answers") answers = e
+    else if (dir === "keeps") keeps = e
     else (dir === "fixes" ? fixes : harms).push(e)
   }
-  return { fixes, harms, answers }
+  return { fixes, harms, answers, keeps }
 }
 
 /**
@@ -77,7 +84,11 @@ export const fixersOf = (problemId: string) => [
 /** Paths that create or worsen a problem. */
 export const causersOf = (problemId: string) => [...createdBy(problemId), ...worsenedBy(problemId)]
 
-/** Who gains and who loses from a path, derived from the groups its problems touch. */
+/**
+ * Who gains and who loses from a path, derived from the groups its problems
+ * touch. For "Keep current law" this is measured against fixing the problem:
+ * those who profit from it keep their gain, and those it hurts stay hurt.
+ */
 export function impactsOf(p: SolutionPath): { gains: Impact[]; loses: Impact[] } {
   if (!p.how)
     return {
@@ -95,8 +106,9 @@ export function impactsOf(p: SolutionPath): { gains: Impact[]; loses: Impact[] }
   for (const [id, dir] of links(p)) {
     const pr = PROBLEM_BY_ID[id]
     if (dir !== "answers") {
-      for (const l of pr.hurts ?? []) add(dir === "fixes" ? gains : loses, l.group, id, l.how)
-      for (const l of pr.profits ?? []) add(dir === "fixes" ? loses : gains, l.group, id, l.how)
+      const better = dir === "fixes"
+      for (const l of pr.hurts ?? []) add(better ? gains : loses, l.group, id, l.how)
+      for (const l of pr.profits ?? []) add(better ? loses : gains, l.group, id, l.how)
     }
     const h = p.how[id]
     for (const g of h.helps ?? []) add(gains, g, id, h.note)

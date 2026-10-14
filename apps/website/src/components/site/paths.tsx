@@ -1,5 +1,12 @@
 import { Pill } from "@website/components/site/ui"
-import type { PathStatus, SolutionPath } from "@website/content/paths"
+import {
+  type PathStatus,
+  type Scale,
+  SCALE_LABEL,
+  SCALE_MEANING,
+  SCALE_RANK,
+  type SolutionPath,
+} from "@website/content/paths"
 import { effectsOf, isMigrated } from "@website/content/graph"
 import { PROBLEM_BY_ID } from "@website/content/problems"
 import { cn } from "@website/lib/utils"
@@ -19,6 +26,27 @@ const STATUS: Record<PathStatus, { label: string; tone: "neutral" | "gain" | "lo
 export function StatusPill({ status }: { status: PathStatus }) {
   const s = STATUS[status]
   return <Pill tone={s.tone}>{s.label}</Pill>
+}
+
+/** How much a path changes today's system: three steps, empty for "no change". */
+export function ScalePill({ scale }: { scale: Scale }) {
+  const rank = SCALE_RANK[scale]
+  return (
+    <span
+      title={SCALE_MEANING[scale]}
+      className="inline-flex items-center gap-1.5 rounded-sm border border-rule px-2 py-0.5 text-xs whitespace-nowrap text-foreground/75"
+    >
+      <span aria-hidden className="flex gap-0.5">
+        {[1, 2, 3].map((i) => (
+          <span
+            key={i}
+            className={cn("h-2 w-1.5 rounded-[1px]", i <= rank ? "bg-primary" : "bg-rule")}
+          />
+        ))}
+      </span>
+      {SCALE_LABEL[scale]}
+    </span>
+  )
 }
 
 export function ProblemChip({
@@ -61,7 +89,10 @@ export function PathCard({
         <Link href={`/paths/${p.id}`} className="font-medium hover:text-primary hover:underline">
           {p.title}
         </Link>
-        <StatusPill status={p.status} />
+        <span className="flex flex-wrap gap-1.5">
+          <ScalePill scale={p.scale} />
+          {p.role !== "keeps" && <StatusPill status={p.status} />}
+        </span>
       </div>
       {showProblem && (
         <div className="mt-1 text-xs text-muted-foreground">
@@ -119,7 +150,10 @@ export function PathLink({ path: p }: { path: SolutionPath }) {
           {PROBLEM_BY_ID[p.problemId]?.title}
         </span>
       </span>
-      <StatusPill status={p.status} />
+      <span className="flex shrink-0 flex-col items-end gap-1">
+        <ScalePill scale={p.scale} />
+        {p.role !== "keeps" && <StatusPill status={p.status} />}
+      </span>
     </Link>
   )
 }

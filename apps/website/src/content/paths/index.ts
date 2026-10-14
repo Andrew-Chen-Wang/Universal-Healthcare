@@ -11,6 +11,8 @@ import { COVERAGE_PATHS } from "./coverage"
 import { DERIVED_PATHS } from "./derived"
 import { MONEY_PATHS } from "./money"
 import { RISK_PATHS } from "./risks"
+import { keepPaths } from "./keep"
+import { PATH_SCALE } from "./scale"
 import { SUPPLY_PATHS } from "./supply"
 import type { SolutionPath } from "./types"
 
@@ -18,15 +20,23 @@ export type { SolutionPath, PathStatus } from "./types"
 export type { Decision } from "./decisions"
 export { DECISIONS, DECISION_BY_PATH, DRAFT_DECISIONS, REVIEW_OVERRIDES } from "./decisions"
 export type { Override } from "./decisions"
+export { keepId, TODAY_CATEGORIES } from "./keep"
+export { SCALES, SCALE_LABEL, SCALE_MEANING, SCALE_RANK, type Scale } from "./scale"
 
-export const PATHS: SolutionPath[] = [
+const WRITTEN: SolutionPath[] = [
   ...COVERAGE_PATHS,
   ...MONEY_PATHS,
   ...SUPPLY_PATHS,
   ...CARE_PATHS,
   ...RISK_PATHS,
   ...DERIVED_PATHS,
-].map((p) => ({ ...p, status: DECISION_BY_PATH[p.id]?.status ?? p.status }))
+].map((p) => ({ ...p, scale: PATH_SCALE[p.id] ?? p.scale }))
+
+/** "Keep current law" paths aren't decided in the ledger; they stay open. */
+export const PATHS: SolutionPath[] = [...WRITTEN, ...keepPaths(WRITTEN)].map((p) => ({
+  ...p,
+  status: DECISION_BY_PATH[p.id]?.status ?? p.status,
+}))
 
 export const CHOSEN = PATHS.filter((p) => p.status === "chosen")
 
@@ -74,8 +84,12 @@ export const complementsOf = (id: string) => symmetric(id, "complements")
 
 // ---- validation ----
 const errors: string[] = []
+for (const p of WRITTEN) if (!PATH_SCALE[p.id]) errors.push(`${p.id}: no scale in scale.ts`)
+for (const id of Object.keys(PATH_SCALE))
+  if (!PATH_BY_ID[id]) errors.push(`scale.ts: unknown path ${id}`)
 for (const p of PATHS) {
   if (!PROBLEM_BY_ID[p.problemId]) errors.push(`${p.id}: unknown problem ${p.problemId}`)
+  if (p.role === "keeps") continue
   if (!p.how && (!p.pros?.length || !p.cons?.length)) errors.push(`${p.id}: needs pros and cons`)
   if ((p.changes?.length ?? 0) === 0) errors.push(`${p.id}: needs concrete changes`)
   if (p.precedents.length === 0) errors.push(`${p.id}: needs a precedent`)
@@ -100,7 +114,8 @@ for (const p of PATHS) {
 }
 for (const pr of PROBLEMS) {
   if (pr.category === "Common trade-offs") continue
-  if (pathsFor(pr.id).length < 2) errors.push(`problem ${pr.id}: needs at least 2 paths`)
+  if (pathsFor(pr.id).filter((p) => p.role !== "keeps").length < 2)
+    errors.push(`problem ${pr.id}: needs at least 2 paths`)
   if (pr.category === "Problems created by solution paths" && createdBy(pr.id).length === 0)
     errors.push(`problem ${pr.id}: no path creates it`)
 }
@@ -108,14 +123,14 @@ for (const pr of PROBLEMS) {
 for (const d of DECISIONS)
   if (!PATH_BY_ID[d.pathId]) errors.push(`decision for unknown path ${d.pathId}`)
 const chosenIds = new Set(CHOSEN.map((p) => p.id))
-for (const p of PATHS) {
+for (const p of WRITTEN) {
   const d = DECISION_BY_PATH[p.id]
   if (!d) {
     errors.push(`${p.id}: no decision`)
     continue
   }
   if (d.status === "chosen" && !d.phase) errors.push(`${p.id}: chosen without a phase`)
-  if (p.status !== "chosen") continue
+  if (PATH_BY_ID[p.id].status !== "chosen") continue
   for (const r of p.requires ?? [])
     if (!chosenIds.has(r)) errors.push(`${p.id}: requires ${r}, which is not chosen`)
   for (const x of conflictsOf(p.id))

@@ -126,6 +126,16 @@ export default function Home() {
         </div>
       </header>
 
+      <Callout title="What if we change less, or nothing?">
+        Every problem also has a &ldquo;Keep current law&rdquo; option, and every solution path is
+        labeled by how much it changes today&apos;s system.{" "}
+        <Link href="/approaches" className="underline">
+          Compare approaches
+        </Link>{" "}
+        side by side: keep current law, minor changes, bigger changes that keep today&apos;s
+        insurers, a universal multi-payer system, and the draft single-payer picks.
+      </Callout>
+
       <Section title="Ground rules">
         <ol className="grid gap-3 sm:grid-cols-2">
           {[

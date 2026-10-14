@@ -228,6 +228,14 @@ export const SOURCES: Source[] = [
     note: "The source for every baseline number on this site.",
   },
   {
+    id: "cms-nhe-proj-2025",
+    title: "National Health Expenditure Projections 2025–2034: Forecast Summary",
+    org: "CMS Office of the Actuary",
+    year: 2026,
+    url: "https://www.cms.gov/files/document/nhe-projections-forecast-summary.pdf",
+    note: "Current-law projections, including the 2025 reconciliation law (OBBBA) and the end of enhanced marketplace subsidies. Health share of GDP rises from 18.0% (2024) to 20.6% (2034); insured share falls from 91.8% to 90.5%.",
+  },
+  {
     id: "cms-nhe-highlights",
     title: "National Health Expenditures 2024 Highlights",
     org: "CMS Office of the Actuary",

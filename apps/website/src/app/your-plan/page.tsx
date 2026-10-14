@@ -1,10 +1,10 @@
 import { Page, PageHeader } from "@website/components/site/ui"
-import { v } from "@website/content/constants"
 import { type Effect, effectsOf, type Impact, impactsOf } from "@website/content/graph"
-import { CHOSEN, conflictsOf, PATHS } from "@website/content/paths"
+import { APPROACHES } from "@website/content/approaches"
+import { conflictsOf, PATHS, SCALE_LABEL, SCALE_RANK } from "@website/content/paths"
 import { PROBLEM_CATEGORIES, PROBLEMS, SIDE_EFFECT_CATEGORIES } from "@website/content/problems"
 import type { Metadata } from "next"
-import type { Pop } from "./coverage"
+import { popFromConstants } from "./coverage"
 import { PlanBuilder, type BuilderPath, type BuilderProblem, type Item } from "./plan-builder"
 
 const effectItem = (e: Effect): Item => ({
@@ -21,26 +21,6 @@ export const metadata: Metadata = {
   description:
     "Pick a solution path for each problem and see the combined trade-offs, required changes, and conflicts.",
 }
-
-const POP_IDS = [
-  "residentPop2025",
-  "usBornCitizens",
-  "naturalizedCitizens",
-  "lawfulPermanentResidents",
-  "nonimmigrantResidents",
-  "unauthorizedHigh",
-  "unauthorizedLow",
-  "newLprArrivals",
-  "visitorArrivals",
-  "uninsuredToday",
-  "mandateRepealUninsured2027",
-  "tricareActiveFamilies",
-  "vaEnrolled",
-  "ihsServed",
-  "incarcerated",
-  "puertoRicoPop",
-  "otherTerritoriesPop",
-] as const
 
 export default function YourPlanPage() {
   const problems: BuilderProblem[] = PROBLEMS.map((p) => ({
@@ -62,20 +42,22 @@ export default function YourPlanPage() {
     requires: p.requires ?? [],
     conflicts: conflictsOf(p.id).map((x) => x.id),
     spawns: p.spawns ?? [],
+    scale: SCALE_RANK[p.scale],
+    scaleLabel: SCALE_LABEL[p.scale],
   }))
   return (
     <Page>
       <PageHeader
         eyebrow="Part 1 · Decisions"
         title="Build your plan"
-        lede="Pick one or more solution paths for each problem. The summary combines what they fix, what they create or worsen, who gains and who loses, the concrete changes they need, and any conflicts or new problems your picks create. Your picks stay in this browser."
+        lede="Pick one or more solution paths for each problem, including “Keep current law” where you'd change nothing. Bars show how much each path changes today's system. The summary combines what they fix, what they create or worsen, who gains and who loses, the concrete changes they need, and any conflicts or new problems your picks create. Your picks stay in this browser."
       />
       <PlanBuilder
         problems={problems}
         paths={paths}
         categories={PROBLEM_CATEGORIES.filter((c) => !SIDE_EFFECT_CATEGORIES.includes(c))}
-        draft={CHOSEN.map((p) => p.id)}
-        pop={Object.fromEntries(POP_IDS.map((id) => [id, v(id)])) as Pop}
+        presets={APPROACHES.map(({ id, title, picks }) => ({ id, title, picks }))}
+        pop={popFromConstants()}
       />
     </Page>
   )
