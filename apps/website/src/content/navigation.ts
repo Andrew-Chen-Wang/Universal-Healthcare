@@ -1,5 +1,6 @@
 import { costsForStep } from "./calculations"
 import { COST_CATEGORIES, INVENTORY } from "./cost-inventory"
+import { OPTIMIZATION_LENSES, OPTIMIZATIONS } from "./optimizations"
 import { PROBLEM_CATEGORIES, PROBLEMS } from "./problems"
 import { pathsFor } from "./paths"
 import { CHANGES } from "./changes"
@@ -158,6 +159,21 @@ export const SIDEBAR: SidePart[] = [
         ],
       },
     ],
+  },
+  {
+    id: "optimizations",
+    title: "Part 1 · Optimizations for any system",
+    href: "/optimizations",
+    groups: OPTIMIZATION_LENSES.filter((l) => OPTIMIZATIONS.some((o) => o.lens === l)).map((l) => ({
+      id: `o-${slug(l)}`,
+      title: l,
+      href: `/optimizations#${slug(l)}`,
+      items: OPTIMIZATIONS.filter((o) => o.lens === l).map((o) => ({
+        id: o.id,
+        label: o.title,
+        href: `/optimizations/${o.id}`,
+      })),
+    })),
   },
   {
     id: "costs",

@@ -4,6 +4,7 @@ import { B, Page, PageHeader, Sources, Usd } from "@website/components/site/ui"
 import { INVENTORY } from "@website/content/cost-inventory"
 import { CURRENT_LAW } from "@website/content/current-law"
 import { slug } from "@website/content/navigation"
+import { optimizationsFor } from "@website/content/optimizations"
 import { fixersOf, GROUP_BY_ID } from "@website/content/graph"
 import {
   alsoSolvedBy,
@@ -305,6 +306,25 @@ export default async function ProblemPage({ params }: { params: Params }) {
               </div>
             ))}
           </div>
+        </section>
+      )}
+
+      {optimizationsFor(p.id).length > 0 && (
+        <section className="mb-10">
+          <h2 className="mb-1 text-xl font-semibold">Optimizations that help in any system</h2>
+          <p className="mb-3 text-sm text-muted-foreground">
+            These work whichever path is chosen, including keeping current law.
+          </p>
+          <ul className="space-y-2">
+            {optimizationsFor(p.id).map((o) => (
+              <li key={o.id}>
+                <Link href={`/optimizations/${o.id}`} className="font-medium hover:underline">
+                  {o.title}
+                </Link>
+                <p className="text-sm text-foreground/75">{o.summary}</p>
+              </li>
+            ))}
+          </ul>
         </section>
       )}
 

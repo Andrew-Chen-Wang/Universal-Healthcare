@@ -136,6 +136,16 @@ export default function Home() {
         insurers, a universal multi-payer system, and the draft single-payer picks.
       </Callout>
 
+      <Callout title="Optimizations that work in any system">
+        Some ways to cut cost or improve care don&apos;t depend on who pays: running routine lab
+        tests at high volume, a virtual first step for routine problems, hospital care at home, and
+        care built into senior communities.{" "}
+        <Link href="/optimizations" className="underline">
+          See the optimizations
+        </Link>
+        , with the evidence for and against each.
+      </Callout>
+
       <Section title="Ground rules">
         <ol className="grid gap-3 sm:grid-cols-2">
           {[

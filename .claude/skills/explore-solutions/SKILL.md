@@ -40,18 +40,18 @@ For a spending target, or for "everything", break spending into
 Generate options for the target under **every** lens below, even ones that
 seem unlikely. Write "none found" with the reason rather than skipping a lens.
 
-| Lens | Questions |
-|---|---|
-| Financing | Who pays? Premiums, taxes, cost sharing, pooling. |
-| Prices | Who sets prices, at what level, for which payers? |
-| Rules & market structure | Regulation, antitrust, ownership, entry, transparency. |
+| Lens                      | Questions                                                                                                                                                                                                          |
+| ------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Financing                 | Who pays? Premiums, taxes, cost sharing, pooling.                                                                                                                                                                  |
+| Prices                    | Who sets prices, at what level, for which payers?                                                                                                                                                                  |
+| Rules & market structure  | Regulation, antitrust, ownership, entry, transparency.                                                                                                                                                             |
 | **Delivery & operations** | Site of care (home, pharmacy, clinic, hospital). Scale and industrialization: central labs, imaging reading centers, high-volume surgical centers (Narayana in India, Shouldice in Canada). Standardized pathways. |
-| **Access channel** | Virtual-first triage, asynchronous e-visits, phone lines (UK 111, Denmark 1813), online hospitals (China), in person only by referral or by type of care. |
-| Workforce | Task shifting (nurses, pharmacists, technicians, community health workers), scope of practice, training supply, team size. |
-| Technology & automation | Lab automation, AI reads, self-testing, remote monitoring, claims automation. |
-| Demand & behavior | Incentives for patients, defaults, prevention, low-value care. |
-| Information | Data sharing, price and quality reporting, records. |
-| Supply chain | Drugs, devices, purchasing at scale, domestic manufacturing. |
+| **Access channel**        | Virtual-first triage, asynchronous e-visits, phone lines (UK 111, Denmark 1813), online hospitals (China), in person only by referral or by type of care.                                                          |
+| Workforce                 | Task shifting (nurses, pharmacists, technicians, community health workers), scope of practice, training supply, team size.                                                                                         |
+| Technology & automation   | Lab automation, AI reads, self-testing, remote monitoring, claims automation.                                                                                                                                      |
+| Demand & behavior         | Incentives for patients, defaults, prevention, low-value care.                                                                                                                                                     |
+| Information               | Data sharing, price and quality reporting, records.                                                                                                                                                                |
+| Supply chain              | Drugs, devices, purchasing at scale, domestic manufacturing.                                                                                                                                                       |
 
 Then sweep **precedents** explicitly. For each option, check what these
 systems do: Canada, UK, Germany, France, Netherlands, Switzerland, Denmark,
@@ -76,7 +76,22 @@ For every option worth keeping:
 - Note the failure modes in the places that use it: crowding, overuse,
   very short consultations, quality problems, the groups that lose.
 
-## Step 4: Draft paths
+## Step 4: Draft paths or optimizations
+
+First decide where each option belongs:
+
+- **An optimization** (`content/optimizations.ts`, shown at `/optimizations`)
+  if it works whoever pays, under current law and under every reform: it
+  changes how care is produced or delivered, not who pays or who is covered.
+  Examples: high-volume labs, virtual-first triage, hospital at home. Give it
+  a lens, what it takes, evidence for and against, precedents, trade-offs,
+  how it works today and under reform, and the problems it helps. Add a size
+  only when sourced figures support one.
+- **A solution path** (below) if it takes a side on financing, coverage,
+  prices, or rules, so it fits on the scale from keeping current law to a
+  single payer.
+
+For a path:
 
 For each option that survives Step 3, draft a `path({...})` in the matching
 `content/paths/*.ts` file, following the existing paths:

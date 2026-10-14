@@ -374,6 +374,16 @@ export default function ApproachesPage() {
         })}
       </section>
 
+      <Callout title="Optimizations every approach can use">
+        Some changes work under any of these columns, including keeping current law: running routine
+        lab tests at high volume, a virtual first step for routine problems, hospital care at home,
+        and care built into senior communities. They aren&apos;t in the totals above.{" "}
+        <Link href="/optimizations" className="underline">
+          See the optimizations
+        </Link>
+        .
+      </Callout>
+
       <div className="flex flex-wrap items-center gap-2 text-sm text-muted-foreground">
         <span>Scale labels:</span>
         {SCALES.map((s) => (
