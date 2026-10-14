@@ -1,11 +1,11 @@
 "use client"
 
+import { useCurrentPath } from "@website/lib/use-current-path"
 import { cn } from "@website/lib/utils"
 import Link from "next/link"
-import { usePathname } from "next/navigation"
 
 export function SectionTabs({ tabs }: { tabs: { href: string; label: string }[] }) {
-  const pathname = usePathname()
+  const pathname = useCurrentPath()
   return (
     <div className="-mx-4 overflow-x-auto border-b border-rule px-4 sm:mx-0 sm:px-0">
       <nav className="flex min-w-max gap-1">

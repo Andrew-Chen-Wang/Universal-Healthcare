@@ -1,10 +1,10 @@
 "use client"
 
 import type { SideGroup, SideItem, SidePart } from "@website/content/navigation"
+import { useCurrentPath } from "@website/lib/use-current-path"
 import { cn } from "@website/lib/utils"
 import Image from "next/image"
 import Link from "next/link"
-import { usePathname } from "next/navigation"
 import { useEffect, useState } from "react"
 
 const isIn = (pathname: string, href: string) =>
@@ -138,7 +138,7 @@ const TOP_LINKS = [
 ]
 
 function Tree({ parts, onNavigate }: { parts: SidePart[]; onNavigate?: () => void }) {
-  const pathname = usePathname()
+  const pathname = useCurrentPath()
   return (
     <nav className="space-y-6">
       <ul className="space-y-0.5">
@@ -207,7 +207,7 @@ export function Sidebar({ parts }: { parts: SidePart[] }) {
 /** Mobile: a slim top bar; the menu is a full-screen drawer that only exists while open. */
 export function MobileNav({ parts }: { parts: SidePart[] }) {
   const [open, setOpen] = useState(false)
-  const pathname = usePathname()
+  const pathname = useCurrentPath()
   useEffect(() => {
     setOpen(false)
   }, [pathname])
