@@ -4,6 +4,15 @@
  * cause or fix something and see the result under that mix. Picks are shared
  * with /your-plan (see lib/picks.ts).
  */
+import { Button } from "@website/components/ui/button"
+import {
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@website/components/ui/sheet"
 import { usePicks } from "@website/lib/picks"
 import { cn } from "@website/lib/utils"
 import Link from "next/link"
@@ -191,37 +200,52 @@ export function GroupScenario({ label, rows }: { label: string; rows: GroupRow[]
           </div>
         </div>
       )}
-      <details className="mt-4">
-        <summary className="cursor-pointer text-sm font-medium">Mix and match paths</summary>
-        <div className="mt-2 space-y-4">
-          {rows.map((r) => (
-            <div key={r.problemId} className="border-l-2 border-rule pl-3">
-              <Link
-                href={`/problems/${r.problemId}`}
-                className="text-sm font-medium hover:underline"
-              >
-                {r.title}
-              </Link>
-              <Chips
-                label={
-                  r.kind === "hurts"
-                    ? "Hurt them (create or worsen it)"
-                    : "Help them (create or worsen it)"
-                }
-                paths={r.causers}
-                picks={s.picks}
-                toggle={s.toggle}
-              />
-              <Chips
-                label={r.kind === "hurts" ? "Help them (fix it)" : "Cost them (fix it)"}
-                paths={r.fixers}
-                picks={s.picks}
-                toggle={s.toggle}
-              />
-            </div>
-          ))}
-        </div>
-      </details>
+      <Sheet>
+        <SheetTrigger asChild>
+          <Button variant="outline" className="mt-4 h-11">
+            Mix and match paths
+          </Button>
+        </SheetTrigger>
+        <SheetContent className="flex w-full flex-col gap-0 p-0 sm:max-w-md">
+          <SheetHeader className="border-b border-rule p-4 pr-12 text-left">
+            <SheetTitle>Mix and match paths</SheetTitle>
+            <SheetDescription>
+              {`Toggle paths to see how ${label.toLowerCase()} fare. ${gains.length} gains, ${losses.length} losses under this mix.`}
+            </SheetDescription>
+          </SheetHeader>
+          <div className="flex-1 space-y-5 overflow-y-auto p-4">
+            {rows.map((r) => (
+              <div key={r.problemId} className="border-l-2 border-rule pl-3">
+                <Link
+                  href={`/problems/${r.problemId}`}
+                  className="text-sm font-medium hover:underline"
+                >
+                  {r.title}
+                </Link>
+                <Chips
+                  label={
+                    r.kind === "hurts"
+                      ? "Hurt them (create or worsen it)"
+                      : "Help them (create or worsen it)"
+                  }
+                  paths={r.causers}
+                  picks={s.picks}
+                  toggle={s.toggle}
+                />
+                <Chips
+                  label={r.kind === "hurts" ? "Help them (fix it)" : "Cost them (fix it)"}
+                  paths={r.fixers}
+                  picks={s.picks}
+                  toggle={s.toggle}
+                />
+              </div>
+            ))}
+          </div>
+          <div className="px-4 pb-[max(1rem,env(safe-area-inset-bottom))]">
+            <Footer s={s} />
+          </div>
+        </SheetContent>
+      </Sheet>
       <Footer s={s} />
     </section>
   )
