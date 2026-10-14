@@ -135,6 +135,17 @@ export const HY_DESIGN_DECISIONS: Decision[] = [
         pros: [{ point: "Familiar from the ACA." }],
         cons: [{ point: "Leaves many uninsured; penalties fall on low-income people." }],
       },
+      {
+        name: "Voluntary enrollment with bigger subsidies",
+        description: "Make coverage cheaper and leave signing up to people, as the ACA does today.",
+        pros: [{ point: "No default assignment or data matching." }],
+        cons: [
+          {
+            point:
+              "Many people never sign up; Urban's comparable reform covered only part of the uninsured.",
+          },
+        ],
+      },
     ],
     givesUp: ["Some choice: people are placed in a default plan until they switch."],
     sourceIds: ["auto-enrollment-commonwealth-fund-2026"],

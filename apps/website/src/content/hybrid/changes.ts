@@ -6,8 +6,9 @@
  */
 import { CHANGES, type Disposition, type SystemChange } from "../changes"
 import { show } from "../constants"
+import { H } from "./figures"
 
-type H = [
+type Row = [
   disposition: Disposition,
   when: string,
   stepId: string,
@@ -31,7 +32,7 @@ const LEFT_OUT = new Set([
 const KEEP = "continues"
 const MOD = "amended"
 
-const OVERRIDES: Record<string, H> = {
+const OVERRIDES: Record<string, Row> = {
   "medicare-a": [
     KEEP,
     "—",
@@ -44,7 +45,8 @@ const OVERRIDES: Record<string, H> = {
     "—",
     "medicare-fixes",
     "Continues; basic dental, glasses, and hearing aids added to match the standard benefit.",
-    "Adds Medicare spending not yet priced.",
+    `Adds federal spending, up to ${H.medicareDvh.replace("+", "")} a year by CBO's estimate of a broader benefit.`,
+    ["hy-medicare-dvh"],
   ],
   "medicare-c": [
     MOD,
@@ -52,6 +54,7 @@ const OVERRIDES: Record<string, H> = {
     "medicare-fixes",
     "Continues with risk-score and audit fixes.",
     "Plans may trim extra benefits as overpayments shrink.",
+    ["hy-ma-fix"],
   ],
   "medicare-d": [
     MOD,
