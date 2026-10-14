@@ -521,7 +521,13 @@ function CostPanel({ picks }: { picks: Set<string> }) {
           <CostStat
             label={cost.gap >= 0 ? "Still to fund (general revenue)" : "Surplus over named taxes"}
             value={fmt(Math.abs(cost.gap))}
-            sub="After the plan's payroll tax, household premium, and redirected spending"
+            sub={
+              cost.kind === "single-payer"
+                ? "After the plan's payroll tax, household premium, and redirected spending"
+                : cost.gap === undefined
+                  ? ""
+                  : "New federal cost minus the top-end taxes you picked"
+            }
             tone={cost.gap > 0 ? "loss" : "gain"}
           />
         )}
@@ -541,7 +547,9 @@ function CostPanel({ picks }: { picks: Set<string> }) {
         or privacy rules); their trade-offs are described, not priced.{" "}
         {cost.kind === "single-payer"
           ? "Coverage scope (immigrants, territories) is not yet reflected in the total."
-          : "Federal spending and taxes aren't split out for plans without a single payer: the total is what the country spends, whoever pays."}
+          : cost.noNewTaxBelow
+            ? `No household with income below $${cost.noNewTaxBelow.toLocaleString("en-US")} pays a new tax: the only new taxes are on income above it. The federal figure counts new subsidies and benefits; employers' and households' premium savings aren't in it.`
+            : "Pick how to pay for it (for example, a progressive income tax) to see the funding gap."}
       </p>
     </section>
   )

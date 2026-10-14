@@ -21,6 +21,7 @@ import {
   NHE_TOTAL_2024,
   POPULATION_2024_MILLIONS,
   SERVICES_2024,
+  SPONSOR_LINES_2024,
 } from "./baseline"
 import type { Payer, ServiceId } from "./baseline"
 import { DERIVED, v } from "./constants"
@@ -31,6 +32,8 @@ export type ReformLine = {
   label: string
   /** Change in national health spending, $B a year. */
   delta: number
+  /** Change in federal spending, $B a year. */
+  federal: number
   explanation: string
   sourceIds: string[]
 }
@@ -45,6 +48,16 @@ export type ReformCost = {
   perCapitaAfter: number
   /** Millions of people newly covered. */
   newlyCovered: number
+  /** Change in federal health spending, $B a year. */
+  federalDelta: number
+  /** Taxes the picks name to pay for it (top-end income taxes only, for now). */
+  funding?: { revenue: number; explanation: string; sourceIds: string[] }
+  /** Federal cost the named taxes don't cover; negative is a surplus. */
+  fundingGap?: number
+  /** Income below which no household pays a new tax, when that's how it's funded. */
+  noNewTaxBelow?: number
+  /** Picks that change spending but aren't priced yet. */
+  notPriced: { label: string; note: string }[]
 }
 
 /** Paths whose effect this model prices. */
@@ -86,6 +99,10 @@ const PRIVATE_BENEFITS = SERVICE_ASSUMPTIONS.reduce((s, a) => s + paid(a.id, "pr
 const PRIVATE_OVERHEAD = paid("netCostOfInsurance", "privateInsurance")
 const MEDICAID_BENEFITS = SERVICE_ASSUMPTIONS.reduce((s, a) => s + paid(a.id, "medicaid"), 0)
 const MEDICAID_OVERHEAD = paid("netCostOfInsurance", "medicaid")
+const sponsor = (id: string) => SPONSOR_LINES_2024.find((l) => l.id === id)!.amount
+/** Federal share of Medicaid spending (the rest is states'). */
+const FEDERAL_MEDICAID_SHARE =
+  sponsor("fedMedicaid") / (sponsor("fedMedicaid") + sponsor("slMedicaid"))
 
 /** Uninsured people the picks cover, in millions, with how that was worked out. */
 export function newlyCoveredFor(picks: Set<string>) {
@@ -106,6 +123,9 @@ export function reformCost(picks: Set<string>): ReformCost {
   const lines: ReformLine[] = []
   /** Change in private insurers' benefit payments, which their overhead follows. */
   let privateChange = 0
+  /** Federal share of a change in Medicare and Medicaid spending. */
+  const publicShare = (payer: string, change: number) =>
+    payer === "medicare" ? change : payer === "medicaid" ? change * FEDERAL_MEDICAID_SHARE : 0
 
   // 1. Coverage
   const cov = newlyCoveredFor(picks)
@@ -116,6 +136,7 @@ export function reformCost(picks: Set<string>): ReformCost {
     const overheadRate =
       (PRIVATE_OVERHEAD + MEDICAID_OVERHEAD) / (PRIVATE_BENEFITS + MEDICAID_BENEFITS)
     const delta = extraCare * (1 + overheadRate)
+    const premium = ((cov.count * spendToday * (1 + lift)) / 1000) * (1 + overheadRate)
     const who = cov.automatic
       ? "Everyone eligible is enrolled automatically"
       : `Enrollment is voluntary, so we use the share of the uninsured that Urban's Reform 2 (bigger subsidies and a mandate) covered: ${pct(cov.share)}`
@@ -126,7 +147,8 @@ export function reformCost(picks: Set<string>): ReformCost {
       id: "coverage",
       label: "Care for the newly covered",
       delta,
-      explanation: `${who}: ${cov.count.toFixed(1)} of ${v("uninsuredToday")} million uninsured people. ${immigrants} Someone uninsured all year used ${usd(v("uninsuredSpend2013"))} of care in 2013, against ${usd(v("insuredSpend2013"))} for someone insured; grown with spending per person to 2024, that is ${usd(spendToday)}. Public-plan coverage raises it by ${pct(lift)} (Hadley & Holahan), ${usd(spendToday * lift)} a person, so ${fmt(extraCare)} more care, plus ${pct(overheadRate)} for the plans' overhead (private and Medicaid managed care today).`,
+      federal: premium,
+      explanation: `${who}: ${cov.count.toFixed(1)} of ${v("uninsuredToday")} million uninsured people. ${immigrants} Someone uninsured all year used ${usd(v("uninsuredSpend2013"))} of care in 2013, against ${usd(v("insuredSpend2013"))} for someone insured; grown with spending per person to 2024, that is ${usd(spendToday)}. Public-plan coverage raises it by ${pct(lift)} (Hadley & Holahan), ${usd(spendToday * lift)} a person, so ${fmt(extraCare)} more care, plus ${pct(overheadRate)} for the plans' overhead (private and Medicaid managed care today). Federal cost: the whole premium for everyone newly covered, ${fmt(premium)}, an upper bound, since income-based premiums pay part of it.`,
       sourceIds: [
         "census-p60-291",
         "kff-uncompensated-2013",
@@ -141,11 +163,13 @@ export function reformCost(picks: Set<string>): ReformCost {
   // 2. Provider prices
   if (RATE_SETTING.some(has)) {
     let delta = 0
+    let federal = 0
     for (const id of PROVIDER_SERVICES) {
       const a = assumption(id)
       for (const p of PRICED_PAYERS) {
         const change = paid(id, p) * (a.uhpRate / a.relativePrice[p] - 1)
         delta += change
+        federal += publicShare(p, change)
         if (p === "privateInsurance") privateChange += change
       }
     }
@@ -153,6 +177,7 @@ export function reformCost(picks: Set<string>): ReformCost {
       id: "providerPrices",
       label: "One rate for every payer",
       delta,
+      federal,
       explanation: `Every payer pays the single-payer model's rates for hospitals (${pct(assumption("hospital").uhpRate)} of Medicare), physicians (${pct(assumption("physicianClinical").uhpRate)}), and other professionals (${pct(assumption("otherProfessional").uhpRate)}). Private insurers' prices fall; Medicare's rise slightly and Medicaid's rise to match.`,
       sourceIds: ["rand-hospital-2024", "medpac-2025"],
     })
@@ -174,6 +199,7 @@ export function reformCost(picks: Set<string>): ReformCost {
       id: "providerPrices",
       label: "Cap on commercial prices",
       delta,
+      federal: 0,
       explanation: `Commercial prices capped at ${pct(cap)} of Medicare. Only prices above the cap fall (${parts.join("; ") || "none on average"}). Using the average price understates the savings, since hospitals above the cap lose more than the average suggests.`,
       sourceIds: ["rand-hospital-2024"],
     })
@@ -184,17 +210,20 @@ export function reformCost(picks: Set<string>): ReformCost {
     const a = assumption("prescriptionDrugs")
     const rate = DERIVED.drugRate
     let delta = 0
+    let federal = 0
     for (const p of PRICED_PAYERS) {
       const rel = a.relativePrice[p]
       if (rel <= rate) continue
       const change = paid("prescriptionDrugs", p) * (rate / rel - 1)
       delta += change
+      federal += publicShare(p, change)
       if (p === "privateInsurance") privateChange += change
     }
     lines.push({
       id: "drugPrices",
       label: "Negotiated drug prices for every payer",
       delta,
+      federal,
       explanation: `Every payer pays the single-payer model's negotiated price, ${pct(rate)} of today's Medicare net price (brand drugs ${pct(v("brandShareOfRetailRx"))} of spending, cut ${pct(v("brandPriceCut"))}). Medicaid already pays less through its rebates and keeps its price. No change in use, since copays stay.`,
       sourceIds: ["rand-drugs-2024", "cms-negotiation"],
     })
@@ -214,6 +243,7 @@ export function reformCost(picks: Set<string>): ReformCost {
       id,
       label,
       delta: care + admin,
+      federal: newPublic + admin,
       explanation: `A public benefit for ${results.map((r) => r.label.toLowerCase()).join(", ")}, at the single-payer model's rates and use: price effect ${fmt(
         results.reduce((s, r) => s + r.priceEffect, 0),
         { sign: true },
@@ -253,6 +283,7 @@ export function reformCost(picks: Set<string>): ReformCost {
       id: "overhead",
       label: "Private insurer overhead",
       delta: overheadAfter - PRIVATE_OVERHEAD,
+      federal: 0,
       explanation: capped
         ? `Non-profit plans held to Swiss administrative costs, ${pct(v("swissAdminShare"))} of premiums (${pct(ratioAfter)} of benefits), against ${pct(ratioToday)} today, on ${fmt(PRIVATE_BENEFITS + privateChange)} of private benefits.`
         : `Overhead stays ${pct(ratioToday)} of private benefits, which change by ${fmt(privateChange, { sign: true })}.`,
@@ -267,12 +298,38 @@ export function reformCost(picks: Set<string>): ReformCost {
       id: "workforce",
       label: "Workforce capacity investment",
       delta: ASSUMPTIONS.workforceInvestment.value,
+      federal: ASSUMPTIONS.workforceInvestment.value,
       explanation: ASSUMPTIONS.workforceInvestment.rationale,
       sourceIds: ASSUMPTIONS.workforceInvestment.sourceIds,
     })
 
   const delta = lines.reduce((s, l) => s + l.delta, 0)
   const nationalAfter = NHE_TOTAL_2024 + delta
+  const federalDelta = lines.reduce((s, l) => s + l.federal, 0)
+
+  // Funding: top-end income taxes only, so no household below the surtax line pays more.
+  const funding = has("tax-income")
+    ? {
+        revenue: DERIVED.surtaxRevenue + v("capGainsRevenue"),
+        explanation: `A ${pct(v("surtaxRate"))} surtax on income above ${usd(v("surtaxThreshold"))} (${fmt(DERIVED.surtaxRevenue)}) and taxing capital gains and dividends as ordinary income above ${usd(v("surtaxThreshold"))} (${fmt(v("capGainsRevenue"))}). No household below ${usd(v("surtaxThreshold"))} of income pays a new tax.`,
+        sourceIds: ["tpc-surtax", "jct-capital-gains"],
+      }
+    : undefined
+
+  const notPriced: ReformCost["notPriced"] = []
+  if (has("dental-basic") && !DENTAL.some(has))
+    notPriced.push({
+      label: "Basic dental, glasses, and hearing aids",
+      note: "In every plan's standard benefit, paid through premiums; not yet priced.",
+    })
+  if (has("ma-reform"))
+    notPriced.push({
+      label: "Medicare Advantage payment fixes",
+      note: "Would lower federal spending; not yet priced.",
+    })
+  if (has("underins-income-cap"))
+    notPriced.push({ label: "Income-based caps on cost sharing", note: "Not yet priced." })
+
   return {
     lines,
     nationalBefore: NHE_TOTAL_2024,
@@ -282,5 +339,10 @@ export function reformCost(picks: Set<string>): ReformCost {
     perCapitaBefore: (NHE_TOTAL_2024 * 1000) / POPULATION_2024_MILLIONS,
     perCapitaAfter: (nationalAfter * 1000) / POPULATION_2024_MILLIONS,
     newlyCovered: cov.count,
+    federalDelta,
+    funding,
+    fundingGap: funding ? federalDelta - funding.revenue : undefined,
+    noNewTaxBelow: funding ? v("surtaxThreshold") : undefined,
+    notPriced,
   }
 }

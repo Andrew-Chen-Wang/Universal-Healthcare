@@ -1,4 +1,5 @@
 import { SectionTabs } from "@website/components/site/section-tabs"
+import { SinglePayerPlanNotice } from "@website/components/site/ui"
 import { sectionsForStep, SECTION_LABELS, stepHref } from "@website/content/navigation"
 import { type StepParams, loadStep } from "@website/lib/plan/step"
 import Link from "next/link"
@@ -40,6 +41,7 @@ export default async function StepLayout({
           </a>
         </div>
       </header>
+      <SinglePayerPlanNotice />
       <SectionTabs tabs={tabs} />
       <div className="mt-8">{children}</div>
       <nav className="mt-16 grid gap-3 border-t border-rule pt-6 sm:grid-cols-2">

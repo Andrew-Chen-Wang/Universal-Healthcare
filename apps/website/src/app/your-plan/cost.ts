@@ -4,7 +4,7 @@
  * costly and lean cases (SCENARIOS) or an assumption's documented range, so
  * nothing here introduces a new number.
  */
-import { ASSUMPTIONS, fmt, runModel, SCENARIOS, type Scenario } from "@website/content/model"
+import { ASSUMPTIONS, fmt, MODEL, runModel, SCENARIOS, type Scenario } from "@website/content/model"
 import { REFORM_PRICED_PATHS, reformCost } from "@website/content/reform-model"
 
 const COSTLY = SCENARIOS.find((s) => s.id === "costly")!
@@ -43,6 +43,8 @@ export type PlanCost = {
   federalBefore?: number
   federalAfter?: number
   gap?: number
+  /** Reform model: income below which no household pays a new tax. */
+  noNewTaxBelow?: number
 }
 
 /** Picks without a single payer: priced line by line on top of today's system. */
@@ -50,17 +52,37 @@ function reformCostFor(picks: Set<string>): PlanCost {
   const r = reformCost(picks)
   return {
     kind: "reform",
-    rules: r.lines.map((l) => ({
-      label: `${l.label} (${fmt(l.delta, { sign: true })})`,
-      effect: l.explanation,
-      central: true,
-    })),
+    rules: [
+      ...r.lines.map((l) => ({
+        label: `${l.label} (${fmt(l.delta, { sign: true })})`,
+        effect: l.explanation,
+        central: true,
+      })),
+      ...(r.funding
+        ? [
+            {
+              label: `Paid for by top-end taxes (${fmt(r.funding.revenue)})`,
+              effect: r.funding.explanation,
+              central: true,
+            },
+          ]
+        : []),
+      ...r.notPriced.map((n) => ({
+        label: `${n.label} (not priced)`,
+        effect: n.note,
+        central: false,
+      })),
+    ],
     nationalBefore: r.nationalBefore,
     nationalAfter: r.nationalAfter,
     delta: r.delta,
     deltaPct: r.deltaPct,
     perCapitaBefore: r.perCapitaBefore,
     perCapitaAfter: r.perCapitaAfter,
+    federalBefore: MODEL.headline.federalBefore,
+    federalAfter: MODEL.headline.federalBefore + r.federalDelta,
+    gap: r.fundingGap,
+    noNewTaxBelow: r.noNewTaxBelow,
   }
 }
 

@@ -2132,6 +2132,14 @@ export const SOURCES: Source[] = [
     note: "Ended early after three years because too few interventions were delivered: 70 of 185 ambulance participants delivered any; under 1% of an active participant's Medicare transports; 3,161 treatments in place and 257 alternative-destination transports. Patients often declined; partners were hard to recruit.",
   },
   {
+    id: "irs-employer-mandate",
+    title: "Employer shared responsibility provisions (IRC §4980H)",
+    org: "Internal Revenue Service",
+    year: 2025,
+    url: "https://www.irs.gov/affordable-care-act/employers/employer-shared-responsibility-provisions",
+    note: "Applicable large employers, with an average of at least 50 full-time (including full-time-equivalent) employees in the prior year, owe a payment if they don't offer affordable minimum-value coverage to full-time workers and a worker gets a premium tax credit.",
+  },
+  {
     id: "kff-uncompensated-2013",
     title: "Uncompensated Care for the Uninsured in 2013: A Detailed Examination",
     org: "KFF (Coughlin, Holahan, Caswell, McGrath)",

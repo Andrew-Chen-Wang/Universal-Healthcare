@@ -70,6 +70,10 @@ into the website and are not deployed.
   validates every link at build time. Status stays `"open"` until the owner decides;
   only chosen paths get folded into Part 2. Routes: `/problems/[id]`, `/paths`
   (decision tree), `/paths/[id]`.
+- Draft decisions live in `content/paths/decisions.ts`: `SINGLE_PAYER_ROWS` (the first
+  draft, kept as a path to compare via `SINGLE_PAYER_PICKS`) with `HYBRID_ROWS` (the current
+  Germany-style hybrid draft) layered on top. Part 2 (`content/plan/`) still describes the
+  single-payer path until it is rewritten.
 - Optimizations that work in any system (whoever pays: labs, virtual-first, hospital at
   home) live in `content/optimizations.ts`, outside the problem → path tree, with evidence
   for and against. Routes: `/optimizations`, `/optimizations/[id]`.

@@ -4,10 +4,16 @@
  * unreviewed until the owner sets `reviewed: true`. The ledger page
  * (/paths/ledger) lists them in review order.
  *
- * Picks follow the draft model already on the site: one public payer, no cost
- * sharing for covered care, a mix of employer payroll tax and income tax, and
- * a phased roll-out in waves.
+ * Two drafts live here. SINGLE_PAYER_ROWS is the first draft: one public
+ * payer, no cost sharing, a mix of employer payroll tax and income tax, rolled
+ * out in waves. It stays as a complete path to compare (SINGLE_PAYER_PICKS,
+ * shown on /approaches). HYBRID_ROWS is the current draft, a Germany-style
+ * hybrid the owner asked for: employer plans stay (with a mandate for large
+ * employers), everyone else is enrolled in regulated non-profit plans with
+ * income-based premiums, and new federal costs are paid only by top-end
+ * taxes. Hybrid rows replace single-payer rows for the same path.
  */
+import { show } from "../constants"
 import { PHASES } from "../plan"
 // TEMPORARY: written by the /paths/review page. Fold into ROWS, then delete.
 import OVERRIDES from "./review-overrides.json"
@@ -64,7 +70,7 @@ const r = (id: string, conf: Confidence, reason: string, review?: string): Row =
   review,
 ]
 
-const ROWS: Row[] = [
+const SINGLE_PAYER_ROWS: Row[] = [
   // ---- Who pays ----
   c(
     "single-payer",
@@ -603,6 +609,216 @@ const ROWS: Row[] = [
     "Locks in historical differences between states.",
   ),
 ]
+
+/**
+ * The current draft: a Germany-style hybrid. Owner's requirements: specialist
+ * waits barely move for people with employer coverage, no household under
+ * the break-even floor (constants.ts) pays more, and basic dental in every
+ * plan with long-term care left for later.
+ */
+const HYBRID_ROWS: Row[] = [
+  // ---- Who pays and who is covered ----
+  r(
+    "single-payer",
+    "medium",
+    "Kept as a separate path to compare (Single payer column on /approaches), not in the current draft: the owner judged it too hard to enact, and it ends the employer plans whose higher payments keep their waits short.",
+    "The earlier draft. Its picks are saved in full as SINGLE_PAYER_PICKS.",
+  ),
+  c(
+    "regulated-multipayer",
+    "build",
+    "medium",
+    "Germany-style: everyone without employer coverage, Medicare, or Medicaid joins a non-profit plan that must take everyone at standard benefits.",
+    "The new core of the draft. Check plan-market rules: standard benefit, risk adjustment, and how many plans each region needs.",
+  ),
+  c(
+    "employer-mandate-50",
+    "groundwork",
+    "high",
+    `Employers with ${show("employerMandateThreshold")}+ workers keep offering coverage, so their workers keep their plans, doctors, and payment rates; that's what keeps their specialist waits from moving.`,
+  ),
+  c(
+    "joblock-portable-esi",
+    "build",
+    "medium",
+    "Employer plans stay, so make them portable for job changers; a regulated plan is always available as well.",
+  ),
+  r("joblock-decouple", "medium", "Requires single payer; employer plans stay in the hybrid."),
+  r("churn-portable", "medium", "Requires single payer; continuous eligibility handles churn."),
+  c(
+    "premium-income-based",
+    "build",
+    "high",
+    "People in the regulated plans pay a share of income, capped, with subsidies covering the rest, as in Germany and the ACA.",
+  ),
+  r(
+    "premium-to-tax",
+    "medium",
+    "Premiums stay in a multi-payer system; they become income-based instead.",
+  ),
+  c(
+    "tax-income",
+    "build",
+    "high",
+    `New federal costs are paid by the surtax on income over ${show("surtaxThreshold")} and by taxing capital gains as ordinary income above it, so no household under ${show("breakEvenFloor")} pays a new tax.`,
+    `The owner's break-even rule: nobody under ${show("breakEvenFloor")} of income pays more. Check the funding gap on /approaches.`,
+  ),
+  r(
+    "tax-mix",
+    "high",
+    `No new payroll tax or broad income tax: the owner's ${show("breakEvenFloor")} break-even rules them out.`,
+  ),
+  r(
+    "tax-payroll",
+    "high",
+    `A payroll tax would fall on households under ${show("breakEvenFloor")}.`,
+  ),
+  c(
+    "wage-no-employer",
+    "build",
+    "medium",
+    "No new employer tax: employers keep paying for their own plans; households in the regulated plans pay income-based premiums.",
+  ),
+  r("wage-small-exempt", "medium", "There is no new employer tax to phase in."),
+  // ---- Benefits and cost sharing ----
+  c(
+    "underins-income-cap",
+    "build",
+    "medium",
+    "Modest copays with an annual cap tied to income, in every plan including employer plans.",
+  ),
+  r(
+    "underins-zero",
+    "medium",
+    "Zero cost sharing across many payers would raise premiums for employer plans.",
+  ),
+  r("debt-end-billing", "medium", "Requires zero cost sharing."),
+  c("copay-flat-small", "build", "medium", "Copays stay flat and small, so bills stay simple."),
+  r("copay-none", "medium", "Copays stay, with an income-based cap."),
+  c(
+    "networks-adequacy",
+    "build",
+    "high",
+    "Plans keep networks, held to adequacy standards and accurate directories.",
+  ),
+  r("networks-any-provider", "medium", "Requires one payer for every provider."),
+  c(
+    "dental-basic",
+    "wave-one",
+    "medium",
+    "The owner's pick: preventive and basic dental, glasses, and hearing aids in every plan's standard benefit, paid through premiums as in Germany.",
+  ),
+  r(
+    "dental-full",
+    "medium",
+    "Full public dental, vision, and hearing costs too much to fund from top-end taxes.",
+  ),
+  c(
+    "keep-ltc-spend-down",
+    "stabilize",
+    "medium",
+    "The owner's pick: long-term care stays as today (Medicare post-acute care, Medicaid after spend-down) for now; a later phase decides how to fund it.",
+    `Revisit: Germany funds long-term care with its own payroll contribution, which would break the ${show("breakEvenFloor")} rule.`,
+  ),
+  r("ltc-social-insurance", "medium", "Left for later: it needs its own funding decision."),
+  r("ltc-medicaid-expand", "medium", "Left for later with the rest of long-term care."),
+  r("woodwork-assessment", "medium", "Only needed with a new long-term care benefit."),
+  r("woodwork-cash", "medium", "Only needed with a new long-term care benefit."),
+  // ---- Prices and payment: employer plans keep their payment edge ----
+  r(
+    "all-payer-rates",
+    "medium",
+    "One rate for every payer would end employer plans' payment edge, which is what keeps their specialist waits short.",
+  ),
+  r("global-budgets", "medium", "Hospitals keep being paid per service by many payers."),
+  r("fee-for-service-fixed", "medium", "Requires one national fee schedule."),
+  r("consolidation-rates", "medium", "Requires all-payer rates."),
+  r("pe-rates", "medium", "Requires all-payer rates."),
+  r("exec-budget-review", "medium", "Requires global budgets."),
+  r("rural-global-budget", "medium", "Requires global budgets."),
+  r("transport-public-ems", "medium", "Requires global budgets."),
+  r("disparities-uniform", "medium", "Requires all-payer rates."),
+  r(
+    "opacity-fixed-prices",
+    "medium",
+    "Prices still differ by plan; disclosure rules apply instead.",
+  ),
+  r(
+    "surprise-single-payer",
+    "medium",
+    "Requires single payer; the default out-of-network rate applies instead.",
+  ),
+  // ---- Insurers and administration ----
+  c(
+    "overhead-mlr",
+    "build",
+    "medium",
+    "Non-profit plans held to tight administrative-cost limits, as in Switzerland.",
+  ),
+  r("overhead-public", "medium", "There is no single public administrator."),
+  r(
+    "admin-one-claims",
+    "medium",
+    "Many plans remain; standard claims and data rules apply instead.",
+  ),
+  r(
+    "burnout-simplify",
+    "medium",
+    "Requires single payer; scribes and standard claims help instead.",
+  ),
+  r(
+    "denials-coverage-rules",
+    "medium",
+    "Requires single payer; denial rules apply to every plan instead.",
+  ),
+  r("ma-fold", "medium", "Medicare Advantage stays, with payment fixes."),
+  // ---- Risks of the transition ----
+  c(
+    "twotier-allow",
+    "build",
+    "medium",
+    "The hybrid is two-tier by design: employer plans pay more and their members get seen sooner, as private patients do in Germany.",
+    "The trade-off for the owner's wait-time goal: people in the regulated plans will wait longer than people with employer plans. Capacity investment narrows the gap.",
+  ),
+  r("twotier-supplemental", "medium", "Employer plans are full coverage, not only extras."),
+  c(
+    "capital-in-rates",
+    "build",
+    "medium",
+    "Hospitals keep funding buildings and equipment through payment rates, as today.",
+  ),
+  r("capital-separate", "medium", "Requires a public capital budget."),
+  r("budget-volume-adjust", "medium", "No global budgets in the hybrid."),
+  r("budget-mixed", "medium", "No global budgets in the hybrid."),
+  r("budget-guarantee", "medium", "No global budgets in the hybrid."),
+  r(
+    "underfunding-trust-fund",
+    "medium",
+    "Premiums fund the plans; only subsidies come from taxes.",
+  ),
+  r("waits-activity-pay", "medium", "Providers are already paid per service."),
+  r("exit-opt-out-rules", "medium", "Practices can keep taking any plan or none, as today."),
+  r("exit-workforce-buffer", "medium", "Requires one claims system."),
+  r("fraudconc-regional", "medium", "No single administrator to split into regions."),
+  r(
+    "choice-accountability",
+    "medium",
+    "Plan choice stays, so no single payer to hold to standards.",
+  ),
+  r("choice-supplemental", "medium", "Plan choice stays."),
+  r("choice-regional-plans", "medium", "Plan choice stays."),
+  r("state-administer", "medium", "No single payer for states to run."),
+  r("state-moe", "medium", "Medicaid stays, so states keep funding it as today."),
+]
+
+const merged = new Map<string, Row>()
+for (const row of [...SINGLE_PAYER_ROWS, ...HYBRID_ROWS]) merged.set(row[0], row)
+const ROWS: Row[] = [...merged.values()]
+
+/** The earlier single-payer draft, kept as its own path to compare. */
+export const SINGLE_PAYER_PICKS: string[] = SINGLE_PAYER_ROWS.filter((r) => r[1] === "chosen").map(
+  (r) => r[0],
+)
 
 /** Draft decisions as written above, before owner edits. */
 export const DRAFT_DECISIONS: Decision[] = ROWS.map(

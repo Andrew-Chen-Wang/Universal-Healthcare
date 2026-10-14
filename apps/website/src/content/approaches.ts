@@ -12,6 +12,7 @@
  * answer an open question (which tax, whether to allow private insurance),
  * take just one, since the answers are alternatives.
  */
+import { show } from "./constants"
 import { effectsOf, impactsOf } from "./graph"
 import {
   CHOSEN,
@@ -19,6 +20,7 @@ import {
   PATH_BY_ID,
   pathsFor,
   type Scale,
+  SINGLE_PAYER_PICKS,
   SCALE_RANK,
   type SolutionPath,
   TODAY_CATEGORIES,
@@ -148,17 +150,30 @@ export const APPROACHES: Approach[] = [
     },
   },
   {
-    id: "draft",
-    title: "The site's draft picks",
+    id: "single-payer",
+    title: "Single payer (earlier draft)",
     summary:
-      "One public payer for everyone, with no cost sharing, financed by payroll and income taxes. Claude made these picks for the owner to review; none is final.",
-    rule: "The draft decisions in the review ledger.",
-    picks: CHOSEN.map((p) => p.id),
+      "One public payer for everyone, with no cost sharing, financed by payroll and income taxes. This was the site's first draft; it stays as a complete path to compare.",
+    rule: "The single-payer draft decisions, saved in full.",
+    picks: SINGLE_PAYER_PICKS,
     estimate: {
       key: "R8",
       option: "Reform 8: single payer with broad benefits and no cost sharing",
       match:
         "Close: everyone covered, no cost sharing, dental, vision, hearing, and long-term care. It pays hospitals 115% of Medicare rates and other providers Medicare rates. Its result differs sharply from the site's own model; the cost ledger shows the site's assumptions.",
+    },
+  },
+  {
+    id: "draft",
+    title: "The site's draft: Germany-style hybrid",
+    summary: `Employer plans stay, and employers with ${show("employerMandateThreshold")}+ workers must keep offering them. Everyone else is enrolled automatically in non-profit plans with income-based premiums. Basic dental is in every plan; long-term care is left for later. New federal costs are paid only by taxes on income over ${show("surtaxThreshold")}. Claude made these picks to the owner's requirements; none is final.`,
+    rule: "The draft decisions in the review ledger.",
+    picks: CHOSEN.map((p) => p.id),
+    estimate: {
+      key: "R6",
+      option: "Reform 6: a public option with automatic enrollment and larger subsidies",
+      match:
+        "The nearest priced design: universal coverage through private and public plans, with employer plans, Medicaid, and Medicare kept. We found no published U.S. estimate of a Germany-style system.",
     },
   },
 ]

@@ -1,4 +1,4 @@
-import { Callout, Page, PageHeader } from "@website/components/site/ui"
+import { Callout, Page, PageHeader, SinglePayerPlanNotice } from "@website/components/site/ui"
 import { costsForStep } from "@website/content/calculations"
 import { NAV } from "@website/content/navigation"
 import { PHASES } from "@website/content/plan"
@@ -15,6 +15,7 @@ export default function ChangesPage() {
         title="Changes by phase"
         lede="Every change to the system, grouped into phases. Each change has its tasks, design choices and alternatives, costs with calculations, trade-offs, risks, the existing laws and institutions it affects, and comparisons with other countries. Political feasibility is deliberately set aside."
       />
+      <SinglePayerPlanNotice />
       <Callout tone="caution" title="Draft">
         The steps below are the detailed build-out of the plan. The full list of concrete changes
         from every chosen solution path is on{" "}

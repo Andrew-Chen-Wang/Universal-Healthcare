@@ -333,6 +333,46 @@ export const COVERAGE_PATHS = [
     ],
   }),
   path({
+    id: "employer-mandate-50",
+    problemId: "uninsured",
+    title: `Keep the employer mandate for firms with ${show("employerMandateThreshold")}+ workers`,
+    summary: `Employers with ${show("employerMandateThreshold")} or more full-time workers must keep offering coverage that meets the standard benefit, as under the ACA. Their workers keep their plans, doctors, and payment rates; everyone else is enrolled in the regulated plans.`,
+    precedents: [
+      {
+        place: "U.S. ACA (since 2015)",
+        note: `Employers with an average of at least ${show("employerMandateThreshold")} full-time workers owe a payment if they don't offer affordable coverage and a worker gets a premium tax credit.`,
+        sourceIds: ["irs-employer-mandate"],
+      },
+      {
+        place: "Germany",
+        note: "Employers pay half of their workers' sickness-fund contributions; people above an income threshold can choose private insurance instead.",
+      },
+    ],
+    how: {
+      uninsured: {
+        note: "Keeps the largest source of coverage in place, so the new plans only have to cover people without it.",
+        helps: ["employer-covered"],
+      },
+      "transition-disruption": {
+        note: "Most people with job-based coverage see no change in their plan or their doctors.",
+        helps: ["employer-covered"],
+      },
+      "admin-cost": { note: "Keeps thousands of employer plans and their billing rules." },
+      "t-reduced-flexibility": {
+        note: "Employers near 50 workers face a cost cliff, as they do today.",
+        hurts: ["employers"],
+      },
+    },
+    solves: ["transition-disruption"],
+    worsens: ["admin-cost", "t-reduced-flexibility"],
+    complements: ["regulated-multipayer", "auto-enrollment", "joblock-portable-esi"],
+    conflicts: ["single-payer"],
+    changes: [
+      `Keep the employer shared-responsibility requirement (IRC §4980H) for employers with ${show("employerMandateThreshold")}+ full-time workers`,
+      "Require employer plans to cover at least the standard benefit",
+    ],
+  }),
+  path({
     id: "mandate-subsidies",
     problemId: "uninsured",
     title: "Individual mandate with larger subsidies",

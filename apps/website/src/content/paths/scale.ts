@@ -43,6 +43,7 @@ export const PATH_SCALE: Record<string, Scale> = {
   "public-option": "moderate",
   "medicare-age-down": "major",
   "auto-enrollment": "moderate",
+  "employer-mandate-50": "minor",
   "mandate-subsidies": "minor",
   "churn-continuous": "minor",
   "churn-portable": "major",

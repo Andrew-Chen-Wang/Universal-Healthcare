@@ -133,7 +133,8 @@ export default function Home() {
           Compare approaches
         </Link>{" "}
         side by side: keep current law, minor changes, bigger changes that keep today&apos;s
-        insurers, a universal multi-payer system, and the draft single-payer picks.
+        insurers, a universal multi-payer system, single payer, and the current draft: a
+        Germany-style hybrid that keeps employer plans.
       </Callout>
 
       <Callout title="Optimizations that work in any system">

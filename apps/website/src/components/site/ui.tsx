@@ -338,3 +338,17 @@ export function NextLinks({ links }: { links: { href: string; label: string }[] 
     </div>
   )
 }
+
+/** Part 2 still describes the earlier single-payer draft until it's rewritten for the hybrid. */
+export function SinglePayerPlanNotice() {
+  return (
+    <Callout tone="caution" title="This plan describes the single-payer path">
+      The current draft is a Germany-style hybrid that keeps employer plans; this phased plan still
+      describes the earlier single-payer draft and is being rewritten. Compare both on{" "}
+      <Link href="/approaches" className="underline">
+        Compare approaches
+      </Link>
+      .
+    </Callout>
+  )
+}
