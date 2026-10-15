@@ -18,13 +18,13 @@
     "db-codegen": "kysely-codegen --config-file ./.config/.kysely-codegenrc.ts"
   },
   "dependencies": {
-    "dotenv": "^17.4.2",
+    "dotenv": "^18.0.8",
     "kysely": "catalog:",
-    "pg": "^8.21.0"
+    "pg": "^8.23.1"
   },
   "devDependencies": {
     "@types/node": "catalog:",
-    "@types/pg": "^8.20.0",
+    "@types/pg": "^8.23.1",
     "kysely-codegen": "^0.20.0"
   },
   "config": {

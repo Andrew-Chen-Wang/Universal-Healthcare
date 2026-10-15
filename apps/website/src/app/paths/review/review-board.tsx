@@ -347,7 +347,7 @@ export function ReviewBoard({
                           status: s === r.status ? undefined : s,
                           phase:
                             s === "chosen" && !r.phase && !edits[r.id]?.phase
-                              ? (phases[1]?.id as Override["phase"])
+                              ? phases[1]?.id
                               : s === "rejected"
                                 ? undefined
                                 : edits[r.id]?.phase,
@@ -373,10 +373,7 @@ export function ReviewBoard({
                     disabled={!canSave}
                     onChange={(e) => {
                       update(r.id, {
-                        phase:
-                          e.target.value === r.phase
-                            ? undefined
-                            : (e.target.value as Override["phase"]),
+                        phase: e.target.value === r.phase ? undefined : e.target.value,
                       })
                     }}
                     className="min-h-10 rounded-md border border-rule bg-card px-2 text-sm"

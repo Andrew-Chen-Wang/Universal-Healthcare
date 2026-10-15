@@ -19,17 +19,17 @@
     "generate-specs": "tsx src/index.ts --openapi > openapi.json"
   },
   "dependencies": {
-    "@hono/node-server": "^2.0.3",
+    "@hono/node-server": "^2.1.5",
     "@lib/dao": "workspace:*",
     "@oslojs/crypto": "catalog:",
     "@oslojs/encoding": "catalog:",
-    "@scalar/hono-api-reference": "^0.10.16",
+    "@scalar/hono-api-reference": "^0.12.12",
     "@universal/db": "workspace:*",
     "@utils/numbers": "workspace:*",
-    "hono": "^4.12.21",
-    "hono-typebox-openapi": "^0.0.5",
+    "hono": "^4.13.13",
+    "hono-typebox-openapi": "^0.2.1",
     "kysely": "catalog:",
-    "typebox": "^1.1.38",
+    "typebox": "^1.3.37",
     "uuid": "catalog:"
   },
   "devDependencies": {
