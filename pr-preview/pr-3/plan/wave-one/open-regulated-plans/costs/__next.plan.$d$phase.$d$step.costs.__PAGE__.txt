@@ -1,0 +1,5 @@
+1:"$Sreact.fragment"
+2:I[25066,["/pr-preview/pr-3/_next/static/chunks/11dq~1_gaa2.9.js","/pr-preview/pr-3/_next/static/chunks/0ivq1y._h03yr.js","/pr-preview/pr-3/_next/static/chunks/0qr_f56z1-_7..js"],"OutletBoundary"]
+3:"$Sreact.suspense"
+0:{"rsc":["$","$1","c",{"children":[["$","div",null,{"children":[["$","p",null,{"className":"mb-4 max-w-3xl text-foreground/80","children":"Plans are paid from premiums and subsidies; see the subsidy step."}],["$","p",null,{"className":"text-muted-foreground","children":"This step has no separately costed items; its cost is administrative and included in UHP administration."}]]}],null,["$","$L2",null,{"children":["$","$3",null,{"name":"Next.MetadataOutlet","children":"$@4"}]}]]}],"isPartial":false,"staleTime":300,"varyParams":null,"buildId":"E1KORitaJGTYsItgQ5ycq"}
+4:null
