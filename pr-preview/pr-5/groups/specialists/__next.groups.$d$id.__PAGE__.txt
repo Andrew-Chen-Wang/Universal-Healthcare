@@ -1,0 +1,35 @@
+2:"$Sreact.fragment"
+3:"/pr-preview/pr-5/_next/static/chunks/2bk7albv1jdvb.js"
+4:"/pr-preview/pr-5/_next/static/chunks/2tpzwac-kluqe.js"
+5:"/pr-preview/pr-5/_next/static/chunks/17uuyvoo1a-kd.js"
+6:I[85674,["$3","$4","$5"],"default"]
+7:I[77778,["$3","$4","$5"],"default"]
+e:"/pr-preview/pr-5/_next/static/chunks/2u7mn5hnx46qx.js"
+f:"/pr-preview/pr-5/_next/static/chunks/2fo3i42g01k67.js"
+10:I[80368,["$3","$4","$5","$e","$f"],""]
+11:I[44519,["$3","$4","$5","$e","$f"],"GroupScenario"]
+16:"ViewportBoundary"
+17:I[108,["$3","$4","$5"],"$16"]
+18:"MetadataBoundary"
+19:I[108,["$3","$4","$5"],"$18"]
+1a:"$Sreact.suspense"
+9:X
+9:C
+a:X
+d:[["children",{"s":"__PAGE__","h":160,"d":{"r":["$","$2","c",{"children":[["$","div",null,{"className":"mx-auto w-full max-w-5xl px-4 py-10 sm:px-8 lg:py-14","children":[["$","header",null,{"className":"mb-10 border-b border-rule pb-8","children":[["$","div",null,{"className":"mb-3 text-xs font-semibold tracking-[0.14em] text-primary uppercase","children":["$","$L10",null,{"href":"/groups","className":"hover:underline","children":"Who's affected"}]}],["$","h1",null,{"className":"text-3xl leading-tight font-semibold sm:text-4xl","children":"Specialist clinicians and practices"}],["$","p",null,{"className":"mt-4 max-w-3xl text-lg leading-relaxed text-foreground/80","children":"Clinicians and practices provide specialty services whose payment and competition affect their work."}],"$undefined"]}],"$undefined",["$","$L11",null,{"label":"Specialist clinicians and practices","rows":[{"problemId":"physician-shortage","title":"Physician shortage, especially in primary care","kind":"profits","how":"Scarcity supports incumbent specialists’ pay.","causers":[{"id":"safety-primary-home","title":"Every person registered with a primary care home"},{"id":"scopeq-transition-period","title":"Supervised transition period before independence"}],"fixers":[{"id":"phys-residency","title":"Fund more residency slots"},{"id":"phys-pay-primary","title":"Raise primary care pay relative to specialties"},{"id":"phys-foreign","title":"Easier licensing for foreign-trained physicians"},{"id":"keep-physician-shortage","title":"Keep current law"},{"id":"debt-shorter-training","title":"Shorter training: combined undergrad/medical programs"},{"id":"scope-expand","title":"Full practice authority for NPs, PAs, pharmacists, dental therapists"}]},{"problemId":"training-debt","title":"Medical education debt shapes specialty choice","kind":"profits","how":"High-paying specialties benefit from limited competition.","causers":[],"fixers":[{"id":"debt-free-school","title":"Tuition-free medical and nursing school"},{"id":"debt-shorter-training","title":"Shorter training: combined undergrad/medical programs"},{"id":"keep-training-debt","title":"Keep current law"},{"id":"shortage-service","title":"Loan forgiveness and service obligations"}]}]}],["$","section",null,{"className":"mb-10 grid gap-4 md:grid-cols-2","children":[["$","div","Problems that hurt them",{"className":"rounded-md border p-4 border-loss/25 bg-loss-soft/40","children":[["$","div",null,{"className":"text-xs font-semibold tracking-wide uppercase","children":"Problems that hurt them"}],["$","p",null,{"className":"mb-3 text-xs text-muted-foreground","children":"Paths that fix these help them."}],["$","p",null,{"className":"text-sm text-muted-foreground","children":"None linked yet."}]]}],["$","div","Problems they gain from",{"className":"rounded-md border p-4 border-caution/30 bg-caution-soft","children":[["$","div",null,{"className":"text-xs font-semibold tracking-wide uppercase","children":"Problems they gain from"}],["$","p",null,{"className":"mb-3 text-xs text-muted-foreground","children":"Paths that fix these cost them."}],["$","ul",null,{"className":"space-y-2 text-sm","children":[["$","li","physician-shortage",{"children":[["$","$L10",null,{"href":"/problems/physician-shortage","className":"font-medium underline decoration-rule underline-offset-2 hover:text-primary","children":"Physician shortage, especially in primary care"}],["$","span",null,{"className":"text-foreground/80","children":[": ","Scarcity supports incumbent specialists’ pay."]}]]}],["$","li","training-debt",{"children":[["$","$L10",null,{"href":"/problems/training-debt","className":"font-medium underline decoration-rule underline-offset-2 hover:text-primary","children":"Medical education debt shapes specialty choice"}],["$","span",null,{"className":"text-foreground/80","children":[": ","High-paying specialties benefit from limited competition."]}]]}]]}]]}]]}]]}],["$L12","$L13"],"$L14"]}],"p":"$@15","v":null,"s":"$a"}}]]
+b:[["children",{"s":{"n":"id","t":"d","k":"specialists","s":[]},"h":96,"d":{"r":["$","$2","c",{"children":[null,["$","$L6",null,{"parallelRouterKey":"children","template":["$","$L7",null,{}]}]]}],"p":"$@c","v":"$9","s":"$a"},"c":"$Qd"}]]
+1:[["children",{"s":"groups","h":64,"d":{"r":["$","$2","c",{"children":[null,["$","$L6",null,{"parallelRouterKey":"children","template":["$","$L7",null,{}]}]]}],"p":"$@8","v":"$9","s":"$a"},"c":"$Qb"}]]
+0:{"t":{"t":{"s":"","h":16,"c":"$Q1"},"h":{"r":["$","$2","h",{"children":[null,["$","$L17",null,{"children":[["$","meta","0",{"charSet":"utf-8"}],["$","meta","1",{"name":"viewport","content":"width=device-width, initial-scale=1"}]]}],["$","$L19",null,{"children":[["$","div",null,{"hidden":true,"children":["$","$1a",null,{"name":"Next.Metadata","children":[["$","title","0",{"children":"Specialist clinicians and practices · Universal Healthcare"}],["$","meta","1",{"name":"description","content":"Every step, every trade-off, and every dollar of moving the United States to universal health care, built on CMS's 2024 National Health Expenditure data."}]]}]}],null]}],["$","meta",null,{"name":"next-size-adjust","content":""}]]}],"p":"$@1b","v":null,"s":"$a"}},"a":"$@1c","u":"$@1d","b":"k1tOsHr8JvdV9RT3Z8Bh9"}
+1e:I[108,["$3","$4","$5"],"OutletBoundary"]
+12:["$","script","script-0",{"src":"/pr-preview/pr-5/_next/static/chunks/2u7mn5hnx46qx.js","async":true}]
+13:["$","script","script-1",{"src":"/pr-preview/pr-5/_next/static/chunks/2fo3i42g01k67.js","async":true}]
+14:["$","$L1e",null,{"children":["$","$1a",null,{"name":"Next.MetadataOutlet","children":"$@1f"}]}]
+1d:true
+a:300
+1f:null
+a:C
+1c:0
+c:"$undefined"
+8:"$undefined"
+1b:"$undefined"
+15:"$undefined"
