@@ -100,6 +100,8 @@ function Published({ e }: { e: Estimate }) {
   )
 }
 
+/** Approaches built out as a full step-by-step plan. */
+const PLAN_HREF: Record<string, string> = { "single-payer": "/single-payer/plan", draft: "/plan" }
 const builderHref = (picks: string[]) => `/your-plan?paths=${picks.join(",")}`
 
 /** One row of the comparison table: a label and a cell per approach. */
@@ -267,6 +269,11 @@ export default function ApproachesPage() {
                     <Link href={builderHref(s.approach.picks)} className="text-sm underline">
                       Open in the plan builder
                     </Link>
+                    {PLAN_HREF[s.approach.id] && (
+                      <Link href={PLAN_HREF[s.approach.id]} className="block text-sm underline">
+                        See the full plan, step by step
+                      </Link>
+                    )}
                   </div>
                 ))}
               />

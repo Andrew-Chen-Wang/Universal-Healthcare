@@ -78,7 +78,8 @@ into the website and are not deployed.
   trade-offs and extras, design decisions, trade-offs, risks, changes as overrides of
   `changes.ts`, costs from `reform-model.ts`), and the single-payer plan at
   `/single-payer/plan` (`content/plan/`, `changes.ts`, `calculations.ts`, `step-extras.ts`,
-  ...). Page code lives in `lib/plan/views/`; route files pick a version.
+  ...). Page code lives in `lib/plan/views/`; route files pick a version. Each plan has its own
+  changes-by-phase list: `/changes` (hybrid) and `/single-payer/changes`.
 - The coverage checklist (does each plan answer every question?) runs per plan through
   `content/plan-coverage.ts`: `/coverage` for the hybrid (`content/hybrid/coverage.ts`),
   `/single-payer/coverage` for the single-payer plan.

@@ -105,6 +105,11 @@ export const SIDEBAR: SidePart[] = [
             label: "Single-payer plan (earlier draft)",
             href: SINGLE_PAYER_PLAN.base,
           },
+          {
+            id: "single-payer-changes",
+            label: "Single-payer changes by phase",
+            href: "/single-payer/changes",
+          },
         ],
       },
       ...HYBRID_PLAN.nav.map((p) => ({
