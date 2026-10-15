@@ -980,8 +980,7 @@ export const HY_PHASE_5: HybridPhase = {
     {
       id: "ltc-decision",
       title: "Decide how to fund long-term care",
-      summary:
-        "Long-term care stays as today in the hybrid: Medicare post-acute care and Medicaid after people spend down their savings. This step decides what comes next. Germany and the Netherlands fund long-term care with their own payroll contributions, which would break the owner's break-even rule; top-end taxes alone can't cover a full benefit.",
+      summary: `Long-term care stays as today in the hybrid: Medicare post-acute care and Medicaid after people spend down their savings. This step decides what comes next. Germany and the Netherlands fund long-term care with their own payroll contributions, which would break the owner's break-even rule. The draft's ${H.surplus} reserve could pay for catastrophic coverage (about ${H.ltcCatastrophic} a year) at the central estimate; a full benefit (${H.ltcFullFederal} a year federal) needs new money.`,
       legalVehicle: "A separate future act.",
       owner: "Congress, HHS",
       timeline: "Year 5 onward",
@@ -1002,7 +1001,7 @@ export const HY_PHASE_5: HybridPhase = {
       ],
       cost: {
         recurring: 0,
-        ledgerNote: `Not decided, so not in the totals. Catastrophic insurance: about ${H.ltcCatastrophic} a year. Full public long-term care: ${H.ltcFullFederal} a year of federal cost.`,
+        ledgerNote: `Not decided, so not in the totals. Catastrophic insurance: about ${H.ltcCatastrophic} a year, against the draft's ${H.surplus} reserve. Full public long-term care: ${H.ltcFullFederal} a year of federal cost.`,
       },
       pros: [{ point: "Keeps the first stages affordable within the break-even rule." }],
       cons: [

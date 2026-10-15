@@ -575,8 +575,10 @@ export const HY_PHASE_1: HybridPhase = {
         },
       ],
       cost: {
-        recurring: HYBRID_COST.lines.find((l) => l.id === "coverage")?.federal ?? 0,
-        ledgerNote: `Federal subsidies for the newly covered are at most ${H.coverageFederal} a year (an upper bound, assuming government pays the whole premium).`,
+        recurring:
+          (HYBRID_COST.lines.find((l) => l.id === "coverage")?.federal ?? 0) +
+          (HYBRID_COST.lines.find((l) => l.id === "premiumFederal")?.federal ?? 0),
+        ledgerNote: `Federal subsidies for the newly covered are at most ${H.coverageFederal} a year (an upper bound, assuming government pays the whole premium). Premium changes for people insured today move federal subsidies and the tax break on employer premiums by ${H.premiumFederal}.`,
       },
       pros: [
         { point: "Premiums people can afford, without a new broad tax." },
