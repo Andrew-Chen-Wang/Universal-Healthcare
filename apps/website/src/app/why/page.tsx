@@ -59,41 +59,59 @@ function ReasonSection({ r, n }: { r: Reason; n: string }) {
   )
 }
 
+function PathList({ ids }: { ids: string[] }) {
+  return ids.map((id, i) => (
+    <span key={id}>
+      {i > 0 && (i === ids.length - 1 ? ", and " : ", ")}
+      <Link href={`/paths/${id}`} className="underline">
+        {PATH_BY_ID[id].title.toLowerCase()}
+      </Link>
+    </span>
+  ))
+}
+
 function PriceExample() {
-  const base = costFor(new Set(PRICE_EXAMPLE.base))
-  const priced = costFor(new Set([...PRICE_EXAMPLE.base, ...PRICE_EXAMPLE.withPrices]))
-  if (!base || !priced) return null
-  const rows = [
-    { label: "Today", total: base.nationalBefore, delta: undefined, pct: undefined },
-    {
-      label: "Single payer, no price paths",
-      total: base.nationalAfter,
-      delta: base.delta,
-      pct: base.deltaPct,
-    },
-    {
-      label: "Single payer with the price paths",
-      total: priced.nationalAfter,
-      delta: priced.delta,
-      pct: priced.deltaPct,
-    },
+  const today = costFor(new Set(PRICE_EXAMPLE[0].base))
+  if (!today) return null
+  const rows: { label: string; total: number; delta?: number; pct?: number }[] = [
+    { label: "Today", total: today.nationalBefore },
   ]
+  for (const c of PRICE_EXAMPLE) {
+    const base = costFor(new Set(c.base))
+    const priced = costFor(new Set([...c.base, ...c.withPrices]))
+    if (!base || !priced) return null
+    rows.push(
+      {
+        label: `${c.label}, no price paths`,
+        total: base.nationalAfter,
+        delta: base.delta,
+        pct: base.deltaPct,
+      },
+      {
+        label: `${c.label} with its price paths`,
+        total: priced.nationalAfter,
+        delta: priced.delta,
+        pct: priced.deltaPct,
+      },
+    )
+  }
   return (
     <section className="mb-12 rounded-md border border-rule bg-card p-5">
-      <h3 className="mb-1 text-xl font-semibold">Example: the same coverage, two price choices</h3>
-      <p className="mb-4 max-w-prose text-sm">
-        Both cases cover everyone through a single payer with no point-of-care charges. The second
-        adds{" "}
-        {PRICE_EXAMPLE.withPrices.map((id, i) => (
-          <span key={id}>
-            {i > 0 && (i === PRICE_EXAMPLE.withPrices.length - 1 ? ", and " : ", ")}
-            <Link href={`/paths/${id}`} className="underline">
-              {PATH_BY_ID[id].title.toLowerCase()}
-            </Link>
-          </span>
-        ))}
-        . Without them, the cost model uses its high-price and high-admin cases.
+      <h3 className="mb-1 text-xl font-semibold">Example: two designs, two price choices each</h3>
+      <p className="mb-2 max-w-prose text-sm">
+        Each design covers everyone, first on its own and then with its own price paths. Without
+        them, the cost model uses its high-price and high-admin cases.
       </p>
+      <ul className="mb-4 max-w-prose list-disc space-y-1 pl-5 text-sm">
+        {PRICE_EXAMPLE.map((c) => (
+          <li key={c.id}>
+            <Link href={c.href} className="underline">
+              {c.label}
+            </Link>
+            : {c.coverage}. Its price paths: <PathList ids={c.withPrices} />.
+          </li>
+        ))}
+      </ul>
       <table className="w-full text-sm">
         <thead>
           <tr className="border-b border-rule text-left text-muted-foreground">

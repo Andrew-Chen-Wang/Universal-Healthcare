@@ -104,13 +104,36 @@ export const DOWNSTREAM: Reason[] = [
 ]
 
 /**
- * A worked example for the cost model: the same single payer with and without
- * the price paths. Both are run through the model on the /why page.
+ * A worked example for the cost model: each payer design with and without its
+ * own price paths. The hybrid is the current draft; single payer is the earlier
+ * draft, kept to compare. All are run through the model on the /why page.
  */
-export const PRICE_EXAMPLE = {
-  base: ["single-payer", "underins-zero"],
-  withPrices: ["all-payer-rates", "drugs-negotiate", "admin-one-claims", "overhead-public"],
-}
+export const PRICE_EXAMPLE: {
+  id: string
+  label: string
+  href: string
+  coverage: string
+  base: string[]
+  withPrices: string[]
+}[] = [
+  {
+    id: "hybrid",
+    label: "The draft hybrid",
+    href: "/plan",
+    coverage:
+      "employer plans stay, everyone else is enrolled in regulated non-profit plans, and copays are capped by income",
+    base: ["regulated-multipayer", "auto-enrollment", "employer-mandate-50", "underins-income-cap"],
+    withPrices: ["prices-cap", "drugs-negotiate", "overhead-mlr", "admin-standardize"],
+  },
+  {
+    id: "single-payer",
+    label: "Single payer",
+    href: "/single-payer/plan",
+    coverage: "one public plan covers everyone, with no point-of-care charges",
+    base: ["single-payer", "underins-zero"],
+    withPrices: ["all-payer-rates", "drugs-negotiate", "admin-one-claims", "overhead-public"],
+  },
+]
 
 /** The costs and risks, so the case is read alongside them. */
 export const COUNTERWEIGHTS = [
