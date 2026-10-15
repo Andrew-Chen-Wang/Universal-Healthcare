@@ -39,7 +39,8 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: read
-      pull-requests: read
+      # Reactions on PR conversation comments require pull-request write access.
+      pull-requests: write
       issues: write
     outputs:
       deployment_action: ${{ steps.setup.outputs.deployment_action }}
