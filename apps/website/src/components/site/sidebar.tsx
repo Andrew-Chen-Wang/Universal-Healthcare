@@ -120,7 +120,7 @@ function Byline() {
       className="mt-0.5 inline-flex items-center gap-1.5 text-xs text-muted-foreground hover:text-foreground"
     >
       <Image
-        src="/nextbestfit-logo.svg"
+        src={`${process.env.NEXT_PUBLIC_BASE_PATH}/nextbestfit-logo.svg`}
         alt=""
         width={14}
         height={14}
