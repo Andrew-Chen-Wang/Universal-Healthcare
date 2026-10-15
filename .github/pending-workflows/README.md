@@ -9,6 +9,6 @@ git pull
 git mv -f .github/pending-workflows/pages.yml .github/workflows/pages.yml
 git mv -f .github/pending-workflows/pr-preview.yml .github/workflows/pr-preview.yml
 git rm .github/pending-workflows/README.md
-git commit -m "Build and publish in one job; drop artifacts"
+git commit -m "Build and publish in one job; remove fork previews on close"
 git push
 ```
