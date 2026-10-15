@@ -9,7 +9,7 @@
 #
 # Handles:
 #   pull_request   opened / reopened / synchronize -> deploy, closed -> remove
-#   issue_comment  a comment that is exactly "ci preview" on an open PR -> deploy
+#   issue_comment  a comment that is exactly "ci preview" on an open, same-repo PR -> deploy
 #
 # Required env: GITHUB_EVENT_NAME, GITHUB_EVENT_PATH, GITHUB_REPOSITORY, GH_TOKEN
 # Optional env: UMBRELLA_DIR (default pr-preview), PAGES_BASE_URL, CNAME_FILE
@@ -52,6 +52,10 @@ case "$GITHUB_EVENT_NAME" in
             pr_json=$(gh api "repos/$GITHUB_REPOSITORY/pulls/$pr_number")
             if [ "$(echo "$pr_json" | jq -r '.state')" != "open" ]; then
                 reason="pull request is closed"
+            elif [ "$(echo "$pr_json" | jq -r '.head.repo.full_name')" != "$GITHUB_REPOSITORY" ]; then
+                # The build runs in the same job as the publish token, so only branches
+                # in this repository (written by people with push access) are built.
+                reason="pull request is from a fork"
             else
                 head_sha=$(echo "$pr_json" | jq -r '.head.sha')
                 deployment_action=deploy
