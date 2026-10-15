@@ -19,8 +19,11 @@ env:
   NEXT_TELEMETRY_DISABLED: 1
 
 jobs:
-  build:
+  # Builds and publishes in one job so no artifact is needed to hand the site over.
+  deploy:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - uses: actions/checkout@v5
         with:
@@ -37,29 +40,9 @@ jobs:
         run: pnpm --filter website exec next build
         env:
           STATIC_EXPORT: "1"
-      - uses: actions/upload-artifact@v4
-        with:
-          name: site
-          path: apps/website/out
-          include-hidden-files: true
-          retention-days: 1
-
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write
-    steps:
-      - uses: actions/checkout@v5
-        with:
-          persist-credentials: false
-      - uses: actions/download-artifact@v4
-        with:
-          name: site
-          path: ${{ runner.temp }}/site
       - name: Publish to gh-pages
         env:
           GH_TOKEN: ${{ github.token }}
           KEEP: pr-preview
           COMMIT_MESSAGE: "Deploy ${{ github.sha }}"
-        run: bash .github/scripts/pr-preview/publish.sh deploy . "$RUNNER_TEMP/site"
+        run: bash .github/scripts/pr-preview/publish.sh deploy . apps/website/out
