@@ -15,8 +15,8 @@ export function designRoute(variant: PlanVariant) {
 
   async function DesignPage({ params }: { params: StepParams }) {
     const { step } = await loadStep(variant, params)
-    const decisions = (plan.extras[step.id]?.decisionIds ?? []).map(
-      (id) => plan.designDecisions.find((d) => d.id === id)!,
+    const decisions = (plan.extras[step.id]?.decisionIds ?? []).map((id) =>
+      plan.designDecisions.find((d) => d.id === id)!,
     )
     if (decisions.length === 0)
       return (

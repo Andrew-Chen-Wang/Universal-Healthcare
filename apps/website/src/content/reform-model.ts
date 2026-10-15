@@ -726,15 +726,13 @@ export function reformCost(picks: Set<string>): ReformCost {
       explanation: `Medicare adds dental, vision, and hearing to match the standard benefit. CBO estimated a broader version at ${fmt(parts.reduce((s2, p) => s2 + p[1], 0))} over ten years (dental ${fmt(parts[0][1])}, vision ${fmt(parts[1][1])}, hearing ${fmt(parts[2][1])}), ${fmt(yearly)} a year on average. The hybrid's basic benefit has tighter limits, so this is an upper bound; national spending counts it in full, also an upper bound, since seniors already pay for some of this care themselves.`,
       sourceIds: ["cbo-medicare-dvh-2021"],
       steps: [
-        ...parts.map(
-          ([label, val, id]): CalcStep => ({
-            label: `CBO: ${label.toLowerCase()}, ten years`,
-            value: val,
-            unit: "B",
-            inputs: [id],
-            sourceIds: ["cbo-medicare-dvh-2021"],
-          }),
-        ),
+        ...parts.map(([label, val, id]): CalcStep => ({
+          label: `CBO: ${label.toLowerCase()}, ten years`,
+          value: val,
+          unit: "B",
+          inputs: [id],
+          sourceIds: ["cbo-medicare-dvh-2021"],
+        })),
         {
           label: "Average a year",
           formula: `${fmt(parts.reduce((s2, p) => s2 + p[1], 0))} ÷ 10`,

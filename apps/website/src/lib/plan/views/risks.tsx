@@ -17,8 +17,8 @@ export function risksRoute(variant: PlanVariant) {
 
   async function RisksPage({ params }: { params: StepParams }) {
     const { step } = await loadStep(variant, params)
-    const major = (plan.extras[step.id]?.riskIds ?? []).map(
-      (id) => plan.risks.find((r) => r.id === id)!,
+    const major = (plan.extras[step.id]?.riskIds ?? []).map((id) =>
+      plan.risks.find((r) => r.id === id)!,
     )
     return (
       <div className="space-y-10">

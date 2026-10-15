@@ -37,6 +37,10 @@ export default defineConfig({
   ],
   rules: {
     "consistent-return": "off",
+    "no-unused-vars": ["error", { ignoreRestSiblings: true }],
+    // Newly enabled by the upgraded linter; keep existing hydration and navigation
+    // effects visible without folding a state-management rewrite into this upgrade.
+    "react/set-state-in-effect": "warn",
     "typescript/no-unsafe-type-assertion": "off",
     "typescript/await-thenable": "error",
     "typescript/no-array-delete": "error",

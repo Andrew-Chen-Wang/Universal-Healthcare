@@ -226,15 +226,13 @@ add({
   amount: DERIVED.workforceInvestment,
   amountUnit: "B",
   calc: [
-    ...wf.map(
-      ([label, q, c]): CalcStep => ({
-        label,
-        formula: `${v(q).toLocaleString("en-US")} × ${usd(v(c))}`,
-        value: (v(q) * v(c)) / 1e9,
-        unit: "B",
-        inputs: [q, c],
-      }),
-    ),
+    ...wf.map(([label, q, c]): CalcStep => ({
+      label,
+      formula: `${v(q).toLocaleString("en-US")} × ${usd(v(c))}`,
+      value: (v(q) * v(c)) / 1e9,
+      unit: "B",
+      inputs: [q, c],
+    })),
     { label: "Total a year", value: DERIVED.workforceInvestment, unit: "B", result: true },
   ],
   tradeoff: "Spending on capacity years before it pays off, to keep waits from rising.",
@@ -288,9 +286,11 @@ add({
   amount: -(HYBRID_COST.fundingGap ?? 0),
   amountUnit: "B",
   calc: [
-    ...HYBRID_COST.lines.map(
-      (l): CalcStep => ({ label: `Federal: ${l.label}`, value: l.federal, unit: "B" }),
-    ),
+    ...HYBRID_COST.lines.map((l): CalcStep => ({
+      label: `Federal: ${l.label}`,
+      value: l.federal,
+      unit: "B",
+    })),
     { label: "New federal cost", value: HYBRID_COST.federalDelta, unit: "B", result: true },
     { label: "Top-end taxes", value: HYBRID_COST.funding?.revenue ?? 0, unit: "B" },
     {
@@ -387,15 +387,13 @@ for (const c of HYBRID_ONE_TIME)
     amount: c.total,
     amountUnit: "B",
     calc: [
-      ...c.components.map(
-        (x): CalcStep => ({
-          label: x.label,
-          formula: x.formula,
-          value: x.amount,
-          unit: "B",
-          inputs: x.inputs,
-        }),
-      ),
+      ...c.components.map((x): CalcStep => ({
+        label: x.label,
+        formula: x.formula,
+        value: x.amount,
+        unit: "B",
+        inputs: x.inputs,
+      })),
       { label: "Total, one-time", value: c.total, unit: "B", result: true },
     ],
     tradeoff: "Spending before the plans open so they work on day one.",
