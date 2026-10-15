@@ -1,7 +1,0 @@
-:HL["/pr-preview/pr-4/_next/static/chunks/08stpm~90a3g_.css","style"]
-:HL["/pr-preview/pr-4/_next/static/media/03fc1b4a8d284b5e-s.p.09.f.n_ccld80.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
-:HL["/pr-preview/pr-4/_next/static/media/23b7a97ae3b5c134-s.p.0o14nraug8u5s.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
-:HL["/pr-preview/pr-4/_next/static/media/68d403cf9f2c68c5-s.p.00d1o87t2t-bn.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
-:HL["/pr-preview/pr-4/_next/static/media/99e609270109b47d-s.p.16-z~2sp29ex6.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
-:HL["/pr-preview/pr-4/_next/static/media/effe91970fc4db64-s.p.07ig5l8azj~hy.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
-0:{"tree":{"name":"","param":null,"prefetchHints":16,"slots":{"children":{"name":"single-payer","param":null,"prefetchHints":0,"slots":{"children":{"name":"plan","param":null,"prefetchHints":0,"slots":{"children":{"name":"phase","param":{"type":"d","key":"build","siblings":null},"prefetchHints":0,"slots":{"children":{"name":"step","param":{"type":"d","key":"tax-legislation","siblings":null},"prefetchHints":0,"slots":{"children":{"name":"costs","param":null,"prefetchHints":0,"slots":{"children":{"name":"cost","param":{"type":"d","key":"household-self-employed-80k","siblings":null},"prefetchHints":0,"slots":{"children":{"name":"__PAGE__","param":null,"prefetchHints":0,"slots":null}}}}}}}}}}}}}}},"staleTime":300,"buildId":"MLvD5SXjg6mep1wT-p5Em"}
