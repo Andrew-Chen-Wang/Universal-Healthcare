@@ -1,0 +1,46 @@
+2:"$Sreact.fragment"
+3:"/pr-preview/pr-7/_next/static/chunks/2bk7albv1jdvb.js"
+4:"/pr-preview/pr-7/_next/static/chunks/2tpzwac-kluqe.js"
+5:"/pr-preview/pr-7/_next/static/chunks/0f6_113s69rci.js"
+6:I[85674,["$3","$4","$5"],"default"]
+7:I[77778,["$3","$4","$5"],"default"]
+10:"/pr-preview/pr-7/_next/static/chunks/3v_jzstxl0i3q.js"
+11:I[80368,["$3","$4","$5","$10"],""]
+12:I[53427,["$3","$4","$5","$10"],"SectionTabs"]
+21:"ViewportBoundary"
+22:I[108,["$3","$4","$5"],"$21"]
+23:"MetadataBoundary"
+24:I[108,["$3","$4","$5"],"$23"]
+25:"$Sreact.suspense"
+9:X
+9:C
+a:X
+18:[["children",{"s":"__PAGE__","h":160,"d":{"r":["$","$2","c",{"children":[["$","article",null,{"children":[["$","$L11",null,{"href":"/single-payer/plan/build/auto-enrollment/tasks","className":"text-sm text-primary underline","children":"← All tasks for this step"}],"$L19","$L1a","$L1b","$L1c","$L1d","$L1e"]}],null,"$L1f"]}],"p":"$@20","v":null,"s":"$a"}}]]
+16:[["children",{"s":{"n":"task","t":"d","k":"5","s":[]},"h":96,"d":{"r":["$","$2","c",{"children":[null,["$","$L6",null,{"parallelRouterKey":"children","template":["$","$L7",null,{}]}]]}],"p":"$@17","v":"$9","s":"$a"},"c":"$Q18"}]]
+14:[["children",{"s":"tasks","h":96,"d":{"r":["$","$2","c",{"children":[null,["$","$L6",null,{"parallelRouterKey":"children","template":["$","$L7",null,{}]}]]}],"p":"$@15","v":"$9","s":"$a"},"c":"$Q16"}]]
+f:[["children",{"s":{"n":"step","t":"d","k":"auto-enrollment","s":[]},"h":96,"d":{"r":["$","$2","c",{"children":[[["$","script","script-0",{"src":"/pr-preview/pr-7/_next/static/chunks/3v_jzstxl0i3q.js","async":true}]],["$","div",null,{"className":"mx-auto w-full max-w-5xl px-4 py-8 sm:px-8 lg:py-12","children":[["$","header",null,{"className":"mb-6","children":[["$","div",null,{"className":"mb-2 text-xs font-semibold tracking-[0.14em] text-primary uppercase","children":[["$","$L11",null,{"href":"/single-payer/plan/build","className":"hover:underline","children":["Phase ",1,": ","Enactment & build"]}]," ","· Step ","1.4"]}],["$","h1",null,{"className":"text-3xl leading-tight font-semibold sm:text-4xl","children":"Enroll everyone automatically"}],["$","div",null,{"className":"mt-2 flex flex-wrap items-baseline justify-between gap-2 text-sm text-muted-foreground","children":[["$","span",null,{"children":["Months 6–18 for Wave 1, then before each wave"," · ","UHA, SSA, IRS"]}],["$","a",null,{"className":"text-primary underline","href":"https://github.com/Andrew-Chen-Wang/Universal-Healthcare/issues/new?title=Step%201.4%3A%20Enroll%20everyone%20automatically","target":"_blank","rel":"noreferrer","children":"Discuss this step"}]]}]]}],["$","div",null,{"className":"my-6 rounded-md border-l-4 px-5 py-4 leading-relaxed border-caution/40 bg-caution-soft","children":[["$","div",null,{"className":"mb-1 font-semibold","children":"Earlier draft: single payer"}],["$","div",null,{"className":"text-foreground/85","children":["This is the single-payer plan, kept as a complete path to compare. The current draft is a Germany-style hybrid:"," ",["$","$L11",null,{"href":"/plan","className":"underline","children":"current plan"}],"."]}]]}],["$","$L12",null,{"tabs":[{"href":"/single-payer/plan/build/auto-enrollment","label":"Overview"},{"href":"/single-payer/plan/build/auto-enrollment/tasks","label":"Tasks"},{"href":"/single-payer/plan/build/auto-enrollment/design","label":"Design choice & alternatives"},{"href":"/single-payer/plan/build/auto-enrollment/costs","label":"Costs & calculations"},{"href":"/single-payer/plan/build/auto-enrollment/tradeoffs","label":"Trade-offs"},{"href":"/single-payer/plan/build/auto-enrollment/risks","label":"Risks"},{"href":"/single-payer/plan/build/auto-enrollment/changes","label":"What changes in the system"},{"href":"/single-payer/plan/build/auto-enrollment/international","label":"Other countries"}]}],["$","div",null,{"className":"mt-8","children":["$","$L6",null,{"parallelRouterKey":"children","template":["$","$L7",null,{}]}]}],["$","nav",null,{"className":"mt-16 grid gap-3 border-t border-rule pt-6 sm:grid-cols-2","children":[["$","$L11",null,{"href":"/single-payer/plan/build/build-claims-system","className":"rounded-md border border-rule bg-card px-4 py-3 hover:border-primary","children":[["$","div",null,{"className":"text-xs text-muted-foreground","children":["← Previous step ","1.3"]}],["$","div",null,{"className":"font-medium","children":"Build the claims, payment & data systems"}]]}],["$","$L11",null,{"href":"/single-payer/plan/build/define-benefits","className":"rounded-md border border-rule bg-card px-4 py-3 text-right hover:border-primary","children":[["$","div",null,{"className":"text-xs text-muted-foreground","children":["Next step ","1.5"," →"]}],["$","div",null,{"className":"font-medium","children":"Define the benefit package & cost sharing"}]]}]]}]]}]]}],"p":"$@13","v":null,"s":"$a"},"c":"$Q14"}]]
+d:[["children",{"s":{"n":"phase","t":"d","k":"build","s":[]},"h":96,"d":{"r":["$","$2","c",{"children":[null,["$","$L6",null,{"parallelRouterKey":"children","template":["$","$L7",null,{}]}]]}],"p":"$@e","v":"$9","s":"$a"},"c":"$Qf"}]]
+b:[["children",{"s":"plan","h":96,"d":{"r":["$","$2","c",{"children":[null,["$","$L6",null,{"parallelRouterKey":"children","template":["$","$L7",null,{}]}]]}],"p":"$@c","v":"$9","s":"$a"},"c":"$Qd"}]]
+1:[["children",{"s":"single-payer","h":64,"d":{"r":["$","$2","c",{"children":[null,["$","$L6",null,{"parallelRouterKey":"children","template":["$","$L7",null,{}]}]]}],"p":"$@8","v":"$9","s":"$a"},"c":"$Qb"}]]
+0:{"t":{"t":{"s":"","h":16,"c":"$Q1"},"h":{"r":["$","$2","h",{"children":[null,["$","$L22",null,{"children":[["$","meta","0",{"charSet":"utf-8"}],["$","meta","1",{"name":"viewport","content":"width=device-width, initial-scale=1"}]]}],["$","$L24",null,{"children":[["$","div",null,{"hidden":true,"children":["$","$25",null,{"name":"Next.Metadata","children":[["$","title","0",{"children":"Task 1.4.5 · Universal Healthcare"}],["$","meta","1",{"name":"description","content":"Every step, every trade-off, and every dollar of moving the United States to universal health care, built on CMS's 2024 National Health Expenditure data."}]]}]}],null]}],["$","meta",null,{"name":"next-size-adjust","content":""}]]}],"p":"$@26","v":null,"s":"$a"}},"a":"$@27","u":"$@28","b":"QKdqemOaLoTw9O6_dSJ_H"}
+29:I[108,["$3","$4","$5"],"OutletBoundary"]
+19:["$","div",null,{"className":"num mt-4 text-sm text-muted-foreground","children":["Task ","1.4",".",5," of ",7]}]
+1a:["$","h2",null,{"className":"mt-1 max-w-3xl text-2xl leading-snug font-semibold","children":"Define residency rules: 90 days of residence, with evidence such as a lease, utility bill, school enrollment, or employer letter. Students and workers on visas are covered while resident."}]
+1b:["$","div",null,{"className":"mt-6 grid gap-4 rounded-md border border-rule bg-card p-4 sm:grid-cols-2","children":[["$","div",null,{"children":[["$","div",null,{"className":"text-[11px] font-semibold tracking-wide text-muted-foreground uppercase","children":"Who does it"}],["$","div",null,{"className":"mt-0.5 text-sm","children":"UHA"}]]}],["$","div",null,{"children":[["$","div",null,{"className":"text-[11px] font-semibold tracking-wide text-muted-foreground uppercase","children":"When"}],["$","div",null,{"className":"mt-0.5 text-sm","children":"Month 6"}]]}]]}]
+1c:["$","div",null,{"className":"mt-6 rounded-md border border-caution/30 bg-caution-soft p-4","children":[["$","div",null,{"className":"mb-1 text-xs font-semibold tracking-wide text-caution uppercase","children":"Trade-off"}],["$","p",null,{"children":"Flexible residency evidence reaches undocumented and unbanked residents but is easier to falsify."}]]}]
+1d:["$","div",null,{"className":"mt-8 text-sm","children":[["$","div",null,{"className":"mb-2 font-semibold","children":["Part of: ","Enroll everyone automatically"]}],["$","p",null,{"className":"max-w-3xl text-foreground/80","children":"Nobody applies. Everyone with a Social Security number or ITIN and a U.S. address is enrolled from existing federal records; others enroll at any provider, Social Security office, or community health center with proof of residence."}],["$","p",null,{"className":"mt-3 text-foreground/80","children":["This step changes ",3," existing laws, programs, or institutions."," ",["$","$L11",null,{"className":"underline","href":"/single-payer/plan/build/auto-enrollment/changes","children":"See the list."}]]}]]}]
+1e:["$","nav",null,{"className":"mt-10 flex justify-between gap-4 text-sm","children":[["$","$L11",null,{"className":"underline","href":"/single-payer/plan/build/auto-enrollment/tasks/4","children":["← Task ","1.4",".",4]}],["$","$L11",null,{"className":"underline","href":"/single-payer/plan/build/auto-enrollment/tasks/6","children":["Task ","1.4",".",6," →"]}]]}]
+1f:["$","$L29",null,{"children":["$","$25",null,{"name":"Next.MetadataOutlet","children":"$@2a"}]}]
+28:true
+a:300
+2a:null
+a:C
+27:0
+17:"$undefined"
+15:"$undefined"
+13:"$undefined"
+e:"$undefined"
+c:"$undefined"
+8:"$undefined"
+26:"$undefined"
+20:"$undefined"

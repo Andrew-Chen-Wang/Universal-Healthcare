@@ -1,0 +1,31 @@
+2:"$Sreact.fragment"
+3:"/pr-preview/pr-7/_next/static/chunks/2bk7albv1jdvb.js"
+4:"/pr-preview/pr-7/_next/static/chunks/2tpzwac-kluqe.js"
+5:"/pr-preview/pr-7/_next/static/chunks/0f6_113s69rci.js"
+6:I[85674,["$3","$4","$5"],"default"]
+7:I[77778,["$3","$4","$5"],"default"]
+10:I[80368,["$3","$4","$5"],""]
+11:I[108,["$3","$4","$5"],"OutletBoundary"]
+12:"$Sreact.suspense"
+15:"ViewportBoundary"
+16:I[108,["$3","$4","$5"],"$15"]
+17:"MetadataBoundary"
+18:I[108,["$3","$4","$5"],"$17"]
+9:X
+9:C
+a:X
+f:[["children",{"s":"__PAGE__","h":160,"d":{"r":["$","$2","c",{"children":[["$","div",null,{"className":"mx-auto w-full max-w-5xl px-4 py-10 sm:px-8 lg:py-14","children":[["$","header",null,{"className":"mb-10 border-b border-rule pb-8","children":[["$","div",null,{"className":"mb-3 text-xs font-semibold tracking-[0.14em] text-primary uppercase","children":"Phase 0 · Before coverage starts"}],["$","h1",null,{"className":"text-3xl leading-tight font-semibold sm:text-4xl","children":"Preparation"}],["$","p",null,{"className":"mt-4 max-w-3xl text-lg leading-relaxed text-foreground/80","children":"Before anyone moves to the new program: fix the worst problems in today's system (automatic enrollment of the uninsured, denials, prior authorization, medical debt, surprise bills, drug middlemen), start the long-lead workforce and data work, and settle how state money keeps flowing."}],["$","div",null,{"className":"mt-6 rounded-md border border-rule bg-card p-4","children":[["$","div",null,{"className":"mb-2 text-xs font-semibold tracking-wide text-muted-foreground uppercase","children":"Done when"}],["$","ul",null,{"className":"list-disc space-y-1 pl-5 text-sm","children":[["$","li","Interim fixes from the chosen paths for this phase are in force (see Changes by phase).",{"children":"Interim fixes from the chosen paths for this phase are in force (see Changes by phase)."}],["$","li","Workforce expansion (residency slots, nursing faculty, scope of practice) funded and started.",{"children":"Workforce expansion (residency slots, nursing faculty, scope of practice) funded and started."}],["$","li","Every state's contribution computed and published.",{"children":"Every state's contribution computed and published."}],["$","li","Payment schedules between states and the national program in place.",{"children":"Payment schedules between states and the national program in place."}]]}]]}]]}],["$","div",null,{"className":"my-6 rounded-md border-l-4 px-5 py-4 leading-relaxed border-caution/40 bg-caution-soft","children":[["$","div",null,{"className":"mb-1 font-semibold","children":"Earlier draft: single payer"}],["$","div",null,{"className":"text-foreground/85","children":["This is the single-payer plan, kept as a complete path to compare. The current draft is a Germany-style hybrid:"," ",["$","$L10",null,{"href":"/plan","className":"underline","children":"current plan"}],"."]}]]}],false,["$","h2",null,{"className":"mb-3 text-lg font-semibold","children":"Detailed steps"}],["$","ol",null,{"className":"space-y-3","children":[["$","li","state-moe-design",{"children":["$","$L10",null,{"href":"/single-payer/plan/groundwork/state-moe-design","className":"block rounded-md border border-rule bg-card p-4 hover:border-primary","children":["$","div",null,{"className":"flex gap-3","children":[["$","span",null,{"className":"num text-muted-foreground","children":"0.1"}],["$","div",null,{"children":[["$","div",null,{"className":"font-serif text-lg font-semibold","children":"Set each state's contribution"}],["$","p",null,{"className":"mt-1 text-sm text-foreground/75","children":"States currently pay $335.0B for Medicaid. Under a national program that money keeps flowing as a maintenance-of-effort (MOE) payment, so states pay what they paid before while the national program takes over the care."}],["$","div",null,{"className":"mt-2 text-xs text-muted-foreground","children":[4," tasks · ",2," cost items ·"," ","Months −16 to 0"]}]]}]]}]}]}]]}]]}],null,["$","$L11",null,{"children":["$","$12",null,{"name":"Next.MetadataOutlet","children":"$@13"}]}]]}],"p":"$@14","v":null,"s":"$a"}}]]
+d:[["children",{"s":{"n":"phase","t":"d","k":"groundwork","s":[]},"h":96,"d":{"r":["$","$2","c",{"children":[null,["$","$L6",null,{"parallelRouterKey":"children","template":["$","$L7",null,{}]}]]}],"p":"$@e","v":"$9","s":"$a"},"c":"$Qf"}]]
+b:[["children",{"s":"plan","h":96,"d":{"r":["$","$2","c",{"children":[null,["$","$L6",null,{"parallelRouterKey":"children","template":["$","$L7",null,{}]}]]}],"p":"$@c","v":"$9","s":"$a"},"c":"$Qd"}]]
+1:[["children",{"s":"single-payer","h":64,"d":{"r":["$","$2","c",{"children":[null,["$","$L6",null,{"parallelRouterKey":"children","template":["$","$L7",null,{}]}]]}],"p":"$@8","v":"$9","s":"$a"},"c":"$Qb"}]]
+0:{"t":{"t":{"s":"","h":16,"c":"$Q1"},"h":{"r":["$","$2","h",{"children":[null,["$","$L16",null,{"children":[["$","meta","0",{"charSet":"utf-8"}],["$","meta","1",{"name":"viewport","content":"width=device-width, initial-scale=1"}]]}],["$","$L18",null,{"children":[["$","div",null,{"hidden":true,"children":["$","$12",null,{"name":"Next.Metadata","children":[["$","title","0",{"children":"Phase 0: Preparation · Universal Healthcare"}],["$","meta","1",{"name":"description","content":"Every step, every trade-off, and every dollar of moving the United States to universal health care, built on CMS's 2024 National Health Expenditure data."}]]}]}],null]}],["$","meta",null,{"name":"next-size-adjust","content":""}]]}],"p":"$@19","v":null,"s":"$a"}},"a":"$@1a","u":"$@1b","b":"QKdqemOaLoTw9O6_dSJ_H"}
+13:null
+1b:true
+a:300
+a:C
+1a:0
+e:"$undefined"
+c:"$undefined"
+8:"$undefined"
+19:"$undefined"
+14:"$undefined"
