@@ -989,6 +989,22 @@ export const C = {
     "policy",
     { sourceIds: ["underins-income-cap-european-observatory-on--2020"] },
   ),
+  employerShareAll: k(
+    REFORM,
+    "People of all ages with employer-based coverage, 2024",
+    0.538,
+    "share",
+    "data",
+    { sourceIds: ["census-p60-288"] },
+  ),
+  aptcEnrollees2024: k(
+    REFORM,
+    "Marketplace enrollees receiving premium tax credits, February 2024 (millions)",
+    19.3,
+    "count",
+    "data",
+    { sourceIds: ["cms-effectuated-2025"] },
+  ),
   wishPayrollRate: k(
     REFORM,
     "Payroll tax to fund catastrophic long-term care insurance (WISH Act, central)",

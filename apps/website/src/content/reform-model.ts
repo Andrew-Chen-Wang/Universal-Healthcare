@@ -40,7 +40,7 @@ export type ReformLine = {
   sourceIds: string[]
   /** The arithmetic, step by step, for the line's calculation page. */
   steps?: CalcStep[]
-  /** Spending moved from households to private plans, $B a year, when the line only moves it. */
+  /** Spending private plans take on from households, $B a year (premiums follow it). */
   privateShift?: number
 }
 
@@ -468,7 +468,8 @@ export function reformCost(picks: Set<string>): ReformCost {
       label: "Basic dental, glasses, and hearing aids in private plans",
       delta: national,
       federal: 0,
-      explanation: `About ${gaining.toFixed(1)} million working-age adults with private insurance have no dental coverage. Covered, they use ${pct(u - 1)} more dental care (the single-payer model's dental assumption), and plans pay ${pct(1 - r)} of it, through premiums. Glasses and hearing aids add ${pct(vh)} on top, CBO's ratio for Medicare; working-age adults need fewer hearing aids, so this is an upper bound. Households pay ${fmt(-households)} less out of pocket and ${fmt(plans)} more in premiums. Federal subsidies follow premiums for people in subsidized plans; that share isn't counted here.`,
+      privateShift: plans,
+      explanation: `About ${gaining.toFixed(1)} million working-age adults with private insurance have no dental coverage. Covered, they use ${pct(u - 1)} more dental care (the single-payer model's dental assumption), and plans pay ${pct(1 - r)} of it, through premiums. Glasses and hearing aids add ${pct(vh)} on top, CBO's ratio for Medicare. Both lean high: working-age adults need fewer hearing aids, and people without dental coverage spend less than the average used here. Households pay ${fmt(-households)} less out of pocket and ${fmt(plans)} more in premiums. Its federal cost is counted in the federal side of premium changes.`,
       sourceIds: [
         "census-age-2024",
         "census-p60-288",
@@ -559,7 +560,7 @@ export function reformCost(picks: Set<string>): ReformCost {
       delta: 0,
       federal: 0,
       privateShift: shift,
-      explanation: `Spending above each family's cap moves from households to plans: about ${usd(perPerson)} a person a year, scaled from a study of income-tiered caps on group plans to 2024 spending, ${fmt(shift)} across ${people.toFixed(1)} million people with private insurance. National spending doesn't change except through extra care people use once they reach the cap, which isn't counted. A tighter cap, such as Germany's ${pct(v("germanyCopayCap"))} of income, would move more. Federal subsidies follow premiums for people in subsidized plans; that share isn't counted here.`,
+      explanation: `Spending above each family's cap moves from households to plans: about ${usd(perPerson)} a person a year, scaled from a study of income-tiered caps on group plans to 2024 spending, ${fmt(shift)} across ${people.toFixed(1)} million people with private insurance. National spending doesn't change except through extra care people use once they reach the cap, which isn't counted. A tighter cap, such as Germany's ${pct(v("germanyCopayCap"))} of income, would move more. Its federal cost is counted in the federal side of premium changes.`,
       sourceIds: ["riggs-oop-caps-2015", "census-p60-288", "cms-nhe-2024"],
       steps: [
         {
@@ -743,6 +744,92 @@ export function reformCost(picks: Set<string>): ReformCost {
         {
           label: "Change in federal and national spending (upper bound)",
           value: yearly,
+          unit: "B",
+          result: true,
+        },
+      ],
+    })
+  }
+
+  // 5c. Federal side of private premium changes: subsidies follow premiums for people with
+  // premium tax credits, and the tax exclusion follows employer premiums.
+  const premiumChange = privateChange + overheadAfter - PRIVATE_OVERHEAD
+  if (Math.abs(premiumChange) > 0.05) {
+    const privatePeople = v("pop2024Census") * v("privateShareAll")
+    const employerShare = v("employerShareAll") / v("privateShareAll")
+    const subsidizedShare = v("aptcEnrollees2024") / privatePeople
+    const taxRate = v("federalMarginalRate") + v("employerFica") + v("employeeFica")
+    const perDollar = employerShare * v("wagePassThrough") * taxRate + subsidizedShare
+    const federal = premiumChange * perDollar
+    const plansOf = (id: string) => lines.find((x) => x.id === id)?.privateShift ?? 0
+    const benefitPart = (plansOf("privateDvh") + plansOf("oopCap")) * (1 + ratioAfter)
+    lines.push({
+      id: "premiumFederal",
+      label: "Federal side of premium changes",
+      delta: 0,
+      federal,
+      explanation: `Private premiums change by ${fmt(premiumChange, { sign: true })} for people insured today${Math.abs(benefitPart) > 0.05 ? ` (${fmt(benefitPart, { sign: true })} of it from new benefits and the copay cap, with their overhead)` : ""}. Two federal costs follow premiums. People with premium tax credits (${pct(subsidizedShare)} of the privately insured) pay a premium capped by income, so the government pays every dollar of a change. Employer premiums (${pct(employerShare)} of the privately insured) are untaxed: when they fall, ${pct(v("wagePassThrough"))} comes back as taxable wages, taxed at ${pct(taxRate)} (income tax and both halves of payroll tax), and when they rise the reverse. Together: ${pct(perDollar)} of every premium dollar${Math.abs(benefitPart) > 0.05 ? `, so the new benefits and the copay cap cost the government ${fmt(benefitPart * perDollar)} and the premium savings return ${fmt(-(premiumChange - benefitPart) * perDollar)}` : ""}.`,
+      sourceIds: ["census-p60-288", "cms-effectuated-2025", "cbo-exclusion", "baicker-chandra"],
+      steps: [
+        {
+          label: "Change in private premiums (benefits plus overhead), people insured today",
+          value: premiumChange,
+          unit: "B",
+        },
+        ...(Math.abs(benefitPart) > 0.05
+          ? [
+              {
+                label: "Of which: new benefits and the copay cap, with overhead",
+                formula: `(${fmt(plansOf("privateDvh"))} + ${fmt(plansOf("oopCap"))}) × (1 + ${pct(ratioAfter)})`,
+                value: benefitPart,
+                unit: "B" as const,
+              },
+            ]
+          : []),
+        {
+          label: "People with private insurance",
+          formula: `${v("pop2024Census")} × ${pct(v("privateShareAll"))}`,
+          value: privatePeople * 1e6,
+          unit: "count",
+          inputs: ["pop2024Census", "privateShareAll"],
+          sourceIds: ["census-p60-288"],
+        },
+        {
+          label: "Share with employer coverage",
+          formula: `${pct(v("employerShareAll"))} ÷ ${pct(v("privateShareAll"))}`,
+          value: employerShare,
+          unit: "%",
+          inputs: ["employerShareAll", "privateShareAll"],
+          sourceIds: ["census-p60-288"],
+        },
+        {
+          label: "Share with premium tax credits",
+          formula: `${v("aptcEnrollees2024")}M ÷ ${privatePeople.toFixed(1)}M`,
+          value: subsidizedShare,
+          unit: "%",
+          inputs: ["aptcEnrollees2024"],
+          sourceIds: ["cms-effectuated-2025"],
+        },
+        {
+          label: "Tax on compensation: income tax plus both halves of payroll tax",
+          formula: `${pct(v("federalMarginalRate"))} + ${pct(v("employerFica"))} + ${pct(v("employeeFica"))}`,
+          value: taxRate,
+          unit: "%",
+          inputs: ["federalMarginalRate", "employerFica", "employeeFica"],
+          sourceIds: ["cbo-exclusion"],
+        },
+        {
+          label: "Federal share of each premium dollar",
+          formula: `${pct(employerShare)} × ${pct(v("wagePassThrough"))} × ${pct(taxRate)} + ${pct(subsidizedShare)}`,
+          value: perDollar,
+          unit: "%",
+          inputs: ["wagePassThrough"],
+          sourceIds: ["baicker-chandra"],
+        },
+        {
+          label: "Change in federal spending and lost revenue",
+          formula: `${fmt(premiumChange)} × ${pct(perDollar)}`,
+          value: federal,
           unit: "B",
           result: true,
         },

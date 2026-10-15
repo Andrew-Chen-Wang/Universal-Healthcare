@@ -1930,6 +1930,14 @@ export const SOURCES: Source[] = [
     note: "Uninsured working-age adults (19\u201364) in 2024: 31.8% of noncitizens vs 8.4% of native-born and 8.6% of naturalized citizens.",
   },
   {
+    id: "cms-effectuated-2025",
+    title: "Effectuated Enrollment: Early 2025 Snapshot and Full Year 2024 Average",
+    org: "Centers for Medicare & Medicaid Services",
+    year: 2025,
+    url: "https://www.cms.gov/files/document/effectuated-enrollment-early-snapshot-2025-and-full-year-2024-average.pdf",
+    note: "21.8 million Exchange enrollees received APTC in February 2025, up 13% from 19.3 million in February 2024.",
+  },
+  {
     id: "census-age-2024",
     title:
       "Older Adults Outnumber Children in 11 States and Nearly Half of U.S. Counties (Vintage 2024 estimates)",

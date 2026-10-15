@@ -118,12 +118,13 @@ if (cap.id)
 // Long-term care, priced for the decision step but not in the draft's totals.
 const ltcFull = HYBRID_LTC.full
 const ltcCatastrophic = HYBRID_LTC.catastrophic
+const reserve = -(HYBRID_COST.fundingGap ?? 0)
 add({
   id: "hy-ltc-options",
   title: "Long-term care: what each option costs",
   stepId: "ltc-decision",
   kind: "spending",
-  summary: `Not in the draft's totals. Catastrophic insurance (the WISH Act design: ${usd(v("wishMonthlyBenefit"))} a month after a waiting period of one to five years) needs a ${pct(v("wishPayrollRate"))} payroll tax, about ${fmt(ltcCatastrophic)} a year, ${usd((v("wishPayrollRate") / 2) * DOLLARS_100K)} for a worker earning ${usd(DOLLARS_100K)}. Full public long-term care, priced as the single-payer model prices it, would cost the federal government ${fmt(ltcFull.federal)} a year. The draft's ${H.surplus} reserve covers neither, so either option needs new money: a payroll tax reaches households below the ${show("breakEvenFloor")} line; a higher top-end tax doesn't.`,
+  summary: `Not in the draft's totals. Catastrophic insurance (the WISH Act design: ${usd(v("wishMonthlyBenefit"))} a month after a waiting period of one to five years) needs a ${pct(v("wishPayrollRate"))} payroll tax, about ${fmt(ltcCatastrophic)} a year, ${usd((v("wishPayrollRate") / 2) * DOLLARS_100K)} for a worker earning ${usd(DOLLARS_100K)}. Full public long-term care, priced as the single-payer model prices it, would cost the federal government ${fmt(ltcFull.federal)} a year. ${reserve >= ltcCatastrophic ? `The draft's ${H.surplus} reserve covers catastrophic insurance at the central estimate${reserve >= HYBRID_LTC.high ? "" : `, though not at the top of the range (${fmt(HYBRID_LTC.high)})`}, so it could be paid without a payroll tax and without breaking the ${show("breakEvenFloor")} rule; full public long-term care needs new money.` : `The draft's ${H.surplus} reserve covers neither, so either option needs new money: a payroll tax reaches households below the ${show("breakEvenFloor")} line; a higher top-end tax doesn't.`}`,
   amount: ltcCatastrophic,
   amountUnit: "B",
   range: {
@@ -190,6 +191,22 @@ if (cov.id)
     calc: (cov.steps ?? []).filter((s) => !s.label.startsWith("Change in national")),
     tradeoff: "Affordable coverage for people without it vs. federal cost paid by top-end taxes.",
     sourceIds: cov.sourceIds,
+  })
+
+// Federal side of premium changes: subsidies and the tax exclusion.
+const pf = hybridLine("premiumFederal")
+if (pf.id)
+  add({
+    id: "hy-premium-federal",
+    title: "Federal side of premium changes",
+    stepId: "income-based-premiums",
+    kind: pf.federal < 0 ? "saving" : "spending",
+    summary: pf.explanation,
+    amount: pf.federal,
+    amountUnit: "B",
+    calc: pf.steps ?? [],
+    tradeoff: "Lower premiums return money to the Treasury; richer benefits cost it.",
+    sourceIds: pf.sourceIds,
   })
 
 // Workforce.

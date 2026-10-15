@@ -138,6 +138,7 @@ export const H = {
   medicareDvh: fmt(hybridLine("medicareDvh").delta, { sign: true }),
   privateDvh: fmt(hybridLine("privateDvh").delta, { sign: true }),
   oopCap: fmt(hybridLine("oopCap").privateShift ?? 0),
+  premiumFederal: fmt(hybridLine("premiumFederal").federal, { sign: true }),
   ltcCatastrophic: fmt(HYBRID_LTC.catastrophic),
   ltcFullFederal: fmt(HYBRID_LTC.full.federal),
   oneTimeTotal: fmt(HYBRID_ONE_TIME_TOTAL),
