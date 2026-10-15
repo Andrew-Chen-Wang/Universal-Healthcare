@@ -121,7 +121,7 @@ jobs:
           "${{ needs.setup.outputs.preview_file_path }}" apps/website/out
       - id: wait
         name: Wait for GitHub Pages
-        if: steps.publish.outputs.deployment_status == 'success'
+        if: steps.publish.outputs.deployment_status == 'success' || steps.publish.outputs.deployment_status == 'skipped'
         continue-on-error: true
         timeout-minutes: 15
         env:
@@ -132,7 +132,7 @@ jobs:
       - name: Comment with the preview link
         env:
           GH_TOKEN: ${{ github.token }}
-          PAGES_READY: ${{ steps.wait.outcome == 'success' || steps.publish.outputs.deployment_status == 'skipped' }}
+          PAGES_READY: ${{ steps.wait.outcome == 'success' }}
         run: |
           bash _ci/.github/scripts/pr-preview/generate-comment.sh deploy > "$RUNNER_TEMP/comment.md"
           bash _ci/.github/scripts/pr-preview/comment.sh "$PR_NUMBER" "$RUNNER_TEMP/comment.md"

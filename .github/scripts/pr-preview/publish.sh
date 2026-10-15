@@ -93,10 +93,12 @@ for attempt in 1 2 3 4 5; do
     if git diff --cached --quiet; then
         echo >&2 "Nothing changed; skipping commit"
         status=skipped
+        sha=$(git rev-parse HEAD)
         popd > /dev/null
         break
     fi
     git commit --quiet -m "$message"
+    sha=$(git rev-parse HEAD)
     if git push --quiet origin "HEAD:refs/heads/$branch"; then
         status=success
         popd > /dev/null
@@ -112,7 +114,6 @@ if [ -z "$status" ]; then
     exit 1
 fi
 
-sha=$(git ls-remote --heads "$remote" "$branch" | cut -f1)
 echo >&2 "Deployment $status; $branch is at $sha"
 {
     echo "deployment_status=$status"
