@@ -1,5 +1,4 @@
 import "./globals.css"
-import { CoverageLink } from "@website/components/site/coverage-link"
 import { MobileNav, Sidebar } from "@website/components/site/sidebar"
 import { SIDEBAR } from "@website/content/navigation"
 import type { Metadata } from "next"
@@ -50,7 +49,9 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                 <Link className="hover:text-foreground" href="/inputs">
                   Every input number
                 </Link>
-                <CoverageLink className="hover:text-foreground" />
+                <Link className="hover:text-foreground" href="/coverage">
+                  Coverage check
+                </Link>
                 <Link className="hover:text-foreground" href="/method">
                   Method
                 </Link>

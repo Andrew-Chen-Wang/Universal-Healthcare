@@ -80,9 +80,9 @@ into the website and are not deployed.
   `/single-payer/plan` (`content/plan/`, `changes.ts`, `calculations.ts`, `step-extras.ts`,
   ...). Page code lives in `lib/plan/views/`; route files pick a version. Each plan has its own
   changes-by-phase list: `/changes` (hybrid) and `/single-payer/changes`.
-- The coverage checklist (does each plan answer every question?) runs per plan through
-  `content/plan-coverage.ts`: `/coverage` for the hybrid (`content/hybrid/coverage.ts`),
-  `/single-payer/coverage` for the single-payer plan.
+- The coverage checklist (does each plan answer every question?) is one page, `/coverage`,
+  with a column per plan; `content/plan-coverage.ts` runs the checks for both (the hybrid's
+  checklist links live in `content/hybrid/coverage.ts`).
 - Optimizations that work in any system (whoever pays: labs, virtual-first, hospital at
   home) live in `content/optimizations.ts`, outside the problem → path tree, with evidence
   for and against. Routes: `/optimizations`, `/optimizations/[id]`.
