@@ -3,22 +3,32 @@ import { MobileNav, Sidebar } from "@website/components/site/sidebar"
 import { SIDEBAR } from "@website/content/navigation"
 import type { Metadata } from "next"
 import Link from "next/link"
-import { IBM_Plex_Mono, IBM_Plex_Sans, Source_Serif_4 } from "next/font/google"
+import localFont from "next/font/local"
 
-const serif = Source_Serif_4({
-  subsets: ["latin"],
+// The font files live in ./fonts (latin subset, from Fontsource) so the build never
+// downloads from Google Fonts.
+const serif = localFont({
+  src: "./fonts/source-serif-4-latin-wght-normal.woff2",
+  weight: "200 900",
   variable: "--font-source-serif",
   display: "swap",
 })
-const sans = IBM_Plex_Sans({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
+const sans = localFont({
+  src: [
+    { path: "./fonts/ibm-plex-sans-latin-400-normal.woff2", weight: "400" },
+    { path: "./fonts/ibm-plex-sans-latin-500-normal.woff2", weight: "500" },
+    { path: "./fonts/ibm-plex-sans-latin-600-normal.woff2", weight: "600" },
+    { path: "./fonts/ibm-plex-sans-latin-700-normal.woff2", weight: "700" },
+  ],
   variable: "--font-plex-sans",
   display: "swap",
 })
-const mono = IBM_Plex_Mono({
-  subsets: ["latin"],
-  weight: ["400", "500", "600"],
+const mono = localFont({
+  src: [
+    { path: "./fonts/ibm-plex-mono-latin-400-normal.woff2", weight: "400" },
+    { path: "./fonts/ibm-plex-mono-latin-500-normal.woff2", weight: "500" },
+    { path: "./fonts/ibm-plex-mono-latin-600-normal.woff2", weight: "600" },
+  ],
   variable: "--font-plex-mono",
   display: "swap",
 })
