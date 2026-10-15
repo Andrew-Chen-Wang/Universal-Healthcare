@@ -66,13 +66,13 @@ function PriceExample() {
   const rows = [
     { label: "Today", total: base.nationalBefore, delta: undefined, pct: undefined },
     {
-      label: "Single payer, no price paths",
+      label: "The draft hybrid, no price paths",
       total: base.nationalAfter,
       delta: base.delta,
       pct: base.deltaPct,
     },
     {
-      label: "Single payer with the price paths",
+      label: "The draft hybrid with its price paths",
       total: priced.nationalAfter,
       delta: priced.delta,
       pct: priced.deltaPct,
@@ -82,8 +82,12 @@ function PriceExample() {
     <section className="mb-12 rounded-md border border-rule bg-card p-5">
       <h3 className="mb-1 text-xl font-semibold">Example: the same coverage, two price choices</h3>
       <p className="mb-4 max-w-prose text-sm">
-        Both cases cover everyone through a single payer with no point-of-care charges. The second
-        adds{" "}
+        Both cases cover everyone through{" "}
+        <Link href="/plan" className="underline">
+          the draft&apos;s hybrid
+        </Link>
+        : employer plans stay, everyone else is enrolled in regulated non-profit plans, and copays
+        are capped by income. The second adds{" "}
         {PRICE_EXAMPLE.withPrices.map((id, i) => (
           <span key={id}>
             {i > 0 && (i === PRICE_EXAMPLE.withPrices.length - 1 ? ", and " : ", ")}
