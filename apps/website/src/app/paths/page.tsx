@@ -111,6 +111,25 @@ export default function PathsPage() {
         title="Every path, so you can decide"
         lede="Each problem has two or more possible solution paths, each with pros, drawbacks, who gains, who loses, how to mend the losers, and where it has been tried. Many paths create new problems, which have their own subpaths. Nothing here is chosen yet."
       />
+      <p className="-mt-6 mb-8 max-w-3xl text-sm text-muted-foreground">
+        Two sets of picks are built out as full plans: the current draft, a Germany-style hybrid (
+        <Link href="/plan" className="underline">
+          plan
+        </Link>
+        ), and the earlier single-payer draft, kept as an alternative (
+        <Link href="/single-payer/plan" className="underline">
+          plan
+        </Link>
+        ,{" "}
+        <Link href="/paths/single-payer" className="underline">
+          path
+        </Link>
+        ). Compare them on{" "}
+        <Link href="/approaches" className="underline">
+          Compare approaches
+        </Link>
+        .
+      </p>
 
       <div className="mb-8 grid grid-cols-2 gap-3 sm:grid-cols-4">
         <Stat label="Solution paths" value={written.length.toString()} />

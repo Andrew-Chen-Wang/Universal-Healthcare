@@ -820,6 +820,11 @@ export const SINGLE_PAYER_PICKS: string[] = SINGLE_PAYER_ROWS.filter(
   (row) => row[1] === "chosen",
 ).map((row) => row[0])
 
+/** The phase each single-payer pick's changes join, in the single-payer plan. */
+export const SINGLE_PAYER_PHASE: Record<string, PhaseId> = Object.fromEntries(
+  SINGLE_PAYER_ROWS.filter((row) => row[1] === "chosen" && row[2]).map((row) => [row[0], row[2]!]),
+)
+
 /** Draft decisions as written above, before owner edits. */
 export const DRAFT_DECISIONS: Decision[] = ROWS.map(
   ([pathId, status, phase, confidence, reason, review]) => ({

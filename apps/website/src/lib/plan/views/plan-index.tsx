@@ -20,7 +20,10 @@ export function planIndexRoute(variant: PlanVariant) {
         <Callout tone="caution" title="Draft">
           The steps below are the detailed build-out of the plan. The full list of concrete changes
           from every chosen solution path is on{" "}
-          <Link href="/changes" className="underline">
+          <Link
+            href={variant === "hybrid" ? "/changes" : "/single-payer/changes"}
+            className="underline"
+          >
             Changes by phase
           </Link>
           . The picks are drafts awaiting review in the{" "}

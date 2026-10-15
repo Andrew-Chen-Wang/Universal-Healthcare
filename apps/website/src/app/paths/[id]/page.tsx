@@ -11,6 +11,8 @@ import {
   PATHS,
   pathsFor,
   requiredBy,
+  SINGLE_PAYER_PHASE,
+  SINGLE_PAYER_PICKS,
 } from "@website/content/paths"
 import { PHASES } from "@website/content/plan"
 import { PROBLEM_BY_ID } from "@website/content/problems"
@@ -71,6 +73,8 @@ export default async function PathPage({ params }: { params: Params }) {
   const created = [...(p.spawns ?? []), ...(p.worsens ?? [])]
   const decision = DECISION_BY_PATH[p.id]
   const phase = PHASES.find((ph) => ph.id === decision?.phase)
+  const inSinglePayer = SINGLE_PAYER_PICKS.includes(p.id)
+  const spPhase = PHASES.find((ph) => ph.id === SINGLE_PAYER_PHASE[p.id])
   const migrated = isMigrated(p)
   const effects = effectsOf(p)
   const impacts = impactsOf(p)
@@ -117,6 +121,38 @@ export default async function PathPage({ params }: { params: Params }) {
           <Link href="/paths/ledger" className="mt-2 inline-block text-xs underline">
             Review ledger
           </Link>
+        </section>
+      )}
+      {(inSinglePayer || p.id === "single-payer") && (
+        <section className="mb-10 rounded-md border border-rule bg-card p-4 text-sm">
+          <span className="font-semibold">In the single-payer plan:</span>{" "}
+          {p.id === "single-payer" ? (
+            <>
+              built out as a complete alternative to the current draft, with every step, cost, and
+              change:{" "}
+              <Link href="/single-payer/plan" className="underline">
+                the single-payer plan
+              </Link>
+              .
+            </>
+          ) : (
+            <>
+              chosen
+              {spPhase && (
+                <>
+                  ,{" "}
+                  <Link href={`/single-payer/changes#${spPhase.id}`} className="underline">
+                    Phase {spPhase.number}: {spPhase.title}
+                  </Link>
+                </>
+              )}
+              . See{" "}
+              <Link href="/single-payer/plan" className="underline">
+                the single-payer plan
+              </Link>
+              .
+            </>
+          )}
         </section>
       )}
 
