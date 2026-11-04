@@ -12,9 +12,9 @@ export default function GroupsPage() {
   return (
     <Page>
       <PageHeader
-        eyebrow="Part 1 · Decisions"
+        eyebrow="What changes for you"
         title="Who's affected"
-        lede="Each group links to the problems that hurt it or that it gains from. A path's winners and losers are worked out from these links, so each group is described once. Open a group to see how it fares under your mix of paths."
+        lede="Each group links to the problems that hurt it or that it gains from. A path's winners and losers are worked out from these links, so each group is described once. Open a group to see how it fares under your mix of paths, or pick your situation on What changes for you."
       />
       <ul className="grid gap-3 sm:grid-cols-2">
         {GROUPS.map((g) => {

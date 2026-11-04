@@ -1,10 +1,11 @@
 "use client"
-/** Reader-facing plan builder: pick paths, see combined trade-offs. Picks live in localStorage;
- * a reader with nothing saved starts from the site's plan. */
+/** Reader-facing plan builder: one step at a time (a starting point, then each problem category,
+ * then a review), with a pinned summary of what the picks cost and cover. Picks live in
+ * localStorage; a reader with nothing saved starts from the site's plan. */
 import { Button } from "@website/components/ui/button"
 import { cn } from "@website/lib/utils"
 import Link from "next/link"
-import { useMemo } from "react"
+import { useMemo, useRef, useState } from "react"
 import { fmt } from "@website/content/model"
 import { usePicks } from "@website/lib/picks"
 import { costFor, PRICED_PATHS } from "./cost"
@@ -31,7 +32,21 @@ export type BuilderPath = {
   scaleLabel: string
 }
 /** A whole approach the reader can start from (see content/approaches.ts). */
-export type Preset = { id: string; title: string; picks: string[] }
+export type Preset = { id: string; title: string; summary: string; picks: string[] }
+
+/** One screen of the builder: where to start, one problem category, new problems, or the review. */
+type Step =
+  | { id: "start"; label: string }
+  | { id: string; label: string; category: string }
+  | { id: "created"; label: string }
+  | { id: "review"; label: string }
+
+const slugify = (s: string) =>
+  s
+    .toLowerCase()
+    .replace(/&/g, "and")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/(^-|-$)/g, "")
 
 export function PlanBuilder({
   problems,
@@ -50,6 +65,8 @@ export function PlanBuilder({
   pop: Pop
 }) {
   const { picks, loaded, fromDefault, setAll, toggle } = usePicks(defaults)
+  const [stepId, setStepId] = useState("start")
+  const top = useRef<HTMLDivElement>(null)
 
   const byId = useMemo(() => Object.fromEntries(paths.map((p) => [p.id, p])), [paths])
   const byProblem = useMemo(() => {
@@ -78,6 +95,36 @@ export function PlanBuilder({
   const loses = dedupe(picked.flatMap((p) => p.loses))
   const answeredCount = base.filter((p) => answered(p.id)).length
   const issues = conflicts.length + missing.length + unansweredCreated.length
+
+  const cost = useMemo(() => costFor(picks), [picks])
+  const coverage = useMemo(() => coverageFor(picks, pop), [picks, pop])
+  const coveredGroups = coverage.filter((r) => r.status === "covered").length
+  const gapGroups = coverage.filter((r) => r.status === "gap" || r.status === "open").length
+  const limitedGroups = coverage.length - coveredGroups - gapGroups
+
+  const steps: Step[] = [
+    { id: "start", label: "Starting point" },
+    ...categories
+      .filter((c) => base.some((p) => p.category === c))
+      .map((c) => ({ id: slugify(c), label: c, category: c })),
+    ...(created.length > 0 ? [{ id: "created", label: "New problems" } as Step] : []),
+    { id: "review", label: "Review" },
+  ]
+  const index = Math.max(
+    0,
+    steps.findIndex((s) => s.id === stepId),
+  )
+  const step = steps[index]
+  const go = (id: string) => {
+    setStepId(id)
+    top.current?.scrollIntoView({ behavior: "smooth", block: "start" })
+  }
+  const stepDone = (s: Step) => {
+    if ("category" in s)
+      return base.filter((p) => p.category === s.category).every((p) => answered(p.id))
+    if (s.id === "created") return unansweredCreated.length === 0
+    return false
+  }
 
   const row = (pr: BuilderProblem) => {
     const options = byProblem[pr.id] ?? []
@@ -137,63 +184,138 @@ export function PlanBuilder({
     )
   }
 
-  return (
-    <div className="pb-20 lg:pb-0">
-      <div className="mb-6 flex flex-wrap items-center gap-2">
-        <span className="text-sm text-muted-foreground">Start from:</span>
-        {presets.map((a) => (
-          <Button
-            key={a.id}
-            variant="outline"
-            className="h-10"
+  const issueList = issues > 0 && (
+    <ul className="space-y-2 rounded-sm bg-loss-soft p-3 text-sm">
+      {conflicts.map(([a, b]) => (
+        <li key={`${a.id}-${b.id}`}>
+          <strong>Conflict:</strong> {a.title} / {b.title}
+        </li>
+      ))}
+      {missing.map(([p, r]) => (
+        <li key={`${p.id}-${r.id}`}>
+          <strong>Missing:</strong> {p.title} needs{" "}
+          <button
+            type="button"
+            className="underline"
             onClick={() => {
-              setAll(new Set(a.picks))
+              toggle(r.id)
             }}
           >
-            {a.title}
-          </Button>
-        ))}
-        <Button
-          variant="ghost"
-          className="h-10"
-          disabled={picks.size === 0}
-          onClick={() => {
-            setAll(new Set())
-          }}
-        >
-          Clear all picks
-        </Button>
-        <Link href="/approaches" className="text-sm underline">
-          Compare these side by side
-        </Link>
-      </div>
-      {loaded && fromDefault && (
-        <p className="-mt-3 mb-6 text-sm text-muted-foreground">
-          Showing the site&apos;s plan, a Germany-style hybrid. Change any pick, start from another
-          approach, or clear them all; your changes stay in this browser.
-        </p>
-      )}
+            {r.title}
+          </button>
+        </li>
+      ))}
+      {unansweredCreated.map((p) => (
+        <li key={p.id}>
+          <strong>Unanswered new problem:</strong> {p.title}
+        </li>
+      ))}
+    </ul>
+  )
 
-      <CoverageTable picks={picks} pop={pop} />
-      <CostPanel picks={picks} />
+  return (
+    <div ref={top} className="scroll-mt-4 pb-24 lg:pb-0">
+      <nav
+        aria-label="Steps"
+        className="relative -mx-4 mb-6 flex gap-1.5 overflow-x-auto px-4 pb-1 lg:mx-0 lg:flex-wrap lg:overflow-visible lg:px-0"
+      >
+        {steps.map((s, i) => {
+          const on = s.id === step.id
+          const done = stepDone(s)
+          return (
+            <button
+              key={s.id}
+              type="button"
+              aria-current={on ? "step" : undefined}
+              onClick={() => {
+                go(s.id)
+              }}
+              className={cn(
+                "shrink-0 rounded-full border px-3 py-1 text-[13px] whitespace-nowrap transition-colors",
+                on
+                  ? "border-ink bg-ink text-paper"
+                  : done
+                    ? "border-gain/30 bg-gain-soft text-gain hover:border-gain"
+                    : "border-rule bg-card text-foreground/80 hover:border-primary",
+              )}
+            >
+              {done && !on && <span aria-hidden="true">✓ </span>}
+              <span className="sr-only">Step {i + 1}: </span>
+              {s.label}
+            </button>
+          )
+        })}
+      </nav>
 
-      <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_320px]">
-        <div className="min-w-0 space-y-8">
-          {categories.map((cat) => {
-            const rows = base.filter((p) => p.category === cat)
-            if (!rows.length) return null
-            return (
-              <section key={cat}>
-                <h2 className="mb-2 text-lg font-semibold">{cat}</h2>
-                <table className="w-full">
-                  <tbody>{rows.map(row)}</tbody>
-                </table>
-              </section>
-            )
-          })}
-          {created.length > 0 && (
+      <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_300px]">
+        <div className="min-w-0">
+          {step.id === "start" && (
+            <section className="space-y-4">
+              <h2 className="text-xl font-semibold">Where do you want to start?</h2>
+              {loaded && fromDefault && (
+                <p className="text-sm text-muted-foreground">
+                  You&apos;re starting from the site&apos;s plan, a Germany-style hybrid. Change any
+                  pick in the steps that follow; your changes stay in this browser.
+                </p>
+              )}
+              <div className="grid gap-2">
+                {presets.map((a) => {
+                  const on = a.picks.length === picks.size && a.picks.every((id) => picks.has(id))
+                  return (
+                    <button
+                      key={a.id}
+                      type="button"
+                      aria-pressed={on}
+                      onClick={() => {
+                        setAll(new Set(a.picks))
+                      }}
+                      className={cn(
+                        "grid gap-1 rounded-md border bg-card p-4 text-left",
+                        on
+                          ? "border-primary shadow-[inset_3px_0_0_var(--color-primary)]"
+                          : "border-rule hover:border-primary/60",
+                      )}
+                    >
+                      <span className="font-medium">{a.title}</span>
+                      <span className="text-sm text-muted-foreground">{a.summary}</span>
+                    </button>
+                  )
+                })}
+              </div>
+              <div className="flex flex-wrap items-center gap-3">
+                <Button
+                  variant="ghost"
+                  className="h-10"
+                  disabled={picks.size === 0}
+                  onClick={() => {
+                    setAll(new Set())
+                  }}
+                >
+                  Clear all picks
+                </Button>
+                <Link href="/approaches" className="text-sm underline">
+                  Compare these side by side
+                </Link>
+              </div>
+            </section>
+          )}
+
+          {"category" in step && (
             <section>
-              <h2 className="mb-1 text-lg font-semibold">New problems your picks create</h2>
+              <h2 className="mb-1 text-xl font-semibold">{step.label}</h2>
+              <p className="mb-2 text-sm text-muted-foreground">
+                Pick one or more solution paths for each problem. Bars show how much each path
+                changes today&apos;s system.
+              </p>
+              <table className="w-full">
+                <tbody>{base.filter((p) => p.category === step.category).map(row)}</tbody>
+              </table>
+            </section>
+          )}
+
+          {step.id === "created" && (
+            <section>
+              <h2 className="mb-1 text-xl font-semibold">New problems your picks create</h2>
               <p className="mb-2 text-sm text-muted-foreground">
                 Each needs its own answer, or the plan has a gap.
               </p>
@@ -202,102 +324,158 @@ export function PlanBuilder({
               </table>
             </section>
           )}
+
+          {step.id === "review" && (
+            <section className="space-y-2">
+              <CoverageTable picks={picks} pop={pop} />
+              <CostPanel picks={picks} />
+              {picked.length === 0 ? (
+                <p className="text-sm text-muted-foreground">
+                  No solution paths picked yet. Go back to a step and pick some, or start from an
+                  approach.
+                </p>
+              ) : (
+                <div className="space-y-4">
+                  <h2 className="text-lg font-semibold">What your picks do</h2>
+                  {issueList}
+                  <SummaryList
+                    title={`What it fixes (${picked.reduce((n, p) => n + p.fixes.length, 0)})`}
+                    tone="gain"
+                  >
+                    {picked.map((p) => (
+                      <PathItems key={p.id} path={p} items={p.fixes} />
+                    ))}
+                  </SummaryList>
+                  <SummaryList
+                    title={`What it creates or worsens (${picked.reduce((n, p) => n + p.harms.length, 0)})`}
+                    tone="loss"
+                  >
+                    {picked.map((p) => (
+                      <PathItems key={p.id} path={p} items={p.harms} />
+                    ))}
+                  </SummaryList>
+                  <SummaryList title={`Who gains (${gains.length})`} tone="gain">
+                    <ItemList items={gains} />
+                  </SummaryList>
+                  <SummaryList title={`Who loses (${loses.length})`} tone="loss">
+                    <ItemList items={loses} />
+                  </SummaryList>
+                  <SummaryList title={`Changes required (${changes.length})`} tone="neutral">
+                    {picked.map((p) => (
+                      <PathItems
+                        key={p.id}
+                        path={p}
+                        items={p.changes.map((text) => ({ text }))}
+                        ordered
+                      />
+                    ))}
+                  </SummaryList>
+                </div>
+              )}
+            </section>
+          )}
+
+          <div className="mt-8 flex items-center justify-between gap-3 border-t border-rule pt-4">
+            {index > 0 ? (
+              <Button
+                variant="outline"
+                className="h-10"
+                onClick={() => {
+                  go(steps[index - 1].id)
+                }}
+              >
+                ← {steps[index - 1].label}
+              </Button>
+            ) : (
+              <span />
+            )}
+            {index < steps.length - 1 && (
+              <Button
+                className="h-10"
+                onClick={() => {
+                  go(steps[index + 1].id)
+                }}
+              >
+                {steps[index + 1].label} →
+              </Button>
+            )}
+          </div>
         </div>
 
-        <aside id="summary" aria-label="Your plan" className="lg:sticky lg:top-4 lg:self-start">
-          <div className="space-y-5 rounded-md border border-rule bg-card p-5 lg:max-h-[calc(100vh-2rem)] lg:overflow-y-auto">
-            <h2 className="text-lg font-semibold">Your plan</h2>
+        <aside
+          aria-label="Your plan so far"
+          className="hidden lg:sticky lg:top-4 lg:block lg:self-start"
+        >
+          <div className="space-y-4 rounded-md border border-rule bg-card p-5 lg:max-h-[calc(100vh-2rem)] lg:overflow-y-auto">
+            <div className="text-xs font-semibold tracking-[0.12em] text-muted-foreground uppercase">
+              Your plan so far
+            </div>
+            <div>
+              <div className="font-serif text-3xl leading-none font-semibold tabular-nums">
+                {fmt(cost.nationalAfter)}
+              </div>
+              <div className="mt-1 text-xs text-muted-foreground">
+                national health spending a year
+              </div>
+              <div
+                className={cn(
+                  "mt-1 text-sm font-medium tabular-nums",
+                  cost.delta < 0
+                    ? "text-gain"
+                    : cost.delta > 0
+                      ? "text-loss"
+                      : "text-muted-foreground",
+                )}
+              >
+                {fmt(cost.delta, { sign: true })} against today
+              </div>
+            </div>
+            {cost.federalAfter !== undefined && cost.federalBefore !== undefined && (
+              <div className="text-sm">
+                <div className="text-xs text-muted-foreground">Federal health spending</div>
+                <div className="tabular-nums">
+                  {fmt(cost.federalAfter - cost.federalBefore, { sign: true })} a year
+                </div>
+              </div>
+            )}
+            <div className="text-sm">
+              <div className="text-xs text-muted-foreground">Coverage</div>
+              <div>
+                {coveredGroups} of {coverage.length} groups covered
+                {limitedGroups > 0 && (
+                  <span className="text-muted-foreground">
+                    ; {limitedGroups} with limits (partial, waiting period, emergency only, or a
+                    separate system)
+                  </span>
+                )}
+                {gapGroups > 0 && (
+                  <span className="text-loss">; {gapGroups} not addressed or undecided</span>
+                )}
+              </div>
+            </div>
             <dl className="grid grid-cols-2 gap-3 text-sm">
               <div>
-                <dt className="text-muted-foreground">Problems answered</dt>
-                <dd className="font-mono text-xl">
+                <dt className="text-xs text-muted-foreground">Problems answered</dt>
+                <dd className="tabular-nums">
                   {answeredCount}/{base.length}
                 </dd>
               </div>
               <div>
-                <dt className="text-muted-foreground">Paths picked</dt>
-                <dd className="font-mono text-xl">{picked.length}</dd>
-              </div>
-              <div>
-                <dt className="text-muted-foreground">Changes required</dt>
-                <dd className="font-mono text-xl">{changes.length}</dd>
-              </div>
-              <div>
-                <dt className="text-muted-foreground">Issues</dt>
-                <dd className={cn("font-mono text-xl", issues ? "text-loss" : "text-gain")}>
-                  {issues}
-                </dd>
+                <dt className="text-xs text-muted-foreground">Issues</dt>
+                <dd className={cn("tabular-nums", issues ? "text-loss" : "text-gain")}>{issues}</dd>
               </div>
             </dl>
-
-            {issues > 0 && (
-              <ul className="space-y-2 rounded-sm bg-loss-soft p-3 text-sm">
-                {conflicts.map(([a, b]) => (
-                  <li key={`${a.id}-${b.id}`}>
-                    <strong>Conflict:</strong> {a.title} / {b.title}
-                  </li>
-                ))}
-                {missing.map(([p, r]) => (
-                  <li key={`${p.id}-${r.id}`}>
-                    <strong>Missing:</strong> {p.title} needs{" "}
-                    <button
-                      type="button"
-                      className="underline"
-                      onClick={() => {
-                        toggle(r.id)
-                      }}
-                    >
-                      {r.title}
-                    </button>
-                  </li>
-                ))}
-                {unansweredCreated.map((p) => (
-                  <li key={p.id}>
-                    <strong>Unanswered new problem:</strong> {p.title}
-                  </li>
-                ))}
-              </ul>
-            )}
-
-            {picked.length === 0 ? (
-              <p className="text-sm text-muted-foreground">
-                Pick paths in the table, or start from one of the approaches above.
-              </p>
-            ) : (
-              <>
-                <SummaryList
-                  title={`What it fixes (${picked.reduce((n, p) => n + p.fixes.length, 0)})`}
-                  tone="gain"
-                >
-                  {picked.map((p) => (
-                    <PathItems key={p.id} path={p} items={p.fixes} />
-                  ))}
-                </SummaryList>
-                <SummaryList
-                  title={`What it creates or worsens (${picked.reduce((n, p) => n + p.harms.length, 0)})`}
-                  tone="loss"
-                >
-                  {picked.map((p) => (
-                    <PathItems key={p.id} path={p} items={p.harms} />
-                  ))}
-                </SummaryList>
-                <SummaryList title={`Who gains (${gains.length})`} tone="gain">
-                  <ItemList items={gains} />
-                </SummaryList>
-                <SummaryList title={`Who loses (${loses.length})`} tone="loss">
-                  <ItemList items={loses} />
-                </SummaryList>
-                <SummaryList title={`Changes required (${changes.length})`} tone="neutral">
-                  {picked.map((p) => (
-                    <PathItems
-                      key={p.id}
-                      path={p}
-                      items={p.changes.map((text) => ({ text }))}
-                      ordered
-                    />
-                  ))}
-                </SummaryList>
-              </>
+            {issueList}
+            {step.id !== "review" && (
+              <Button
+                variant="outline"
+                className="h-10 w-full"
+                onClick={() => {
+                  go("review")
+                }}
+              >
+                See the full review
+              </Button>
             )}
           </div>
         </aside>
@@ -305,15 +483,26 @@ export function PlanBuilder({
 
       <div className="fixed inset-x-0 bottom-0 z-20 border-t border-rule bg-background/95 px-4 pt-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] backdrop-blur lg:hidden">
         <div className="flex items-center gap-4 text-sm">
-          <span>
-            <strong className="font-mono">{answeredCount}</strong>/{base.length} answered
+          <span className="tabular-nums">
+            <strong>{fmt(cost.nationalAfter)}</strong>{" "}
+            <span className={cost.delta < 0 ? "text-gain" : cost.delta > 0 ? "text-loss" : ""}>
+              ({fmt(cost.delta, { sign: true })})
+            </span>
           </span>
           <span className={issues ? "text-loss" : "text-gain"}>
-            <strong className="font-mono">{issues}</strong> issues
+            <strong className="tabular-nums">{issues}</strong> issues
           </span>
-          <a href="#summary" className="ml-auto font-medium text-primary underline">
-            See your plan
-          </a>
+          {step.id !== "review" && (
+            <button
+              type="button"
+              onClick={() => {
+                go("review")
+              }}
+              className="ml-auto font-medium text-primary underline"
+            >
+              Review
+            </button>
+          )}
         </div>
       </div>
     </div>

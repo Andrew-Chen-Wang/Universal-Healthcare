@@ -149,12 +149,10 @@ function Byline() {
 /** A top-level area. Its links and groups show only while you're inside it. */
 function Area({
   area,
-  index,
   pathname,
   onNavigate,
 }: {
   area: SideArea
-  index: number
   pathname: string
   onNavigate?: () => void
 }) {
@@ -167,15 +165,12 @@ function Area({
         onClick={onNavigate}
         aria-current={pathname === area.href ? "page" : undefined}
         className={cn(
-          "flex items-baseline gap-2.5 rounded-sm px-2 py-1.5 text-[15px]",
+          "flex items-baseline gap-2 rounded-sm px-2 py-1.5 text-[15px]",
           active
             ? "bg-accent font-medium text-accent-foreground"
             : "text-foreground/85 hover:bg-secondary hover:text-foreground",
         )}
       >
-        <span className="num w-5 shrink-0 text-[11px] text-muted-foreground">
-          {String(index + 1).padStart(2, "0")}
-        </span>
         <span>{area.title}</span>
         {area.note && (
           <span className="num ml-auto pl-2 text-[11px] font-normal text-muted-foreground">
@@ -184,7 +179,7 @@ function Area({
         )}
       </Link>
       {active && hasChildren && (
-        <div className="mt-1 mb-3 ml-[18px] space-y-3 border-l border-rule pl-2">
+        <div className="mt-1 mb-3 ml-2 space-y-3 border-l border-rule pl-2">
           {area.links.length > 0 && (
             <ul className="space-y-0.5">
               {area.links.map((l) => (
@@ -210,8 +205,8 @@ function Tree({ areas, onNavigate }: { areas: SideArea[]; onNavigate?: () => voi
   return (
     <nav aria-label="Site">
       <ul className="space-y-0.5">
-        {areas.map((a, i) => (
-          <Area key={a.id} area={a} index={i} pathname={pathname} onNavigate={onNavigate} />
+        {areas.map((a) => (
+          <Area key={a.id} area={a} pathname={pathname} onNavigate={onNavigate} />
         ))}
       </ul>
     </nav>

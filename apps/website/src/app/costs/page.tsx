@@ -22,7 +22,7 @@ export default function CostsPage() {
   return (
     <Page>
       <PageHeader
-        eyebrow="Part 1"
+        eyebrow="What it costs"
         title="Costs"
         lede={`${INVENTORY.length} cost items that make up U.S. health spending, broken down by service, payer, occupation (head count × average wage), industry payroll, hospital cost structure, drug R&D and manufacturing, insurance and intermediaries, administration, waste, liability, fraud, training, long-term care, margins, and capital. Many items overlap (a nurse's wage is inside hospital spending), so only categories marked "adds up" can be summed.`}
       />

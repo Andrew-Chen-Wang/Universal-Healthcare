@@ -157,7 +157,7 @@ export default function ApproachesPage() {
   return (
     <Page>
       <PageHeader
-        eyebrow="Part 1 · Decisions"
+        eyebrow="The options"
         title="Compare approaches"
         lede="The same problems, answered five ways: from changing nothing, through small fixes and bigger reforms that keep today's insurers, to one public payer. Each column is built by a rule from how much each path changes today's system, so no column is tuned by hand."
       />

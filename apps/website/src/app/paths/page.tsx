@@ -107,7 +107,7 @@ export default function PathsPage() {
   return (
     <Page>
       <PageHeader
-        eyebrow="Part 1 · Solution paths"
+        eyebrow="The options"
         title="Every path, so you can decide"
         lede="Each problem has two or more possible solution paths, each with pros, drawbacks, who gains, who loses, how to mend the losers, and where it has been tried. Many paths create new problems, which have their own subpaths. Nothing here is chosen yet."
       />

@@ -179,12 +179,7 @@ export default function Home() {
           </KeyNumber>
         </div>
         <div className="mt-6 grid gap-3 sm:grid-cols-3">
-          <Door
-            href="/groups"
-            title="What changes for me?"
-            sub="See how each group fares"
-            primary
-          />
+          <Door href="/for-you" title="What changes for me?" sub="Pick your situation" primary />
           <Door href="/plan" title="How would it work?" sub="The plan, phase by phase" />
           <Door href="/your-plan" title="Build your own plan" sub="Make different choices" />
         </div>

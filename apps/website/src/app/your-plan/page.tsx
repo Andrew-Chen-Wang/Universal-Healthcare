@@ -48,15 +48,15 @@ export default function YourPlanPage() {
   return (
     <Page>
       <PageHeader
-        eyebrow="Part 1 · Decisions"
+        eyebrow="What changes for you"
         title="Build your plan"
-        lede="It starts from the site's plan. Pick one or more solution paths for each problem, including “Keep current law” where you'd change nothing. Bars show how much each path changes today's system. The summary combines what they fix, what they create or worsen, who gains and who loses, the concrete changes they need, and any conflicts or new problems your picks create. Your picks stay in this browser."
+        lede="Pick a solution path for each problem, one area at a time, and watch what your plan costs and who it covers. It starts from the site's plan; your picks stay in this browser."
       />
       <PlanBuilder
         problems={problems}
         paths={paths}
         categories={PROBLEM_CATEGORIES.filter((c) => !SIDE_EFFECT_CATEGORIES.includes(c))}
-        presets={APPROACHES.map(({ id, title, picks }) => ({ id, title, picks }))}
+        presets={APPROACHES.map(({ id, title, summary, picks }) => ({ id, title, summary, picks }))}
         defaults={CHOSEN.map((p) => p.id)}
         pop={popFromConstants()}
       />

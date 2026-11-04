@@ -1,4 +1,4 @@
-import { Callout, Page, PageHeader, PlanVersionNotice } from "@website/components/site/ui"
+import { Page, PageHeader, PlanVersionNotice } from "@website/components/site/ui"
 import type { Metadata } from "next"
 import Link from "next/link"
 import type { PlanVariant } from "@website/content/plan-bundle"
@@ -12,26 +12,11 @@ export function planIndexRoute(variant: PlanVariant) {
     return (
       <Page>
         <PageHeader
-          eyebrow="Part 2"
-          title="Changes by phase"
+          eyebrow="How it would happen"
+          title="Phase by phase"
           lede="Every change to the system, grouped into phases. Each change has its tasks, design choices and alternatives, costs with calculations, trade-offs, risks, the existing laws and institutions it affects, and comparisons with other countries. Political feasibility is deliberately set aside."
         />
         <PlanVersionNotice variant={variant} />
-        <Callout tone="caution" title="Not yet final">
-          The steps below are the detailed build-out of the plan. The full list of concrete changes
-          from every chosen solution path is on{" "}
-          <Link
-            href={variant === "hybrid" ? "/changes" : "/single-payer/changes"}
-            className="underline"
-          >
-            Changes by phase
-          </Link>
-          . The picks are still awaiting review in the{" "}
-          <Link href="/paths/ledger" className="underline">
-            review ledger
-          </Link>
-          .
-        </Callout>
         {plan.phases.map((p) => {
           const nav = plan.nav.find((x) => x.id === p.id)!
           return (

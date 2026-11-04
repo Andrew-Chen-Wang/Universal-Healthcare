@@ -10,7 +10,7 @@ export default function ProblemsPage() {
   return (
     <Page>
       <PageHeader
-        eyebrow="Part 1"
+        eyebrow="What's wrong today"
         title="Problems"
         lede={`${PROBLEMS.length} problems in today's system and in universal systems elsewhere. Each page states the evidence, who is hurt, who profits from the problem continuing (the incentive any fix has to deal with), root causes, related costs, and the open questions whose answers become solution paths.`}
       />

@@ -73,7 +73,7 @@ export const SIDEBAR: SideArea[] = [
     match: ["/approaches", "/paths", "/optimizations"],
     links: [
       { id: "approaches", label: "Compare approaches", href: "/approaches" },
-      { id: "tree", label: "Every option, problem by problem", href: "/paths" },
+      { id: "tree", label: "Solution paths, problem by problem", href: "/paths" },
       {
         id: "optimizations",
         label: "Optimizations for any system",
@@ -86,7 +86,6 @@ export const SIDEBAR: SideArea[] = [
           })),
         ),
       },
-      { id: "ledger", label: "Review ledger", href: "/paths/ledger" },
     ],
     groups: [],
   },
@@ -129,7 +128,7 @@ export const SIDEBAR: SideArea[] = [
     href: "/costs",
     match: ["/costs"],
     note: String(INVENTORY.length),
-    links: [{ id: "all-costs", label: "Where the money goes", href: "/costs" }],
+    links: [{ id: "all-costs", label: "Cost items", href: "/costs" }],
     groups: COST_CATEGORIES.map((c) => ({
       id: `c-${slug(c)}`,
       title: c,
@@ -144,10 +143,11 @@ export const SIDEBAR: SideArea[] = [
   {
     id: "you",
     title: "What changes for you",
-    href: "/groups",
-    match: ["/groups", "/your-plan"],
+    href: "/for-you",
+    match: ["/for-you", "/groups", "/your-plan"],
     links: [
-      { id: "groups", label: "Who's affected", href: "/groups" },
+      { id: "for-you", label: "Pick your situation", href: "/for-you" },
+      { id: "groups", label: "Every affected group", href: "/groups" },
       { id: "your-plan", label: "Build your own plan", href: "/your-plan" },
     ],
     groups: [],

@@ -84,7 +84,7 @@ export default function LedgerPage() {
   return (
     <Page>
       <PageHeader
-        eyebrow="Part 1 · Decisions"
+        eyebrow="The options"
         title="Review ledger"
         lede="Every solution path has a provisional decision, made so the plan could be built. None is reviewed yet. Work through this list top to bottom: the least certain and most consequential picks come first."
       />

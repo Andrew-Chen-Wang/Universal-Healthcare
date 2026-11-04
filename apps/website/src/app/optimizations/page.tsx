@@ -15,7 +15,7 @@ export default function OptimizationsPage() {
   return (
     <Page>
       <PageHeader
-        eyebrow="Part 1 · Optimizations"
+        eyebrow="The options"
         title="Optimizations for any system"
         lede="Some ways to cut cost or improve care don't depend on who pays. They work under current law, with today's insurers, or under a single payer. They sit outside the choice between approaches, and every approach can use them."
       />
