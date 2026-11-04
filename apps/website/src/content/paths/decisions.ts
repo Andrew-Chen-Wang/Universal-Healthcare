@@ -4,10 +4,10 @@
  * unreviewed until the owner sets `reviewed: true`. The ledger page
  * (/paths/ledger) lists them in review order.
  *
- * Two drafts live here. SINGLE_PAYER_ROWS is the first draft: one public
+ * Two plans live here. SINGLE_PAYER_ROWS is the single-payer plan: one public
  * payer, no cost sharing, a mix of employer payroll tax and income tax, rolled
  * out in waves. It stays as a complete path to compare (SINGLE_PAYER_PICKS,
- * shown on /approaches). HYBRID_ROWS is the current draft, a Germany-style
+ * shown on /approaches). HYBRID_ROWS is the main plan, a Germany-style
  * hybrid the owner asked for: employer plans stay (with a mandate for large
  * employers), everyone else is enrolled in regulated non-profit plans with
  * income-based premiums, and new federal costs are paid only by top-end
@@ -77,7 +77,7 @@ const SINGLE_PAYER_ROWS: Row[] = [
     "build",
     "medium",
     "Only path that ends churn, networks, job lock, and most admin cost at once; matches the site's cost model.",
-    "The biggest call on the site. Weigh against regulated multi-payer (Germany/Switzerland), which keeps plan choice with smaller savings. Single payer no longer bans private insurance by itself; that is decided under Two-tier care (draft: supplemental only). Compare at /approaches.",
+    "The biggest call on the site. Weigh against regulated multi-payer (Germany/Switzerland), which keeps plan choice with smaller savings. Single payer no longer bans private insurance by itself; that is decided under Two-tier care (single-payer pick: supplemental only). Compare at /approaches.",
   ),
   r(
     "regulated-multipayer",
@@ -512,7 +512,7 @@ const SINGLE_PAYER_ROWS: Row[] = [
     "transition-phased",
     "groundwork",
     "high",
-    "Waves over several years; matches the site's draft plan.",
+    "Waves over several years; matches the site's plan.",
   ),
   r("transition-big-bang", "medium", "Too risky at U.S. scale."),
   r(
@@ -611,7 +611,7 @@ const SINGLE_PAYER_ROWS: Row[] = [
 ]
 
 /**
- * The current draft: a Germany-style hybrid. Owner's requirements: specialist
+ * The main plan: a Germany-style hybrid. Owner's requirements: specialist
  * waits barely move for people with employer coverage, no household under
  * the break-even floor (constants.ts) pays more, and basic dental in every
  * plan with long-term care left for later.
@@ -621,15 +621,15 @@ const HYBRID_ROWS: Row[] = [
   r(
     "single-payer",
     "medium",
-    "Kept as a separate path to compare (Single payer column on /approaches), not in the current draft: the owner judged it too hard to enact, and it ends the employer plans whose higher payments keep their waits short.",
-    "The earlier draft. Its picks are saved in full as SINGLE_PAYER_PICKS.",
+    "Kept as a separate path to compare (Single payer column on /approaches), not in the hybrid plan: it is judged too hard to enact, and it ends the employer plans whose higher payments keep their waits short.",
+    "Built out in full as the single-payer plan at /single-payer/plan.",
   ),
   c(
     "regulated-multipayer",
     "build",
     "medium",
     "Germany-style: everyone without employer coverage, Medicare, or Medicaid joins a non-profit plan that must take everyone at standard benefits.",
-    "The new core of the draft. Check plan-market rules: standard benefit, risk adjustment, and how many plans each region needs.",
+    "The core of the hybrid plan. Check plan-market rules: standard benefit, risk adjustment, and how many plans each region needs.",
   ),
   c(
     "employer-mandate-50",
@@ -815,7 +815,7 @@ const merged = new Map<string, Row>()
 for (const row of [...SINGLE_PAYER_ROWS, ...HYBRID_ROWS]) merged.set(row[0], row)
 const ROWS: Row[] = [...merged.values()]
 
-/** The earlier single-payer draft, kept as its own path to compare. */
+/** The single-payer plan, kept as its own path to compare. */
 export const SINGLE_PAYER_PICKS: string[] = SINGLE_PAYER_ROWS.filter(
   (row) => row[1] === "chosen",
 ).map((row) => row[0])

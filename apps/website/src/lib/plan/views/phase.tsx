@@ -50,8 +50,7 @@ export function phaseRoute(variant: PlanVariant) {
               Changes from chosen paths in this phase: {changeCount}
             </h2>
             <p className="mt-1 text-sm text-muted-foreground">
-              {chosen.length} chosen solution paths (draft picks awaiting review) land in this
-              phase.{" "}
+              {chosen.length} chosen solution paths (picks awaiting review) land in this phase.{" "}
               <Link href={`/changes#${p.id}`} className="underline">
                 See every change
               </Link>

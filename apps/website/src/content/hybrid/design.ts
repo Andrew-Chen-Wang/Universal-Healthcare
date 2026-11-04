@@ -18,7 +18,7 @@ export const HY_DESIGN_DECISIONS: Decision[] = [
     alternatives: [
       {
         name: "Single payer",
-        description: "One public plan for everyone (the earlier draft, kept as its own plan).",
+        description: "One public plan for everyone (built out as its own plan).",
         pros: [
           { point: "Largest administrative savings and one price for every provider." },
           { point: "Ends networks, denials by insurers, and job lock." },
@@ -53,7 +53,7 @@ export const HY_DESIGN_DECISIONS: Decision[] = [
     alternatives: [
       {
         name: "End employer coverage and replace it with a payroll tax",
-        description: "The single-payer draft's approach.",
+        description: "The single-payer plan's approach.",
         pros: [{ point: "Ends job lock and employer-plan administration." }],
         cons: [{ point: "A tax on every employer and the loss of plans people like." }],
       },
@@ -107,7 +107,7 @@ export const HY_DESIGN_DECISIONS: Decision[] = [
     alternatives: [
       {
         name: "Full dental, vision, hearing, and long-term care",
-        description: "The single-payer draft's benefit.",
+        description: "The single-payer plan's benefit.",
         pros: [{ point: "Covers the biggest remaining gaps." }],
         cons: [{ point: "Needs a broad tax, breaking the break-even rule." }],
       },
@@ -216,7 +216,7 @@ export const HY_DESIGN_DECISIONS: Decision[] = [
       },
       {
         name: "Mix of payroll and income taxes",
-        description: "The single-payer draft's financing.",
+        description: "The single-payer plan's financing.",
         pros: [{ point: "Raises enough for a single payer." }],
         cons: [{ point: "Middle-income households pay more." }],
       },
@@ -241,7 +241,7 @@ export const HY_DESIGN_DECISIONS: Decision[] = [
       },
       {
         name: "Supplemental only",
-        description: "Private insurance only for extras, as in the single-payer draft.",
+        description: "Private insurance only for extras, as in the single-payer plan.",
         pros: [{ point: "No fast lane for covered care." }],
         cons: [{ point: "Requires one payer for covered care." }],
       },

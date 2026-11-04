@@ -342,9 +342,9 @@ export function NextLinks({ links }: { links: { href: string; label: string }[] 
 /** Says which version of Part 2 a page belongs to, with a link to the other. */
 export function PlanVersionNotice({ variant }: { variant: "hybrid" | "single-payer" }) {
   return variant === "hybrid" ? (
-    <Callout title="Current draft: Germany-style hybrid">
-      Employer plans stay; everyone else is enrolled in regulated non-profit plans. The earlier
-      single-payer draft is kept as its own plan:{" "}
+    <Callout title="The plan: a Germany-style hybrid">
+      Employer plans stay; everyone else is enrolled in regulated non-profit plans. A single payer
+      is built out in full as an alternative:{" "}
       <Link href="/single-payer/plan" className="underline">
         single-payer plan
       </Link>
@@ -355,11 +355,11 @@ export function PlanVersionNotice({ variant }: { variant: "hybrid" | "single-pay
       .
     </Callout>
   ) : (
-    <Callout tone="caution" title="Earlier draft: single payer">
-      This is the single-payer plan, kept as a complete path to compare. The current draft is a
+    <Callout tone="caution" title="Alternative: single payer">
+      This is the single-payer alternative, built out in full to compare. The main plan is a
       Germany-style hybrid:{" "}
       <Link href="/plan" className="underline">
-        current plan
+        the hybrid plan
       </Link>
       .
     </Callout>

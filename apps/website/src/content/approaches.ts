@@ -1,6 +1,6 @@
 /**
  * Whole approaches to compare side by side, from keeping current law to the
- * site's draft single-payer picks. Each is built by a rule from the paths'
+ * site's hybrid and single-payer plans. Each is built by a rule from the paths'
  * scale labels (paths/scale.ts), not picked by hand, so the comparison updates
  * when a path or a label changes:
  *
@@ -151,10 +151,10 @@ export const APPROACHES: Approach[] = [
   },
   {
     id: "single-payer",
-    title: "Single payer (earlier draft)",
+    title: "Single payer",
     summary:
-      "One public payer for everyone, with no cost sharing, financed by payroll and income taxes. This was the site's first draft; it stays as a complete path to compare.",
-    rule: "The single-payer draft decisions, saved in full.",
+      "One public payer for everyone, with no cost sharing, financed by payroll and income taxes. It is built out in full as an alternative to the hybrid.",
+    rule: "The single-payer plan's picks, saved in full.",
     picks: SINGLE_PAYER_PICKS,
     estimate: {
       key: "R8",
@@ -164,10 +164,10 @@ export const APPROACHES: Approach[] = [
     },
   },
   {
-    id: "draft",
-    title: "The site's draft: Germany-style hybrid",
-    summary: `Employer plans stay, and employers with ${show("employerMandateThreshold")}+ workers must keep offering them. Everyone else is enrolled automatically in non-profit plans with income-based premiums. Basic dental is in every plan; long-term care is left for later. New federal costs are paid only by taxes on income over ${show("surtaxThreshold")}. Claude made these picks to the owner's requirements; none is final.`,
-    rule: "The draft decisions in the review ledger.",
+    id: "hybrid",
+    title: "The site's plan: Germany-style hybrid",
+    summary: `Employer plans stay, and employers with ${show("employerMandateThreshold")}+ workers must keep offering them. Everyone else is enrolled automatically in non-profit plans with income-based premiums. Basic dental is in every plan; long-term care is left for later. New federal costs are paid only by taxes on income over ${show("surtaxThreshold")}. None of the picks is final.`,
+    rule: "The picks in the review ledger.",
     picks: CHOSEN.map((p) => p.id),
     estimate: {
       key: "R6",

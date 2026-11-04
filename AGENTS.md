@@ -70,11 +70,13 @@ into the website and are not deployed.
   validates every link at build time. Status stays `"open"` until the owner decides;
   only chosen paths get folded into Part 2. Routes: `/problems/[id]`, `/paths`
   (decision tree), `/paths/[id]`.
-- Draft decisions live in `content/paths/decisions.ts`: `SINGLE_PAYER_ROWS` (the first
-  draft, kept as a path to compare via `SINGLE_PAYER_PICKS`) with `HYBRID_ROWS` (the current
-  Germany-style hybrid draft) layered on top.
+- Decisions live in `content/paths/decisions.ts`: `SINGLE_PAYER_ROWS` (the single-payer
+  alternative, kept as a path to compare via `SINGLE_PAYER_PICKS`) with `HYBRID_ROWS` (the main
+  plan, a Germany-style hybrid) layered on top.
+- The site is public-facing. In page text, call the hybrid "the plan" and single payer "the
+  alternative"; never "current draft", "earlier draft", or similar authoring history.
 - Part 2 has two versions, each a `PlanBundle` (`content/plan-bundle.ts`, `content/plans.ts`):
-  the hybrid (current draft) at `/plan`, written in `content/hybrid/` (steps with their task
+  the hybrid (the main plan) at `/plan`, written in `content/hybrid/` (steps with their task
   trade-offs and extras, design decisions, trade-offs, risks, changes as overrides of
   `changes.ts`, costs from `reform-model.ts`), and the single-payer plan at
   `/single-payer/plan` (`content/plan/`, `changes.ts`, `calculations.ts`, `step-extras.ts`,

@@ -54,7 +54,7 @@ export const SIDEBAR: SidePart[] = [
           { id: "approaches", label: "Compare approaches", href: "/approaches" },
           { id: "your-plan", label: "Build your plan", href: "/your-plan" },
           { id: "groups", label: "Who's affected", href: "/groups" },
-          { id: "ledger", label: "Review ledger (draft picks)", href: "/paths/ledger" },
+          { id: "ledger", label: "Review ledger", href: "/paths/ledger" },
         ],
       },
     ],
@@ -102,7 +102,7 @@ export const SIDEBAR: SidePart[] = [
           { id: "changes", label: "Changes by phase", href: "/changes" },
           {
             id: "single-payer-plan",
-            label: "Single-payer plan (earlier draft)",
+            label: "Single-payer plan (alternative)",
             href: SINGLE_PAYER_PLAN.base,
           },
           {

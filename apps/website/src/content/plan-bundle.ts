@@ -1,6 +1,6 @@
 /**
- * Part 2 exists in two versions: the current hybrid draft (at /plan) and the
- * earlier single-payer draft (at /single-payer/plan). A PlanBundle holds one
+ * Part 2 exists in two versions: the hybrid plan (at /plan) and the
+ * single-payer alternative (at /single-payer/plan). A PlanBundle holds one
  * version's phases, system changes, costs, step extras, design decisions,
  * trade-offs, and risks, plus the links between its pages, so the same page
  * components render either version.

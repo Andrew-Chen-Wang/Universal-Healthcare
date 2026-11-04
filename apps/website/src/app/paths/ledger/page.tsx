@@ -86,7 +86,7 @@ export default function LedgerPage() {
       <PageHeader
         eyebrow="Part 1 · Decisions"
         title="Review ledger"
-        lede="Every solution path has a draft decision, made by Claude on the owner's request so the plan could be built. None is reviewed yet. Work through this list top to bottom: the least certain and most consequential picks come first."
+        lede="Every solution path has a provisional decision, made so the plan could be built. None is reviewed yet. Work through this list top to bottom: the least certain and most consequential picks come first."
       />
       <div className="mb-8 grid grid-cols-2 gap-3 sm:grid-cols-4">
         <Stat label="Awaiting review" value={`${pending.length} / ${DECISIONS.length}`} />

@@ -1,6 +1,6 @@
 /**
- * The two versions of Part 2. The hybrid is the current draft and lives at
- * /plan; the single-payer plan is the earlier draft, kept whole at
+ * The two versions of Part 2. The hybrid is the main plan and lives at
+ * /plan; the single-payer plan is the alternative, kept whole at
  * /single-payer/plan.
  */
 import { COST_ITEMS } from "./calculations"

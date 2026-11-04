@@ -101,7 +101,7 @@ function Published({ e }: { e: Estimate }) {
 }
 
 /** Approaches built out as a full step-by-step plan. */
-const PLAN_HREF: Record<string, string> = { "single-payer": "/single-payer/plan", draft: "/plan" }
+const PLAN_HREF: Record<string, string> = { "single-payer": "/single-payer/plan", hybrid: "/plan" }
 const builderHref = (picks: string[]) => `/your-plan?paths=${picks.join(",")}`
 
 /** One row of the comparison table: a label and a cell per approach. */
@@ -167,8 +167,7 @@ export default function ApproachesPage() {
         each means). For each of today&apos;s {`${n} problems`}, a column takes every path at the
         largest scale it allows, skipping any that conflict with what it already has. Problems a
         reform creates get the smallest change that answers them. The last column is the site&apos;s
-        draft picks, which Claude made for the owner to review. Open any column in the plan builder
-        to change it.
+        own plan, a Germany-style hybrid. Open any column in the plan builder to change it.
         <span className="mt-2 block">
           The site&apos;s spending row prices the single payer with the full cost ledger, and the
           other columns line by line on top of today&apos;s spending (coverage, provider prices,
@@ -409,7 +408,7 @@ export default function ApproachesPage() {
         {SCALES.map((s) => (
           <ScalePill key={s} scale={s} />
         ))}
-        <span>They are draft labels, listed in one file for review like the draft picks.</span>
+        <span>The labels are judgment calls, listed in one file so they can be checked.</span>
       </div>
     </Page>
   )

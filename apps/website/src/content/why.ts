@@ -105,8 +105,8 @@ export const DOWNSTREAM: Reason[] = [
 
 /**
  * A worked example for the cost model: each payer design with and without its
- * own price paths. The hybrid is the current draft; single payer is the earlier
- * draft, kept to compare. All are run through the model on the /why page.
+ * own price paths. The hybrid is the main plan; single payer is the
+ * alternative, kept to compare. All are run through the model on the /why page.
  */
 export const PRICE_EXAMPLE: {
   id: string
@@ -118,7 +118,7 @@ export const PRICE_EXAMPLE: {
 }[] = [
   {
     id: "hybrid",
-    label: "The draft hybrid",
+    label: "The hybrid plan",
     href: "/plan",
     coverage:
       "employer plans stay, everyone else is enrolled in regulated non-profit plans, and copays are capped by income",

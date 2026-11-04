@@ -60,7 +60,7 @@ function linker(plan: PlanBundle) {
 }
 
 const PLANS = [
-  { key: "hybrid" as const, title: "Current draft (hybrid)", link: linker(HYBRID_PLAN) },
+  { key: "hybrid" as const, title: "Hybrid plan", link: linker(HYBRID_PLAN) },
   { key: "single-payer" as const, title: "Single-payer plan", link: linker(SINGLE_PAYER_PLAN) },
 ]
 
@@ -114,7 +114,7 @@ export function CoveragePage() {
       <PageHeader
         eyebrow="Reference"
         title="Coverage check"
-        lede="One checklist for both plans: every trade-off dimension, every affected group, and every part of today's system, each linked to where the current draft (the Germany-style hybrid) and the earlier single-payer plan cover it, plus automatic checks that every step, task, change, and money flow states its trade-off. The site will not build if any checklist link points at something missing."
+        lede="One checklist for both plans: every trade-off dimension, every affected group, and every part of today's system, each linked to where the Germany-style hybrid plan and the single-payer alternative cover it, plus automatic checks that every step, task, change, and money flow states its trade-off. The site will not build if any checklist link points at something missing."
       />
 
       <Section title="Automatic checks">
