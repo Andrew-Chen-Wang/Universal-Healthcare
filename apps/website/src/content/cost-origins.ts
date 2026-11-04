@@ -60,7 +60,7 @@ export const COST_ORIGINS: Record<string, CostOrigin> = {
   },
   "nhe-homeHealth": {
     slug: "home-health-care",
-    why: `Medicare has covered home health since 1965 as care after a hospital stay. The Omnibus Reconciliation Act of 1980 removed the prior-hospitalization requirement and visit limits, and spending grew rapidly; the Balanced Budget Act of 1997 then cut payments sharply and moved home health to a fixed per-episode prospective payment system in 2000, which closed many agencies. Medicare's 2020 payment model (PDGM) changed again how agencies are paid.`,
+    why: `Medicare has covered home health since 1965 as care after a hospital stay. The Omnibus Reconciliation Act of 1980 removed the prior-hospitalization requirement and visit limits, and after a 1987–88 class action (Duggan v. Bowen) forced Medicare to loosen its coverage rules, spending grew by double digits every year until 1997; the Balanced Budget Act of 1997 then cut payments sharply, closing many agencies, and moved home health to a fixed per-episode prospective payment system in 2000. Medicare's 2020 payment model (PDGM) changed again how agencies are paid.`,
   },
   "nhe-nursing": { slug: "nursing-facilities", why: NURSING_HOME },
   "nhe-prescriptionDrugs": {

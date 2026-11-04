@@ -7,12 +7,7 @@
  * entry. Figures quoted in the text are computed from the data, never typed in.
  */
 import { show } from "./constants"
-import {
-  TREND_FIRST_YEAR,
-  TREND_LAST_YEAR,
-  TREND_SERIES,
-  type TrendSeriesId,
-} from "./cost-trend-data"
+import { TREND_LAST_YEAR, TREND_SERIES, type TrendSeriesId } from "./cost-trend-data"
 
 export type CostTrend = {
   /** Yearly series that measure this cost. The first is charted; empty when no yearly series exists. */
@@ -28,7 +23,7 @@ export type CostTrend = {
 
 // ---------------------------------------------------------------- math on the series
 export const valueAt = (id: TrendSeriesId, year: number): number | null =>
-  TREND_SERIES[id].values[year - TREND_FIRST_YEAR] ?? null
+  TREND_SERIES[id].values[year - TREND_SERIES[id].firstYear] ?? null
 
 /** Average yearly growth from `from` to `to` (compound), or null if either end is missing or zero. */
 export function annualGrowth(id: TrendSeriesId, from: number, to = TREND_LAST_YEAR) {

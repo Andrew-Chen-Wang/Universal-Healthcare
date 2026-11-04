@@ -20,14 +20,17 @@ When CMS publishes a new year, update Y1, the file names, and the row numbers (t
 script asserts each row's label, so a shifted row fails loudly).
 """
 import csv, openpyxl, re, json, sys, statistics
-S=sys.argv[1]; OUT=sys.argv[2]; Y0, Y1 = 2004, 2024
+S=sys.argv[1]; OUT=sys.argv[2]; Y0, Y1 = 1960, 2024
 YEARS=list(range(Y0,Y1+1))
 rows=list(csv.reader(open(f'{S}/nhe/national-health-expenditures-type-service-source-funds-cy-1960-2024/NHE2024.csv',encoding='latin-1')))
 hdr=rows[1]
 def nhe(n, label):
     r=rows[n]; assert r[0].strip().startswith(label), (n, r[0], label)
-    return [round(float(r[hdr.index(str(y))].replace(',',''))/1000,1) for y in YEARS]
-def add(a,b): return [round(x+y,1) for x,y in zip(a,b)]
+    def num(x):
+        x = x.strip().replace(',', '')
+        return None if x in ('', '-') else round(float(x) / 1000, 3)
+    return [num(r[hdr.index(str(y))]) for y in YEARS]
+def add(a,b): return [None if x is None or y is None else round(x+y,3) for x,y in zip(a,b)]
 series={}
 def put(id,label,unit,src,vals,note=None):
     series[id]=dict(label=label,unit=unit,sourceIds=src,values=vals,**({"note":note} if note else {}))
@@ -55,7 +58,7 @@ spon={"Table 05-1 Private Business Sponsor Expenditures.xlsx":{4:"bizEsi",5:"biz
 for f,m in spon.items():
     rs,y=tab(f)
     for n,id in m.items():
-        vals=[rs[n][y.index(yr)] for yr in YEARS]
+        vals=[rs[n][y.index(yr)] if yr in y else None for yr in YEARS]
         vals=[None if v in (None,'-','—') or isinstance(v,str) else round(float(v),1) for v in vals]
         put(f"pay-{id}",None,"usdB",NH,vals)
 # FRED annual averages
@@ -82,9 +85,13 @@ put("cpi-medical","Consumer prices, medical care (CPI-U)","index",["bls-cpi-fred
 head = open(OUT).read().split("export const TREND_SERIES = {")[0]
 out = [head + "export const TREND_SERIES = {"]
 for k, v in series.items():
+    first = next(i for i, x in enumerate(v["values"]) if x)
+    v["firstYear"] = Y0 + first
+    v["values"] = v["values"][first:]
     vals = ", ".join("null" if x is None else (str(int(x)) if float(x).is_integer() else str(x)) for x in v["values"])
     lab = "null" if v["label"] is None else json.dumps(v["label"])
-    out.append(f'  "{k}": {{\n    label: {lab},\n    unit: "{v["unit"]}",\n    sourceIds: {json.dumps(v["sourceIds"])},\n    values: [{vals}],\n  }},')
+    out.append(f'  "{k}": {{\n    label: {lab},\n    unit: "{v["unit"]}",\n    sourceIds: {json.dumps(v["sourceIds"])},\n    firstYear: {v["firstYear"]},\n    values: [{vals}],\n  }},')
 out.append("} satisfies Record<string, TrendSeries>\n\nexport type TrendSeriesId = keyof typeof TREND_SERIES\n")
 open(OUT, "w").write("\n".join(out))
+json.dump(series, open(OUT + ".json", "w")) if "--json" in sys.argv else None
 print(f"wrote {len(series)} series to {OUT}")

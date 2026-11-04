@@ -1,7 +1,15 @@
 import { B, Page, PageHeader, Sources, Table, Usd } from "@website/components/site/ui"
-import { GROWTH_WINDOWS, GrowthRow, GrowthTiles, TrendChart } from "@website/components/site/trend"
+import {
+  EventList,
+  GROWTH_WINDOWS,
+  GrowthRow,
+  GrowthTiles,
+  type NumberedEvent,
+  TrendChart,
+} from "@website/components/site/trend"
+import { COST_EVENTS } from "@website/content/cost-events"
 import { C } from "@website/content/constants"
-import { TREND_SERIES } from "@website/content/cost-trend-data"
+import { TREND_SERIES, type TrendSeriesId } from "@website/content/cost-trend-data"
 import { INVENTORY, INVENTORY_BY_SLUG } from "@website/content/cost-inventory"
 import { slug } from "@website/content/navigation"
 import { PROBLEM_BY_ID } from "@website/content/problems"
@@ -25,6 +33,12 @@ export default async function CostItemPage({ params }: { params: Params }) {
   const i = INVENTORY_BY_SLUG[id]
   if (!i) notFound()
   const [main, ...rest] = i.trend.series
+  const events: NumberedEvent[] = COST_EVENTS.filter((e) =>
+    e.series.some((sid) => i.trend.series.includes(sid)),
+  )
+    .toSorted((a, b) => a.year - b.year)
+    .map((e, k) => ({ ...e, n: k + 1 }))
+  const seriesLabel = (sid: TrendSeriesId) => TREND_SERIES[sid].label ?? i.label
   const pop = C.population.value
   const hh = C.households.value
   return (
@@ -88,7 +102,7 @@ export default async function CostItemPage({ params }: { params: Params }) {
               </p>
             )}
             <GrowthTiles id={main} />
-            <TrendChart id={main} title={TREND_SERIES[main].label ?? i.label} />
+            <TrendChart id={main} title={TREND_SERIES[main].label ?? i.label} events={events} />
           </>
         )}
         {rest.length > 0 && (
@@ -117,6 +131,7 @@ export default async function CostItemPage({ params }: { params: Params }) {
           </p>
         )}
         <p className="mt-4 max-w-prose leading-relaxed">{i.trend.why}</p>
+        <EventList events={events} seriesIds={i.trend.series} labelFor={seriesLabel} />
         <Sources ids={[...new Set(i.trend.series.flatMap((sid) => TREND_SERIES[sid].sourceIds))]} />
       </section>
 
