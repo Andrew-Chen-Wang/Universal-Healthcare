@@ -3,18 +3,22 @@
  * A reader's path picks, shared by /your-plan and the problem and group pages.
  * Picks live in localStorage; a `?paths=a,b,c` link overrides them for that
  * page, so a mix of paths can be shared without touching anyone's saved plan.
+ * A reader with nothing saved starts from the site's plan (the hybrid's picks),
+ * passed in as `defaults`; clearing every pick saves an empty plan, which sticks.
  */
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 
 export const STORAGE_KEY = "universal.build.picks.v1"
 
-export function loadPicks(): string[] {
+/** The saved picks, or null when the reader has never saved any. */
+export function loadPicks(): string[] | null {
   try {
     const raw = window.localStorage.getItem(STORAGE_KEY)
-    const parsed: unknown = raw ? JSON.parse(raw) : []
-    return Array.isArray(parsed) ? parsed.filter((x): x is string => typeof x === "string") : []
+    if (raw === null) return null
+    const parsed: unknown = JSON.parse(raw)
+    return Array.isArray(parsed) ? parsed.filter((x): x is string => typeof x === "string") : null
   } catch {
-    return []
+    return null
   }
 }
 
@@ -31,16 +35,24 @@ function linkPicks(): string[] | null {
   return raw === null ? null : raw.split(",").filter(Boolean)
 }
 
-/** Picks from a `?paths=` link if present, else the saved plan. Toggles write back to the same place. */
-export function usePicks() {
+/**
+ * Picks from a `?paths=` link if present, else the saved plan, else `defaults`
+ * (the site's plan). Toggles write back to the link or the saved plan.
+ */
+export function usePicks(defaults: string[] = []) {
   const [picks, setPicks] = useState<Set<string>>(new Set())
   const [fromLink, setFromLink] = useState(false)
+  const [fromDefault, setFromDefault] = useState(false)
   const [loaded, setLoaded] = useState(false)
+  // Defaults only seed the first load, so later prop changes are ignored.
+  const initial = useRef(defaults)
 
   useEffect(() => {
     const link = linkPicks()
+    const saved = loadPicks()
     setFromLink(link !== null)
-    setPicks(new Set(link ?? loadPicks()))
+    setFromDefault(link === null && saved === null)
+    setPicks(new Set(link ?? saved ?? initial.current))
     setLoaded(true)
   }, [])
 
@@ -50,7 +62,10 @@ export function usePicks() {
       const url = new URL(window.location.href)
       url.searchParams.set("paths", [...next].join(","))
       window.history.replaceState(null, "", url)
-    } else storePicks([...next])
+    } else {
+      storePicks([...next])
+      setFromDefault(false)
+    }
   }
 
   const toggle = (id: string) => {
@@ -66,7 +81,9 @@ export function usePicks() {
     url.searchParams.delete("paths")
     window.history.replaceState(null, "", url)
     setFromLink(false)
-    setPicks(new Set(loadPicks()))
+    const saved = loadPicks()
+    setFromDefault(saved === null)
+    setPicks(new Set(saved ?? initial.current))
   }
 
   const shareUrl = () => {
@@ -75,5 +92,5 @@ export function usePicks() {
     return url.toString()
   }
 
-  return { picks, loaded, fromLink, toggle, setAll: update, useSaved, shareUrl }
+  return { picks, loaded, fromLink, fromDefault, toggle, setAll: update, useSaved, shareUrl }
 }

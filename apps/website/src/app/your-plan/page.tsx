@@ -1,7 +1,7 @@
 import { Page, PageHeader } from "@website/components/site/ui"
 import { type Effect, effectsOf, type Impact, impactsOf } from "@website/content/graph"
 import { APPROACHES } from "@website/content/approaches"
-import { conflictsOf, PATHS, SCALE_LABEL, SCALE_RANK } from "@website/content/paths"
+import { CHOSEN, conflictsOf, PATHS, SCALE_LABEL, SCALE_RANK } from "@website/content/paths"
 import { PROBLEM_CATEGORIES, PROBLEMS, SIDE_EFFECT_CATEGORIES } from "@website/content/problems"
 import type { Metadata } from "next"
 import { popFromConstants } from "./coverage"
@@ -50,13 +50,14 @@ export default function YourPlanPage() {
       <PageHeader
         eyebrow="Part 1 · Decisions"
         title="Build your plan"
-        lede="Pick one or more solution paths for each problem, including “Keep current law” where you'd change nothing. Bars show how much each path changes today's system. The summary combines what they fix, what they create or worsen, who gains and who loses, the concrete changes they need, and any conflicts or new problems your picks create. Your picks stay in this browser."
+        lede="It starts from the site's plan. Pick one or more solution paths for each problem, including “Keep current law” where you'd change nothing. Bars show how much each path changes today's system. The summary combines what they fix, what they create or worsen, who gains and who loses, the concrete changes they need, and any conflicts or new problems your picks create. Your picks stay in this browser."
       />
       <PlanBuilder
         problems={problems}
         paths={paths}
         categories={PROBLEM_CATEGORIES.filter((c) => !SIDE_EFFECT_CATEGORIES.includes(c))}
         presets={APPROACHES.map(({ id, title, picks }) => ({ id, title, picks }))}
+        defaults={CHOSEN.map((p) => p.id)}
         pop={popFromConstants()}
       />
     </Page>

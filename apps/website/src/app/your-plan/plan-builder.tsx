@@ -1,5 +1,6 @@
 "use client"
-/** Reader-facing plan builder: pick paths, see combined trade-offs. Picks live in localStorage. */
+/** Reader-facing plan builder: pick paths, see combined trade-offs. Picks live in localStorage;
+ * a reader with nothing saved starts from the site's plan. */
 import { Button } from "@website/components/ui/button"
 import { cn } from "@website/lib/utils"
 import Link from "next/link"
@@ -37,15 +38,18 @@ export function PlanBuilder({
   paths,
   categories,
   presets,
+  defaults,
   pop,
 }: {
   problems: BuilderProblem[]
   paths: BuilderPath[]
   categories: string[]
   presets: Preset[]
+  /** The site's plan: what a reader with nothing saved starts from. */
+  defaults: string[]
   pop: Pop
 }) {
-  const { picks, setAll, toggle } = usePicks()
+  const { picks, loaded, fromDefault, setAll, toggle } = usePicks(defaults)
 
   const byId = useMemo(() => Object.fromEntries(paths.map((p) => [p.id, p])), [paths])
   const byProblem = useMemo(() => {
@@ -163,6 +167,12 @@ export function PlanBuilder({
           Compare these side by side
         </Link>
       </div>
+      {loaded && fromDefault && (
+        <p className="-mt-3 mb-6 text-sm text-muted-foreground">
+          Showing the site&apos;s plan, a Germany-style hybrid. Change any pick, start from another
+          approach, or clear them all; your changes stay in this browser.
+        </p>
+      )}
 
       <CoverageTable picks={picks} pop={pop} />
       <CostPanel picks={picks} />
