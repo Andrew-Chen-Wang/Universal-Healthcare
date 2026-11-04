@@ -112,11 +112,12 @@ export default function PathsPage() {
         lede="Each problem has two or more possible solution paths, each with pros, drawbacks, who gains, who loses, how to mend the losers, and where it has been tried. Many paths create new problems, which have their own subpaths. Nothing here is chosen yet."
       />
       <p className="-mt-6 mb-8 max-w-3xl text-sm text-muted-foreground">
-        Two sets of picks are built out as full plans: the current draft, a Germany-style hybrid (
+        Two sets of picks are built out as full plans: the site&apos;s plan, a Germany-style hybrid
+        (
         <Link href="/plan" className="underline">
           plan
         </Link>
-        ), and the earlier single-payer draft, kept as an alternative (
+        ), and a single payer, kept as an alternative (
         <Link href="/single-payer/plan" className="underline">
           plan
         </Link>
@@ -145,8 +146,8 @@ export default function PathsPage() {
           Compare approaches
         </Link>{" "}
         puts keeping current law, minor changes, bigger changes that keep today&apos;s insurers, a
-        universal multi-payer system, the earlier single-payer draft, and the current draft (a
-        Germany-style hybrid) side by side.
+        universal multi-payer system, single payer, and the site&apos;s plan (a Germany-style
+        hybrid) side by side.
       </Callout>
 
       <Callout title="How to read the relationships">

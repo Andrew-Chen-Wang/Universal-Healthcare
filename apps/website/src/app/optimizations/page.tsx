@@ -22,8 +22,8 @@ export default function OptimizationsPage() {
 
       <Callout title="How to read these">
         Each optimization lists the evidence for it and against it, where it has been tried, and who
-        loses. None is priced in the cost models yet, and none is a draft pick: they&apos;re options
-        to weigh alongside{" "}
+        loses. None is priced in the cost models yet, and none is part of either plan: they&apos;re
+        options to weigh alongside{" "}
         <Link href="/approaches" className="underline">
           any approach
         </Link>

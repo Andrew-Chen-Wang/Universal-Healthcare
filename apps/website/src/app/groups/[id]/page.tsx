@@ -4,6 +4,7 @@ import { causersOf, fixersOf, GROUP_BY_ID, GROUPS, problemsFor } from "@website/
 import type { Metadata } from "next"
 import Link from "next/link"
 import { notFound } from "next/navigation"
+import { CHOSEN } from "@website/content/paths"
 
 type Params = Promise<{ id: string }>
 
@@ -49,7 +50,7 @@ export default async function GroupPage({ params }: { params: Params }) {
         </div>
       )}
 
-      <GroupScenario label={g.label} rows={rows} />
+      <GroupScenario label={g.label} rows={rows} defaults={CHOSEN.map((p) => p.id)} />
 
       <section className="mb-10 grid gap-4 md:grid-cols-2">
         {[

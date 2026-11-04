@@ -1,5 +1,5 @@
 /**
- * Numbers for the hybrid plan, computed from the current draft picks with the
+ * Numbers for the hybrid plan, computed from the hybrid's picks with the
  * reform model, plus the hybrid's one-time costs. Every figure in the hybrid
  * Part 2 comes from here or constants.ts.
  */
@@ -13,7 +13,7 @@ export const HYBRID_COST = reformCost(new Set(CHOSEN.map((p) => p.id)))
 const zero: ReformLine = { id: "", label: "", delta: 0, federal: 0, explanation: "", sourceIds: [] }
 export const hybridLine = (id: string) => HYBRID_COST.lines.find((l) => l.id === id) ?? zero
 
-/** Long-term care options for the decision step, priced but not in the draft's totals. */
+/** Long-term care options for the decision step, priced but not in the plan's totals. */
 export const HYBRID_LTC = {
   /** Catastrophic insurance (the WISH Act design), at the central payroll tax. */
   catastrophic: v("wishPayrollRate") * v("wageBase"),

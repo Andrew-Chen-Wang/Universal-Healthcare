@@ -8,6 +8,7 @@ import { optimizationsFor } from "@website/content/optimizations"
 import { fixersOf, GROUP_BY_ID } from "@website/content/graph"
 import {
   alsoSolvedBy,
+  CHOSEN,
   createdBy,
   pathsFor,
   type SolutionPath,
@@ -204,7 +205,11 @@ export default async function ProblemPage({ params }: { params: Params }) {
         </section>
       )}
 
-      <ProblemScenario causers={causes.map(mini)} fixers={fixersOf(p.id).map(mini)} />
+      <ProblemScenario
+        causers={causes.map(mini)}
+        fixers={fixersOf(p.id).map(mini)}
+        defaults={CHOSEN.map((x) => x.id)}
+      />
 
       <div className="mb-10 grid gap-4 md:grid-cols-3">
         {p.whoIsHurt && <List title="Who is hurt" items={p.whoIsHurt} tone="loss" />}

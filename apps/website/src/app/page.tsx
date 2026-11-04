@@ -120,7 +120,7 @@ export default function Home() {
             href="/plan"
             className="rounded-md border border-rule bg-card p-4 hover:border-primary"
           >
-            <div className="text-xs text-muted-foreground uppercase">Part 2 · draft</div>
+            <div className="text-xs text-muted-foreground uppercase">Part 2 · The plan</div>
             <div className="font-serif text-xl font-semibold">Changes by phase</div>
             <div className="text-sm text-muted-foreground">
               {HYBRID_PLAN.allSteps.length} changes, {taskCount} tasks
@@ -136,7 +136,7 @@ export default function Home() {
           Compare approaches
         </Link>{" "}
         side by side: keep current law, minor changes, bigger changes that keep today&apos;s
-        insurers, a universal multi-payer system, single payer, and the current draft: a
+        insurers, a universal multi-payer system, single payer, and the site&apos;s plan: a
         Germany-style hybrid that keeps employer plans.
       </Callout>
 
@@ -188,7 +188,7 @@ export default function Home() {
       </Section>
 
       <Section
-        title="The current draft: a Germany-style hybrid"
+        title="The plan: a Germany-style hybrid"
         intro="Employer plans stay; everyone else is enrolled in regulated nonprofit plans; new federal costs are paid only by taxes on the highest incomes. Priced line by line on top of 2024 spending."
       >
         <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
@@ -256,7 +256,7 @@ export default function Home() {
 
       <Section
         title="The single-payer path, priced in full"
-        intro="The earlier draft, kept as a complete path: what 2024 would have looked like with a single payer fully in place (central estimate; the costly and lean cases bracket the uncertainty). Its detailed plan is at /single-payer/plan."
+        intro="The alternative, built out in full: what 2024 would have looked like with a single payer fully in place (central estimate; the costly and lean cases bracket the uncertainty). Its detailed plan is at /single-payer/plan."
       >
         <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
           <Stat

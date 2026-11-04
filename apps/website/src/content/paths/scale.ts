@@ -2,7 +2,7 @@
  * How much each path changes today's system, so "keep current law" and "minor
  * changes" can be compared with bigger reforms (see approaches.ts). One line
  * per path, kept here so every label can be reviewed in one place. These are
- * draft labels by Claude, like the draft picks in decisions.ts.
+ * provisional labels, like the picks in decisions.ts.
  *
  * For paths that answer a problem a reform creates (risks of a universal
  * system, problems created by solution paths), the scale measures what the

@@ -27,7 +27,7 @@ export function changesByPhaseRoute(variant: PlanVariant) {
         <PageHeader
           eyebrow="Part 2 · Changes by phase"
           title="Every change, in order"
-          lede="The concrete changes required by every chosen solution path, grouped by the phase in which they happen. Choices are drafts awaiting review, so this list changes when a pick is flipped."
+          lede="The concrete changes required by every chosen solution path, grouped by the phase in which they happen. Choices are still awaiting review, so this list changes when a pick is flipped."
         />
         <PlanVersionNotice variant={variant} />
         <div className="mb-8 grid grid-cols-2 gap-3 sm:grid-cols-3">
@@ -35,7 +35,7 @@ export function changesByPhaseRoute(variant: PlanVariant) {
           <Stat label="Concrete changes" value={total.toString()} />
           <Stat label="Phases" value={PHASES.length.toString()} />
         </div>
-        <Callout title="Draft" tone="caution">
+        <Callout title="Not yet final" tone="caution">
           Every pick behind this list is unreviewed. See the{" "}
           <Link href="/paths/ledger" className="underline">
             review ledger

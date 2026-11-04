@@ -75,7 +75,7 @@ function Footer({ s }: { s: ReturnType<typeof usePicks> }) {
   return (
     <div className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-2 border-t border-rule pt-3 text-xs text-muted-foreground">
       <span>
-        {`${s.fromLink ? "Showing the mix from this link." : "Using your saved plan."} ${s.picks.size} paths picked.`}
+        {`${s.fromLink ? "Showing the mix from this link." : s.fromDefault ? "Using the site's plan." : "Using your saved plan."} ${s.picks.size} paths picked.`}
       </span>
       {s.fromLink ? (
         <button type="button" className="underline" onClick={s.useSaved}>
@@ -104,8 +104,17 @@ function Footer({ s }: { s: ReturnType<typeof usePicks> }) {
 const names = (ps: MiniPath[]) => ps.map((p) => p.title).join(", ")
 
 /** On a problem page: is it caused, and is it fixed, under the reader's mix? */
-export function ProblemScenario({ causers, fixers }: { causers: MiniPath[]; fixers: MiniPath[] }) {
-  const s = usePicks()
+export function ProblemScenario({
+  causers,
+  fixers,
+  defaults,
+}: {
+  causers: MiniPath[]
+  fixers: MiniPath[]
+  /** The site's plan, used when the reader has nothing saved. */
+  defaults: string[]
+}) {
+  const s = usePicks(defaults)
   const cause = causers.filter((p) => s.picks.has(p.id))
   const fix = fixers.filter((p) => s.picks.has(p.id))
   const derived = causers.length > 0
@@ -151,8 +160,17 @@ export type GroupRow = {
 }
 
 /** On a group page: how the group fares, problem by problem, under the reader's mix. */
-export function GroupScenario({ label, rows }: { label: string; rows: GroupRow[] }) {
-  const s = usePicks()
+export function GroupScenario({
+  label,
+  rows,
+  defaults,
+}: {
+  label: string
+  rows: GroupRow[]
+  /** The site's plan, used when the reader has nothing saved. */
+  defaults: string[]
+}) {
+  const s = usePicks(defaults)
   const results = rows.map((r) => {
     const cause = r.causers.filter((p) => s.picks.has(p.id))
     const fix = r.fixers.filter((p) => s.picks.has(p.id))

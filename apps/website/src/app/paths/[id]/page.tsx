@@ -100,7 +100,7 @@ export default async function PathPage({ params }: { params: Params }) {
       {decision && (
         <section className="mb-10 rounded-md border border-rule bg-card p-4 text-sm">
           <div className="flex flex-wrap items-center gap-2">
-            <span className="font-semibold">Draft decision:</span>
+            <span className="font-semibold">Decision:</span>
             <StatusPill status={p.status} />
             {phase && (
               <Link href={`/changes#${phase.id}`} className="underline">
@@ -128,7 +128,7 @@ export default async function PathPage({ params }: { params: Params }) {
           <span className="font-semibold">In the single-payer plan:</span>{" "}
           {p.id === "single-payer" ? (
             <>
-              built out as a complete alternative to the current draft, with every step, cost, and
+              built out as a complete alternative to the hybrid plan, with every step, cost, and
               change:{" "}
               <Link href="/single-payer/plan" className="underline">
                 the single-payer plan

@@ -1,5 +1,5 @@
 /**
- * Part 2 for the current draft, a Germany-style hybrid: employer plans stay,
+ * Part 2 as the hybrid plan, a Germany-style hybrid: employer plans stay,
  * everyone else is enrolled in regulated nonprofit plans, and new federal
  * costs are paid only by top-end taxes.
  */

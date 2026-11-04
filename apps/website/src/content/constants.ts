@@ -1960,7 +1960,7 @@ export const C = {
   ),
   breakEvenFloor: k(
     PLAN,
-    "Owner's rule for the hybrid draft: no household below this income pays more",
+    "Rule for the hybrid plan: no household below this income pays more",
     500000,
     "usd",
     "policy",
