@@ -58,6 +58,10 @@ into the website and are not deployed.
 - `reform-model.ts` prices picks without a single payer line by line on top of the 2024
   baseline (coverage, provider and drug prices, new benefits, insurer overhead, workforce),
   reusing `model.ts`'s rates; `/your-plan` and `/approaches` use it via `costFor`.
+- Part 1 costs (`/costs/[slug]`) are built in `content/cost-inventory.ts`; each item's readable
+  slug and its "Why this cost exists" text (the law, precedent, or history behind it) live in
+  `content/cost-origins.ts`, keyed by id. The build fails if an item has no entry. Link to a cost
+  with `costHref(id)` or `/costs/${item.slug}`; old id URLs (e.g. `/costs/pay-bizEsi`) redirect.
 - Plan steps live in `content/plan/`; `step-extras.ts` links each step to decisions,
   trade-offs, risks, jobs, and international comparisons; `changes.ts` lists every
   system change with its step.

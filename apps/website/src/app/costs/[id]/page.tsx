@@ -1,27 +1,35 @@
 import { B, Page, PageHeader, Sources, Table, Usd } from "@website/components/site/ui"
 import { C } from "@website/content/constants"
-import { INVENTORY, INVENTORY_BY_ID } from "@website/content/cost-inventory"
+import { INVENTORY, INVENTORY_BY_ID, INVENTORY_BY_SLUG } from "@website/content/cost-inventory"
 import { slug } from "@website/content/navigation"
 import { PROBLEM_BY_ID } from "@website/content/problems"
 import type { Metadata } from "next"
 import Link from "next/link"
-import { notFound } from "next/navigation"
+import { notFound, permanentRedirect } from "next/navigation"
 
 type Params = Promise<{ id: string }>
 
+/** Pages live at readable slugs; the old internal ids (e.g. `pay-bizEsi`) redirect to them. */
 export function generateStaticParams() {
-  return INVENTORY.map((i) => ({ id: i.id }))
+  return [
+    ...INVENTORY.map((i) => ({ id: i.slug })),
+    ...INVENTORY.filter((i) => i.id !== i.slug).map((i) => ({ id: i.id })),
+  ]
 }
 
 export async function generateMetadata({ params }: { params: Params }): Promise<Metadata> {
   const { id } = await params
-  return { title: INVENTORY_BY_ID[id]?.label ?? "Cost" }
+  return { title: (INVENTORY_BY_SLUG[id] ?? INVENTORY_BY_ID[id])?.label ?? "Cost" }
 }
 
 export default async function CostItemPage({ params }: { params: Params }) {
   const { id } = await params
-  const i = INVENTORY_BY_ID[id]
-  if (!i) notFound()
+  const i = INVENTORY_BY_SLUG[id]
+  if (!i) {
+    const old = INVENTORY_BY_ID[id]
+    if (old) permanentRedirect(`/costs/${old.slug}`)
+    notFound()
+  }
   const pop = C.population.value
   const hh = C.households.value
   return (
@@ -68,6 +76,11 @@ export default async function CostItemPage({ params }: { params: Params }) {
           </>
         )}
       </div>
+
+      <section className="mb-8">
+        <h2 className="mb-2 text-xl font-semibold">Why this cost exists</h2>
+        <p className="max-w-prose leading-relaxed">{i.why}</p>
+      </section>
 
       <section className="mb-8">
         <h2 className="mb-2 text-xl font-semibold">How it is built</h2>

@@ -44,7 +44,7 @@ export default function CostsPage() {
                   <tr key={i.id}>
                     <td>
                       <Link
-                        href={`/costs/${i.id}`}
+                        href={`/costs/${i.slug}`}
                         className="font-medium underline decoration-rule underline-offset-2 hover:decoration-primary"
                       >
                         {i.label}

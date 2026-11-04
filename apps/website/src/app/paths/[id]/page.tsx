@@ -1,7 +1,7 @@
 import { PathLink, ProblemChip, real, ScalePill, StatusPill } from "@website/components/site/paths"
 import { EffectList, ImpactList } from "@website/components/site/effects"
 import { B, Page, PageHeader, Sources, Usd } from "@website/components/site/ui"
-import { INVENTORY_BY_ID } from "@website/content/cost-inventory"
+import { costHref, INVENTORY_BY_ID } from "@website/content/cost-inventory"
 import { effectsOf, impactsOf, isMigrated } from "@website/content/graph"
 import {
   DECISION_BY_PATH,
@@ -322,7 +322,7 @@ export default async function PathPage({ params }: { params: Params }) {
               return (
                 <li key={cid}>
                   <Link
-                    href={`/costs/${cid}`}
+                    href={costHref(cid)}
                     className="flex justify-between gap-4 px-4 py-2 hover:bg-secondary"
                   >
                     <span>{c.label}</span>

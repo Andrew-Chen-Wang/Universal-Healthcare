@@ -85,7 +85,7 @@ export const SIDEBAR: SidePart[] = [
       items: INVENTORY.filter((i) => i.category === c).map((i) => ({
         id: i.id,
         label: i.label,
-        href: `/costs/${i.id}`,
+        href: `/costs/${i.slug}`,
       })),
     })),
   },

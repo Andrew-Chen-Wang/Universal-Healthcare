@@ -223,7 +223,7 @@ export default async function ProblemPage({ params }: { params: Params }) {
             {costs.map((c) => (
               <li key={c.id}>
                 <Link
-                  href={`/costs/${c.id}`}
+                  href={`/costs/${c.slug}`}
                   className="flex items-baseline justify-between gap-4 px-4 py-2 hover:bg-secondary"
                 >
                   <span>{c.label}</span>
