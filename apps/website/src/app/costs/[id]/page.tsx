@@ -1,5 +1,7 @@
 import { B, Page, PageHeader, Sources, Table, Usd } from "@website/components/site/ui"
+import { GROWTH_WINDOWS, GrowthRow, GrowthTiles, TrendChart } from "@website/components/site/trend"
 import { C } from "@website/content/constants"
+import { TREND_SERIES } from "@website/content/cost-trend-data"
 import { INVENTORY, INVENTORY_BY_SLUG } from "@website/content/cost-inventory"
 import { slug } from "@website/content/navigation"
 import { PROBLEM_BY_ID } from "@website/content/problems"
@@ -22,6 +24,7 @@ export default async function CostItemPage({ params }: { params: Params }) {
   const { id } = await params
   const i = INVENTORY_BY_SLUG[id]
   if (!i) notFound()
+  const [main, ...rest] = i.trend.series
   const pop = C.population.value
   const hh = C.households.value
   return (
@@ -72,6 +75,49 @@ export default async function CostItemPage({ params }: { params: Params }) {
       <section className="mb-8">
         <h2 className="mb-2 text-xl font-semibold">Why this cost exists</h2>
         <p className="max-w-prose leading-relaxed">{i.why}</p>
+      </section>
+
+      <section className="mb-8">
+        <h2 className="mb-2 text-xl font-semibold">How fast it is growing, and why</h2>
+        {main && (
+          <>
+            {i.trend.proxy && (
+              <p className="mb-3 text-sm text-muted-foreground">
+                No yearly series measures this item by itself, so the figures below are for a wider
+                group it belongs to.
+              </p>
+            )}
+            <GrowthTiles id={main} />
+            <TrendChart id={main} title={TREND_SERIES[main].label ?? i.label} />
+          </>
+        )}
+        {rest.length > 0 && (
+          <Table>
+            <thead>
+              <tr>
+                <th>Related series</th>
+                {GROWTH_WINDOWS.map((w) => (
+                  <th key={w.label} className="text-right">
+                    {w.label}
+                  </th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {rest.map((id) => (
+                <GrowthRow key={id} id={id} />
+              ))}
+            </tbody>
+          </Table>
+        )}
+        {!main && (
+          <p className="mb-3 text-sm text-muted-foreground">
+            No yearly series is available for this item; the figures in the text come from the
+            sources it cites.
+          </p>
+        )}
+        <p className="mt-4 max-w-prose leading-relaxed">{i.trend.why}</p>
+        <Sources ids={[...new Set(i.trend.series.flatMap((id) => TREND_SERIES[id].sourceIds))]} />
       </section>
 
       <section className="mb-8">

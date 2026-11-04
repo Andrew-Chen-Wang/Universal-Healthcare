@@ -16,6 +16,7 @@ import {
 } from "./baseline"
 import { v } from "./constants"
 import { COST_ORIGINS } from "./cost-origins"
+import { COST_TRENDS, type CostTrend } from "./cost-trends"
 
 export const COST_CATEGORIES = [
   "National spending by service",
@@ -44,6 +45,8 @@ export type InventoryItem = {
   slug: string
   /** Why this cost exists: the law, precedent, or history behind it (from cost-origins.ts). */
   why: string
+  /** How fast it is growing and why (from cost-trends.ts). */
+  trend: CostTrend
   category: CostCategory
   label: string
   /** Billions of dollars per year, unless `unit` says otherwise. */
@@ -61,7 +64,7 @@ export type InventoryItem = {
 }
 
 /** An item before its slug and explanation are attached from cost-origins.ts. */
-type Draft = Omit<InventoryItem, "slug" | "why">
+type Draft = Omit<InventoryItem, "slug" | "why" | "trend">
 
 const n = (x: number) => Math.round(x).toLocaleString("en-US")
 const b = (x: number) => `$${x.toLocaleString("en-US", { maximumFractionDigits: 1 })}B`
@@ -851,13 +854,18 @@ const DRAFTS: Draft[] = [
 export const INVENTORY: InventoryItem[] = DRAFTS.map((d) => {
   const origin = COST_ORIGINS[d.id]
   if (!origin) throw new Error(`cost-origins.ts: no entry for cost "${d.id}"`)
-  return { ...d, slug: origin.slug, why: origin.why }
+  const trend = COST_TRENDS[d.id]
+  if (!trend?.why) throw new Error(`cost-trends.ts: no entry for cost "${d.id}"`)
+  return { ...d, slug: origin.slug, why: origin.why, trend }
 })
 
 {
   const ids = new Set(INVENTORY.map((i) => i.id))
   for (const id of Object.keys(COST_ORIGINS)) {
     if (!ids.has(id)) throw new Error(`cost-origins.ts: "${id}" is not a cost in the inventory`)
+  }
+  for (const id of Object.keys(COST_TRENDS)) {
+    if (!ids.has(id)) throw new Error(`cost-trends.ts: "${id}" is not a cost in the inventory`)
   }
   const seen = new Set<string>()
   for (const i of INVENTORY) {

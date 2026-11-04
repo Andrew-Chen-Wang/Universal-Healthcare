@@ -767,6 +767,33 @@ export const SOURCES: Source[] = [
     note: "Projected 10% lower national spending; estimated about 1.8 million jobs displaced and proposed transition assistance.",
   },
   {
+    id: "bls-ces-fred",
+    title:
+      "Current Employment Statistics: All Employees in health care, hospitals, offices of physicians, outpatient care centers, home health care, and nursing and residential care (CES6562000001, CES6562200001, CES6562110001, CES6562140001, CES6562160001, CES6562300001)",
+    org: "Bureau of Labor Statistics via FRED",
+    year: 2026,
+    url: "https://fred.stlouisfed.org/series/CES6562000001",
+    note: "Monthly jobs, seasonally adjusted; the site uses calendar-year averages.",
+  },
+  {
+    id: "bls-eci-fred",
+    title:
+      "Employment Cost Index: Wages and salaries, private industry: all workers, health care and social assistance, hospitals, nursing and residential care (ECIWAG, CIU2026200000000I, CIU2026220000000I, CIU2026230000000I)",
+    org: "Bureau of Labor Statistics via FRED",
+    year: 2026,
+    url: "https://fred.stlouisfed.org/series/CIU2026200000000I",
+    note: "Quarterly index of wage rates for a fixed mix of jobs (so it is not moved by changes in which jobs exist); the site uses calendar-year averages.",
+  },
+  {
+    id: "bls-cpi-fred",
+    title:
+      "Consumer Price Index for All Urban Consumers: All items and Medical care (CPIAUCSL, CPIMEDSL)",
+    org: "Bureau of Labor Statistics via FRED",
+    year: 2026,
+    url: "https://fred.stlouisfed.org/series/CPIAUCSL",
+    note: "Monthly, seasonally adjusted; the site uses calendar-year averages.",
+  },
+  {
     id: "bea-wages",
     title: "National Income: Compensation of Employees: Wages and Salaries (A034RC1A027NBEA)",
     org: "BEA via FRED",
