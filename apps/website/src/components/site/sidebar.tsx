@@ -1,6 +1,6 @@
 "use client"
 
-import type { SideGroup, SideItem, SidePart } from "@website/content/navigation"
+import type { SideArea, SideGroup, SideItem } from "@website/content/navigation"
 import { useCurrentPath } from "@website/lib/use-current-path"
 import { cn } from "@website/lib/utils"
 import Image from "next/image"
@@ -13,6 +13,65 @@ const isIn = (pathname: string, href: string) =>
 /** An item is active on its own page or any of its children's pages. */
 const itemActive = (pathname: string, item: SideItem) =>
   isIn(pathname, item.href) || (item.children?.some((c) => isIn(pathname, c.href)) ?? false)
+
+/** One link in an area or group, with its children while you're on it. */
+function Item({
+  item,
+  pathname,
+  onNavigate,
+  exact = false,
+}: {
+  item: SideItem
+  pathname: string
+  onNavigate?: () => void
+  /** Only highlight on the item's own page (or a child's), not on every page below it. */
+  exact?: boolean
+}) {
+  const here = exact
+    ? pathname === item.href || (item.children?.some((c) => isIn(pathname, c.href)) ?? false)
+    : itemActive(pathname, item)
+  return (
+    <li>
+      <Link
+        href={item.href}
+        onClick={onNavigate}
+        aria-current={pathname === item.href ? "page" : undefined}
+        className={cn(
+          "flex gap-1.5 rounded-sm px-1.5 py-0.5 text-[13px] leading-snug",
+          here
+            ? "bg-accent font-medium text-accent-foreground"
+            : "text-foreground/70 hover:text-foreground",
+        )}
+      >
+        {item.number && (
+          <span className="num shrink-0 text-[11px] text-muted-foreground">{item.number}</span>
+        )}
+        <span>{item.label}</span>
+      </Link>
+      {here && item.children && (
+        <ul className="mt-0.5 mb-1 ml-5 space-y-0.5">
+          {item.children.map((c) => {
+            const sel = c.href === item.href ? pathname === c.href : isIn(pathname, c.href)
+            return (
+              <li key={c.id}>
+                <Link
+                  href={c.href}
+                  onClick={onNavigate}
+                  className={cn(
+                    "block px-1.5 text-[12px]",
+                    sel ? "font-medium text-primary" : "text-foreground/60 hover:text-foreground",
+                  )}
+                >
+                  {c.label}
+                </Link>
+              </li>
+            )
+          })}
+        </ul>
+      )}
+    </li>
+  )
+}
 
 function Group({
   group,
@@ -58,54 +117,9 @@ function Group({
       </button>
       {open && (
         <ul className="mt-0.5 mb-1 ml-3 space-y-0.5 border-l border-rule pl-2">
-          {group.items.map((item) => {
-            const here = itemActive(pathname, item)
-            return (
-              <li key={item.id}>
-                <Link
-                  href={item.href}
-                  onClick={onNavigate}
-                  className={cn(
-                    "flex gap-1.5 rounded-sm px-1.5 py-0.5 text-[13px] leading-snug",
-                    here
-                      ? "bg-accent font-medium text-accent-foreground"
-                      : "text-foreground/70 hover:text-foreground",
-                  )}
-                >
-                  {item.number && (
-                    <span className="num shrink-0 text-[11px] text-muted-foreground">
-                      {item.number}
-                    </span>
-                  )}
-                  <span>{item.label}</span>
-                </Link>
-                {here && item.children && (
-                  <ul className="mt-0.5 mb-1 ml-5 space-y-0.5">
-                    {item.children.map((c) => {
-                      const sel =
-                        c.href === item.href ? pathname === c.href : isIn(pathname, c.href)
-                      return (
-                        <li key={c.id}>
-                          <Link
-                            href={c.href}
-                            onClick={onNavigate}
-                            className={cn(
-                              "block px-1.5 text-[12px]",
-                              sel
-                                ? "font-medium text-primary"
-                                : "text-foreground/60 hover:text-foreground",
-                            )}
-                          >
-                            {c.label}
-                          </Link>
-                        </li>
-                      )
-                    })}
-                  </ul>
-                )}
-              </li>
-            )
-          })}
+          {group.items.map((item) => (
+            <Item key={item.id} item={item} pathname={pathname} onNavigate={onNavigate} />
+          ))}
         </ul>
       )}
     </li>
@@ -132,60 +146,79 @@ function Byline() {
   )
 }
 
-const TOP_LINKS = [
-  { href: "/", label: "Home" },
-  { href: "/why", label: "Why universal health care" },
-]
+/** A top-level area. Its links and groups show only while you're inside it. */
+function Area({
+  area,
+  index,
+  pathname,
+  onNavigate,
+}: {
+  area: SideArea
+  index: number
+  pathname: string
+  onNavigate?: () => void
+}) {
+  const active = area.match.some((m) => isIn(pathname, m))
+  const hasChildren = area.links.length > 0 || area.groups.length > 0
+  return (
+    <li>
+      <Link
+        href={area.href}
+        onClick={onNavigate}
+        aria-current={pathname === area.href ? "page" : undefined}
+        className={cn(
+          "flex items-baseline gap-2.5 rounded-sm px-2 py-1.5 text-[15px]",
+          active
+            ? "bg-accent font-medium text-accent-foreground"
+            : "text-foreground/85 hover:bg-secondary hover:text-foreground",
+        )}
+      >
+        <span className="num w-5 shrink-0 text-[11px] text-muted-foreground">
+          {String(index + 1).padStart(2, "0")}
+        </span>
+        <span>{area.title}</span>
+        {area.note && (
+          <span className="num ml-auto pl-2 text-[11px] font-normal text-muted-foreground">
+            {area.note}
+          </span>
+        )}
+      </Link>
+      {active && hasChildren && (
+        <div className="mt-1 mb-3 ml-[18px] space-y-3 border-l border-rule pl-2">
+          {area.links.length > 0 && (
+            <ul className="space-y-0.5">
+              {area.links.map((l) => (
+                <Item key={l.id} item={l} pathname={pathname} onNavigate={onNavigate} exact />
+              ))}
+            </ul>
+          )}
+          {area.groups.length > 0 && (
+            <ul className="space-y-0.5">
+              {area.groups.map((g) => (
+                <Group key={g.id} group={g} pathname={pathname} onNavigate={onNavigate} />
+              ))}
+            </ul>
+          )}
+        </div>
+      )}
+    </li>
+  )
+}
 
-function Tree({ parts, onNavigate }: { parts: SidePart[]; onNavigate?: () => void }) {
+function Tree({ areas, onNavigate }: { areas: SideArea[]; onNavigate?: () => void }) {
   const pathname = useCurrentPath()
   return (
-    <nav className="space-y-6">
+    <nav aria-label="Site">
       <ul className="space-y-0.5">
-        {TOP_LINKS.map((l) => (
-          <li key={l.href}>
-            <Link
-              href={l.href}
-              onClick={onNavigate}
-              aria-current={pathname === l.href ? "page" : undefined}
-              className={cn(
-                "block rounded-sm px-2 py-1 text-sm",
-                pathname === l.href
-                  ? "bg-accent font-medium text-accent-foreground"
-                  : "text-foreground/80 hover:text-foreground",
-              )}
-            >
-              {l.label}
-            </Link>
-          </li>
+        {areas.map((a, i) => (
+          <Area key={a.id} area={a} index={i} pathname={pathname} onNavigate={onNavigate} />
         ))}
       </ul>
-      {parts.map((part) => (
-        <div key={part.id}>
-          <Link
-            href={part.href}
-            onClick={onNavigate}
-            className={cn(
-              "mb-1 block px-2 text-[11px] font-semibold tracking-[0.12em] uppercase",
-              isIn(pathname, part.href)
-                ? "text-primary"
-                : "text-muted-foreground hover:text-foreground",
-            )}
-          >
-            {part.title}
-          </Link>
-          <ul className="space-y-0.5">
-            {part.groups.map((g) => (
-              <Group key={g.id} group={g} pathname={pathname} onNavigate={onNavigate} />
-            ))}
-          </ul>
-        </div>
-      ))}
     </nav>
   )
 }
 
-export function Sidebar({ parts }: { parts: SidePart[] }) {
+export function Sidebar({ areas }: { areas: SideArea[] }) {
   return (
     <aside className="sticky top-0 hidden h-dvh w-80 shrink-0 overflow-y-auto border-r border-rule px-3 py-6 lg:block">
       <div className="mb-6 px-2">
@@ -199,13 +232,13 @@ export function Sidebar({ parts }: { parts: SidePart[] }) {
           Problems, costs, and changes toward U.S. universal health care
         </div>
       </div>
-      <Tree parts={parts} />
+      <Tree areas={areas} />
     </aside>
   )
 }
 
 /** Mobile: a slim top bar; the menu is a full-screen drawer that only exists while open. */
-export function MobileNav({ parts }: { parts: SidePart[] }) {
+export function MobileNav({ areas }: { areas: SideArea[] }) {
   const [open, setOpen] = useState(false)
   const pathname = useCurrentPath()
   useEffect(() => {
@@ -258,7 +291,7 @@ export function MobileNav({ parts }: { parts: SidePart[] }) {
           </div>
           <div className="flex-1 overflow-y-auto px-2 py-4">
             <Tree
-              parts={parts}
+              areas={areas}
               onNavigate={() => {
                 setOpen(false)
               }}

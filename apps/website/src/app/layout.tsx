@@ -46,9 +46,9 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={`${serif.variable} ${sans.variable} ${mono.variable}`}>
       <body>
-        <MobileNav parts={SIDEBAR} />
+        <MobileNav areas={SIDEBAR} />
         <div className="flex min-h-dvh">
-          <Sidebar parts={SIDEBAR} />
+          <Sidebar areas={SIDEBAR} />
           <main className="min-w-0 flex-1">
             {children}
             <footer className="mx-auto max-w-5xl border-t border-rule px-4 pt-6 pb-10 text-xs leading-relaxed text-muted-foreground sm:px-8">

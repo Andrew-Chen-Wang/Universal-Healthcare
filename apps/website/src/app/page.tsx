@@ -1,4 +1,5 @@
 import { B, Callout, Delta, Page, Section, Stat, Table } from "@website/components/site/ui"
+import { show, v } from "@website/content/constants"
 import {
   ENROLLMENT_2024,
   NHE_TOTAL_2024,
@@ -17,8 +18,11 @@ import {
 } from "@website/content/transition"
 import { DISPLACED_TOTAL } from "@website/content/workforce"
 import { COST_CATEGORIES, INVENTORY } from "@website/content/cost-inventory"
+import { OPTIMIZATIONS } from "@website/content/optimizations"
 import { PROBLEM_CATEGORIES, PROBLEMS } from "@website/content/problems"
+import { cn } from "@website/lib/utils"
 import Link from "next/link"
+import type { ReactNode } from "react"
 
 const { costHref } = SINGLE_PAYER_PLAN
 
@@ -77,78 +81,114 @@ function Row({
   )
 }
 
+/** A headline figure on the home page: one number, one plain sentence. */
+function KeyNumber({ value, children }: { value: string; children: ReactNode }) {
+  return (
+    <div className="grid content-start gap-1.5 rounded-md border border-rule bg-card p-4">
+      <div className="font-serif text-3xl leading-none font-semibold tabular-nums">{value}</div>
+      <div className="text-sm leading-snug text-muted-foreground">{children}</div>
+    </div>
+  )
+}
+
+/** One of the home page's three ways in. The first is the main one. */
+function Door({
+  href,
+  title,
+  sub,
+  primary,
+}: {
+  href: string
+  title: string
+  sub: string
+  primary?: boolean
+}) {
+  return (
+    <Link
+      href={href}
+      className={cn(
+        "grid content-start gap-1 rounded-md border p-4 transition-colors",
+        primary
+          ? "border-primary bg-primary text-primary-foreground hover:bg-primary/90"
+          : "border-rule bg-card hover:border-primary",
+      )}
+    >
+      <span className="font-serif text-lg font-semibold">{title}</span>
+      <span
+        className={cn("text-sm", primary ? "text-primary-foreground/85" : "text-muted-foreground")}
+      >
+        {sub}
+      </span>
+    </Link>
+  )
+}
+
+/** A card in the "Explore everything" list at the bottom of the page. */
+function ExploreCard({ href, title, sub }: { href: string; title: string; sub: string }) {
+  return (
+    <Link href={href} className="rounded-md border border-rule bg-card p-4 hover:border-primary">
+      <div className="font-serif text-lg font-semibold">{title}</div>
+      <div className="text-sm text-muted-foreground">{sub}</div>
+    </Link>
+  )
+}
+
 export default function Home() {
   const taskCount = HYBRID_PLAN.allSteps.reduce((s, x) => s + x.tasks.length, 0)
+  const hybridSaves = HYBRID_COST.delta < 0
+  const coversAllUninsured = Math.abs(HYBRID_COST.newlyCovered - v("uninsuredToday")) < 0.05
   const sponsors = Object.keys(SPONSOR_LABELS) as SponsorId[]
   return (
     <Page>
       <header className="mb-12 border-b border-rule pb-10">
         <div className="mb-4 text-xs font-semibold tracking-[0.14em] text-primary uppercase">
-          A costed plan · 2024 dollars
+          The plan · 2024 dollars
         </div>
         <h1 className="max-w-3xl text-4xl leading-[1.1] font-semibold sm:text-5xl">
-          Universal health care for the United States, step by step and dollar by dollar.
+          {hybridSaves
+            ? "Everyone in the U.S. covered, for less than the country spends today."
+            : "Everyone in the U.S. covered, with every dollar shown."}
         </h1>
         <p className="mt-6 max-w-3xl text-lg leading-relaxed text-foreground/80">
-          The site has two parts. Part 1 lists every problem in the U.S. health system (and every
-          problem universal systems elsewhere have run into) and every cost that makes up national
-          health spending, down to the wages of each occupation. Part 2 lists every change needed,
-          by phase, each with its trade-offs. Solutions are being decided problem by problem.
+          Employer plans stay. Everyone else is enrolled automatically in a nonprofit plan, with
+          premiums based on income. New federal costs are paid only by taxes on the highest incomes.{" "}
+          <Link href="/approaches" className="underline">
+            Compare it side by side with the other approaches
+          </Link>
+          .
         </p>
-        <div className="mt-8 grid gap-3 sm:grid-cols-3">
-          <Link
-            href="/problems"
-            className="rounded-md border border-rule bg-card p-4 hover:border-primary"
-          >
-            <div className="text-xs text-muted-foreground uppercase">Part 1</div>
-            <div className="font-serif text-xl font-semibold">Problems</div>
-            <div className="text-sm text-muted-foreground">
-              {PROBLEMS.length} problems in {PROBLEM_CATEGORIES.length} categories
-            </div>
-          </Link>
-          <Link
-            href="/costs"
-            className="rounded-md border border-rule bg-card p-4 hover:border-primary"
-          >
-            <div className="text-xs text-muted-foreground uppercase">Part 1</div>
-            <div className="font-serif text-xl font-semibold">Costs</div>
-            <div className="text-sm text-muted-foreground">
-              {INVENTORY.length} cost items in {COST_CATEGORIES.length} categories
-            </div>
-          </Link>
-          <Link
-            href="/plan"
-            className="rounded-md border border-rule bg-card p-4 hover:border-primary"
-          >
-            <div className="text-xs text-muted-foreground uppercase">Part 2 · The plan</div>
-            <div className="font-serif text-xl font-semibold">Changes by phase</div>
-            <div className="text-sm text-muted-foreground">
-              {HYBRID_PLAN.allSteps.length} changes, {taskCount} tasks
-            </div>
-          </Link>
+        <div className="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+          <KeyNumber value={`${HYBRID_COST.newlyCovered.toFixed(1)}M`}>
+            {coversAllUninsured
+              ? "people newly covered: everyone uninsured today, enrolled automatically."
+              : `people newly covered, enrolled automatically, of ${show("uninsuredToday")} million uninsured all of 2025.`}
+          </KeyNumber>
+          <KeyNumber value={fmt(HYBRID_COST.nationalAfter)}>
+            national health spending a year,{" "}
+            <span className={hybridSaves ? "font-medium text-gain" : "font-medium text-loss"}>
+              {fmt(Math.abs(HYBRID_COST.delta))} {hybridSaves ? "less" : "more"}
+            </span>{" "}
+            than in 2024.
+          </KeyNumber>
+          <KeyNumber value={`$${(HYBRID_COST.noNewTaxBelow ?? 0).toLocaleString("en-US")}`}>
+            of household income: below this, no one pays a new tax.
+          </KeyNumber>
+          <KeyNumber value={`${HYBRID_PLAN.nav.length} phases`}>
+            from fixing today&apos;s system to everyone covered, each step with its costs and
+            trade-offs.
+          </KeyNumber>
+        </div>
+        <div className="mt-6 grid gap-3 sm:grid-cols-3">
+          <Door
+            href="/groups"
+            title="What changes for me?"
+            sub="See how each group fares"
+            primary
+          />
+          <Door href="/plan" title="How would it work?" sub="The plan, phase by phase" />
+          <Door href="/your-plan" title="Build your own plan" sub="Make different choices" />
         </div>
       </header>
-
-      <Callout title="What if we change less, or nothing?">
-        Every problem also has a &ldquo;Keep current law&rdquo; option, and every solution path is
-        labeled by how much it changes today&apos;s system.{" "}
-        <Link href="/approaches" className="underline">
-          Compare approaches
-        </Link>{" "}
-        side by side: keep current law, minor changes, bigger changes that keep today&apos;s
-        insurers, a universal multi-payer system, single payer, and the site&apos;s plan: a
-        Germany-style hybrid that keeps employer plans.
-      </Callout>
-
-      <Callout title="Optimizations that work in any system">
-        Some ways to cut cost or improve care don&apos;t depend on who pays: running routine lab
-        tests and planned surgery at high volume, a virtual first step for routine problems,
-        hospital care at home, pharmacist test-and-treat, and more.{" "}
-        <Link href="/optimizations" className="underline">
-          See the optimizations
-        </Link>
-        , with the evidence for and against each.
-      </Callout>
 
       <Section title="Ground rules">
         <ol className="grid gap-3 sm:grid-cols-2">
@@ -191,7 +231,7 @@ export default function Home() {
         title="The plan: a Germany-style hybrid"
         intro="Employer plans stay; everyone else is enrolled in regulated nonprofit plans; new federal costs are paid only by taxes on the highest incomes. Priced line by line on top of 2024 spending."
       >
-        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="grid gap-3 sm:grid-cols-2">
           <Stat
             label="National health spending"
             value={H.national}
@@ -201,12 +241,6 @@ export default function Home() {
             label="Federal spending"
             value={H.federalSigned}
             sub={`against ${H.topEnd} of top-end taxes`}
-          />
-          <Stat label="Newly covered" value={H.newlyCovered} sub="enrolled automatically" />
-          <Stat
-            label="No new tax below"
-            value={`$${(HYBRID_COST.noNewTaxBelow ?? 0).toLocaleString("en-US")}`}
-            sub="of household income"
           />
         </div>
         <p className="mt-3 text-sm text-muted-foreground">
@@ -462,6 +496,40 @@ export default function Home() {
         and reused everywhere. Sources always equal uses; anything the named taxes don&apos;t cover
         appears as its own general-revenue line.
       </Callout>
+      <Section
+        id="explore"
+        title="Explore everything"
+        intro="The full detail behind the plan: every problem, every cost, and every change."
+      >
+        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+          <ExploreCard
+            href="/problems"
+            title="What's wrong today"
+            sub={`${PROBLEMS.length} problems in ${PROBLEM_CATEGORIES.length} categories`}
+          />
+          <ExploreCard
+            href="/costs"
+            title="What it costs"
+            sub={`${INVENTORY.length} cost items in ${COST_CATEGORIES.length} categories`}
+          />
+          <ExploreCard
+            href="/plan"
+            title="How it would happen"
+            sub={`${HYBRID_PLAN.allSteps.length} changes, ${taskCount} tasks`}
+          />
+          <ExploreCard
+            href="/approaches"
+            title="Compare approaches"
+            sub="From keeping current law to single payer"
+          />
+          <ExploreCard
+            href="/optimizations"
+            title="Optimizations for any system"
+            sub={`${OPTIMIZATIONS.length} ways to cut cost or improve care, whoever pays`}
+          />
+          <ExploreCard href="/why" title="Why change" sub="The case for universal coverage" />
+        </div>
+      </Section>
     </Page>
   )
 }
