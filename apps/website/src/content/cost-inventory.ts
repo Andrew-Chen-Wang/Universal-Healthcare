@@ -15,6 +15,8 @@ import {
   SPONSOR_LINES_2024,
 } from "./baseline"
 import { v } from "./constants"
+import { COST_ORIGINS } from "./cost-origins"
+import { COST_TRENDS, type CostTrend } from "./cost-trends"
 
 export const COST_CATEGORIES = [
   "National spending by service",
@@ -37,7 +39,14 @@ export const COST_CATEGORIES = [
 export type CostCategory = (typeof COST_CATEGORIES)[number]
 
 export type InventoryItem = {
+  /** Internal key used by links from paths and problems. */
   id: string
+  /** Readable URL slug for /costs/[slug] (from cost-origins.ts). */
+  slug: string
+  /** Why this cost exists: the law, precedent, or history behind it (from cost-origins.ts). */
+  why: string
+  /** How fast it is growing and why (from cost-trends.ts). */
+  trend: CostTrend
   category: CostCategory
   label: string
   /** Billions of dollars per year, unless `unit` says otherwise. */
@@ -54,11 +63,14 @@ export type InventoryItem = {
   details?: { label: string; value: string }[]
 }
 
+/** An item before its slug and explanation are attached from cost-origins.ts. */
+type Draft = Omit<InventoryItem, "slug" | "why" | "trend">
+
 const n = (x: number) => Math.round(x).toLocaleString("en-US")
 const b = (x: number) => `$${x.toLocaleString("en-US", { maximumFractionDigits: 1 })}B`
 
 // ---------------------------------------------------------------- 1. NHE services
-const serviceItems: InventoryItem[] = SERVICES_2024.map((s) => ({
+const serviceItems: Draft[] = SERVICES_2024.map((s) => ({
   id: `nhe-${s.id}`,
   category: "National spending by service",
   label: s.label,
@@ -88,7 +100,7 @@ const PAY_PROBLEMS: Record<string, string[]> = {
   slMedicaid: ["churn"],
   fedMedicare: ["ma-upcoding"],
 }
-const payItems: InventoryItem[] = SPONSOR_LINES_2024.map((l) => ({
+const payItems: Draft[] = SPONSOR_LINES_2024.map((l) => ({
   id: `pay-${l.id}`,
   category: "Who pays (2024)",
   label: `${SPONSOR_LABELS[l.sponsor]}: ${l.label}`,
@@ -266,7 +278,7 @@ export const OCCUPATIONS: Occ[] = [
 /** Wages are about 69% of total compensation in health care (BLS Employer Costs for Employee Compensation). */
 export const COMP_FACTOR = 1 / 0.69
 
-const occupationItems: InventoryItem[] = OCCUPATIONS.map((o) => {
+const occupationItems: Draft[] = OCCUPATIONS.map((o) => {
   const wageBill = (o.employed * o.wage) / 1e9
   return {
     id: `occ-${o.code}`,
@@ -339,7 +351,7 @@ const INDUSTRIES: Ind[] = [
   },
   { code: "524114", label: "Health & medical insurance carriers", employed: 451820, wage: 93210 },
 ]
-const industryItems: InventoryItem[] = INDUSTRIES.map((i) => {
+const industryItems: Draft[] = INDUSTRIES.map((i) => {
   const bill = (i.employed * i.wage) / 1e9
   return {
     id: `ind-${i.code}`,
@@ -360,7 +372,7 @@ const industryItems: InventoryItem[] = INDUSTRIES.map((i) => {
 })
 
 // ---------------------------------------------------------------- 4. Hospital cost structure (AHA 2024)
-const hospital: InventoryItem[] = [
+const hospital: Draft[] = [
   {
     id: "hosp-labor",
     label: "Hospital labor (wages, benefits, contract staff)",
@@ -393,7 +405,7 @@ const hospital: InventoryItem[] = [
 }))
 
 // ---------------------------------------------------------------- 5. Drugs
-const drugs: InventoryItem[] = [
+const drugs: Draft[] = [
   {
     id: "pharma-rd",
     category: "Drugs: R&D, manufacturing & distribution",
@@ -467,7 +479,7 @@ const drugs: InventoryItem[] = [
 ]
 
 // ---------------------------------------------------------------- 6. Insurance
-const insurance: InventoryItem[] = [
+const insurance: Draft[] = [
   {
     id: "ins-private-net",
     label: "Private insurer overhead & profit (net cost of insurance)",
@@ -546,7 +558,7 @@ const insurance: InventoryItem[] = [
 
 // ---------------------------------------------------------------- 7. Administration, waste, liability, fraud
 const nhe = 5278.6
-const admin: InventoryItem[] = [
+const admin: Draft[] = [
   {
     id: "admin-total",
     category: "Administration",
@@ -677,7 +689,7 @@ const admin: InventoryItem[] = [
 }))
 
 // ---------------------------------------------------------------- 8. Training
-const training: InventoryItem[] = [
+const training: Draft[] = [
   {
     id: "med-debt",
     category: "Training the workforce",
@@ -714,7 +726,7 @@ const training: InventoryItem[] = [
 ]
 
 // ---------------------------------------------------------------- 9. LTC & end of life
-const ltc: InventoryItem[] = [
+const ltc: Draft[] = [
   {
     id: "hospice-medicare",
     category: "Long-term & end-of-life care",
@@ -751,7 +763,7 @@ const ltc: InventoryItem[] = [
 ]
 
 // ---------------------------------------------------------------- 10. Margins & executive pay
-const margins: InventoryItem[] = [
+const margins: Draft[] = [
   {
     id: "hospital-margin",
     category: "Margins & executive pay",
@@ -788,7 +800,7 @@ const margins: InventoryItem[] = [
 ]
 
 // ---------------------------------------------------------------- 11. Capital etc.
-const capital: InventoryItem[] = [
+const capital: Draft[] = [
   {
     id: "cap-structures",
     category: "Capital, research & public health",
@@ -824,7 +836,7 @@ const capital: InventoryItem[] = [
   },
 ]
 
-export const INVENTORY: InventoryItem[] = [
+const DRAFTS: Draft[] = [
   ...serviceItems,
   ...payItems,
   ...occupationItems,
@@ -838,6 +850,30 @@ export const INVENTORY: InventoryItem[] = [
   ...margins,
   ...capital,
 ]
+
+export const INVENTORY: InventoryItem[] = DRAFTS.map((d) => {
+  const origin = COST_ORIGINS[d.id]
+  if (!origin) throw new Error(`cost-origins.ts: no entry for cost "${d.id}"`)
+  const trend = COST_TRENDS[d.id]
+  if (!trend?.why) throw new Error(`cost-trends.ts: no entry for cost "${d.id}"`)
+  return { ...d, slug: origin.slug, why: origin.why, trend }
+})
+
+{
+  const ids = new Set(INVENTORY.map((i) => i.id))
+  for (const id of Object.keys(COST_ORIGINS)) {
+    if (!ids.has(id)) throw new Error(`cost-origins.ts: "${id}" is not a cost in the inventory`)
+  }
+  for (const id of Object.keys(COST_TRENDS)) {
+    if (!ids.has(id)) throw new Error(`cost-trends.ts: "${id}" is not a cost in the inventory`)
+  }
+  const seen = new Set<string>()
+  for (const i of INVENTORY) {
+    if (!/^[a-z0-9]+(-[a-z0-9]+)*$/.test(i.slug)) throw new Error(`Bad cost slug "${i.slug}"`)
+    if (seen.has(i.slug)) throw new Error(`Duplicate cost slug "${i.slug}"`)
+    seen.add(i.slug)
+  }
+}
 
 /** Extra problem links for items built from tables above. */
 const EXTRA_LINKS: Record<string, string[]> = {
@@ -881,3 +917,11 @@ for (const item of INVENTORY) {
 }
 
 export const INVENTORY_BY_ID = Object.fromEntries(INVENTORY.map((i) => [i.id, i]))
+export const INVENTORY_BY_SLUG = Object.fromEntries(INVENTORY.map((i) => [i.slug, i]))
+
+/** Link to a cost's page by its id. */
+export const costHref = (id: string) => {
+  const item = INVENTORY_BY_ID[id]
+  if (!item) throw new Error(`costHref: unknown cost "${id}"`)
+  return `/costs/${item.slug}`
+}

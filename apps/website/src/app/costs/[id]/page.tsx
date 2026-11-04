@@ -1,6 +1,16 @@
 import { B, Page, PageHeader, Sources, Table, Usd } from "@website/components/site/ui"
+import {
+  EventList,
+  GROWTH_WINDOWS,
+  GrowthRow,
+  GrowthTiles,
+  type NumberedEvent,
+  TrendChart,
+} from "@website/components/site/trend"
+import { COST_EVENTS } from "@website/content/cost-events"
 import { C } from "@website/content/constants"
-import { INVENTORY, INVENTORY_BY_ID } from "@website/content/cost-inventory"
+import { TREND_SERIES, type TrendSeriesId } from "@website/content/cost-trend-data"
+import { INVENTORY, INVENTORY_BY_SLUG } from "@website/content/cost-inventory"
 import { slug } from "@website/content/navigation"
 import { PROBLEM_BY_ID } from "@website/content/problems"
 import type { Metadata } from "next"
@@ -10,18 +20,25 @@ import { notFound } from "next/navigation"
 type Params = Promise<{ id: string }>
 
 export function generateStaticParams() {
-  return INVENTORY.map((i) => ({ id: i.id }))
+  return INVENTORY.map((i) => ({ id: i.slug }))
 }
 
 export async function generateMetadata({ params }: { params: Params }): Promise<Metadata> {
   const { id } = await params
-  return { title: INVENTORY_BY_ID[id]?.label ?? "Cost" }
+  return { title: INVENTORY_BY_SLUG[id]?.label ?? "Cost" }
 }
 
 export default async function CostItemPage({ params }: { params: Params }) {
   const { id } = await params
-  const i = INVENTORY_BY_ID[id]
+  const i = INVENTORY_BY_SLUG[id]
   if (!i) notFound()
+  const [main, ...rest] = i.trend.series
+  const events: NumberedEvent[] = COST_EVENTS.filter((e) =>
+    e.series.some((sid) => i.trend.series.includes(sid)),
+  )
+    .toSorted((a, b) => a.year - b.year)
+    .map((e, k) => ({ ...e, n: k + 1 }))
+  const seriesLabel = (sid: TrendSeriesId) => TREND_SERIES[sid].label ?? i.label
   const pop = C.population.value
   const hh = C.households.value
   return (
@@ -68,6 +85,55 @@ export default async function CostItemPage({ params }: { params: Params }) {
           </>
         )}
       </div>
+
+      <section className="mb-8">
+        <h2 className="mb-2 text-xl font-semibold">Why this cost exists</h2>
+        <p className="max-w-prose leading-relaxed">{i.why}</p>
+      </section>
+
+      <section className="mb-8">
+        <h2 className="mb-2 text-xl font-semibold">How fast it is growing, and why</h2>
+        {main && (
+          <>
+            {i.trend.proxy && (
+              <p className="mb-3 text-sm text-muted-foreground">
+                No yearly series measures this item by itself, so the figures below are for a wider
+                group it belongs to.
+              </p>
+            )}
+            <GrowthTiles id={main} />
+            <TrendChart id={main} title={TREND_SERIES[main].label ?? i.label} events={events} />
+          </>
+        )}
+        {rest.length > 0 && (
+          <Table>
+            <thead>
+              <tr>
+                <th>Related series</th>
+                {GROWTH_WINDOWS.map((w) => (
+                  <th key={w.label} className="text-right">
+                    {w.label}
+                  </th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {rest.map((sid) => (
+                <GrowthRow key={sid} id={sid} />
+              ))}
+            </tbody>
+          </Table>
+        )}
+        {!main && (
+          <p className="mb-3 text-sm text-muted-foreground">
+            No yearly series is available for this item; the figures in the text come from the
+            sources it cites.
+          </p>
+        )}
+        <p className="mt-4 max-w-prose leading-relaxed">{i.trend.why}</p>
+        <EventList events={events} seriesIds={i.trend.series} labelFor={seriesLabel} />
+        <Sources ids={[...new Set(i.trend.series.flatMap((sid) => TREND_SERIES[sid].sourceIds))]} />
+      </section>
 
       <section className="mb-8">
         <h2 className="mb-2 text-xl font-semibold">How it is built</h2>
