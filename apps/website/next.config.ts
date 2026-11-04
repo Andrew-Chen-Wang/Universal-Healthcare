@@ -8,8 +8,6 @@ const basePath = (process.env.PAGES_BASE_PATH ?? "").replace(/\/+$/, "")
 
 const nextConfig: NextConfig = {
   reactCompiler: true,
-  // TEMPORARY: lets the /paths/review page work from a phone over Tailscale or the LAN.
-  allowedDevOrigins: ["a-macbook-pro.tail8b7bc3.ts.net", "*.ts.net", "192.168.*.*"],
   ...(basePath && { basePath }),
   env: { NEXT_PUBLIC_BASE_PATH: basePath },
   turbopack: {
