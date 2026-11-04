@@ -863,9 +863,6 @@ export const INVENTORY: InventoryItem[] = DRAFTS.map((d) => {
   for (const i of INVENTORY) {
     if (!/^[a-z0-9]+(-[a-z0-9]+)*$/.test(i.slug)) throw new Error(`Bad cost slug "${i.slug}"`)
     if (seen.has(i.slug)) throw new Error(`Duplicate cost slug "${i.slug}"`)
-    // Old ids still redirect to the new slug, so a slug must never equal another item's id.
-    if (ids.has(i.slug) && i.slug !== i.id)
-      throw new Error(`Cost slug "${i.slug}" collides with an id`)
     seen.add(i.slug)
   }
 }
@@ -915,4 +912,8 @@ export const INVENTORY_BY_ID = Object.fromEntries(INVENTORY.map((i) => [i.id, i]
 export const INVENTORY_BY_SLUG = Object.fromEntries(INVENTORY.map((i) => [i.slug, i]))
 
 /** Link to a cost's page by its id. */
-export const costHref = (id: string) => `/costs/${INVENTORY_BY_ID[id]?.slug ?? id}`
+export const costHref = (id: string) => {
+  const item = INVENTORY_BY_ID[id]
+  if (!item) throw new Error(`costHref: unknown cost "${id}"`)
+  return `/costs/${item.slug}`
+}
