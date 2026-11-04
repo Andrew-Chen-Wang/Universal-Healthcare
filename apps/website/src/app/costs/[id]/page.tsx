@@ -104,8 +104,8 @@ export default async function CostItemPage({ params }: { params: Params }) {
               </tr>
             </thead>
             <tbody>
-              {rest.map((id) => (
-                <GrowthRow key={id} id={id} />
+              {rest.map((sid) => (
+                <GrowthRow key={sid} id={sid} />
               ))}
             </tbody>
           </Table>
@@ -117,7 +117,7 @@ export default async function CostItemPage({ params }: { params: Params }) {
           </p>
         )}
         <p className="mt-4 max-w-prose leading-relaxed">{i.trend.why}</p>
-        <Sources ids={[...new Set(i.trend.series.flatMap((id) => TREND_SERIES[id].sourceIds))]} />
+        <Sources ids={[...new Set(i.trend.series.flatMap((sid) => TREND_SERIES[sid].sourceIds))]} />
       </section>
 
       <section className="mb-8">
