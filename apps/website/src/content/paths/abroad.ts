@@ -258,4 +258,227 @@ export const ABROAD: Record<string, Abroad> = {
     noPeer:
       "Peer countries don't trade tax exemptions for charity care, because universal coverage leaves little charity care to give. Nonprofit and public hospitals in Germany, Canada, and the Netherlands are paid the same rates as others and regulated directly.",
   },
+  // ---- Drugs and supply ----
+  "drugs-public-manufacture": {
+    precedents: [
+      {
+        place: "Thailand",
+        note: "The state-owned Government Pharmaceutical Organization makes generic HIV drugs, including a three-drug pill used to scale up treatment from 2003 and efavirenz under a 2006 compulsory license that cut its price to about $20 a month.",
+        sourceIds: ["th-gpo-efavirenz"],
+      },
+    ],
+  },
+  "patents-reform": {
+    precedents: [
+      {
+        place: "India",
+        note: "Patent law bars patents on new forms of a known drug unless they significantly improve efficacy; in 2013 the Supreme Court used it to refuse a patent on a new crystal form of the cancer drug imatinib, keeping generics on the market.",
+        sourceIds: ["in-novartis-3d-2013"],
+      },
+    ],
+  },
+  "rd-public-fund": {
+    precedents: [
+      {
+        place: "United Kingdom",
+        note: "The health department's research arm, NIHR, spent £1.3 billion in 2022/23, including a network that runs clinical trials inside the NHS.",
+        sourceIds: ["nihr-annual-spend"],
+      },
+    ],
+  },
+  "shortages-pay-reliability": {
+    precedents: [
+      {
+        place: "Germany",
+        note: "After children's fever-syrup shortages, a 2023 law freed children's medicines from reference prices and discount contracts so makers could charge more, and required makers of discount-contract generics to hold three months' stock.",
+        sourceIds: ["de-albvvg"],
+      },
+    ],
+  },
+  "shortages-stockpile": {
+    precedents: [
+      {
+        place: "Finland",
+        note: "Drug companies and importers must keep stocks in the country, from about three months of normal use for asthma medicine to ten months for antibiotics, with part of the cost compensated by the national emergency supply agency.",
+        sourceIds: ["fi-obligatory-stockpiling"],
+      },
+    ],
+  },
+  "pharmacy-mail-telehealth": {
+    precedents: [
+      {
+        place: "Canada (Ontario)",
+        note: "Remote dispensing locations let drugs be dispensed under a pharmacist supervising by two-way video rather than in person, for communities without a pharmacy.",
+        sourceIds: ["on-remote-dispensing"],
+      },
+    ],
+  },
+  // ---- Rural care ----
+  "rural-global-budget": {
+    precedents: [
+      {
+        place: "Germany",
+        note: "The 2024 hospital reform pays 60% of hospitals' former case-based revenue as standby payments for the services they're assigned, so a hospital's income depends less on how many patients it treats.",
+        sourceIds: ["de-khvvg"],
+      },
+    ],
+  },
+  "rural-convert": {
+    precedents: [
+      {
+        place: "Germany",
+        note: "The 2024 hospital reform lets small hospitals become 'sector-spanning' facilities that offer basic inpatient beds alongside outpatient and nursing care, instead of closing.",
+        sourceIds: ["de-khvvg"],
+      },
+    ],
+  },
+  "shortage-pay": {
+    precedents: [
+      {
+        place: "Canada (Ontario)",
+        note: "Doctors who set up full-time practice in eligible northern and rural communities get grants of about CAD 85,000 to 125,000, more for more remote places.",
+        sourceIds: ["on-nrrri"],
+      },
+    ],
+  },
+  "shortage-telehealth": {
+    precedents: [
+      {
+        place: "Australia",
+        note: "Medicare began paying GP video consultations for patients in remote areas in 2019, then widened telehealth to everyone during COVID-19.",
+        sourceIds: ["au-mbs-rural-telehealth"],
+      },
+    ],
+  },
+  "transport-fund": {
+    precedents: [
+      {
+        place: "Norway",
+        note: "A national patient travel service, run by the regional health authorities, pays travel to and from publicly funded treatment, arranging the ride or reimbursing it with a small user fee.",
+        sourceIds: ["no-pasientreiser"],
+      },
+    ],
+  },
+  // ---- Workforce ----
+  "phys-residency": {
+    precedents: [
+      {
+        place: "Germany",
+        note: "Eleven states reserve medical school places for students who commit to practise in underserved rural areas after training, typically for ten years, with a large repayment if they leave early.",
+        sourceIds: ["de-landarztquote"],
+      },
+    ],
+  },
+  "phys-foreign": {
+    precedents: [
+      {
+        place: "Canada (Ontario)",
+        note: "Since 2023, experienced internationally trained family doctors can be licensed after a 12-week supervised assessment in practice instead of repeating residency, in return for three years' service in the province.",
+        sourceIds: ["on-practice-ready"],
+      },
+    ],
+  },
+  "nurse-staffing-ratios": {
+    precedents: [
+      {
+        place: "Australia (Queensland)",
+        note: "Queensland legislated nurse-to-patient ratios for adult medical and surgical wards in 27 public hospitals in 2016, and extended them to acute mental health wards in 2019.",
+        sourceIds: ["qld-nurse-ratios"],
+      },
+    ],
+  },
+  "nurse-staffing-committees": {
+    precedents: [
+      {
+        place: "United Kingdom (Wales, Scotland)",
+        note: "Wales (2016) requires health boards to calculate nurse staffing for each covered ward with a set method, take steps to keep to it, and tell patients; Scotland's staffing law took effect in 2024. Neither sets fixed ratios.",
+        sourceIds: ["wales-nurse-staffing-act"],
+      },
+    ],
+  },
+  "nurse-pipeline": {
+    precedents: [
+      {
+        place: "England",
+        note: "Since 2020, nursing and midwifery students get a non-repayable grant of at least £5,000 a year, with extra for shortage specialties.",
+        sourceIds: ["en-learning-support-fund"],
+      },
+    ],
+  },
+  "burnout-scribes": {
+    precedents: [
+      {
+        place: "England",
+        note: "NHS England issued national guidance and a supplier registry for AI scribes in 2025: clinicians must check every note before it enters the record.",
+        sourceIds: ["en-ambient-scribing-guidance"],
+      },
+    ],
+  },
+  "scope-expand": {
+    precedents: [
+      {
+        place: "England",
+        note: "Since 2024, community pharmacists can prescribe for seven common conditions, including sinusitis, sore throat, and urinary infections in women, without a GP visit.",
+        sourceIds: ["en-pharmacy-first"],
+      },
+    ],
+  },
+  "scope-team": {
+    precedents: [
+      {
+        place: "England",
+        note: "A national scheme pays for pharmacists, physiotherapists, paramedics, and care coordinators to work in GP teams; about 29,000 were hired from 2019 to 2023.",
+        sourceIds: ["en-arrs-recruitment"],
+      },
+    ],
+  },
+  "scopeq-monitor": {
+    precedents: [
+      {
+        place: "United Kingdom",
+        note: "After safety concerns about physician associates, an independent review in 2025 recommended renaming the role, tighter supervision, and limits on what they do; the government accepted every recommendation.",
+        sourceIds: ["uk-leng-review"],
+      },
+    ],
+  },
+  "scopeq-transition-period": {
+    precedents: [
+      {
+        place: "United Kingdom",
+        note: "The 2025 review of physician associates recommended two years in hospital practice before working in general practice.",
+        sourceIds: ["uk-leng-review"],
+      },
+    ],
+  },
+  "staffing-phase": {
+    precedents: [
+      {
+        place: "Australia (Queensland)",
+        note: "Ratios started in 2016 for adult medical and surgical wards and were extended to acute mental health wards in 2019 after a pilot.",
+        sourceIds: ["qld-nurse-ratios"],
+      },
+    ],
+  },
+  "staffing-waivers": {
+    precedents: [
+      {
+        place: "Australia",
+        note: "When nursing homes had to have a registered nurse on site around the clock from 2023, small rural and remote homes could apply for temporary exemptions.",
+        sourceIds: ["au-care-minutes"],
+      },
+    ],
+  },
+  "billing-transition": {
+    precedents: [
+      {
+        place: "Denmark",
+        note: "'Flexicurity' pairs easy layoffs with generous, time-limited unemployment benefits and required retraining and job matching, so displaced workers are moved into new jobs rather than protected in old ones.",
+        sourceIds: ["dk-flexicurity"],
+      },
+    ],
+  },
+  "billing-redeploy": {
+    noPeer:
+      "No peer country has had to absorb a billing workforce this size: their systems never built one. Denmark's approach to displaced workers in general, benefits plus required retraining, is compared under the worker transition program.",
+  },
 }

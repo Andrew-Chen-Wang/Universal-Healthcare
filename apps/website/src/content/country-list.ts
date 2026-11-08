@@ -17,6 +17,7 @@ export const COUNTRIES: Country[] = [
   { id: "finland", name: "Finland", match: /\bFinland\b/ },
   { id: "france", name: "France", match: /\bFrance\b/ },
   { id: "germany", name: "Germany", match: /\b(Germany|IQWiG|AMNOG|G-BA)\b/ },
+  { id: "india", name: "India", match: /\bIndia\b/ },
   { id: "ireland", name: "Ireland", match: /\bIreland\b/ },
   { id: "japan", name: "Japan", match: /\bJapan\b/ },
   { id: "netherlands", name: "Netherlands", match: /\bNetherlands\b/ },
