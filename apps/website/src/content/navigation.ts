@@ -70,10 +70,11 @@ export const SIDEBAR: SideArea[] = [
     id: "options",
     title: "The options",
     href: "/approaches",
-    match: ["/approaches", "/paths", "/optimizations"],
+    match: ["/approaches", "/paths", "/optimizations", "/countries"],
     links: [
       { id: "approaches", label: "Compare approaches", href: "/approaches" },
       { id: "tree", label: "Solution paths, problem by problem", href: "/paths" },
+      { id: "countries", label: "Other countries", href: "/countries" },
       {
         id: "optimizations",
         label: "Optimizations for any system",

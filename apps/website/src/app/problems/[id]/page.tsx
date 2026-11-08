@@ -1,4 +1,7 @@
+import { CountryApproachCard } from "@website/components/site/country-approach"
+import { FitNote, FitProvider } from "@website/components/site/fit"
 import { PathCard, PathLink, ProblemChip } from "@website/components/site/paths"
+import { approachesFor } from "@website/content/countries"
 import { type MiniPath, ProblemScenario } from "@website/components/site/scenario"
 import { B, Page, PageHeader, Sources, Usd } from "@website/components/site/ui"
 import { INVENTORY } from "@website/content/cost-inventory"
@@ -139,6 +142,7 @@ export default async function ProblemPage({ params }: { params: Params }) {
   const prev = PROBLEMS[idx - 1]
   const next = PROBLEMS[idx + 1]
   const trend = CURRENT_LAW[p.id]
+  const abroad = approachesFor(p.id)
   return (
     <Page>
       <PageHeader
@@ -295,6 +299,42 @@ export default async function ProblemPage({ params }: { params: Params }) {
               <PathCard key={x.id} path={x} />
             ))}
           </div>
+        </section>
+      )}
+
+      {abroad.length > 0 && (
+        <section className="mb-10" id="other-countries">
+          <h2 className="mb-1 text-xl font-semibold">How other countries handle this</h2>
+          <p className="mb-3 text-sm text-muted-foreground">
+            What each country does, what happened, the pros and issues of that approach, and whether
+            it would fit your plan.
+          </p>
+          <FitProvider defaults={CHOSEN.map((x) => x.id)}>
+            <div className="mb-4">
+              <FitNote />
+            </div>
+            <div className="space-y-6">
+              {abroad.map((g) => (
+                <div key={g.country.id}>
+                  <h3 className="mb-2 font-semibold">
+                    <Link href={`/countries/${g.country.id}`} className="hover:underline">
+                      {g.country.name}
+                    </Link>
+                  </h3>
+                  <div className="space-y-3">
+                    {g.items.map((a) => (
+                      <CountryApproachCard
+                        key={`${a.path.id}-${a.place}-${a.note}`}
+                        a={a}
+                        showProblem={false}
+                        showPlace
+                      />
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </FitProvider>
         </section>
       )}
 

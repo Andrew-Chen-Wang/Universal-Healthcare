@@ -99,6 +99,12 @@ into the website and are not deployed.
 - The coverage checklist (does each plan answer every question?) is one page, `/coverage`,
   with a column per plan; `content/plan-coverage.ts` runs the checks for both (the hybrid's
   checklist links live in `content/hybrid/coverage.ts`).
+- Other countries (`/countries`, `/countries/[id]`, and "How other countries handle this" on each
+  problem page) come from `content/countries.ts`, a view over what the site already cites: path
+  precedents and plan steps' international comparisons, matched to named countries (group labels
+  and U.S. places are left out). Add a country's approach as a precedent on its solution path,
+  not on the country page. Fit badges (`components/site/fit.tsx`) check that path against the
+  reader's picks: picked, conflicts, missing requirements, or another path for the same problem.
 - Optimizations that work in any system (whoever pays: labs, virtual-first, hospital at
   home) live in `content/optimizations.ts`, outside the problem → path tree, with evidence
   for and against. Routes: `/optimizations`, `/optimizations/[id]`.
