@@ -123,6 +123,7 @@ export const PATH_SCALE: Record<string, Scale> = {
   "debt-free-school": "moderate",
   "debt-shorter-training": "minor",
   "nurse-staffing-ratios": "minor",
+  "nurse-staffing-committees": "minor",
   "nurse-pipeline": "minor",
   "burnout-simplify": "minor",
   "burnout-scribes": "minor",

@@ -980,7 +980,7 @@ export const HY_PHASE_5: HybridPhase = {
     {
       id: "ltc-decision",
       title: "Decide how to fund long-term care",
-      summary: `Long-term care stays as today in the hybrid: Medicare post-acute care and Medicaid after people spend down their savings. This step decides what comes next. Germany and the Netherlands fund long-term care with their own payroll contributions, which would break the owner's break-even rule. The plan's ${H.surplus} reserve could pay for catastrophic coverage (about ${H.ltcCatastrophic} a year) at the central estimate; a full benefit (${H.ltcFullFederal} a year federal) needs new money.`,
+      summary: `Long-term care stays as today in the hybrid: Medicare post-acute care and Medicaid after people spend down their savings. This step decides what comes next. Germany and the Netherlands fund long-term care with their own payroll contributions, which would break the owner's break-even rule. The plan's ${H.surplus} reserve could pay for catastrophic coverage (about ${H.ltcCatastrophic} a year) at the central estimate; a full benefit (${H.ltcFullFederal} a year federal) needs new money. A broader option, the Medicare for America Act of 2026, would cost more still and gives no estimate.`,
       legalVehicle: "A separate future act.",
       owner: "Congress, HHS",
       timeline: "Year 5 onward",
@@ -998,10 +998,17 @@ export const HY_PHASE_5: HybridPhase = {
           when: "Year 5 onward",
           tradeoff: "A broad contribution covers more but reaches households below the line.",
         },
+        {
+          action:
+            "Price the Medicare for America Act's benefit alongside the others: home care and nursing homes for anyone who needs substantial help with one daily activity, no cost sharing, self-directed care by default, and paid family caregivers.",
+          owner: "HHS, CBO",
+          when: "Year 5",
+          tradeoff: `It covers the most people, but paying family caregivers draws in care that is unpaid today, worth ${H.unpaidFamilyCare} in 2021.`,
+        },
       ],
       cost: {
         recurring: 0,
-        ledgerNote: `Not decided, so not in the totals. Catastrophic insurance: about ${H.ltcCatastrophic} a year, against the plan's ${H.surplus} reserve. Full public long-term care: ${H.ltcFullFederal} a year of federal cost.`,
+        ledgerNote: `Not decided, so not in the totals. Catastrophic insurance: about ${H.ltcCatastrophic} a year, against the plan's ${H.surplus} reserve. Full public long-term care: ${H.ltcFullFederal} a year of federal cost (${H.ltcFullNational} nationally; the rest is spending moved from families, private insurance, and Medicaid), leaving ${H.ltcFullShortfall} a year unfunded after the reserve. The Medicare for America Act's benefit would cost more than the full benefit priced here, which keeps room-and-board charges and some cost sharing and assumes only modest new use. That bill covers anyone needing help with one daily activity, charges nothing, and pays family caregivers: each tenth of today's unpaid family care that becomes paid would add about ${H.familyCareTenth} a year.`,
       },
       pros: [{ point: "Keeps the first stages affordable within the break-even rule." }],
       cons: [
@@ -1016,9 +1023,15 @@ export const HY_PHASE_5: HybridPhase = {
       ],
       precedent: [
         "Germany's long-term care insurance (1995); the Netherlands' long-term care act.",
+        "Medicare for America Act of 2026 (Rep. DeLauro): long-term care inside a public plan, with no cost estimate.",
       ],
       dependsOn: [],
-      sourceIds: ["cmwf-germany-2026", "cmwf-netherlands-2026"],
+      sourceIds: [
+        "cmwf-germany-2026",
+        "cmwf-netherlands-2026",
+        "delauro-m4a-2026",
+        "aarp-valuing-invaluable-2023",
+      ],
       extras: {
         international: [
           {

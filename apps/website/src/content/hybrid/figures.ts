@@ -3,7 +3,7 @@
  * reform model, plus the hybrid's one-time costs. Every figure in the hybrid
  * Part 2 comes from here or constants.ts.
  */
-import { type ConstantId, v } from "../constants"
+import { type ConstantId, show, v } from "../constants"
 import { fmt } from "../model"
 import { CHOSEN } from "../paths"
 import { type ReformLine, reformCost } from "../reform-model"
@@ -141,5 +141,11 @@ export const H = {
   premiumFederal: fmt(hybridLine("premiumFederal").federal, { sign: true }),
   ltcCatastrophic: fmt(HYBRID_LTC.catastrophic),
   ltcFullFederal: fmt(HYBRID_LTC.full.federal),
+  ltcFullNational: fmt(HYBRID_LTC.full.delta, { sign: true }),
+  /** Yearly shortfall if the full benefit were paid from the plan's reserve. */
+  ltcFullShortfall: fmt(HYBRID_LTC.full.federal + (HYBRID_COST.fundingGap ?? 0)),
+  /** What paying one tenth of today's unpaid family care would add. */
+  familyCareTenth: fmt(v("unpaidFamilyCare") / 10),
+  unpaidFamilyCare: show("unpaidFamilyCare"),
   oneTimeTotal: fmt(HYBRID_ONE_TIME_TOTAL),
 }

@@ -1,4 +1,5 @@
 /** Paths for drugs & supply chain, geography, and workforce. */
+import { show } from "../constants"
 import { path } from "./types"
 
 export const SUPPLY_PATHS = [
@@ -945,6 +946,11 @@ export const SUPPLY_PATHS = [
         note: "In 2006, two years after California's staffing mandate, hospital nurses cared for one fewer patient on average than nurses in New Jersey and Pennsylvania.",
         sourceIds: ["nurse-staffing-ratios-health-services-research-2010"],
       },
+      {
+        place: "Massachusetts (2018)",
+        note: `Voters rejected statewide ratios, ${show("maRatioBallotNo")} voting no, after a hospital-funded campaign that warned of high costs and longer emergency waits.`,
+        sourceIds: ["ballotpedia-ma-q1-2018"],
+      },
     ],
     how: {
       "nursing-shortage": {
@@ -959,6 +965,52 @@ export const SUPPLY_PATHS = [
     solves: ["safety"],
     spawns: ["x-staffing-mandate-cost"],
     changes: ["Set nurse-to-patient ratios by unit", "Fund ratios through rates"],
+  }),
+  path({
+    id: "nurse-staffing-committees",
+    problemId: "nursing-shortage",
+    title: "Nurse-led staffing plans, enforced, with ratios as a backstop",
+    summary:
+      "Each hospital's staffing committee, half of it direct-care nurses, sets staffing unit by unit. Hospitals publish actual staffing by shift and report months they miss their own plan; repeat misses bring corrective plans and fines, and hospitals that keep missing are held to fixed ratios.",
+    precedents: [
+      {
+        place: "Washington State (2023)",
+        note: `Staffing committees, half direct-care nursing staff, adopt each hospital's plan. A hospital staffed to plan for under ${show("waStaffingCompliance")} of a month's assignments must report it, and from 2027 the state can require corrective plans backed by fines.`,
+        sourceIds: ["wa-e2ssb-5236-2023"],
+      },
+      {
+        place: "United States (state laws compared)",
+        note: `Committee laws alone did not measurably change nurse staffing, while California's ratios added ${show("ratioMandateRnHours")} registered-nurse hours per patient day. Public reporting helped in some analyses.`,
+        sourceIds: ["han-staffing-laws-2021"],
+      },
+    ],
+    how: {
+      "nursing-shortage": {
+        note: "Staffing is set by the nurses on each unit and fits local supply, so hospitals that can't hire aren't forced to close beds to meet one national ratio.",
+        helps: ["providers"],
+      },
+      safety: {
+        note: "Committees alone haven't raised staffing in past studies; published staffing, enforced plans, and the ratio backstop are what raise it where hospitals fall short.",
+      },
+      "x-staffing-mandate-cost": {
+        note: "Only hospitals that keep missing their own plans face fixed ratios and their costs.",
+      },
+      "t-enforcement-burden": {
+        note: "Shift-by-shift records, monthly reports, and audits add work for hospitals and regulators.",
+        hurts: ["providers"],
+      },
+    },
+    solves: ["safety"],
+    worsens: ["t-enforcement-burden"],
+    spawns: ["x-staffing-mandate-cost"],
+    conflicts: ["nurse-staffing-ratios"],
+    complements: ["nurse-pipeline"],
+    changes: [
+      "Require hospital staffing committees, half direct-care nurses",
+      "Publish actual staffing by unit and shift",
+      "Report missed staffing plans and require corrective plans",
+      "Hold hospitals that keep missing their plans to fixed ratios",
+    ],
   }),
   path({
     id: "nurse-pipeline",

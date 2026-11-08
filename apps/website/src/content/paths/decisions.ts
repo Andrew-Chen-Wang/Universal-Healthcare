@@ -349,6 +349,12 @@ const SINGLE_PAYER_ROWS: Row[] = [
     "Could revisit later.",
   ),
   c("nurse-staffing-ratios", "stabilize", "medium", "Phased in once the pipeline grows."),
+  r(
+    "nurse-staffing-committees",
+    "medium",
+    "One payer funds the ratios through rates, so the hospitals' cost argument is weaker.",
+    "The softer route the hybrid takes; consider it here if ratios look unpassable.",
+  ),
   c("nurse-pipeline", "groundwork", "high", "Schools turn away qualified applicants today."),
   c("burnout-simplify", "universal", "high", "Simpler billing under one payer."),
   c("burnout-scribes", "groundwork", "medium", "Quick relief now."),
@@ -784,6 +790,19 @@ const HYBRID_ROWS: Row[] = [
     "Premiums fund the plans; only subsidies come from taxes.",
   ),
   r("waits-activity-pay", "medium", "Providers are already paid per service."),
+  // ---- Workforce ----
+  c(
+    "nurse-staffing-committees",
+    "stabilize",
+    "medium",
+    "Nurse-led staffing plans, published and enforced, with fixed ratios only for hospitals that keep missing them. National ratios would face the hospital opposition that defeated them in Massachusetts, and many payers can't fund them through one rate.",
+    "Committees alone haven't raised staffing in past studies, so the enforcement and the ratio backstop must stay in.",
+  ),
+  r(
+    "nurse-staffing-ratios",
+    "medium",
+    "Replaced by enforced staffing plans; fixed ratios apply only as the backstop for hospitals that keep missing their plans.",
+  ),
   r("exit-opt-out-rules", "medium", "Practices can keep taking any plan or none, as today."),
   r("exit-workforce-buffer", "medium", "Requires one claims system."),
   r("fraudconc-regional", "medium", "No single administrator to split into regions."),
