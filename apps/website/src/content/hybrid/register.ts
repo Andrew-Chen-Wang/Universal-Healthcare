@@ -323,8 +323,16 @@ export const HY_RISKS: Risk[] = [
     likelihood: "medium",
     impact: "high",
     description: "Avoidance and market downturns cut surtax and capital-gains revenue.",
-    earlyWarning: ["Revenue below projections two years running"],
-    mitigation: ["Hold the surplus as a reserve"],
+    earlyWarning: [
+      "Revenue below projections two years running",
+      "The Sahm rule recession signal",
+      "The yearly recession stress test shows the reserve covering less than one slump",
+    ],
+    mitigation: [
+      `Hold the surplus as a reserve until it covers ${show("reserveTargetYears")} of new federal cost`,
+      "Recession mode draws on the reserve automatically",
+      "Lasting gaps: tighter price and drug targets, then a temporary surcharge on the top 1%",
+    ],
   },
   {
     id: "hy-two-tier-gap",

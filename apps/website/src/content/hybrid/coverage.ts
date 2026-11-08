@@ -202,7 +202,12 @@ export const HY_COVERAGE: CoverageGroup[] = [
       {
         id: "fiscal-stability",
         label: "Recession and fiscal stability",
-        refs: [risk("hy-revenue"), step("full-tax-rates")],
+        refs: [
+          risk("hy-revenue"),
+          step("full-tax-rates"),
+          step("fiscal-rule"),
+          decision("hy-shortfall"),
+        ],
       },
       {
         id: "cost-growth",

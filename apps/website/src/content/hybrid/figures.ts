@@ -119,6 +119,34 @@ export const HYBRID_ONE_TIME: HybridOneTime[] = [
 export const hybridOneTime = (id: string) => HYBRID_ONE_TIME.find((c) => c.id === id)!.total
 export const HYBRID_ONE_TIME_TOTAL = HYBRID_ONE_TIME.reduce((s, c) => s + c.total, 0)
 
+/**
+ * Recession stress test: the plan's top-end revenue if top incomes and capital
+ * gains fall as they did from 2007 to 2009, against the same new federal cost.
+ * Costs would also rise (more people in subsidized plans), which isn't counted,
+ * so the shortfall is a floor.
+ */
+const surtaxNormal = v("incomeAboveMillion") * v("surtaxRate")
+const stressRevenue =
+  surtaxNormal * (1 - v("recessionTopIncomeDrop")) +
+  v("capGainsRevenue") * (1 - v("recessionCapGainsDrop"))
+const stressBalance = stressRevenue - HYBRID_COST.federalDelta
+const surplusNormal = -(HYBRID_COST.fundingGap ?? 0)
+const reserveTarget = v("reserveTargetYears") * HYBRID_COST.federalDelta
+/** Income above the top-1% threshold, summed: what one point of surcharge is levied on. */
+const top1Base = v("top1Agi") - (v("top1Returns") * v("top1Threshold")) / 1e9
+export const HYBRID_STRESS = {
+  surtaxNormal,
+  stressRevenue,
+  stressBalance,
+  swing: surplusNormal - stressBalance,
+  reserveTarget,
+  yearsToFill: reserveTarget / surplusNormal,
+  yearsCovered: stressBalance < 0 ? reserveTarget / -stressBalance : Infinity,
+  perPoint: top1Base / 100,
+  atCap: top1Base * v("top1SurchargeCap"),
+  pointsForStress: stressBalance < 0 ? -stressBalance / (top1Base / 100) : 0,
+}
+
 /** Short helpers for prose. */
 export const H = {
   national: fmt(HYBRID_COST.delta, { sign: true }),
@@ -147,5 +175,14 @@ export const H = {
   /** What paying one tenth of today's unpaid family care would add. */
   familyCareTenth: fmt(v("unpaidFamilyCare") / 10),
   unpaidFamilyCare: show("unpaidFamilyCare"),
+  stressRevenue: fmt(HYBRID_STRESS.stressRevenue),
+  stressShortfall: fmt(-HYBRID_STRESS.stressBalance),
+  stressSwing: fmt(HYBRID_STRESS.swing),
+  reserveTarget: fmt(HYBRID_STRESS.reserveTarget),
+  reserveYearsToFill: HYBRID_STRESS.yearsToFill.toFixed(1),
+  reserveYearsCovered: HYBRID_STRESS.yearsCovered.toFixed(1),
+  surchargePerPoint: fmt(HYBRID_STRESS.perPoint),
+  surchargeAtCap: fmt(HYBRID_STRESS.atCap),
+  surchargePointsForStress: HYBRID_STRESS.pointsForStress.toFixed(1),
   oneTimeTotal: fmt(HYBRID_ONE_TIME_TOTAL),
 }

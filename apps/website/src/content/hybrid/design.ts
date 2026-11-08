@@ -225,6 +225,63 @@ export const HY_DESIGN_DECISIONS: Decision[] = [
     sourceIds: ["tpc-surtax", "jct-capital-gains"],
   },
   {
+    id: "hy-shortfall",
+    title: "When revenue falls short for years",
+    question:
+      "Recessions are covered by the reserve. If revenue stays below cost after that, and tighter price limits aren't enough, what gives?",
+    choice: `(b) A temporary surcharge on income above the top-1% line (${show("top1Threshold")} in 2021), set each year to the size of the shortfall, at most ${show("top1SurchargeCap")} more on that income, and ending once the reserve is rebuilt. Each point raises about ${H.surchargePerPoint} a year.`,
+    rationale: `It keeps the owner's rule, because the top 1% starts above ${show("breakEvenFloor")}, and it never cuts coverage in a slump, when people losing their jobs need it most. A recession alone never triggers it: the surcharge falls with top incomes in a slump, so it repairs lasting gaps, not downturns.`,
+    alternatives: [
+      {
+        name: "(a) Borrow and repay later",
+        description: "Let the shortfall add to federal debt, to be repaid from later surpluses.",
+        pros: [
+          { point: "No change to taxes or benefits." },
+          { point: "Fine for short gaps the reserve already covers." },
+        ],
+        cons: [
+          { point: "Adds to a federal debt that is already high." },
+          { point: "Nothing forces repayment, so a lasting gap becomes permanent borrowing." },
+        ],
+        precedent:
+          "Switzerland's debt brake allows overruns only if they are made up within three years.",
+      },
+      {
+        name: "(c) Raise premium caps for higher-income members of the regulated plans",
+        description: "Members with higher incomes pay a larger share of income in premiums.",
+        pros: [{ point: "The people using the plans pay; no new tax." }],
+        cons: [
+          {
+            point: `Reaches households below ${show("breakEvenFloor")}, breaking the owner's rule.`,
+          },
+          { point: "Raises premiums when incomes are already under strain." },
+        ],
+      },
+      {
+        name: "(d) Shrink new benefits, starting with dental, glasses, and hearing aids",
+        description: "Cut the benefits the plan added until spending fits revenue.",
+        pros: [{ point: "Lowers spending directly and permanently." }],
+        cons: [
+          { point: "Cuts care for everyone, including people who lost income." },
+          {
+            point:
+              "Cutting spending in a slump deepens it: after 2010, Europe's cuts lowered growth more than forecasters expected.",
+          },
+          { point: "Benefits taken away are hard to restore." },
+        ],
+      },
+    ],
+    givesUp: [
+      "Certainty for the top 1% about their tax rate.",
+      "No new debt at all: short gaps are still covered by the reserve, which can run down.",
+    ],
+    sourceIds: [
+      "tf-income-tax-data-2021",
+      "intereconomics-debt-brakes-2015",
+      "imf-fiscal-multipliers-2013",
+    ],
+  },
+  {
     id: "hy-two-tier",
     title: "Two tiers of access",
     question: "Should some plans buy faster access?",

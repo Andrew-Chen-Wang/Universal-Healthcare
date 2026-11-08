@@ -543,7 +543,7 @@ export const HY_PHASE_4: HybridPhase = {
   exitCriteria: [
     "Everyone eligible enrolled, including immigrants after the residence period and territory residents.",
     "Coordination rules with workers' compensation, VA, TRICARE, and the Indian Health Service in force.",
-    "Top-end taxes at full rate; surplus policy decided.",
+    "Top-end taxes at full rate; reserve and business-cycle rule in force.",
   ],
   steps: [
     {
@@ -672,7 +672,7 @@ export const HY_PHASE_4: HybridPhase = {
           tradeoff: "Annual reviews invite annual fights.",
         },
         {
-          action: "Lower the surtax rate if the reserve exceeds a set size.",
+          action: `Lower the surtax rate only once the reserve holds ${show("reserveTargetYears")} of new federal cost (${H.reserveTarget}).`,
           owner: "Congress / Treasury",
           when: "Year 4 onward",
           tradeoff: "A lower rate leaves less cushion for downturns.",
@@ -687,7 +687,7 @@ export const HY_PHASE_4: HybridPhase = {
       risks: [
         {
           risk: "Revenue falls in a recession just as coverage costs rise.",
-          mitigation: "The reserve.",
+          mitigation: "The reserve, under the cycle rule in the next step.",
         },
       ],
       precedent: ["Medicare's trust funds hold reserves against shortfalls."],
@@ -711,6 +711,119 @@ export const HY_PHASE_4: HybridPhase = {
             result: "General revenue backs the system.",
             lesson: "A backstop beyond the dedicated tax helps.",
             sourceIds: ["cmwf-netherlands-2026"],
+          },
+        ],
+      },
+    },
+    {
+      id: "fiscal-rule",
+      title: "Balance the plan over the business cycle",
+      summary: `The plan's new federal cost must be paid for over the business cycle, not every year. Surpluses fill a reserve until it holds ${show("reserveTargetYears")} of new federal cost (${H.reserveTarget}). Recessions draw on it automatically, with no cut to coverage or subsidies. If revenue stays below cost for ${show("shortfallTriggerYears")} in a row outside a recession, the price cap and drug targets tighten first, then a temporary surcharge on the top 1% closes what's left. In a slump like 2008's, top-end revenue would fall to about ${H.stressRevenue} a year, a shortfall of at least ${H.stressShortfall}.`,
+      legalVehicle:
+        "Title VI (the reserve account and the surcharge) and Title VIII (price and drug targets); modeled on Switzerland's debt brake.",
+      owner: "Treasury, regulator, CBO",
+      timeline: "Year 4 onward",
+      tasks: [
+        {
+          action: `Hold the surplus in a health reserve account, with no surtax cut until it holds ${show("reserveTargetYears")} of new federal cost.`,
+          owner: "Treasury",
+          when: "Year 4 onward",
+          tradeoff: `At the plan's surplus, filling it takes about ${H.reserveYearsToFill} years, delaying any rate cut.`,
+        },
+        {
+          action: `Switch on recession mode when the three-month average unemployment rate rises ${show("recessionTriggerPoints")} percentage points above its low over the past year (the Sahm rule), and draw on the reserve without a new vote.`,
+          owner: "Treasury",
+          when: "Any downturn",
+          tradeoff: "An automatic draw can't be held up in a crisis, but it also isn't debated.",
+        },
+        {
+          action: `Publish a recession stress test each year: revenue if top incomes fall ${show("recessionTopIncomeDrop")} and capital gains ${show("recessionCapGainsDrop")}, as from 2007 to 2009, against the plan's costs.`,
+          owner: "CBO, Treasury",
+          when: "Year 4 onward",
+          tradeoff: "A grim published scenario invites calls to cut now.",
+        },
+        {
+          action: `If revenue stays below cost for ${show("shortfallTriggerYears")} in a row outside a recession, tighten the commercial price cap and drug negotiation targets first.`,
+          owner: "Regulator",
+          when: "On trigger",
+          tradeoff: "Squeezes providers, which can lengthen waits for the regulated plans.",
+        },
+        {
+          action: `If a gap remains, levy a temporary surcharge on income above the top-1% line, sized to the gap and at most ${show("top1SurchargeCap")}, ending when the reserve is rebuilt.`,
+          owner: "Treasury",
+          when: "On trigger",
+          tradeoff: `Each point raises about ${H.surchargePerPoint} a year, but the top 1% face a rate that can change.`,
+        },
+      ],
+      cost: {
+        recurring: 0,
+        ledgerNote: `No cost in a normal year. Stress test: top-end revenue falls from ${H.topEnd} to about ${H.stressRevenue} against ${H.federal} of new federal cost, a swing of ${H.stressSwing} a year and a shortfall of at least ${H.stressShortfall}; higher subsidy costs as people lose jobs aren't counted. A full reserve of ${H.reserveTarget} covers about ${H.reserveYearsCovered} years of that shortfall. In a normal year, a surcharge of about ${H.surchargePointsForStress} points on the top 1% would close a gap that size; the cap allows up to ${H.surchargeAtCap} a year.`,
+      },
+      pros: [
+        { point: "Coverage and subsidies hold in recessions, when people need them most." },
+        { point: "Lasting gaps are closed by rule, not left to yearly fights or new debt." },
+        {
+          point: `No household below ${show("breakEvenFloor")} pays more, even when revenue falls short.`,
+        },
+      ],
+      cons: [
+        {
+          point:
+            "Top-end revenue and the surcharge both fall in a slump, so a long or early recession can drain the reserve before it is full.",
+        },
+        {
+          point:
+            "The stress test is a floor: it doesn't count higher subsidy costs as people lose jobs.",
+        },
+      ],
+      tradeoffs: [
+        "Stable coverage vs. a top-1% tax rate that can change.",
+        "A large reserve vs. an earlier surtax cut.",
+      ],
+      risks: [
+        {
+          risk: "A recession hits before the reserve is full.",
+          mitigation:
+            "Recession mode may run the reserve below zero; that borrowing is repaid through the triggers once the recession ends.",
+        },
+        {
+          risk: "Congress suspends the rule when it binds.",
+          mitigation:
+            "Suspension needs a majority of both chambers and a repayment plan, as in Switzerland.",
+        },
+      ],
+      precedent: [
+        "Switzerland's debt brake (2003): spending capped at revenue adjusted for the business cycle, with surpluses and deficits tracked in a compensation account.",
+        "The Sahm rule, used to flag the start of U.S. recessions from unemployment data.",
+      ],
+      dependsOn: ["full-tax-rates", "commercial-price-cap"],
+      sourceIds: [
+        "intereconomics-debt-brakes-2015",
+        "fred-sahm-rule",
+        "tf-millionaires-recession",
+        "treasury-ota-capital-gains",
+        "tf-income-tax-data-2021",
+      ],
+      extras: {
+        decisionIds: ["hy-shortfall"],
+        tradeoffIds: ["hy-taxes"],
+        riskIds: ["hy-revenue"],
+        international: [
+          {
+            country: "Switzerland",
+            approach:
+              "Federal spending is capped at revenue adjusted for the business cycle; deficits in slumps must be offset by surpluses in booms.",
+            result:
+              "Deficits are allowed in downturns and must be made up later; emergencies need a vote of both chambers.",
+            lesson: "Balance over the cycle, not every year.",
+            sourceIds: ["intereconomics-debt-brakes-2015"],
+          },
+          {
+            country: "Europe after 2010",
+            approach: "Many governments cut spending during the slump to shrink deficits.",
+            result: "Growth fell more than forecasters expected.",
+            lesson: "Save in booms; don't cut in slumps.",
+            sourceIds: ["imf-fiscal-multipliers-2013"],
           },
         ],
       },
