@@ -143,6 +143,7 @@ export default async function ProblemPage({ params }: { params: Params }) {
   const next = PROBLEMS[idx + 1]
   const trend = CURRENT_LAW[p.id]
   const abroad = approachesFor(p.id)
+  const notAbroad = paths.filter((x) => x.noPeer)
   return (
     <Page>
       <PageHeader
@@ -302,39 +303,56 @@ export default async function ProblemPage({ params }: { params: Params }) {
         </section>
       )}
 
-      {abroad.length > 0 && (
+      {(abroad.length > 0 || notAbroad.length > 0) && (
         <section className="mb-10" id="other-countries">
           <h2 className="mb-1 text-xl font-semibold">How other countries handle this</h2>
           <p className="mb-3 text-sm text-muted-foreground">
             What each country does, what happened, the pros and issues of that approach, and whether
             it would fit your plan.
           </p>
-          <FitProvider defaults={CHOSEN.map((x) => x.id)}>
-            <div className="mb-4">
-              <FitNote />
-            </div>
-            <div className="space-y-6">
-              {abroad.map((g) => (
-                <div key={g.country.id}>
-                  <h3 className="mb-2 font-semibold">
-                    <Link href={`/countries/${g.country.id}`} className="hover:underline">
-                      {g.country.name}
-                    </Link>
-                  </h3>
-                  <div className="space-y-3">
-                    {g.items.map((a) => (
-                      <CountryApproachCard
-                        key={`${a.path.id}-${a.place}-${a.note}`}
-                        a={a}
-                        showProblem={false}
-                        showPlace
-                      />
-                    ))}
+          {abroad.length > 0 && (
+            <FitProvider defaults={CHOSEN.map((x) => x.id)}>
+              <div className="mb-4">
+                <FitNote />
+              </div>
+              <div className="space-y-6">
+                {abroad.map((g) => (
+                  <div key={g.country.id}>
+                    <h3 className="mb-2 font-semibold">
+                      <Link href={`/countries/${g.country.id}`} className="hover:underline">
+                        {g.country.name}
+                      </Link>
+                    </h3>
+                    <div className="space-y-3">
+                      {g.items.map((a) => (
+                        <CountryApproachCard
+                          key={`${a.path.id}-${a.place}-${a.note}`}
+                          a={a}
+                          showProblem={false}
+                          showPlace
+                        />
+                      ))}
+                    </div>
                   </div>
-                </div>
-              ))}
+                ))}
+              </div>
+            </FitProvider>
+          )}
+          {notAbroad.length > 0 && (
+            <div className="mt-6">
+              <h3 className="mb-2 font-semibold">Approaches no peer country uses</h3>
+              <ul className="space-y-3">
+                {notAbroad.map((x) => (
+                  <li key={x.id} className="border-l-2 border-rule pl-4 text-sm">
+                    <Link href={`/paths/${x.id}`} className="font-medium hover:underline">
+                      {x.title}
+                    </Link>
+                    : {x.noPeer}
+                  </li>
+                ))}
+              </ul>
             </div>
-          </FitProvider>
+          )}
         </section>
       )}
 

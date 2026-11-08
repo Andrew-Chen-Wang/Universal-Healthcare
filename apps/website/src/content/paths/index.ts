@@ -5,6 +5,8 @@
 import { PROBLEM_BY_ID, PROBLEMS, SIDE_EFFECT_CATEGORIES } from "../problems"
 import { INVENTORY_BY_ID } from "../cost-inventory"
 import { SOURCE_BY_ID } from "../sources"
+import { countriesIn } from "../country-list"
+import { ABROAD } from "./abroad"
 import { CARE_PATHS } from "./care"
 import { DECISION_BY_PATH, DECISIONS } from "./decisions"
 import { COVERAGE_PATHS } from "./coverage"
@@ -29,7 +31,12 @@ const WRITTEN: SolutionPath[] = [
   ...CARE_PATHS,
   ...RISK_PATHS,
   ...DERIVED_PATHS,
-].map((p) => ({ ...p, scale: PATH_SCALE[p.id] ?? p.scale }))
+].map((p) => ({
+  ...p,
+  scale: PATH_SCALE[p.id] ?? p.scale,
+  precedents: [...p.precedents, ...(ABROAD[p.id]?.precedents ?? [])],
+  noPeer: p.noPeer ?? ABROAD[p.id]?.noPeer,
+}))
 
 /** "Keep current law" paths aren't decided in the ledger; they stay open. */
 export const PATHS: SolutionPath[] = [...WRITTEN, ...keepPaths(WRITTEN)].map((p) => ({
@@ -111,6 +118,13 @@ for (const p of PATHS) {
     )
       errors.push(`${p.id}.spawns: ${id} should be a created or risk problem`)
 }
+for (const id of Object.keys(ABROAD))
+  if (!PATH_BY_ID[id]) errors.push(`abroad.ts: unknown path ${id}`)
+// Every policy is compared with other countries: a named country, or a note on why none.
+export const UNCOMPARED = WRITTEN.filter(
+  (p) =>
+    p.role !== "keeps" && !p.noPeer && !p.precedents.some((pr) => countriesIn(pr.place).length),
+).map((p) => p.id)
 for (const pr of PROBLEMS) {
   if (pr.category === "Common trade-offs") continue
   if (pathsFor(pr.id).filter((p) => p.role !== "keeps").length < 2)
@@ -144,6 +158,9 @@ for (const pr of PROBLEMS)
     !pathsFor(pr.id).some((q) => chosenIds.has(q.id))
   )
     errors.push(`problem ${pr.id}: no chosen path`)
+
+if (UNCOMPARED.length)
+  console.warn(`Paths with no international comparison yet: ${UNCOMPARED.length}`)
 
 /** Validation problems. The build fails on any; in dev the review page lists them instead. */
 export const PATH_ERRORS = errors

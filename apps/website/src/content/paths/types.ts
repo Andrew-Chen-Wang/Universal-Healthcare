@@ -66,6 +66,11 @@ export type SolutionPath = {
   /** Concrete system changes this path requires if chosen (laws, agencies, payment rules, IT). */
   changes?: string[]
   costIds?: string[]
+  /**
+   * Set when no peer country has a comparable policy: why (usually because the
+   * problem it fixes is American), and how other countries avoid the problem.
+   */
+  noPeer?: string
   status: PathStatus
   /** How much the path changes today's system; filled from scale.ts. */
   scale: Scale

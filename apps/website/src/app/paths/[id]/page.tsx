@@ -299,6 +299,11 @@ export default async function PathPage({ params }: { params: Params }) {
               {pr.sourceIds && <Sources ids={pr.sourceIds} />}
             </li>
           ))}
+          {p.noPeer && (
+            <li className="border-l-2 border-rule pl-4 text-sm">
+              <span className="font-medium">Other countries:</span> {p.noPeer}
+            </li>
+          )}
         </ul>
       </section>
 
