@@ -80,14 +80,17 @@ export default function Home() {
     <Page>
       <header className="mb-14 border-b border-rule pb-10">
         <div className="mb-4 text-xs font-semibold tracking-[0.14em] text-primary uppercase">
-          A plan for universal health care · 2024 dollars
+          United States · 2024 dollars
         </div>
         <h1 className="max-w-3xl text-4xl leading-[1.1] font-semibold sm:text-5xl">
-          {hybridSaves
-            ? "Everyone in the U.S. covered, for less than the country spends today."
-            : "Everyone in the U.S. covered, with every dollar shown."}
+          Detailed plan for universal healthcare
         </h1>
         <p className="mt-6 max-w-3xl text-lg leading-relaxed text-foreground/80">
+          <strong className="font-semibold text-foreground">
+            {hybridSaves
+              ? "Everyone in the U.S. covered, for less than the country spends today."
+              : "Everyone in the U.S. covered, with every dollar shown."}
+          </strong>{" "}
           This site lays out one way to get there, building on the coverage people already have
           instead of replacing it. Employer plans, Medicare, and Medicaid stay. Everyone else is
           enrolled automatically in a nonprofit plan, with premiums based on income. New federal
