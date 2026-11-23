@@ -35,8 +35,8 @@ const GROUND_RULES: [string, string][] = [
     "Each step and each cost item states its own.",
   ],
   [
-    "Apolitical.",
-    "Legislative feasibility, filibusters, and court challenges are set aside; the question is what works.",
+    "It has to be enactable.",
+    "The plan builds on employer coverage, Medicare, and Medicaid instead of replacing them, and each step lists its political and legal risks next to its costs.",
   ],
   [
     "Experiments and transitions are fine.",

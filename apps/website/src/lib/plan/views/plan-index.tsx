@@ -19,7 +19,7 @@ export function planIndexRoute(variant: PlanVariant, summary?: () => ReactNode) 
         <PageHeader
           eyebrow="How it would happen"
           title="Phase by phase"
-          lede="Every change to the system, grouped into phases. Each change has its tasks, design choices and alternatives, costs with calculations, trade-offs, risks, the existing laws and institutions it affects, and comparisons with other countries. Political feasibility is deliberately set aside."
+          lede="Every change to the system, grouped into phases. Each change has its tasks, design choices and alternatives, costs with calculations, trade-offs, risks, the existing laws and institutions it affects, and comparisons with other countries, including the political and legal risks to getting it enacted."
         />
         <PlanVersionNotice variant={variant} />
         {summary?.()}

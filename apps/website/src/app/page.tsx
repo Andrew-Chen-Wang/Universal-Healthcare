@@ -153,7 +153,7 @@ export default function Home() {
       <Section
         id="approach"
         title="Why this approach"
-        intro="The plan aims for a change that can actually be enacted and carried out, not the most ambitious design on paper."
+        intro="A Germany-style hybrid is the path the U.S. can realistically enact: it covers everyone while the job-based coverage, Medicare, and Medicaid most people rely on stay in place."
       >
         <ol className="grid gap-3 sm:grid-cols-3">
           <li className="rounded-md border border-rule bg-card p-4">
@@ -177,7 +177,7 @@ export default function Home() {
           <li className="rounded-md border border-rule bg-card p-4">
             <div className="font-semibold">The alternatives are priced too.</div>
             <p className="mt-1 text-sm text-foreground/75">
-              Single payer is built out and priced in full, and set aside as too hard to enact.{" "}
+              Single payer is built out and priced in full, and judged too hard to enact.{" "}
               <Link href="/approaches" className="underline">
                 Compare every approach
               </Link>{" "}
