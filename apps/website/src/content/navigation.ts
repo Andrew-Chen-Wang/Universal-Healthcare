@@ -104,6 +104,7 @@ export const SIDEBAR: SideArea[] = [
         href: SINGLE_PAYER_PLAN.base,
       },
       { id: "single-payer-changes", label: "Single-payer changes", href: "/single-payer/changes" },
+      { id: "single-payer-ledger", label: "Single payer, priced in full", href: "/single-payer" },
     ],
     groups: HYBRID_PLAN.nav.map((p) => ({
       id: `ph-${p.id}`,

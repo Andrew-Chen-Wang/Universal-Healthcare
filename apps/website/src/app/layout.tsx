@@ -54,7 +54,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             <footer className="mx-auto max-w-5xl border-t border-rule px-4 pt-6 pb-10 text-xs leading-relaxed text-muted-foreground sm:px-8">
               <nav className="mb-3 flex flex-wrap gap-x-5 gap-y-1 text-sm">
                 <Link className="hover:text-foreground" href="/">
-                  Overview & totals
+                  Overview
                 </Link>
                 <Link className="hover:text-foreground" href="/inputs">
                   Every input number

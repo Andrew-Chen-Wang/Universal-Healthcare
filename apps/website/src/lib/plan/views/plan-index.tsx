@@ -1,10 +1,15 @@
 import { Page, PageHeader, PlanVersionNotice } from "@website/components/site/ui"
 import type { Metadata } from "next"
+import type { ReactNode } from "react"
 import Link from "next/link"
 import type { PlanVariant } from "@website/content/plan-bundle"
 import { getPlan } from "@website/content/plans"
 
-export function planIndexRoute(variant: PlanVariant) {
+/**
+ * The phase-by-phase index for one plan version. `summary` renders under the version notice,
+ * before the phases: the plan's headline figures.
+ */
+export function planIndexRoute(variant: PlanVariant, summary?: () => ReactNode) {
   const plan = getPlan(variant)
   const metadata: Metadata = { title: "Changes by phase" }
 
@@ -14,9 +19,10 @@ export function planIndexRoute(variant: PlanVariant) {
         <PageHeader
           eyebrow="How it would happen"
           title="Phase by phase"
-          lede="Every change to the system, grouped into phases. Each change has its tasks, design choices and alternatives, costs with calculations, trade-offs, risks, the existing laws and institutions it affects, and comparisons with other countries. Political feasibility is deliberately set aside."
+          lede="Every change to the system, grouped into phases. Each change has its tasks, design choices and alternatives, costs with calculations, trade-offs, risks, the existing laws and institutions it affects, and comparisons with other countries, including the political and legal risks to getting it enacted."
         />
         <PlanVersionNotice variant={variant} />
+        {summary?.()}
         {plan.phases.map((p) => {
           const nav = plan.nav.find((x) => x.id === p.id)!
           return (

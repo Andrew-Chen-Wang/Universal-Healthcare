@@ -16,6 +16,34 @@ const serviceLabel = (id: string) => SERVICES_2024.find((s) => s.id === id)?.lab
 
 export const metadata: Metadata = { title: "Method & assumptions" }
 
+/** The rules every part of the plan is held to: a title and one line on what it means. */
+const GROUND_RULES: [string, string][] = [
+  [
+    "Universal means everyone.",
+    "Every resident, with no gaps, no churn, and no medical bills for covered care.",
+  ],
+  [
+    "Job losses and company closures are acceptable.",
+    "They are counted, costed, and cushioned, but they don't veto the design.",
+  ],
+  [
+    "Higher cost is acceptable, if it is visible.",
+    "Every dollar's move from one payer to another is shown, including increases.",
+  ],
+  [
+    "Every change has a trade-off, and every trade-off is listed.",
+    "Each step and each cost item states its own.",
+  ],
+  [
+    "It has to be enactable.",
+    "The plan builds on employer coverage, Medicare, and Medicaid instead of replacing them, and each step lists its political and legal risks next to its costs.",
+  ],
+  [
+    "Experiments and transitions are fine.",
+    "Changes can be piloted, phased, or run side by side before scaling up.",
+  ],
+]
+
 function formatValue(v: number, unit: string) {
   if (unit === "billions") return fmt(v)
   if (unit === "share" || unit === "rate") return `${(v * 100).toFixed(1)}%`
@@ -28,8 +56,24 @@ export default function MethodPage() {
       <PageHeader
         eyebrow="Reference"
         title="Method & assumptions"
-        lede="How every number on this site is produced, and every assumption with its range, confidence, and reasoning."
+        lede="The ground rules the plan is held to, how every number on this site is produced, and every assumption with its range, confidence, and reasoning."
       />
+
+      <Section
+        id="ground-rules"
+        title="Ground rules"
+        intro="The rules every part of the plan is held to."
+      >
+        <ol className="grid gap-3 sm:grid-cols-2">
+          {GROUND_RULES.map(([t, d], i) => (
+            <li key={t} className="rounded-md border border-rule bg-card p-4">
+              <div className="num mb-1 text-xs text-muted-foreground">0{i + 1}</div>
+              <div className="font-semibold">{t}</div>
+              <div className="mt-1 text-sm text-foreground/75">{d}</div>
+            </li>
+          ))}
+        </ol>
+      </Section>
 
       <Section id="approach" title="Approach">
         <ol className="max-w-3xl list-decimal space-y-3 pl-5 leading-relaxed">
